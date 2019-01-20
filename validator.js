@@ -28,22 +28,22 @@ function playerCountRules(players) {
 		heroes = 3;
 		playerCount = "1";
 		break;
-	case"2":
+	case "2":
 		foes = 2;
 		henchmen = 1;
 		heroes = 5;
 		break;
-	case"3":
+	case "3":
 		foes = 3;
 		henchmen = 1;
 		heroes = 5;
 		break;
-	case"4":
+	case "4":
 		foes = 3;
 		henchmen = 2;
 		heroes = 5;
 		break;
-	case"5":
+	case "5":
 		foes = 4;
 		henchmen = 2;
 		heroes = 6;
@@ -60,22 +60,18 @@ function playerCountRules(players) {
 }
 
 function validateCommander(commander, foes, henchmen) {
-	switch (commander) {
-	case "Base_DrDoom":
-		return validateCommanderFoes(true, "Base_DoombotLegion", henchmen)
-		break;
-	case "Base_Loki":
-		return validateCommanderFoes(false, "Base_EnemiesOfAsgard", foes)
-		break;
-	case "Base_Magneto":
-		return validateCommanderFoes(false, "Base_Brotherhood", foes)
-		break;
-	case "Base_RedSkull":
-		return validateCommanderFoes(false, "Base_Hydra", foes)
-		break;
-	default:
+	const mapping = {
+		"Base_DrDoom" : [ true, "Base_DoombotLegion", henchmen ],
+		"Base_Loki" : [ false, "Base_EnemiesOfAsgard", foes ],
+		"Base_Magneto" : [ false, "Base_Brotherhood", foes ],
+		"Base_RedSkull" : [ false, "Base_Hydra", foes ]
+	}
+
+	const leads = mapping[commander];
+	if (leads == undefined) {
 		throw "Unknown commander";
 	}
+	validateCommanderFoes(leads[0], leads[1], leads[2]);
 }
 
 function validateCommanderFoes(hench, foe, foes) {
@@ -97,7 +93,7 @@ function modScheme(scheme, rules) {
 		}
 		break;
 	case "Base_SecretInvasionOfTheSkrullShapeshifters":
-		//TODO: Hero in Villain deck
+		// TODO: Hero in Villain deck
 		break;
 	case "Base_SuperHeroCivilWar":
 		if (rules["players"] == "1") {
@@ -119,9 +115,9 @@ function modScheme(scheme, rules) {
 }
 
 alert(validate({
-	"commander" : "Base_Loki",
+	"commander" : "Base_DrDom",
 	"foes" : [ "Base_EnemiesOfAsgard" ],
-	"henchmen" : [],
+	"henchmen" : [ "Base_DoombotLegion" ],
 	"plot" : "Base_NegativeZonePrisonBreakout",
 	"players" : "2"
 }));
