@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kon.legendarystatsserver.model.game.Hero;
-import kon.legendarystatsserver.model.game.HeroesRepository;
-import kon.legendarystatsserver.model.game.Set;
 import kon.legendarystatsserver.model.game.SetsRepository;
+import kon.legendarystatsserver.model.game.Villain;
+import kon.legendarystatsserver.model.game.VillainsRepository;
 
 /**
  * @author knaryshkin
@@ -19,13 +18,13 @@ import kon.legendarystatsserver.model.game.SetsRepository;
 @RestController
 public class DataController {
 	@Autowired
-	HeroesRepository heroes;
+	VillainsRepository heroes;
 	
 	@Autowired
 	SetsRepository sets;
 
 	@GetMapping("/api/getSets")
-	public Iterable<Hero> getSets() {
+	public Iterable<Villain> getSets() {
 		return heroes.findAllBySet(sets.findById(Integer.valueOf(1)).get());
 	}
 
