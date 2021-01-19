@@ -1,6 +1,15 @@
 CREATE TABLE SET (
-	ID int not null,
-	MARVEL_NAME varchar,
-	DXP_NAME varchar,
-	MCU_NAME varchar
+	id int not null,
+	marvel_name varchar,
+	dxp_name varchar,
+	mcu_name varchar
+);
+
+CREATE TABLE hero (
+	id int not null,
+	marvel_name varchar,
+	dxp_name varchar,
+	mcu_name varchar,
+	set_id int,
+	FOREIGN KEY (set_id) REFERENCES SET(id)
 );
