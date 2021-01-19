@@ -8,7 +8,7 @@ class LegendaryStatsServerApplicationTests {
 
 	@Test
 	void contextLoads() {
-		//pass
+		// pass
 	}
 
 }
