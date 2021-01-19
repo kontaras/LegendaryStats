@@ -1,0 +1,1 @@
+insert into SET (ID, MARVEL_NAME, DXP_NAME, MCU_NAME) values (1, 'Base Set', '', 'Phase 1');
