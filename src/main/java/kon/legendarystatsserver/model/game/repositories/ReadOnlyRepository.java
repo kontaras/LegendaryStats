@@ -1,4 +1,4 @@
-package kon.legendarystatsserver.model.game;
+package kon.legendarystatsserver.model.game.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
