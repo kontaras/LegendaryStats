@@ -3,17 +3,13 @@
  */
 package kon.legendarystatsserver.api;
 
-import java.util.Iterator;
-import java.util.stream.StreamSupport;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kon.legendarystatsserver.model.game.Henchman;
+import kon.legendarystatsserver.model.Play;
+import kon.legendarystatsserver.model.PlaysRepository;
 import kon.legendarystatsserver.model.game.Set;
-import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
-import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.SetsRepository;
 
 /**
@@ -23,17 +19,20 @@ import kon.legendarystatsserver.model.game.repositories.SetsRepository;
 @RestController
 public class DataController {
 	@Autowired
-	HenchmenRepository henches;
-	
-	@Autowired
-	HeroesRepository heroes;
-	
-	@Autowired
 	SetsRepository sets;
+	
+	@Autowired
+	PlaysRepository plays;
 
 	@GetMapping("/api/getSets")
 	public Iterable<Set> getSets() {
+		sets.deleteAll();
 		return sets.findAll();
+	}
+	
+	@GetMapping("/api/getPlays")
+	public Iterable<Play> getPlays() {
+		return plays.findAll();
 	}
 
 }
