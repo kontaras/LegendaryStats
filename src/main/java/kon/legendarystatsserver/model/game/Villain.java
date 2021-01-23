@@ -1,9 +1,7 @@
 package kon.legendarystatsserver.model.game;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Villain {
@@ -20,8 +18,8 @@ public class Villain {
 	/** The name of the set for Legendary DXP sets */
 	private String dxpName;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Set set;
+	/** Foreign key for the {@link Set} this card set belongs to. */
+	private Integer set_id;
 
 	/**
 	 * @return the id
@@ -52,10 +50,10 @@ public class Villain {
 	}
 
 	/**
-	 * @return the set
+	 * @return the set_id
 	 */
-	public Set getSet() {
-		return set;
+	public Integer getSet_id() {
+		return set_id;
 	}
 
 }

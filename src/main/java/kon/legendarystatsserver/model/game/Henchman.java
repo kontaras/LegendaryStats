@@ -4,11 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Hero {
+public class Henchman {
 	/** Database ID */
 	@Id
 	private Integer id;
-	
+
 	/** The name of the set for Marvel comics sets */
 	private String marvelName;
 	
@@ -17,7 +17,7 @@ public class Hero {
 	
 	/** The name of the set for Legendary DXP sets */
 	private String dxpName;
-	
+
 	/** Foreign key for the {@link Set} this card set belongs to. */
 	private Integer set_id;
 
