@@ -6,16 +6,28 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface ReadOnlyRepository<T, ID> extends CrudRepository<T, ID> {
 
-	<S extends T> S save(S entity);
+	default <S extends T> S save(S entity){
+		throw new UnsupportedOperationException();
+	}
 
-	<S extends T> Iterable<S> saveAll(Iterable<S> entities);
+	default <S extends T> Iterable<S> saveAll(Iterable<S> entities){
+		throw new UnsupportedOperationException();
+	}
 
-	void deleteById(Integer id);
+	default void deleteById(Integer id){
+		throw new UnsupportedOperationException();
+	}
 
-	void delete(T entity);
+	default void delete(T entity){
+		throw new UnsupportedOperationException();
+	}
 
-	void deleteAll(Iterable<? extends T> entities);
+	default void deleteAll(Iterable<? extends T> entities){
+		throw new UnsupportedOperationException();
+	}
 
-	void deleteAll();
+	default void deleteAll() {
+		throw new UnsupportedOperationException();
+	}
 
 }
