@@ -18,7 +18,7 @@ public class Villain {
 	/** The name of the set for Legendary DXP sets */
 	private String dxpName;
 
-	/** Foreign key for the {@link Set} this card set belongs to. */
+	/** Foreign key for the {@link GameSet} this card set belongs to. */
 	private Integer set_id;
 
 	/**
