@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kon.legendarystatsserver.model.Play;
 import kon.legendarystatsserver.model.PlaysRepository;
-import kon.legendarystatsserver.model.game.Set;
+import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.GameSet;
+import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.SetsRepository;
 
 /**
@@ -23,16 +25,23 @@ public class DataController {
 	
 	@Autowired
 	PlaysRepository plays;
+	
+	@Autowired
+	HeroesRepository heroes;
 
 	@GetMapping("/api/getSets")
-	public Iterable<Set> getSets() {
-		sets.deleteAll();
+	public Iterable<GameSet> getSets() {
 		return sets.findAll();
 	}
 	
 	@GetMapping("/api/getPlays")
 	public Iterable<Play> getPlays() {
 		return plays.findAll();
+	}
+	
+	@GetMapping("/api/getHeroes")
+	public Iterable<Hero> getHeroes() {
+		return heroes.findAll();
 	}
 
 }

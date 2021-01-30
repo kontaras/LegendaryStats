@@ -4,11 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Henchman {
+public class Scheme {
 	/** Database ID */
 	@Id
 	private Integer id;
-
+	
 	/** The name of the set for Marvel comics sets */
 	private String marvelName;
 	
@@ -17,7 +17,7 @@ public class Henchman {
 	
 	/** The name of the set for Legendary DXP sets */
 	private String dxpName;
-
+	
 	/** Foreign key for the {@link GameSet} this card set belongs to. */
 	private Integer set_id;
 
@@ -55,5 +55,4 @@ public class Henchman {
 	public Integer getSet_id() {
 		return set_id;
 	}
-
 }

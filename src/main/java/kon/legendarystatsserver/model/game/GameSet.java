@@ -1,6 +1,6 @@
 package kon.legendarystatsserver.model.game;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
  * A set of the game.
  */
 @Entity
-public class Set {
+public class GameSet {
 	/** Database ID */
 	@Id
 	private Integer id;
@@ -25,16 +25,19 @@ public class Set {
 	private String dxpName;
 	
 	@OneToMany(mappedBy = "set_id")
-	private List<Hero> heroes;
+	private Set<Hero> heroes;
 	
 	@OneToMany(mappedBy = "set_id")
-	private List<Mastermind> masterminds;
+	private Set<Scheme> schemes;
 	
 	@OneToMany(mappedBy = "set_id")
-	private List<Villain> villains;
+	private Set<Mastermind> masterminds;
 	
 	@OneToMany(mappedBy = "set_id")
-	private List<Henchman> henchmen;
+	private Set<Villain> villains;
+	
+	@OneToMany(mappedBy = "set_id")
+	private Set<Henchman> henchmen;
 
 	/**
 	 * @return the id
@@ -67,29 +70,36 @@ public class Set {
 	/**
 	 * @return the heroes
 	 */
-	public List<Hero> getHeroes() {
+	public Set<Hero> getHeroes() {
 		return heroes;
 	}
 	
 	/**
 	 * @return the villains
 	 */
-	public List<Villain> getVillains() {
+	public Set<Villain> getVillains() {
 		return villains;
 	}
 
 	/**
 	 * @return the masterminds
 	 */
-	public List<Mastermind> getMasterminds() {
+	public Set<Mastermind> getMasterminds() {
 		return masterminds;
 	}
 
 	/**
 	 * @return the henchmen
 	 */
-	public List<Henchman> getHenchmen() {
+	public Set<Henchman> getHenchmen() {
 		return henchmen;
+	}
+
+	/**
+	 * @return the schemes
+	 */
+	public Set<Scheme> getSchemes() {
+		return schemes;
 	}
 
 }
