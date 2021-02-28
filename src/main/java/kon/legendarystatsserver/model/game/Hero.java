@@ -6,11 +6,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import kon.legendarystatsserver.model.Play;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Hero {
 	/** Database ID */
 	@Id

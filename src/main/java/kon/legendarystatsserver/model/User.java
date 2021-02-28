@@ -10,4 +10,8 @@ public class User {
 	private Long id;
 	
 	private String userName;
+
+	public String getUserName() {
+		return userName;
+	}
 }
