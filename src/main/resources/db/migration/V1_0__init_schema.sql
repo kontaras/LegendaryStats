@@ -64,24 +64,11 @@ CREATE TABLE play (
 	scheme_id int,
 	mastermind_id int,
 	misc_hero_id int,
-	villain1_id int,
-	villain2_id int,
-	villain3_id int,
-	villain4_id int,
-	henchman1_id int,
-	henchman2_id int,
-	henchman3_id int,
+	notes varchar,
 	FOREIGN KEY (player_id) REFERENCES user(id),
 	FOREIGN KEY (scheme_id) REFERENCES scheme(id),
 	FOREIGN KEY (mastermind_id) REFERENCES mastermind(id),
-	FOREIGN KEY (misc_hero_id) REFERENCES hero(id),
-	FOREIGN KEY (villain1_id) REFERENCES villain(id),
-	FOREIGN KEY (villain2_id) REFERENCES villain(id),
-	FOREIGN KEY (villain3_id) REFERENCES villain(id),
-	FOREIGN KEY (villain4_id) REFERENCES villain(id),
-	FOREIGN KEY (henchman1_id) REFERENCES henchman(id),
-	FOREIGN KEY (henchman2_id) REFERENCES henchman(id),
-	FOREIGN KEY (henchman3_id) REFERENCES henchman(id)
+	FOREIGN KEY (misc_hero_id) REFERENCES hero(id)
 );
 
 CREATE TABLE play_hero (

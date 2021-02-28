@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style type="text/css">
+table, th, td {
+	border: 1px solid black;
+	text-align: center;
+}
+
+.marvel {
+	color: navy;
+}
+
+.mcu {
+	color: olive;
+}
+
+.dxp {
+	color: fuchsia;
+}
+</style>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>Hero</th>
+				<th>Win Rate</th>
+				<th>Loss Rate</th>
+				<th>Plays Logged</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="row:${heroes.entrySet()}">
+				<td>
+					<span class="marvel" th:text="${row.key.marvelName}">Marvel Name</span>
+					<span class="mcu" th:text="${row.key.mcuName}">MCU Name</span>
+					<span class="dxp" th:text="${row.key.dxpName}">DXP Name</span>
+				</td>
+				<td th:text="${#numbers.formatDecimal((row.value.won * 100.0 / row.value.played), 2, 0)} + '%'" />
+				<td th:text="${#numbers.formatDecimal(row.value.lost * 100.0 / row.value.played, 2, 0)} + '%'" />
+				<td th:text="${row.value.played}" />
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

@@ -54,6 +54,8 @@ public class Play {
 	@JsonIgnore 
 	@JoinTable(name = "play_henchman", inverseJoinColumns = { @JoinColumn(name = "henchman_id") })
 	private Set<Henchman> henchmen;
+	
+	private String notes;
 
 	/**
 	 * @return the id
@@ -116,5 +118,12 @@ public class Play {
 	 */
 	public Set<Henchman> getHenchmen() {
 		return henchmen;
+	}
+
+	/**
+	 * @return the notes
+	 */
+	public String getNotes() {
+		return notes;
 	}
 }
