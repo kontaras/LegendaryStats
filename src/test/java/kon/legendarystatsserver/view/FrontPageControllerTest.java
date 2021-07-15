@@ -1,8 +1,8 @@
 package kon.legendarystatsserver.view;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections4.map.HashedMap;
 import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class FrontPageControllerTest {
 
 	@Test
 	void testMainPage() {
-		Map<Hero, IWinRate> testHeroWinRateMap = new HashedMap<>(0);
+		Map<Hero, IWinRate> testHeroWinRateMap = new HashMap<>(0);
 		Mockito.when(winRates.getHeroWinRates()).thenReturn(testHeroWinRateMap);
 		Model mod = Mockito.mock(Model.class);
 		Assertions.assertEquals("index", controller.mainPage(mod));
