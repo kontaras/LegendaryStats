@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
  * A set of the game.
  */
 @Entity
-public class GameSet {
+public class GameSet implements INamable {
 	/** Database ID */
 	@Id
 	private Integer id;
@@ -24,79 +24,88 @@ public class GameSet {
 	/** The name of the set for Legendary DXP sets */
 	private String dxpName;
 	
+	/**
+	 * The heroes in the set
+	 */
 	@OneToMany(mappedBy = "set_id")
 	private Set<Hero> heroes;
 	
+	/**
+	 * The schemes in the set
+	 */
 	@OneToMany(mappedBy = "set_id")
 	private Set<Scheme> schemes;
 	
+	/**
+	 * The masterminds in the set
+	 */
 	@OneToMany(mappedBy = "set_id")
 	private Set<Mastermind> masterminds;
 	
+	/**
+	 * The villains in the set
+	 */
 	@OneToMany(mappedBy = "set_id")
 	private Set<Villain> villains;
 	
+	/**
+	 * The henchmen villains in the set
+	 */
 	@OneToMany(mappedBy = "set_id")
 	private Set<Henchman> henchmen;
 
 	/**
-	 * @return the id
+	 * @return the {@link #id}
 	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/**
-	 * @return the marvelName
-	 */
+	@Override
 	public String getMarvelName() {
 		return marvelName;
 	}
 
-	/**
-	 * @return the mcuName
-	 */
+	@Override
 	public String getMcuName() {
 		return mcuName;
 	}
 
-	/**
-	 * @return the dxpName
-	 */
+	@Override
 	public String getDxpName() {
 		return dxpName;
 	}
 
 	/**
-	 * @return the heroes
+	 * @return the {@link #heroes}
 	 */
 	public Set<Hero> getHeroes() {
 		return heroes;
 	}
 	
 	/**
-	 * @return the villains
+	 * @return the {@link #villains}
 	 */
 	public Set<Villain> getVillains() {
 		return villains;
 	}
 
 	/**
-	 * @return the masterminds
+	 * @return the {@link #masterminds}
 	 */
 	public Set<Mastermind> getMasterminds() {
 		return masterminds;
 	}
 
 	/**
-	 * @return the henchmen
+	 * @return the {@link #henchmen}
 	 */
 	public Set<Henchman> getHenchmen() {
 		return henchmen;
 	}
 
 	/**
-	 * @return the schemes
+	 * @return the {@link #schemes}
 	 */
 	public Set<Scheme> getSchemes() {
 		return schemes;

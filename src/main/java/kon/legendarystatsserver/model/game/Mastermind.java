@@ -3,8 +3,11 @@ package kon.legendarystatsserver.model.game;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * A mastermind in the game
+ */
 @Entity
-public class Mastermind {
+public class Mastermind implements INamable {
 	/** Database ID */
 	@Id
 	private Integer id;
@@ -22,35 +25,29 @@ public class Mastermind {
 	private Integer set_id;
 
 	/**
-	 * @return the id
+	 * @return the {@link #id}
 	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/**
-	 * @return the marvelName
-	 */
+	@Override
 	public String getMarvelName() {
 		return marvelName;
 	}
 
-	/**
-	 * @return the mcuName
-	 */
+	@Override
 	public String getMcuName() {
 		return mcuName;
 	}
 
-	/**
-	 * @return the dxpName
-	 */
+	@Override
 	public String getDxpName() {
 		return dxpName;
 	}
 
 	/**
-	 * @return the set_id
+	 * @return the {@link #set_id}
 	 */
 	public Integer getSet_id() {
 		return set_id;

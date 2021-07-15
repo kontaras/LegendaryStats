@@ -18,8 +18,7 @@ import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.model.game.repositories.SetsRepository;
 
 /**
- * @author knaryshkin
- *
+ * TODO: Delete?
  */
 @RestController
 public class DataController {

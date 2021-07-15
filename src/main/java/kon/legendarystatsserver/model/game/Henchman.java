@@ -10,8 +10,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import kon.legendarystatsserver.model.Play;
 
+/**
+ * A henchman group
+ */
 @Entity
-public class Henchman {
+public class Henchman implements INamable {
 	/** Database ID */
 	@Id
 	private Integer id;
@@ -34,42 +37,36 @@ public class Henchman {
 	private java.util.Set<Play> plays;
 
 	/**
-	 * @return the id
+	 * @return the {@link #id}
 	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/**
-	 * @return the marvelName
-	 */
+	@Override
 	public String getMarvelName() {
 		return marvelName;
 	}
 
-	/**
-	 * @return the mcuName
-	 */
+	@Override
 	public String getMcuName() {
 		return mcuName;
 	}
 
-	/**
-	 * @return the dxpName
-	 */
+	@Override
 	public String getDxpName() {
 		return dxpName;
 	}
 
 	/**
-	 * @return the set_id
+	 * @return the {@link #set_id}
 	 */
 	public Integer getSet_id() {
 		return set_id;
 	}
 
 	/**
-	 * @return the plays
+	 * @return the {@link #plays}
 	 */
 	public java.util.Set<Play> getPlays() {
 		return plays;
