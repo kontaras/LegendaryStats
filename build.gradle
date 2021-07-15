@@ -24,7 +24,9 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testImplementation "org.mockito:mockito-core:3.+" 
+	testImplementation "org.mockito:mockito-core:3.11.2"
+	//Needed for Mokito to work with Java 16, see if it is still needed in the future.
+	testImplementation "net.bytebuddy:byte-buddy:1.11.7"
 	
 	testImplementation 'pl.pojo:pojo-tester:0.7.6'
 	
