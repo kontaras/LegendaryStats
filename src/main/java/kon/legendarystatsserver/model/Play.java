@@ -16,45 +16,75 @@ import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Scheme;
 import kon.legendarystatsserver.model.game.Villain;
 
+/**
+ * A single play of the game
+ */
 @Entity
 public class Play {
 	/** Database ID */
 	@Id
 	private Long id;
 
+	/**
+	 * User who played the game
+	 */
 	@ManyToOne
-	@JsonIgnore 
+	@JsonIgnore
 	private User player;
 
+	/**
+	 * Did the players win and how?
+	 */
 	private String outcome;
 
+	/**
+	 * Scheme played
+	 */
 	@ManyToOne
-	@JsonIgnore 
+	@JsonIgnore
 	private Scheme scheme;
 
+	/**
+	 * Mastermind/commander fought
+	 */
 	@ManyToOne
-	@JsonIgnore 
+	@JsonIgnore
 	private Mastermind mastermind;
 
+	/**
+	 * Heroes used in the game
+	 */
 	@ManyToMany
-	@JsonIgnore 
+	@JsonIgnore
 	@JoinTable(name = "play_hero", inverseJoinColumns = { @JoinColumn(name = "hero_id") })
 	private Set<Hero> heroes;
 
+	/**
+	 * Extra hero used outside of the hero deck
+	 */
 	@ManyToOne
-	@JsonIgnore 
+	@JsonIgnore
 	private Hero miscHero;
 
+	/**
+	 * Non-henchmen villains fought
+	 */
 	@ManyToMany
-	@JsonIgnore 
+	@JsonIgnore
 	@JoinTable(name = "play_villain", inverseJoinColumns = { @JoinColumn(name = "villain_id") })
 	private Set<Villain> villains;
 
+	/**
+	 * Henchmen villains fought
+	 */
 	@ManyToMany
-	@JsonIgnore 
+	@JsonIgnore
 	@JoinTable(name = "play_henchman", inverseJoinColumns = { @JoinColumn(name = "henchman_id") })
 	private Set<Henchman> henchmen;
-	
+
+	/**
+	 * Any other notes the user may have
+	 */
 	private String notes;
 
 	/**

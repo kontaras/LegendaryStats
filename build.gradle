@@ -17,11 +17,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
 	runtimeOnly 'org.flywaydb:flyway-core'
 	runtimeOnly 'com.h2database:h2'
+	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testImplementation "org.mockito:mockito-core:3.+" 
+	
+	testImplementation 'pl.pojo:pojo-tester:0.7.6'
+	
+	//Needed for Eclipse JUnit runner, see if it is still needed in the future.
+	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.7.0" 
 }
 
 test {

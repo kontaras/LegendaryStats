@@ -32,11 +32,7 @@ table, th, td {
 		</thead>
 		<tbody>
 			<tr th:each="row:${heroes.entrySet()}">
-				<td>
-					<span class="marvel" th:text="${row.key.marvelName}">Marvel Name</span>
-					<span class="mcu" th:text="${row.key.mcuName}">MCU Name</span>
-					<span class="dxp" th:text="${row.key.dxpName}">DXP Name</span>
-				</td>
+				<td th:utext="${T(kon.legendarystatsserver.view.ViewHelper).getDisplayName(row.key)}" />
 				<td th:text="${#numbers.formatDecimal((row.value.won * 100.0 / row.value.played), 2, 0)} + '%'" />
 				<td th:text="${#numbers.formatDecimal(row.value.lost * 100.0 / row.value.played, 2, 0)} + '%'" />
 				<td th:text="${row.value.played}" />
