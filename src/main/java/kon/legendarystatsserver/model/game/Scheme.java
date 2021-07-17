@@ -22,7 +22,7 @@ public class Scheme implements INamable {
 	private String dxpName;
 	
 	/** Foreign key for the {@link GameSet} this card set belongs to. */
-	private Integer set_id;
+	private Integer setId;
 
 	/**
 	 * @return the {@link #id}
@@ -47,9 +47,9 @@ public class Scheme implements INamable {
 	}
 
 	/**
-	 * @return the {@link #set_id}
+	 * @return the {@link #setId}
 	 */
-	public Integer getSet_id() {
-		return set_id;
+	public Integer getSetId() {
+		return setId;
 	}
 }

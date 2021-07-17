@@ -29,7 +29,7 @@ public class Villain implements INamable {
 	private String dxpName;
 
 	/** Foreign key for the {@link GameSet} this card set belongs to. */
-	private Integer set_id;
+	private Integer setId;
 	
 	/**
 	 * Plays of the game which include this villain group.
@@ -62,10 +62,10 @@ public class Villain implements INamable {
 	}
 
 	/**
-	 * @return the {@link #set_id}
+	 * @return the {@link #setId}
 	 */
-	public Integer getSet_id() {
-		return set_id;
+	public Integer getSetId() {
+		return setId;
 	}
 
 	/**
