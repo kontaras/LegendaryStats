@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+<title>Legendary Game Stats</title>
 <style type="text/css">
 table, th, td {
 	border: 1px solid black;
@@ -22,12 +23,13 @@ table, th, td {
 </head>
 <body>
 	<table>
+		<caption>Hero Win Rates</caption>
 		<thead>
 			<tr>
-				<th>Hero</th>
-				<th>Win Rate</th>
-				<th>Loss Rate</th>
-				<th>Plays Logged</th>
+				<th scope="col">Hero</th>
+				<th scope="col">Win Rate</th>
+				<th scope="col">Loss Rate</th>
+				<th scope="col">Plays Logged</th>
 			</tr>
 		</thead>
 		<tbody>
