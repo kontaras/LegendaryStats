@@ -3,11 +3,14 @@ package kon.legendarystatsserver.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Configuration;
+
 import kon.legendarystatsserver.model.game.INamable;
 
 /**
  * Helper functions for advanced/duplicated functionality in page rendering.
  */
+@Configuration
 public class ViewHelper {
 
 	/**
@@ -16,7 +19,7 @@ public class ViewHelper {
 	 * @param item Item to name
 	 * @return All the item names (if any), with the proper HTML classes applied
 	 */
-	public static String getDisplayName(INamable item) {
+	public String getDisplayName(INamable item) {
 		List<String> components = new ArrayList<>(3);
 		
 		if (item.getMarvelName() != null && item.getMarvelName().length() > 0) {
