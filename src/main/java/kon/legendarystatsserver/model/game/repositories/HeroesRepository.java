@@ -16,6 +16,6 @@ public interface HeroesRepository extends ReadOnlyRepository<Hero, Integer> {
 			+ "    FROM Hero h INNER JOIN h.plays p"
 			+ "    GROUP BY h"
 			+ "    ORDER BY COUNT(CASE WHEN p.outcome = 'win' THEN 1 ELSE null END) / "
-			+ "             CAST(COUNT(*) AS float)")
+			+ "             CAST(COUNT(*) AS float) DESC")
 	List<IWinRate> findHeroWinRates();
 }
