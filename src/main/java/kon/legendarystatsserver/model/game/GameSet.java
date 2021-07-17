@@ -27,31 +27,31 @@ public class GameSet implements INamable {
 	/**
 	 * The heroes in the set
 	 */
-	@OneToMany(mappedBy = "set_id")
+	@OneToMany(mappedBy = "setId")
 	private Set<Hero> heroes;
 	
 	/**
 	 * The schemes in the set
 	 */
-	@OneToMany(mappedBy = "set_id")
+	@OneToMany(mappedBy = "setId")
 	private Set<Scheme> schemes;
 	
 	/**
 	 * The masterminds in the set
 	 */
-	@OneToMany(mappedBy = "set_id")
+	@OneToMany(mappedBy = "setId")
 	private Set<Mastermind> masterminds;
 	
 	/**
 	 * The villains in the set
 	 */
-	@OneToMany(mappedBy = "set_id")
+	@OneToMany(mappedBy = "setId")
 	private Set<Villain> villains;
 	
 	/**
 	 * The henchmen villains in the set
 	 */
-	@OneToMany(mappedBy = "set_id")
+	@OneToMany(mappedBy = "setId")
 	private Set<Henchman> henchmen;
 
 	/**
