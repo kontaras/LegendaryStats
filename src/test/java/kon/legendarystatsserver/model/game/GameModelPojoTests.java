@@ -8,7 +8,7 @@ import kon.legendarystatsserver.test.util.PojoTestUtil;
  * Test POJOs in the {@link kon.legendarystatsserver.model.game} package for
  * coverage and to weed out stupid bugs.
  */
-public class GameModelPojoTests extends PojoTestUtil {
+class GameModelPojoTests extends PojoTestUtil {
 	/**
 	 * Test {@link Namable}
 	 */
