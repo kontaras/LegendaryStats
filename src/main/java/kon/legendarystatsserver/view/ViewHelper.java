@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
 
-import kon.legendarystatsserver.model.game.INamable;
+import kon.legendarystatsserver.model.game.Namable;
 
 /**
  * Helper functions for advanced/duplicated functionality in page rendering.
@@ -19,7 +19,7 @@ public class ViewHelper {
 	 * @param item Item to name
 	 * @return All the item names (if any), with the proper HTML classes applied
 	 */
-	public String getDisplayName(INamable item) {
+	public String getDisplayName(Namable item) {
 		List<String> components = new ArrayList<>(3);
 		
 		if (item.getMarvelName() != null && item.getMarvelName().length() > 0) {

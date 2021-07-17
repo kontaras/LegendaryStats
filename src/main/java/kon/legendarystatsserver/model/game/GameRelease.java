@@ -3,27 +3,13 @@ package kon.legendarystatsserver.model.game;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- * A set of the game.
+ * A release of the game, uniting several item sets together.
  */
 @Entity
-public class GameSet implements INamable {
-	/** Database ID */
-	@Id
-	private Integer id;
-
-	/** The name of the set for Marvel comics sets */
-	private String marvelName;
-
-	/** The name of the set for Marvel movie stills sets */
-	private String mcuName;
-
-	/** The name of the set for Legendary DXP sets */
-	private String dxpName;
-	
+public class GameRelease extends Namable {
 	/**
 	 * The heroes in the set
 	 */
@@ -53,28 +39,6 @@ public class GameSet implements INamable {
 	 */
 	@OneToMany(mappedBy = "setId")
 	private Set<Henchman> henchmen;
-
-	/**
-	 * @return the {@link #id}
-	 */
-	public Integer getId() {
-		return id;
-	}
-
-	@Override
-	public String getMarvelName() {
-		return marvelName;
-	}
-
-	@Override
-	public String getMcuName() {
-		return mcuName;
-	}
-
-	@Override
-	public String getDxpName() {
-		return dxpName;
-	}
 
 	/**
 	 * @return the {@link #heroes}
