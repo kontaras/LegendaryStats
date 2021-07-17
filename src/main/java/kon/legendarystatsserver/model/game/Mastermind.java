@@ -1,56 +1,12 @@
 package kon.legendarystatsserver.model.game;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  * A mastermind in the game
  */
 @Entity
-public class Mastermind implements INamable {
-	/** Database ID */
-	@Id
-	private Integer id;
+public class Mastermind extends CardSet {
 
-	/** The name of the set for Marvel comics sets */
-	private String marvelName;
-	
-	/** The name of the set for Marvel movie stills sets */
-	private String mcuName;
-	
-	/** The name of the set for Legendary DXP sets */
-	private String dxpName;
-
-	/** Foreign key for the {@link GameSet} this card set belongs to. */
-	private Integer setId;
-
-	/**
-	 * @return the {@link #id}
-	 */
-	public Integer getId() {
-		return id;
-	}
-
-	@Override
-	public String getMarvelName() {
-		return marvelName;
-	}
-
-	@Override
-	public String getMcuName() {
-		return mcuName;
-	}
-
-	@Override
-	public String getDxpName() {
-		return dxpName;
-	}
-
-	/**
-	 * @return the {@link #setId}
-	 */
-	public Integer getSetId() {
-		return setId;
-	}
 
 }

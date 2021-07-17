@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kon.legendarystatsserver.model.Play;
 import kon.legendarystatsserver.model.PlaysRepository;
 import kon.legendarystatsserver.model.game.Hero;
-import kon.legendarystatsserver.model.game.GameSet;
+import kon.legendarystatsserver.model.game.GameRelease;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.model.game.repositories.SetsRepository;
@@ -32,7 +32,7 @@ public class DataController {
 	HeroesRepository heroes;
 
 	@GetMapping("/api/set")
-	public Iterable<GameSet> getSets() {
+	public Iterable<GameRelease> getSets() {
 		return sets.findAll();
 	}
 	
