@@ -2,13 +2,13 @@ package kon.legendarystatsserver.model.game;
 
 import org.junit.jupiter.api.Test;
 
-import kon.legendarystatsserver.test.util.PojoTest;
+import kon.legendarystatsserver.test.util.PojoTestUtil;
 
 /**
  * Test POJOs in the {@link kon.legendarystatsserver.model.game} package for
  * coverage and to weed out stupid bugs.
  */
-public class GameModelPojoTests extends PojoTest {
+public class GameModelPojoTests extends PojoTestUtil {
 	/**
 	 * Test {@link GameSet}
 	 */
