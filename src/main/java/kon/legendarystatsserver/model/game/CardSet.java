@@ -8,14 +8,14 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class CardSet  extends Namable {
 	/** Foreign key for the {@link GameRelease} this card set belongs to. */
-	public Integer setId;
+	private Integer releaseId;
 
 	/**
-	 * @return the {@link #setId}
+	 * @return the {@link #releaseId}
 	 */
 
-	public Integer getSetId() {
-		return setId;
+	public Integer getReleaseId() {
+		return releaseId;
 	}
 
 }
