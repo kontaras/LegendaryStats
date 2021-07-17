@@ -1,4 +1,4 @@
-CREATE TABLE set (
+CREATE TABLE release (
 	id int not null,
 	marvel_name varchar,
 	dxp_name varchar,
@@ -10,8 +10,8 @@ CREATE TABLE hero (
 	marvel_name varchar,
 	dxp_name varchar,
 	mcu_name varchar,
-	set_id int,
-	FOREIGN KEY (set_id) REFERENCES set(id)
+	release_id int,
+	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
 CREATE TABLE mastermind (
@@ -19,8 +19,8 @@ CREATE TABLE mastermind (
 	marvel_name varchar,
 	dxp_name varchar,
 	mcu_name varchar,
-	set_id int,
-	FOREIGN KEY (set_id) REFERENCES set(id)
+	release_id int,
+	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
 
@@ -29,8 +29,8 @@ CREATE TABLE villain (
 	marvel_name varchar,
 	dxp_name varchar,
 	mcu_name varchar,
-	set_id int,
-	FOREIGN KEY (set_id) REFERENCES set(id)
+	release_id int,
+	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
 CREATE TABLE henchman (
@@ -38,8 +38,8 @@ CREATE TABLE henchman (
 	marvel_name varchar,
 	dxp_name varchar,
 	mcu_name varchar,
-	set_id int,
-	FOREIGN KEY (set_id) REFERENCES set(id)
+	release_id int,
+	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
 CREATE TABLE scheme (
@@ -47,8 +47,8 @@ CREATE TABLE scheme (
 	marvel_name varchar,
 	dxp_name varchar,
 	mcu_name varchar,
-	set_id int,
-	FOREIGN KEY (set_id) REFERENCES set(id)
+	release_id int,
+	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
 CREATE TABLE user (
