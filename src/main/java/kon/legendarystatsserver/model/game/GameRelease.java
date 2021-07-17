@@ -11,33 +11,33 @@ import javax.persistence.OneToMany;
 @Entity
 public class GameRelease extends Namable {
 	/**
-	 * The heroes in the set
+	 * The heroes in the release
 	 */
-	@OneToMany(mappedBy = "setId")
+	@OneToMany(mappedBy = "releaseId")
 	private Set<Hero> heroes;
 	
 	/**
-	 * The schemes in the set
+	 * The schemes in the release
 	 */
-	@OneToMany(mappedBy = "setId")
+	@OneToMany(mappedBy = "releaseId")
 	private Set<Scheme> schemes;
 	
 	/**
-	 * The masterminds in the set
+	 * The masterminds in the release
 	 */
-	@OneToMany(mappedBy = "setId")
+	@OneToMany(mappedBy = "releaseId")
 	private Set<Mastermind> masterminds;
 	
 	/**
-	 * The villains in the set
+	 * The villains in the release
 	 */
-	@OneToMany(mappedBy = "setId")
+	@OneToMany(mappedBy = "releaseId")
 	private Set<Villain> villains;
 	
 	/**
-	 * The henchmen villains in the set
+	 * The henchmen villains in the release
 	 */
-	@OneToMany(mappedBy = "setId")
+	@OneToMany(mappedBy = "releaseId")
 	private Set<Henchman> henchmen;
 
 	/**
