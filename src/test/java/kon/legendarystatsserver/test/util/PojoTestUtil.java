@@ -8,7 +8,7 @@ import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 
-public class PojoTest {
+public class PojoTestUtil {
 
 	static Validator valid;
 
