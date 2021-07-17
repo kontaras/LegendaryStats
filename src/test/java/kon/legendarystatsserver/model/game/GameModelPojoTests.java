@@ -10,11 +10,27 @@ import kon.legendarystatsserver.test.util.PojoTestUtil;
  */
 public class GameModelPojoTests extends PojoTestUtil {
 	/**
-	 * Test {@link GameSet}
+	 * Test {@link Namable}
 	 */
 	@Test
-	void testGameSet() {
-		validate(GameSet.class);
+	void testNamable() {
+		validate(Namable.class);
+	}
+	
+	/**
+	 * Test {@link CardSet}
+	 */
+	@Test
+	void testCardSet() {
+		validate(CardSet.class);
+	}
+	
+	/**
+	 * Test {@link GameRelease}
+	 */
+	@Test
+	void testGameRelease() {
+		validate(GameRelease.class);
 	}
 
 	/**
