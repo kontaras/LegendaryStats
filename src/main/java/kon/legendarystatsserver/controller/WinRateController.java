@@ -35,7 +35,7 @@ public class WinRateController {
 	 */
 	public Map<Hero, IWinRate> getHeroWinRates() {
 		List<IWinRate> winRates = heroes.findHeroWinRates();
-		Map<Hero, IWinRate> winRateMap = new LinkedHashMap<Hero, IWinRate>();
+		Map<Hero, IWinRate> winRateMap = new LinkedHashMap<>();
 		for (IWinRate winRate : winRates) {
 			Hero hero = directory.getHeroById(winRate.getId());
 			winRateMap.put(hero, winRate);
