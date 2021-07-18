@@ -20,8 +20,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	
-	runtimeOnly 'org.flywaydb:flyway-core'
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.flywaydb:flyway-core:7.11.2'
+	runtimeOnly 'com.h2database:h2:1.4.200'
 	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
