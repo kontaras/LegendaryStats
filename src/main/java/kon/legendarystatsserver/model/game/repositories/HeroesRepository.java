@@ -10,9 +10,9 @@ import kon.legendarystatsserver.model.game.Hero;
 public interface HeroesRepository extends ReadOnlyRepository<Hero, Integer> {
 
 	@Query(value = "SELECT h.id AS id, "
-			+ "	        COUNT(*) AS played,"
-			+ "	        COUNT(CASE WHEN p.outcome = 'win' THEN 1 ELSE null END) AS won, "
-			+ "	        COUNT(CASE WHEN p.outcome = 'loss' THEN 1 ELSE null END) AS lost "
+			+ "         COUNT(*) AS played,"
+			+ "         COUNT(CASE WHEN p.outcome = 'win' THEN 1 ELSE null END) AS won, "
+			+ "         COUNT(CASE WHEN p.outcome = 'loss' THEN 1 ELSE null END) AS lost "
 			+ "    FROM Hero h INNER JOIN h.plays p"
 			+ "    GROUP BY h"
 			+ "    ORDER BY COUNT(CASE WHEN p.outcome = 'win' THEN 1 ELSE null END) / "
