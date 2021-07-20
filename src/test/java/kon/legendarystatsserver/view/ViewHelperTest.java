@@ -60,19 +60,19 @@ class ViewHelperTest {
 		nameable = Mockito.mock(Namable.class);
 		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
 		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
-		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span> / <span class=\"mcu\">MCU NAME</span>",
+		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span><span class=\"mcu\">MCU NAME</span>",
 				vh.getDisplayName(nameable));
 		
 		nameable = Mockito.mock(Namable.class);
 		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
 		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
-		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span> / <span class=\"dxp\">DXP NAME</span>",
+		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span><span class=\"dxp\">DXP NAME</span>",
 				vh.getDisplayName(nameable));
 		
 		nameable = Mockito.mock(Namable.class);
 		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
 		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
-		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span> / <span class=\"dxp\">DXP NAME</span>",
+		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span><span class=\"dxp\">DXP NAME</span>",
 				vh.getDisplayName(nameable));
 		
 		//Test all three names set
@@ -80,7 +80,7 @@ class ViewHelperTest {
 		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
 		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
 		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
-		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span> / <span class=\"mcu\">MCU NAME</span> / <span class=\"dxp\">DXP NAME</span>",
+		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span><span class=\"mcu\">MCU NAME</span><span class=\"dxp\">DXP NAME</span>",
 				vh.getDisplayName(nameable));
 	}
 
