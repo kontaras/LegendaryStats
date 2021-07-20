@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id "org.sonarqube" version "3.3"
 	id 'jacoco'
+	id 'org.siouan.frontend-jdk11' version '5.2.0'
 }
 
 group = 'kon'
@@ -43,6 +44,12 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+frontend {
+	nodeDistributionProvided = false
+	nodeVersion = '14.16.1'
+	assembleScript = "run build"
 }
 
 sonarqube {
