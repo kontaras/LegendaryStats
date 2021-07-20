@@ -21,14 +21,11 @@ table, th, td {
 	color: fuchsia;
 }
 </style>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"
-	integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="/scripts/utils.js" type="text/javascript"></script>
-<script th:replace="tables :: script">
 
-</script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="/scripts/utils.js" type="text/javascript"></script>-->
+<script src="built/bundle.js"></script>
+<script th:replace="tables :: script"> </script>
 </head>
 <body>
 	<table id="heroes">
