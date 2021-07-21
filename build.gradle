@@ -20,9 +20,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	
-	implementation 'com.google.guava:guava:23.5-jre'
+	implementation 'com.google.guava:guava:30.1.1-jre'
 	
-	runtimeOnly 'org.flywaydb:flyway-core:7.11.2'
+	implementation 'org.tinylog:tinylog-api:2.3.2'
+	runtimeOnly 'org.tinylog:tinylog-impl:2.3.2'
+	
+	runtimeOnly 'org.flywaydb:flyway-core:7.11.3'
 	runtimeOnly 'com.h2database:h2:1.4.200'
 	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
