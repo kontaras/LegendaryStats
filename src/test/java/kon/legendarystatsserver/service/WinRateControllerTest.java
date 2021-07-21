@@ -1,4 +1,4 @@
-package kon.legendarystatsserver.controller;
+package kon.legendarystatsserver.service;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -16,6 +16,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
+import kon.legendarystatsserver.service.CardDirectory;
+import kon.legendarystatsserver.service.WinRateController;
 
 @SpringBootTest
 class WinRateControllerTest {

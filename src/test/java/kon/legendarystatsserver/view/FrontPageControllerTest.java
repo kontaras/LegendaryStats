@@ -12,9 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 
-import kon.legendarystatsserver.controller.WinRateController;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
+import kon.legendarystatsserver.service.WinRateController;
 
 /**
  * Test {@link FrontPageController}

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import kon.legendarystatsserver.controller.WinRateController;
+import kon.legendarystatsserver.service.WinRateController;
 
 /**
  * A controller for the index page.
