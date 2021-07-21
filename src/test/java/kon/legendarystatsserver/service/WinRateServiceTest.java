@@ -26,7 +26,7 @@ class WinRateServiceTest {
 	private HeroesRepository repo;
 	
 	@MockBean
-	private CardService cd;
+	private CardDirectoryService cd;
 	
 	@Autowired
 	private WinRateService testMe;
