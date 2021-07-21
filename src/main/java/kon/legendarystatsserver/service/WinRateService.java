@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
 import kon.legendarystatsserver.model.game.Hero;
@@ -14,7 +14,7 @@ import kon.legendarystatsserver.model.game.repositories.IWinRate;
 /**
  * Controller to get the win rates of each card set.
  */
-@Controller
+@Service
 public class WinRateService {
 	
 	/**
