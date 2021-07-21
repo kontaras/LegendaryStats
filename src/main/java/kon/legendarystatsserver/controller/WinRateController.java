@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.tinylog.Logger;
 
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
@@ -34,7 +35,10 @@ public class WinRateController {
 	 * @return The list of heroes, ordered by the win percentage of each hero.
 	 */
 	public Map<Hero, IWinRate> getHeroWinRates() {
+		Logger.info("Starting to get hero win rates");
+		long start = System.currentTimeMillis();
 		List<IWinRate> winRates = heroes.findHeroWinRates();
+		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
 		Map<Hero, IWinRate> winRateMap = new LinkedHashMap<>();
 		for (IWinRate winRate : winRates) {
 			Hero hero = directory.getHeroById(winRate.getId());

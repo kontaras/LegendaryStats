@@ -22,6 +22,9 @@ dependencies {
 	
 	implementation 'com.google.guava:guava:23.5-jre'
 	
+	implementation 'org.tinylog:tinylog-api:2.3.2'
+	runtimeOnly 'org.tinylog:tinylog-impl:2.3.2'
+	
 	runtimeOnly 'org.flywaydb:flyway-core:7.11.2'
 	runtimeOnly 'com.h2database:h2:1.4.200'
 	

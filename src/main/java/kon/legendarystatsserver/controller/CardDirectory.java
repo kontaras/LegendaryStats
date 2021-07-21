@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.tinylog.Logger;
 
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
@@ -20,10 +21,12 @@ public class CardDirectory {
 
 	@Autowired
 	private CardDirectory(HeroesRepository heroes) {
+		Logger.info("Starting to preload heroes");
 		heroesById = new HashMap<>();
 		for (Hero hero : heroes.findAll()) {
 			heroesById.put(hero.getId(), hero);
 		}
+		Logger.info("Finished preloadin heroes");
 	}
 
 	/**
