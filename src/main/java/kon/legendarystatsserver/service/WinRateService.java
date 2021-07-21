@@ -15,7 +15,7 @@ import kon.legendarystatsserver.model.game.repositories.IWinRate;
  * Controller to get the win rates of each card set.
  */
 @Controller
-public class WinRateController {
+public class WinRateService {
 	
 	/**
 	 * Repository that can get us hero win rates
@@ -27,7 +27,7 @@ public class WinRateController {
 	 * Directory that we use to dereference IDs to actual objects
 	 */
 	@Autowired
-	private CardDirectory directory;
+	private CardService directory;
 
 	/**
 	 * Get all qualifying heroes with their {@link IWinRate}.

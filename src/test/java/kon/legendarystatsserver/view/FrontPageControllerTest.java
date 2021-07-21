@@ -14,7 +14,7 @@ import org.springframework.ui.Model;
 
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
-import kon.legendarystatsserver.service.WinRateController;
+import kon.legendarystatsserver.service.WinRateService;
 
 /**
  * Test {@link FrontPageController}
@@ -22,7 +22,7 @@ import kon.legendarystatsserver.service.WinRateController;
 @SpringBootTest
 class FrontPageControllerTest {
 	@MockBean
-	private WinRateController winRates;
+	private WinRateService winRates;
 	
 	@Autowired
 	private FrontPageController controller;

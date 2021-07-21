@@ -16,11 +16,11 @@ import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
  * program and reduce DB load.
  */
 @Controller
-public class CardDirectory {
+public class CardService {
 	private final Map<Integer, Hero> heroesById;
 
 	@Autowired
-	private CardDirectory(HeroesRepository heroes) {
+	private CardService(HeroesRepository heroes) {
 		Logger.info("Starting to preload heroes");
 		heroesById = new HashMap<>();
 		for (Hero hero : heroes.findAll()) {
