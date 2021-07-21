@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
 import kon.legendarystatsserver.model.game.Hero;
@@ -15,7 +15,7 @@ import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
  * occur as part of a deploy, we can cache the game contents to speed up the
  * program and reduce DB load.
  */
-@Controller
+@Service
 public class CardService {
 	private final Map<Integer, Hero> heroesById;
 
