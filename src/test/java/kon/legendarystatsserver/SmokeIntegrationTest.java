@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
  * A smoke test to verify that Spring can bring up a service and it has contents
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class SmokeIntegrationTest {
+class SmokeIntegrationTest {
 	@LocalServerPort
 	private int port;
 
@@ -25,9 +25,9 @@ public class SmokeIntegrationTest {
 	 * Checks that the service will return something that looks like an HTML response.
 	 */
 	@Test
-	public void testHtmlResponse() {
+	void testHtmlResponse() {
 		ResponseEntity<String> resp = restTemplate.getForEntity("http://localhost:" + port + "/", String.class);
-		Assertions.assertEquals(resp.getStatusCodeValue(), 200);
+		Assertions.assertEquals(200, resp.getStatusCodeValue());
 		Assertions.assertTrue(resp.hasBody());
 		Assertions.assertTrue(MediaType.TEXT_HTML.equalsTypeAndSubtype(resp.getHeaders().getContentType()));
 		Assertions.assertTrue(resp.getBody().contains("<html lang=\"en\">"));
