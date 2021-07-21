@@ -1,9 +1,8 @@
 package kon.legendarystatsserver.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.context.annotation.Configuration;
+
+import com.google.common.base.Strings;
 
 import kon.legendarystatsserver.model.game.Namable;
 
@@ -20,22 +19,21 @@ public class ViewHelper {
 	 * @return All the item names (if any), with the proper HTML classes applied
 	 */
 	public String getDisplayName(Namable item) {
-		List<String> components = new ArrayList<>(3);
-		
-		if (item.getMarvelName() != null && item.getMarvelName().length() > 0) {
-			components.add(String.format("<span class=\"marvel\">%s</span>", item.getMarvelName()));
+		StringBuilder builder = new StringBuilder();
+
+		if (!Strings.isNullOrEmpty(item.getMarvelName())) {
+			builder.append(String.format("<span class=\"marvel\">%s</span>", item.getMarvelName()));
 		}
-		
-		if (item.getMcuName() != null && item.getMcuName().length() > 0) {
-			components.add(String.format("<span class=\"mcu\">%s</span>", item.getMcuName()));
+
+		if (!Strings.isNullOrEmpty(item.getMcuName())) {
+			builder.append(String.format("<span class=\"mcu\">%s</span>", item.getMcuName()));
 		}
-		
-		if (item.getDxpName() != null && item.getDxpName().length() > 0) {
-			components.add(String.format("<span class=\"dxp\">%s</span>", item.getDxpName()));
+
+		if (!Strings.isNullOrEmpty(item.getDxpName())) {
+			builder.append(String.format("<span class=\"dxp\">%s</span>", item.getDxpName()));
 		}
-		
-		
-		return String.join(" / ", components);
+
+		return builder.toString();
 	}
 
 }
