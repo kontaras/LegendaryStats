@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import kon.legendarystatsserver.service.WinRateController;
+import kon.legendarystatsserver.service.WinRateService;
 
 /**
  * A controller for the index page.
@@ -13,7 +13,7 @@ import kon.legendarystatsserver.service.WinRateController;
 @Controller
 public class FrontPageController {
 	@Autowired
-	private WinRateController winRates;
+	private WinRateService winRates;
 	
 	@GetMapping("/")
 	public String mainPage(Model model) {
