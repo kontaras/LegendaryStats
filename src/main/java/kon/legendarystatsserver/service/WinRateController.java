@@ -1,4 +1,4 @@
-package kon.legendarystatsserver.controller;
+package kon.legendarystatsserver.service;
 
 import java.util.LinkedHashMap;
 import java.util.List;
