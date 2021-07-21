@@ -1,4 +1,4 @@
-package kon.legendarystatsserver.service;
+package kon.legendarystatsserver.controller;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -17,19 +17,16 @@ import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 
-/**
- * Tests for {@link WinRateService}
- */
 @SpringBootTest
-class WinRateServiceTest {
+class WinRateControllerTest {
 	@MockBean
 	private HeroesRepository repo;
 	
 	@MockBean
-	private CardDirectoryService cd;
+	private CardDirectory cd;
 	
 	@Autowired
-	private WinRateService testMe;
+	private WinRateController testMe;
 	
 	@Test
 	void testEmptyRepo() {
