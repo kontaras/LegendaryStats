@@ -27,7 +27,7 @@ public class WinRateService {
 	 * Directory that we use to dereference IDs to actual objects
 	 */
 	@Autowired
-	private CardService directory;
+	private CardDirectoryService directory;
 
 	/**
 	 * Get all qualifying heroes with their {@link IWinRate}.
