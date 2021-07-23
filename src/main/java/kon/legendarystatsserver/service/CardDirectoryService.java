@@ -3,6 +3,8 @@ package kon.legendarystatsserver.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
@@ -18,15 +20,23 @@ import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 @Service
 public class CardDirectoryService {
 	private final Map<Integer, Hero> heroesById;
+	
+	@Autowired
+	private HeroesRepository heroes;
 
 	@Autowired
-	private CardDirectoryService(HeroesRepository heroes) {
-		Logger.info("Starting to preload heroes");
+	private CardDirectoryService() {
 		heroesById = new HashMap<>();
+	}
+	
+	@PostConstruct
+	private void init() {
+		Logger.info("Starting to preload heroes");
+		
 		for (Hero hero : heroes.findAll()) {
 			heroesById.put(hero.getId(), hero);
 		}
-		Logger.info("Finished preloadin heroes");
+		Logger.info("Finished preloading heroes");
 	}
 
 	/**
