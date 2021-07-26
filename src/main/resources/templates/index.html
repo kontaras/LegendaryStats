@@ -30,6 +30,9 @@ table, th, td {
 jQuery(document).ready(function() {
 	var table = jQuery("table#heroes");
 	setNames(table, "marvel");
+	
+	table = jQuery("table#villains");
+	setNames(table, "marvel");
 	});
 </script>
 </head>
@@ -46,6 +49,26 @@ jQuery(document).ready(function() {
 		</thead>
 		<tbody>
 			<tr th:each="row:${heroes.entrySet()}">
+				<td th:utext="${@viewHelper.getDisplayName(row.key)}" class="name"/>
+				<td th:text="${#numbers.formatDecimal((row.value.won * 100.0 / row.value.played), 2, 0)} + '%'" />
+				<td th:text="${#numbers.formatDecimal(row.value.lost * 100.0 / row.value.played, 2, 0)} + '%'" />
+				<td th:text="${row.value.played}" />
+			</tr>
+		</tbody>
+	</table>
+	
+	<table id="villains">
+		<caption>Villain Win Rates</caption>
+		<thead>
+			<tr>
+				<th scope="col">Hero</th>
+				<th scope="col">Win Rate</th>
+				<th scope="col">Loss Rate</th>
+				<th scope="col">Plays Logged</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="row:${villains.entrySet()}">
 				<td th:utext="${@viewHelper.getDisplayName(row.key)}" class="name"/>
 				<td th:text="${#numbers.formatDecimal((row.value.won * 100.0 / row.value.played), 2, 0)} + '%'" />
 				<td th:text="${#numbers.formatDecimal(row.value.lost * 100.0 / row.value.played, 2, 0)} + '%'" />

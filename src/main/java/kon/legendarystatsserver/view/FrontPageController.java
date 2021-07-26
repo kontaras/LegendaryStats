@@ -18,6 +18,7 @@ public class FrontPageController {
 	@GetMapping("/")
 	public String mainPage(Model model) {
 		model.addAttribute("heroes", winRates.getHeroWinRates());
+		model.addAttribute("villains", winRates.getVillainWinRates());
 		return "index";
 	}
 }
