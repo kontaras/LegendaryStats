@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
 import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
+import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
  * Controller to get the win rates of each card set.
@@ -22,6 +24,12 @@ public class WinRateService {
 	 */
 	@Autowired
 	private HeroesRepository heroes;
+	
+	/**
+	 * Repository that can get us villain win rates
+	 */
+	@Autowired
+	private VillainsRepository villains;
 	
 	/**
 	 * Directory that we use to dereference IDs to actual objects
@@ -42,6 +50,24 @@ public class WinRateService {
 		Map<Hero, IWinRate> winRateMap = new LinkedHashMap<>();
 		for (IWinRate winRate : winRates) {
 			Hero hero = directory.getHeroById(winRate.getId());
+			winRateMap.put(hero, winRate);
+		}
+		return winRateMap;
+	}
+	
+	/**
+	 * Get all qualifying heroes with their {@link IWinRate}.
+	 * 
+	 * @return The list of heroes, ordered by the win percentage of each hero.
+	 */
+	public Map<Villain, IWinRate> getVillainWinRates() {
+		Logger.info("Starting to get villain win rates");
+		long start = System.currentTimeMillis();
+		List<IWinRate> winRates = villains.findVillainWinRates();
+		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
+		Map<Villain, IWinRate> winRateMap = new LinkedHashMap<>();
+		for (IWinRate winRate : winRates) {
+			Villain hero = directory.getVillainById(winRate.getId());
 			winRateMap.put(hero, winRate);
 		}
 		return winRateMap;

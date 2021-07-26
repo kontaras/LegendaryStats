@@ -10,6 +10,7 @@ INSERT INTO mastermind (release_id, id, marvel_name, dxp_name, mcu_name) VALUES 
 INSERT INTO mastermind (release_id, id, marvel_name, dxp_name, mcu_name) VALUES (1, 102, null, 'Epic Durissa the Dispossessed', null);
 INSERT INTO mastermind (release_id, id, marvel_name, dxp_name, mcu_name) VALUES (1, 199, null, null, 'Iron Monger');
 
+INSERT INTO villain (release_id, id, marvel_name, dxp_name, mcu_name) VALUES (1, 198, 'Masters of Evil', 'Void Rider', null);
 INSERT INTO villain (release_id, id, marvel_name, dxp_name, mcu_name) VALUES (1, 199, null, null, 'Iron Foes');
 
 INSERT INTO henchman (release_id, id, marvel_name, dxp_name, mcu_name) VALUES (1, 199, 'Doombot Legion', 'Lord Cedric of the Citadel', null);
