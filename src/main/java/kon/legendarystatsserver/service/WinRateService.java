@@ -102,5 +102,4 @@ public class WinRateService {
 		}
 		return retVal;
 	}
-
 }
