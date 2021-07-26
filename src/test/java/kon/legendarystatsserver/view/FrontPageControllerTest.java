@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 
 import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.service.WinRateService;
 
@@ -31,9 +32,12 @@ class FrontPageControllerTest {
 	void testMainPage() {
 		Map<Hero, IWinRate> testHeroWinRateMap = new HashMap<>(0);
 		Mockito.when(winRates.getHeroWinRates()).thenReturn(testHeroWinRateMap);
+		Map<Villain, IWinRate> testVillainWinRateMap = new HashMap<>(0);
+		Mockito.when(winRates.getVillainWinRates()).thenReturn(testVillainWinRateMap);
 		Model mod = Mockito.mock(Model.class);
 		Assertions.assertEquals("index", controller.mainPage(mod));
 		Mockito.verify(mod).addAttribute("heroes", testHeroWinRateMap);
+		Mockito.verify(mod).addAttribute("villains", testVillainWinRateMap);
 	}
 
 }

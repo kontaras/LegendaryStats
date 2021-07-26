@@ -16,7 +16,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
+import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
  * Test {@link CardDirectoryService} caching
@@ -31,7 +33,13 @@ class CardDirectoryServiceTest {
 	HeroesRepository heroes;
 	
 	@Mock
+	VillainsRepository villains;
+	
+	@Mock
 	Hero mockHero0, mockHero1, mockHero2;
+	
+	@Mock
+	Villain mockVillain0, mockVillain1, mockVillain2;
 	
 	/**
 	 * Create a {@link CardDirectoryService} with mock values injected prior to initialization.
@@ -50,12 +58,24 @@ class CardDirectoryServiceTest {
 		
 		Mockito.when(heroes.findAll()).thenReturn(heroList);
 		
+		Mockito.when(mockVillain0.getId()).thenReturn(0);
+		Mockito.when(mockVillain1.getId()).thenReturn(1);
+		Mockito.when(mockVillain2.getId()).thenReturn(2);
+		
+		List<Villain> villainList = new ArrayList<>(3);
+		villainList.add(mockVillain0);
+		villainList.add(mockVillain1);
+		
+		Mockito.when(villains.findAll()).thenReturn(villainList);
+		
+		
 		Method initMethod = CardDirectoryService.class.getDeclaredMethod("init");
 		initMethod.setAccessible(true);
 		initMethod.invoke(directory);
 		
 		//Should not be in the dir, if the dir is caching
 		heroList.add(mockHero2);
+		villainList.add(mockVillain2);
 	}
 	
 	@Test
@@ -63,5 +83,12 @@ class CardDirectoryServiceTest {
 		Assertions.assertEquals(mockHero0, directory.getHeroById(0));
 		Assertions.assertEquals(mockHero1, directory.getHeroById(1));
 		Assertions.assertEquals(null, directory.getHeroById(2));
+	}
+	
+	@Test
+	public void testVillainCache() {
+		Assertions.assertEquals(mockVillain0, directory.getVillainById(0));
+		Assertions.assertEquals(mockVillain1, directory.getVillainById(1));
+		Assertions.assertEquals(null, directory.getVillainById(2));
 	}
 }
