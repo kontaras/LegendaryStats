@@ -48,7 +48,7 @@ public class DataController {
 	
 	@GetMapping("/api/hero/rate")
 	public List<IWinRate> getHeroWinRate() {
-		return heroes.findHeroWinRates();
+		return heroes.findWinRates();
 	}
 
 }
