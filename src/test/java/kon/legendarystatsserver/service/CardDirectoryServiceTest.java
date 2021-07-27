@@ -45,7 +45,7 @@ class CardDirectoryServiceTest {
 	 * Create a {@link CardDirectoryService} with mock values injected prior to initialization.
 	 */
 	@BeforeAll
-	public void setUp() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	void setUp() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		MockitoAnnotations.openMocks(this);
 		
 		Mockito.when(mockHero0.getId()).thenReturn(0);
@@ -79,14 +79,14 @@ class CardDirectoryServiceTest {
 	}
 	
 	@Test
-	public void testHeroCache() {
+	void testHeroCache() {
 		Assertions.assertEquals(mockHero0, directory.getHeroById(0));
 		Assertions.assertEquals(mockHero1, directory.getHeroById(1));
 		Assertions.assertEquals(null, directory.getHeroById(2));
 	}
 	
 	@Test
-	public void testVillainCache() {
+	void testVillainCache() {
 		Assertions.assertEquals(mockVillain0, directory.getVillainById(0));
 		Assertions.assertEquals(mockVillain1, directory.getVillainById(1));
 		Assertions.assertEquals(null, directory.getVillainById(2));
