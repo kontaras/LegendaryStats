@@ -133,7 +133,6 @@ class WinRateServiceTest {
 		IWinRate win0 = Mockito.mock(IWinRate.class);
 		Mockito.when(win0.getId()).thenReturn(3);
 		Mockito.when(villainRepo.findWinRates()).thenReturn(List.of(win0));
-
 		Villain villain0 = Mockito.mock(Villain.class);
 		Mockito.when(cd.getVillainById(3)).thenReturn(villain0);
 
