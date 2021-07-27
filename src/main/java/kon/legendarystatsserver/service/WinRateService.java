@@ -45,7 +45,7 @@ public class WinRateService {
 	public Map<Hero, IWinRate> getHeroWinRates() {
 		Logger.info("Starting to get hero win rates");
 		long start = System.currentTimeMillis();
-		List<IWinRate> winRates = heroes.findHeroWinRates();
+		List<IWinRate> winRates = heroes.findWinRates();
 		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
 		Map<Hero, IWinRate> winRateMap = new LinkedHashMap<>();
 		for (IWinRate winRate : winRates) {
@@ -63,7 +63,7 @@ public class WinRateService {
 	public Map<Villain, IWinRate> getVillainWinRates() {
 		Logger.info("Starting to get villain win rates");
 		long start = System.currentTimeMillis();
-		List<IWinRate> winRates = villains.findVillainWinRates();
+		List<IWinRate> winRates = villains.findWinRates();
 		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
 		Map<Villain, IWinRate> winRateMap = new LinkedHashMap<>();
 		for (IWinRate winRate : winRates) {
