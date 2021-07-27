@@ -45,7 +45,7 @@ class WinRateServiceTest {
 	void testSingleHero() {
 		IWinRate win0 = Mockito.mock(IWinRate.class);
 		Mockito.when(win0.getId()).thenReturn(3);
-		Mockito.when(heroRepo.findHeroWinRates()).thenReturn(List.of(win0));
+		Mockito.when(heroRepo.findWinRates()).thenReturn(List.of(win0));
 		
 		Hero hero0 = Mockito.mock(Hero.class);
 		Mockito.when(cd.getHeroById(3)).thenReturn(hero0);
@@ -69,7 +69,7 @@ class WinRateServiceTest {
 		
 		IWinRate win2 = Mockito.mock(IWinRate.class);
 		Mockito.when(win2.getId()).thenReturn(1000);
-		Mockito.when(heroRepo.findHeroWinRates()).thenReturn(List.of(win0, win1, win2));
+		Mockito.when(heroRepo.findWinRates()).thenReturn(List.of(win0, win1, win2));
 		
 		Hero hero0 = Mockito.mock(Hero.class);
 		Mockito.when(cd.getHeroById(3)).thenReturn(hero0);
@@ -104,7 +104,7 @@ class WinRateServiceTest {
 	void testSingleVillain() {
 		IWinRate win0 = Mockito.mock(IWinRate.class);
 		Mockito.when(win0.getId()).thenReturn(3);
-		Mockito.when(villainRepo.findVillainWinRates()).thenReturn(List.of(win0));
+		Mockito.when(villainRepo.findWinRates()).thenReturn(List.of(win0));
 		
 		Villain villain0 = Mockito.mock(Villain.class);
 		Mockito.when(cd.getVillainById(3)).thenReturn(villain0);
