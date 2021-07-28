@@ -2,7 +2,8 @@ CREATE TABLE release (
 	id int not null,
 	marvel_name varchar,
 	dxp_name varchar,
-	mcu_name varchar
+	mcu_name varchar,
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE hero (
@@ -11,6 +12,7 @@ CREATE TABLE hero (
 	dxp_name varchar,
 	mcu_name varchar,
 	release_id int,
+	PRIMARY KEY (id),
 	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
@@ -20,6 +22,7 @@ CREATE TABLE mastermind (
 	dxp_name varchar,
 	mcu_name varchar,
 	release_id int,
+	PRIMARY KEY (id),
 	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
@@ -30,6 +33,7 @@ CREATE TABLE villain (
 	dxp_name varchar,
 	mcu_name varchar,
 	release_id int,
+	PRIMARY KEY (id),
 	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
@@ -39,6 +43,7 @@ CREATE TABLE henchman (
 	dxp_name varchar,
 	mcu_name varchar,
 	release_id int,
+	PRIMARY KEY (id),
 	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
@@ -48,12 +53,14 @@ CREATE TABLE scheme (
 	dxp_name varchar,
 	mcu_name varchar,
 	release_id int,
+	PRIMARY KEY (id),
 	FOREIGN KEY (release_id) REFERENCES release(id)
 );
 
 CREATE TABLE user (
 	id long not null,
-	user_name varchar
+	user_name varchar,
+	PRIMARY KEY (id)
 	--password
 );
 
@@ -65,6 +72,7 @@ CREATE TABLE play (
 	mastermind_id int,
 	misc_hero_id int,
 	notes varchar,
+	PRIMARY KEY (id),
 	FOREIGN KEY (player_id) REFERENCES user(id),
 	FOREIGN KEY (scheme_id) REFERENCES scheme(id),
 	FOREIGN KEY (mastermind_id) REFERENCES mastermind(id),
@@ -74,6 +82,7 @@ CREATE TABLE play (
 CREATE TABLE play_hero (
 	hero_id int,
 	play_id long,
+	PRIMARY KEY (hero_id, play_id),
 	FOREIGN KEY (hero_id) REFERENCES hero(id),
 	FOREIGN KEY (play_id) REFERENCES play(id)
 );
@@ -81,6 +90,7 @@ CREATE TABLE play_hero (
 CREATE TABLE play_villain (
 	villain_id int,
 	play_id long,
+	PRIMARY KEY (villain_id, play_id),
 	FOREIGN KEY (villain_id) REFERENCES villain(id),
 	FOREIGN KEY (play_id) REFERENCES play(id)
 );
@@ -88,6 +98,7 @@ CREATE TABLE play_villain (
 CREATE TABLE play_henchman (
 	henchman_id int,
 	play_id long,
+	PRIMARY KEY (henchman_id, play_id),
 	FOREIGN KEY (henchman_id) REFERENCES henchman(id),
 	FOREIGN KEY (play_id) REFERENCES play(id)
 );
