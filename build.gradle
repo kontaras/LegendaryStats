@@ -82,7 +82,6 @@ task javascriptCopy(type: Copy) {
         fileCopyDetails.path = fileCopyDetails.name
     }
 
-
     into 'build/resources/main/static/scripts'
 
     outputs.files(fileTree('build/resources/main/static/scripts'))
