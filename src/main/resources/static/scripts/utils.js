@@ -1,7 +1,6 @@
 /**
  * 
  */
-import jQuery from 'jquery' 
 
 function setNames (table, cls) {
 	let cells = table.find("td.name").children().filter("span." + cls)
