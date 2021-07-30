@@ -70,6 +70,9 @@ jacocoTestReport {
 
 task foo(type: Copy) {
 	dependsOn installFrontend
+	
+	inputs.files(fileTree('node_modules'))
+	
 	from 'node_modules'
 	
 	include '*/dist/*.js'
@@ -81,7 +84,23 @@ task foo(type: Copy) {
     
     
     into 'build/resources/main/static/scripts'
+    
+    outputs.files(fileTree('build/resources/main/static/scripts'))
 }
 
 
-jar.dependsOn tasks.foo
+jar.configure {
+	dependsOn tasks.foo
+}
+
+bootJarMainClassName.configure {
+	dependsOn tasks.foo
+}
+
+bootRunMainClassName.configure {
+	dependsOn tasks.foo
+}
+
+compileTestJava.configure {
+	dependsOn tasks.foo
+}
