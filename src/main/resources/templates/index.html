@@ -1,70 +1,36 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<link rel="stylesheet" href="https://necolas.github.io/normalize.css/latest/normalize.css">
-<title>Legendary Game Stats</title>
-<style type="text/css">
-table, th, td {
-	border: 1px solid black;
-	text-align: center;
-}
-
-.marvel {
-	color: navy;
-}
-
-.mcu {
-	color: olive;
-}
-
-.dxp {
-	color: fuchsia;
-}
-</style>
-
-<script src="/scripts/jquery.min.js" type="text/javascript"></script>
-<script src="/scripts/utils.js" type="text/javascript"></script>
-<script th:replace="tables :: script"> </script>
-</head>
-<body>
-	<table id="heroes">
-		<caption>Hero Win Rates</caption>
-		<thead>
-			<tr>
-				<th scope="col">Hero</th>
-				<th scope="col">Win Rate</th>
-				<th scope="col">Loss Rate</th>
-				<th scope="col">Plays Logged</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="row:${heroes.entrySet()}">
-				<td th:utext="${@viewHelper.getDisplayName(row.key)}" class="name"/>
-				<td th:text="${#numbers.formatDecimal((row.value.won * 100.0 / row.value.played), 2, 0)} + '%'" />
-				<td th:text="${#numbers.formatDecimal(row.value.lost * 100.0 / row.value.played, 2, 0)} + '%'" />
-				<td th:text="${row.value.played}" />
-			</tr>
-		</tbody>
-	</table>
+	<head>
+		<link rel="stylesheet"
+			href="https://necolas.github.io/normalize.css/latest/normalize.css">
+		<title>Legendary Game Stats</title>
+		<style type="text/css">
+			table, th, td {
+				border: 1px solid black;
+				text-align: center;
+			}
+			
+			.marvel {
+				color: navy;
+			}
+			
+			.mcu {
+				color: olive;
+			}
+			
+			.dxp {
+				color: fuchsia;
+			}
+		</style>
+		
+		<th:block th:replace="fragments/tables :: scripts" />
+	</head>
+	<body>
+		<table
+			th:replace="fragments/tables :: tableTemple (name = 'Heroes', id = 'heroes', rows = ${heroes})"></table>
 	
-	<table id="villains">
-		<caption>Villain Win Rates</caption>
-		<thead>
-			<tr>
-				<th scope="col">Hero</th>
-				<th scope="col">Win Rate</th>
-				<th scope="col">Loss Rate</th>
-				<th scope="col">Plays Logged</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="row:${villains.entrySet()}">
-				<td th:utext="${@viewHelper.getDisplayName(row.key)}" class="name"/>
-				<td th:text="${#numbers.formatDecimal((row.value.won * 100.0 / row.value.played), 2, 0)} + '%'" />
-				<td th:text="${#numbers.formatDecimal(row.value.lost * 100.0 / row.value.played, 2, 0)} + '%'" />
-				<td th:text="${row.value.played}" />
-			</tr>
-		</tbody>
-	</table>
-</body>
+		<table
+			th:replace="fragments/tables :: tableTemple (name = 'Villains', id = 'villains', rows = ${villains})"></table>
+	
+	</body>
 </html>
