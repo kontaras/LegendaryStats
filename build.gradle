@@ -68,7 +68,7 @@ jacocoTestReport {
 	}
 }
 
-task foo(type: Copy) {
+task javascriptCopy(type: Copy) {
 	dependsOn installFrontend
 	
 	inputs.files(fileTree('node_modules'))
@@ -90,17 +90,17 @@ task foo(type: Copy) {
 
 
 jar.configure {
-	dependsOn tasks.foo
+	dependsOn tasks.javascriptCopy
 }
 
 bootJarMainClassName.configure {
-	dependsOn tasks.foo
+	dependsOn tasks.javascriptCopy
 }
 
 bootRunMainClassName.configure {
-	dependsOn tasks.foo
+	dependsOn tasks.javascriptCopy
 }
 
 compileTestJava.configure {
-	dependsOn tasks.foo
+	dependsOn tasks.javascriptCopy
 }
