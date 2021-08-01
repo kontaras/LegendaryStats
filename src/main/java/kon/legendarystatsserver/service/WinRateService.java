@@ -36,7 +36,7 @@ public class WinRateService {
 	 */
 	@Autowired
 	private VillainsRepository villains;
-	
+
 	/**
 	 * Directory that we use to dereference IDs to actual objects
 	 */
