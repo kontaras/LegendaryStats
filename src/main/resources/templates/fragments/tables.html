@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
+		<title>Fragments for card set result tables</title>
 		<th:block th:fragment="scripts">
 			<script src="/scripts/jquery.min.js" type="text/javascript"></script>
 			<script src="/scripts/utils.js" type="text/javascript"></script>
@@ -16,10 +17,10 @@
 	
 	<body>
 		<table th:fragment="tableTemple (name, id, rows)" th:id="${id}">
+			<caption th:text="|${name} Win Rates|">Win Rates</caption>
 			<script type="text/javascript">
 				window.tableIds.push("[[${id}]]");
 			</script>
-			<caption th:text="|${name} Win Rates|">Win Rates</caption>
 			<thead>
 				<tr>
 					<th scope="col" th:text="${name}">Hero</th>
