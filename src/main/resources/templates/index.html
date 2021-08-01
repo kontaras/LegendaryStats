@@ -26,11 +26,11 @@
 		<th:block th:replace="fragments/tables :: scripts" />
 	</head>
 	<body>
-		<table
-			th:replace="fragments/tables :: tableTemple (name = 'Heroes', id = 'heroes', rows = ${heroes})"></table>
+		<th:block
+			th:replace="fragments/tables :: tableTemple (name = 'Heroes', id = 'heroes', rows = ${heroes})" />
 	
-		<table
-			th:replace="fragments/tables :: tableTemple (name = 'Villains', id = 'villains', rows = ${villains})"></table>
+		<th:block
+			th:replace="fragments/tables :: tableTemple (name = 'Villains', id = 'villains', rows = ${villains})" />
 	
-	</body>
+</body>
 </html>
