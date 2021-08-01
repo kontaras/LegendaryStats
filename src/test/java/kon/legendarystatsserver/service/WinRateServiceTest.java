@@ -111,7 +111,6 @@ class WinRateServiceTest {
 		entry = iter.next();
 		Assertions.assertSame(hero2, entry.getKey());
 		Assertions.assertSame(win2, entry.getValue());
-
 		Assertions.assertFalse(iter.hasNext());
 	}
 
@@ -150,20 +149,19 @@ class WinRateServiceTest {
 		Assertions.assertSame(win0, entry.getValue());
 		Assertions.assertFalse(iter.hasNext());
 	}
-	
-	
+
 	@Test
 	void testSingleVillain() {
 		IWinRate win0 = Mockito.mock(IWinRate.class);
 		Mockito.when(win0.getId()).thenReturn(3);
 		Mockito.when(villainRepo.findWinRates()).thenReturn(List.of(win0));
-		
+
 		Villain villain0 = Mockito.mock(Villain.class);
 		Mockito.when(cd.getVillainById(3)).thenReturn(villain0);
-		
+
 		Map<Villain, IWinRate> winRates = testMe.getVillainWinRates();
 		Iterator<Entry<Villain, IWinRate>> iter = winRates.entrySet().iterator();
-		
+
 		Entry<Villain, IWinRate> entry = iter.next();
 		Assertions.assertSame(villain0, entry.getKey());
 		Assertions.assertSame(win0, entry.getValue());
