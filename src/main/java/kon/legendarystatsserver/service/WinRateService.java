@@ -3,12 +3,18 @@ package kon.legendarystatsserver.service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
+import com.google.common.annotations.VisibleForTesting;
+
+import kon.legendarystatsserver.model.game.CardSet;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Villain;
+import kon.legendarystatsserver.model.game.repositories.CardSetRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
@@ -45,31 +51,35 @@ public class WinRateService {
 	public Map<Hero, IWinRate> getHeroWinRates() {
 		Logger.info("Starting to get hero win rates");
 		long start = System.currentTimeMillis();
-		List<IWinRate> winRates = heroes.findWinRates();
+		Map<Hero, IWinRate> winRates = getCardSetWinRates(heroes, directory::getHeroById);
 		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
-		Map<Hero, IWinRate> winRateMap = new LinkedHashMap<>();
+		return winRates;
+	}
+	
+	@VisibleForTesting
+	<C extends CardSet> Map<C, IWinRate>  getCardSetWinRates(CardSetRepository<C, Integer> repo, Function<Integer, C> lookupCache) {
+		Map<C, IWinRate> retVal = new LinkedHashMap<>();
+		
+		List<IWinRate> winRates = repo.findWinRates();
+		//Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
 		for (IWinRate winRate : winRates) {
-			Hero hero = directory.getHeroById(winRate.getId());
-			winRateMap.put(hero, winRate);
+			C hero = lookupCache.apply(winRate.getId());
+			retVal.put(hero, winRate);
 		}
-		return winRateMap;
+		
+		return retVal;
 	}
 	
 	/**
-	 * Get all qualifying heroes with their {@link IWinRate}.
+	 * Get all qualifying villains with their {@link IWinRate}.
 	 * 
-	 * @return The list of heroes, ordered by the win percentage of each hero.
+	 * @return The list of villains, ordered by the win percentage of each hero.
 	 */
 	public Map<Villain, IWinRate> getVillainWinRates() {
 		Logger.info("Starting to get villain win rates");
 		long start = System.currentTimeMillis();
-		List<IWinRate> winRates = villains.findWinRates();
+		Map<Villain, IWinRate> winRates = getCardSetWinRates(villains, directory::getVillainById);
 		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
-		Map<Villain, IWinRate> winRateMap = new LinkedHashMap<>();
-		for (IWinRate winRate : winRates) {
-			Villain hero = directory.getVillainById(winRate.getId());
-			winRateMap.put(hero, winRate);
-		}
-		return winRateMap;
+		return winRates;
 	}
 }
