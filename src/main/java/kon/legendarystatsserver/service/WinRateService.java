@@ -38,7 +38,7 @@ public class WinRateService {
 	 */
 	@Autowired
 	private VillainsRepository villains;
-	
+
 	/**
 	 * Repository that can get us mastermind win rates
 	 */
@@ -60,10 +60,10 @@ public class WinRateService {
 		Logger.info("Starting to get {} win rates");
 		long start = System.currentTimeMillis();
 		Map<Hero, IWinRate> winRates = getCardSetWinRates(heroes, directory::getHeroById);
-		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
+		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
-	
+
 	/**
 	 * Get all qualifying villains with their {@link IWinRate}.
 	 * 
