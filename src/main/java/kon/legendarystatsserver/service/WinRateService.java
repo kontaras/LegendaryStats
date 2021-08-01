@@ -66,7 +66,6 @@ public class WinRateService {
 			C hero = lookupCache.apply(winRate.getId());
 			retVal.put(hero, winRate);
 		}
-
 		return retVal;
 	}
 
