@@ -3,7 +3,7 @@ package kon.legendarystatsserver.service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.IntFunction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,19 +24,19 @@ import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
  */
 @Service
 public class WinRateService {
-	
+
 	/**
 	 * Repository that can get us hero win rates
 	 */
 	@Autowired
 	private HeroesRepository heroes;
-	
+
 	/**
 	 * Repository that can get us villain win rates
 	 */
 	@Autowired
 	private VillainsRepository villains;
-	
+
 	/**
 	 * Directory that we use to dereference IDs to actual objects
 	 */
@@ -52,24 +52,24 @@ public class WinRateService {
 		Logger.info("Starting to get hero win rates");
 		long start = System.currentTimeMillis();
 		Map<Hero, IWinRate> winRates = getCardSetWinRates(heroes, directory::getHeroById);
-		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
+		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
-	
+
 	@VisibleForTesting
-	<C extends CardSet> Map<C, IWinRate>  getCardSetWinRates(CardSetRepository<C, Integer> repo, Function<Integer, C> lookupCache) {
+	<C extends CardSet> Map<C, IWinRate> getCardSetWinRates(CardSetRepository<C, Integer> repo,
+			IntFunction<C> lookupCache) {
 		Map<C, IWinRate> retVal = new LinkedHashMap<>();
-		
+
 		List<IWinRate> winRates = repo.findWinRates();
-		//Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
 		for (IWinRate winRate : winRates) {
 			C hero = lookupCache.apply(winRate.getId());
 			retVal.put(hero, winRate);
 		}
-		
+
 		return retVal;
 	}
-	
+
 	/**
 	 * Get all qualifying villains with their {@link IWinRate}.
 	 * 
@@ -79,7 +79,7 @@ public class WinRateService {
 		Logger.info("Starting to get villain win rates");
 		long start = System.currentTimeMillis();
 		Map<Villain, IWinRate> winRates = getCardSetWinRates(villains, directory::getVillainById);
-		Logger.info("Finished getting win rates, took {}ms", ()-> (System.currentTimeMillis() - start));
+		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
 }
