@@ -88,17 +88,37 @@ task javascriptCopy(type: Copy) {
     outputs.files(fileTree('build/resources/main/static/scripts'))
 }
 
+task cssCopy(type: Copy) {
+	dependsOn installFrontend
+	
+	inputs.files(fileTree('node_modules'))
+	
+	from 'node_modules'
+	
+	include '**/*.css'
+    
+    into 'build/resources/main/static/styles'
+    
+    outputs.files(fileTree('build/resources/main/static/styles'))
+}
+
+task copyFromNpm(type: Task) {
+	dependsOn javascriptCopy
+	
+	inputs.files(fileTree('node_modules'))
+}
+
 
 jar.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
 
 bootJarMainClassName.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
 
 bootRunMainClassName.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
 
 compileTestJava.configure {
