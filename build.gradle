@@ -114,7 +114,7 @@ task copyFromNpm(type: Task) {
 }
 
 bootJarMainClassName.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
 
 jar.configure {
