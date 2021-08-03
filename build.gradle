@@ -93,9 +93,14 @@ task cssCopy(type: Copy) {
 	
 	inputs.files(fileTree('node_modules'))
 	
-	from 'node_modules'
+	from '.'
 	
-	include '**/*.css'
+	include 'node_modules/*/*.css'
+	
+	eachFile { fileCopyDetails ->
+        fileCopyDetails.path = fileCopyDetails.name
+    }
+    
     
     into 'build/resources/main/static/styles'
     
@@ -104,6 +109,7 @@ task cssCopy(type: Copy) {
 
 task copyFromNpm(type: Task) {
 	dependsOn javascriptCopy
+	dependsOn cssCopy
 	
 	inputs.files(fileTree('node_modules'))
 }
@@ -122,5 +128,5 @@ bootRunMainClassName.configure {
 }
 
 compileTestJava.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
