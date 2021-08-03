@@ -91,7 +91,6 @@ task cssCopy(type: Copy) {
 	dependsOn installFrontend
 
 	inputs.files(fileTree('node_modules'))
-
 	from '.'
 
 	include 'node_modules/*/*.css'
@@ -99,7 +98,6 @@ task cssCopy(type: Copy) {
 	eachFile { fileCopyDetails ->
         fileCopyDetails.path = fileCopyDetails.name
     }
-
 
     into 'build/resources/main/static/styles'
 
