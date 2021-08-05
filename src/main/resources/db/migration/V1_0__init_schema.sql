@@ -64,10 +64,12 @@ CREATE TABLE user (
 	--password
 );
 
+CREATE TYPE game_outcome AS ENUM('win', 'loss', 'draw');
+
 CREATE TABLE play (
 	id long not null,
 	player_id long,
-	outcome varchar,
+	outcome game_outcome,
 	scheme_id int,
 	mastermind_id int,
 	misc_hero_id int,
