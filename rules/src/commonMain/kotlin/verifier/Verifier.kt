@@ -36,4 +36,12 @@ class WrongHeroCount(val expected: Int, val actual: Int) : PrintableError {
         return "Expected to provide $expected heroes, got $actual"
     }
 
+    override fun equals(other: Any?): Boolean {
+        return (other is WrongHeroCount) && this.actual == other.actual && this.expected == other.expected
+    }
+
+    override fun hashCode(): Int {
+        val largeEnoughPrime = 13
+        return actual * largeEnoughPrime + expected
+    }
 }
