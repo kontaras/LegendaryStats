@@ -1,8 +1,6 @@
 package kon.foo.set.base
 
-public const val BASE_SET = 1
-
-public object Heroes {
+object Heroes {
     const val BLACK_WIDOW = 101
     const val CAPTAIN_AMERICA = 102
     const val CYCLOPS = 103
@@ -13,19 +11,23 @@ public object Heroes {
     const val IRON_MAN = 110
 }
 
-public object Schemes {
+object Schemes {
     const val THE_LEGACY_VIRUS = 101
 }
 
-public object Masterminds {
+object Masterminds {
     const val LOKI = 103
 }
 
-public object Villains {
+object Villains {
     const val BROTHERHOOD = 101
     const val ENEMIES_OF_ASGARD = 102
+    const val HYDRA = 103
+    const val MASTERS_OF_EVIL = 104
 }
 
-public object Henchmen {
+object Henchmen {
+    const val DOOMBOT_LEGION = 101
+    const val HAND_NINJAS = 102
     const val SENTINEL = 104
 }
