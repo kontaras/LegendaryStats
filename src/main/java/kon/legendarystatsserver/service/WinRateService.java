@@ -57,10 +57,10 @@ public class WinRateService {
 	 * @return The list of heroes, ordered by the win percentage of each hero.
 	 */
 	public Map<Hero, IWinRate> getHeroWinRates() {
-		Logger.info("Starting to get hero win rates");
+		Logger.info("Starting to get {} win rates");
 		long start = System.currentTimeMillis();
 		Map<Hero, IWinRate> winRates = getCardSetWinRates(heroes, directory::getHeroById);
-		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		Logger.info("Finished getting hero win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
 
@@ -73,7 +73,7 @@ public class WinRateService {
 		Logger.info("Starting to get villain win rates");
 		long start = System.currentTimeMillis();
 		Map<Villain, IWinRate> winRates = getCardSetWinRates(villains, directory::getVillainById);
-		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		Logger.info("Finished getting villain win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
 	
@@ -86,7 +86,7 @@ public class WinRateService {
 		Logger.info("Starting to get mastermind win rates");
 		long start = System.currentTimeMillis();
 		Map<Mastermind, IWinRate> winRates = getCardSetWinRates(masterminds, directory::getMastermindById);
-		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		Logger.info("Finished getting mastermind win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
 	
