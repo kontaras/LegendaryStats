@@ -12,7 +12,7 @@ fun verify(play: Play): List<PrintableError> {
     return errors
 }
 
-private fun checkSetSizes(play: Play, setCounts: SetCounts,): MutableList<PrintableError> {
+fun checkSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     if (play.heroes.size != setCounts.heroes) {
         errors.add(WrongSetCount("hero", setCounts.heroes, play.heroes.size))
@@ -27,6 +27,28 @@ private fun checkSetSizes(play: Play, setCounts: SetCounts,): MutableList<Printa
     }
 
     return errors
+}
+
+fun checkValuesInRange(play: Play): List<PrintableError> {
+    val errors = mutableListOf<PrintableError>()
+
+    for(hero in play.heroes) {
+        if (!checkValidHero(hero)) {
+            errors.add(InvalidCardSet("hero", hero))
+        }
+    }
+
+    return errors
+}
+
+private fun checkValidHero(hero: Int): Boolean {
+    for (plugin in plugins) {
+        if (hero in plugin.heroesRange) {
+            return true
+        }
+    }
+
+    return false
 }
 
 fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
