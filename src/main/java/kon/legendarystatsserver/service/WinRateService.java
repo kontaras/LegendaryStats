@@ -38,6 +38,7 @@ public class WinRateService {
 	 */
 	@Autowired
 	private VillainsRepository villains;
+	
 
 	/**
 	 * Repository that can get us mastermind win rates
