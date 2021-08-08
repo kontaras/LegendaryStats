@@ -61,7 +61,7 @@ public class WinRateService {
 		Logger.info("Starting to get {} win rates");
 		long start = System.currentTimeMillis();
 		Map<Hero, IWinRate> winRates = getCardSetWinRates(heroes, directory::getHeroById);
-		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		Logger.info("Finished getting hero win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
 
