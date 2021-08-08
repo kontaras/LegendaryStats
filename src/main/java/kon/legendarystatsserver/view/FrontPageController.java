@@ -19,6 +19,7 @@ public class FrontPageController {
 	public String mainPage(Model model) {
 		model.addAttribute("heroes", winRates.getHeroWinRates());
 		model.addAttribute("villains", winRates.getVillainWinRates());
+		model.addAttribute("masterminds", winRates.getMastermindWinRates());
 		return "index";
 	}
 }

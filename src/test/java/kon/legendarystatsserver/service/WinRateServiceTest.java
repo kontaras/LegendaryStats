@@ -18,10 +18,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import kon.legendarystatsserver.model.game.CardSet;
 import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.CardSetRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
+import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -46,6 +48,9 @@ class WinRateServiceTest {
 
 	@MockBean
 	private VillainsRepository villainRepo;
+	
+	@MockBean
+	private MastermindsRepository mastermindRepo;
 
 	@Test
 	void testEmptyRepo() {
@@ -142,6 +147,24 @@ class WinRateServiceTest {
 
 		Entry<Villain, IWinRate> entry = iter.next();
 		Assertions.assertSame(villain0, entry.getKey());
+		Assertions.assertSame(win0, entry.getValue());
+		Assertions.assertFalse(iter.hasNext());
+	}
+	
+	@Test
+	void testSingleMastermind() {
+		IWinRate win0 = Mockito.mock(IWinRate.class);
+		Mockito.when(win0.getId()).thenReturn(3);
+		Mockito.when(mastermindRepo.findWinRates()).thenReturn(List.of(win0));
+
+		Mastermind mastermind0 = Mockito.mock(Mastermind.class);
+		Mockito.when(cd.getMastermindById(3)).thenReturn(mastermind0);
+
+		Map<Mastermind, IWinRate> winRates = testMe.getMastermindWinRates();
+		Iterator<Entry<Mastermind, IWinRate>> iter = winRates.entrySet().iterator();
+
+		Entry<Mastermind, IWinRate> entry = iter.next();
+		Assertions.assertSame(mastermind0, entry.getKey());
 		Assertions.assertSame(win0, entry.getValue());
 		Assertions.assertFalse(iter.hasNext());
 	}
