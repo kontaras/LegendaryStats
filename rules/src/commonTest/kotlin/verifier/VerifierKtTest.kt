@@ -1,19 +1,14 @@
 package kon.foo.verifier
 
-import kon.foo.set.base.Heroes
-import kon.foo.set.base.Villains
-import kon.foo.set.base.Henchmen
-import kon.foo.set.base.Schemes
-import kon.foo.set.base.Masterminds
 import kon.foo.model.Outcome
 import kon.foo.model.Play
 import kon.foo.model.PlayerCount
-import kotlin.test.assertEquals
+import kon.foo.set.base.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 internal class VerifierKtTest {
-
     @Test
     fun verifyCardSetCounts() {
         val heroes: MutableSet<Int> =
@@ -27,9 +22,10 @@ internal class VerifierKtTest {
             Masterminds.LOKI,
             heroes,
             villains,
-            henchmen,
-            null
+            henchmen
         )
+
+        assertContentEquals(listOf(), verify(testPlay))
 
         heroes.remove(Heroes.GAMBIT)
         assertContentEquals(listOf(WrongSetCount("hero", 5, 4)), verify(testPlay))
@@ -54,6 +50,46 @@ internal class VerifierKtTest {
         henchmen.add(Henchmen.HAND_NINJAS)
         assertContentEquals(listOf(WrongSetCount("henchman", 2, 3)), verify(testPlay))
         henchmen.remove(Henchmen.DOOMBOT_LEGION)
+    }
+
+    @Test
+    fun checkValuesInRangeTest() {
+        val plugins = setOf(object : ReleaseRulesPlugin {
+            override val heroesRange: IntRange = 1..2
+        })
+
+        val badHeroPlay = playMaker(hero = -7)
+        assertContentEquals(listOf(InvalidCardSet("hero", -7)), runWithPlugins(plugins) { checkValuesInRange(badHeroPlay) })
+
+    }
+
+    private fun <T> runWithPlugins(newPlugins: Set<ReleaseRulesPlugin>, func: () -> T): T {
+        val realPlugins = plugins.toSet()
+        plugins.clear()
+        plugins.addAll(newPlugins)
+        try {
+            return func()
+        } finally {
+            plugins.clear()
+            plugins.addAll(realPlugins)
+        }
+    }
+
+    private fun playMaker(
+        hero: Int? = null,
+        villain: Int? = null,
+        henchman: Int? = null,
+        mastermind: Int? = null,
+        scheme: Int? = null
+    ): Play {
+        return Play(Outcome.WIN,
+            PlayerCount.THREE,
+            scheme ?: 1,
+            mastermind ?: 1,
+            if (hero != null) setOf(hero) else setOf(),
+            if (villain != null) setOf(villain) else setOf(),
+            if (henchman != null) setOf(henchman) else setOf()
+        )
     }
 
     @Test

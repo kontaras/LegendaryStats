@@ -23,6 +23,6 @@ data class Play(
     val heroes: Set<Int>,
     val villains: Set<Int>,
     val henchmen: Set<Int>,
-    val misc_hero: Int?
+    val misc_hero: Int? = null
 )
 
