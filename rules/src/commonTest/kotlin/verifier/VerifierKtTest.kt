@@ -58,8 +58,12 @@ internal class VerifierKtTest {
             override val heroesRange: IntRange = 1..2
         })
 
-        val badHeroPlay = playMaker(hero = -7)
-        assertContentEquals(listOf(InvalidCardSet("hero", -7)), runWithPlugins(plugins) { checkValuesInRange(badHeroPlay) })
+        assertContentEquals(listOf(), runWithPlugins(setOf()) { checkValuesInRange(playMaker())})
+        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker())})
+
+        assertContentEquals(
+            listOf(InvalidCardSet("hero", -7)),
+            runWithPlugins(plugins) { checkValuesInRange(playMaker(hero = -7)) })
 
     }
 
@@ -82,7 +86,8 @@ internal class VerifierKtTest {
         mastermind: Int? = null,
         scheme: Int? = null
     ): Play {
-        return Play(Outcome.WIN,
+        return Play(
+            Outcome.WIN,
             PlayerCount.THREE,
             scheme ?: 1,
             mastermind ?: 1,
