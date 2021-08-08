@@ -13,10 +13,12 @@ import com.google.common.annotations.VisibleForTesting;
 
 import kon.legendarystatsserver.model.game.CardSet;
 import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.CardSetRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
+import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -36,6 +38,12 @@ public class WinRateService {
 	 */
 	@Autowired
 	private VillainsRepository villains;
+	
+	/**
+	 * Repository that can get us mastermind win rates
+	 */
+	@Autowired
+	private MastermindsRepository masterminds;
 
 	/**
 	 * Directory that we use to dereference IDs to actual objects
@@ -56,6 +64,32 @@ public class WinRateService {
 		return winRates;
 	}
 
+	/**
+	 * Get all qualifying villains with their {@link IWinRate}.
+	 * 
+	 * @return The list of villains, ordered by the win percentage of each hero.
+	 */
+	public Map<Villain, IWinRate> getVillainWinRates() {
+		Logger.info("Starting to get villain win rates");
+		long start = System.currentTimeMillis();
+		Map<Villain, IWinRate> winRates = getCardSetWinRates(villains, directory::getVillainById);
+		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		return winRates;
+	}
+	
+	/**
+	 * Get all qualifying masterminds with their {@link IWinRate}.
+	 * 
+	 * @return The list of masterminds, ordered by the win percentage of each hero.
+	 */
+	public Map<Mastermind, IWinRate> getMastermindWinRates() {
+		Logger.info("Starting to get mastermind win rates");
+		long start = System.currentTimeMillis();
+		Map<Mastermind, IWinRate> winRates = getCardSetWinRates(masterminds, directory::getMastermindById);
+		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		return winRates;
+	}
+	
 	@VisibleForTesting
 	<C extends CardSet> Map<C, IWinRate> getCardSetWinRates(CardSetRepository<C, Integer> repo,
 			IntFunction<C> lookupCache) {
@@ -69,16 +103,4 @@ public class WinRateService {
 		return retVal;
 	}
 
-	/**
-	 * Get all qualifying villains with their {@link IWinRate}.
-	 * 
-	 * @return The list of villains, ordered by the win percentage of each hero.
-	 */
-	public Map<Villain, IWinRate> getVillainWinRates() {
-		Logger.info("Starting to get villain win rates");
-		long start = System.currentTimeMillis();
-		Map<Villain, IWinRate> winRates = getCardSetWinRates(villains, directory::getVillainById);
-		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
-		return winRates;
-	}
 }
