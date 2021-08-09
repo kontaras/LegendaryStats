@@ -5,9 +5,31 @@
 			href="https://necolas.github.io/normalize.css/latest/normalize.css">
 		<title>Legendary Game Stats</title>
 		<style type="text/css">
+			body {
+				background-color: #F2F2FF;
+			}
+			
+			
 			table, th, td {
-				border: 1px solid black;
+				border: thin solid black;
 				text-align: center;
+				border-collapse: collapse;
+				background-color: white;
+			}
+			
+			table {
+				margin: 15px;
+				float: left;
+			}
+			
+			th, td {
+				padding: 2px 5px;
+			}
+			
+			table caption {
+				font-size: large;
+				font-weight: bold;
+				background-color: white
 			}
 			
 			.marvel {
@@ -21,11 +43,51 @@
 			.dxp {
 				color: fuchsia;
 			}
+			
+			p#links {
+				display: inline;
+				text-align: right;
+				position: absolute;
+				right: 15px
+			}
+			
+			#header {
+				background-color: #DDDDDD;
+				padding: 3px 0;
+				margin: 0;
+			}
+			
+			h1 {
+				margin-left: 10px;
+			}
+			
+			#contents {
+				padding-left: 20px;
+				margin: 0;
+			}
+			
+			#links a {
+				padding-left: 2px;
+			}
 		</style>
 		
 		<th:block th:replace="fragments/tables :: scripts" />
 	</head>
 	<body>
+		<div id="header"><h1 style="display: inline">Legendary Stats</h1>
+		<p id="links">
+			<a href="">Login</a>
+			<a href="">Register</a>
+			-
+			<a href="">Heroes</a>
+			<a href="">Schemes</a>
+			<a href="">Masterminds</a>
+			<a href="">Villains</a>
+			<a href="">Henchmen</a>
+		</p>
+		</div>
+		<div id="contents">
+	
 		<th:block
 			th:replace="fragments/tables :: tableTemple (name = 'Heroes', id = 'heroes', rows = ${heroes})" />
 	
@@ -34,5 +96,6 @@
 			
 		<th:block
 			th:replace="fragments/tables :: tableTemple (name = 'Masterminds', id = 'masterminds', rows = ${masterminds})" />
+		</div>
 </body>
 </html>
