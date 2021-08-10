@@ -1,74 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<link rel="stylesheet"
+		<link rel="stylesheet" th:href="@{/styles/normalize.css}"
 			href="https://necolas.github.io/normalize.css/latest/normalize.css">
+		 <link rel="stylesheet" th:href="@{/styles/style.css}"
+			href="../static/styles/style.css"> 
 		<title>Legendary Game Stats</title>
 		<style type="text/css">
-			body {
-				background-color: #F2F2FF;
-			}
 			
-			
-			table, th, td {
-				border: thin solid black;
-				text-align: center;
-				border-collapse: collapse;
-				background-color: white;
-			}
-			
-			table {
-				margin: 15px;
-				float: left;
-			}
-			
-			th, td {
-				padding: 2px 5px;
-			}
-			
-			table caption {
-				font-size: large;
-				font-weight: bold;
-				background-color: white
-			}
-			
-			.marvel {
-				color: navy;
-			}
-			
-			.mcu {
-				color: olive;
-			}
-			
-			.dxp {
-				color: fuchsia;
-			}
-			
-			p#links {
-				display: inline;
-				text-align: right;
-				position: absolute;
-				right: 15px
-			}
-			
-			#header {
-				background-color: #DDDDDD;
-				padding: 3px 0;
-				margin: 0;
-			}
-			
-			h1 {
-				margin-left: 10px;
-			}
-			
-			#contents {
-				padding-left: 20px;
-				margin: 0;
-			}
-			
-			#links a {
-				padding-left: 2px;
-			}
 		</style>
 		
 		<th:block th:replace="fragments/tables :: scripts" />
