@@ -30,11 +30,11 @@ table caption {
 }
 
 .mcu {
-	color: olive;
+	color: #5c7413;
 }
 
 .dxp {
-	color: fuchsia;
+	color: #5c1d89;
 }
 
 p#links {
@@ -43,7 +43,7 @@ p#links {
 	position: absolute;
 	right: 15px
 }
-			
+
 #header {
 	color: #FFFFAA;
 	background-color: #0000AA;
@@ -63,4 +63,14 @@ h1 {
 #links a {
 	padding-left: 2px;
 	color: #DDDDDD;
+}
+
+#name_picker {
+	right: 10px;
+	top: 2em;
+	border: thin solid black;
+	
+	width: 180px;
+
+	position: fixed;
 }
