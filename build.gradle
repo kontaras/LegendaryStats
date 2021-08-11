@@ -111,10 +111,6 @@ task copyFromNpm(type: Task) {
 	inputs.files(fileTree('node_modules'))
 }
 
-bootJarMainClassName.configure {
-	dependsOn tasks.copyFromNpm
-}
-
 jar.configure {
 	dependsOn tasks.copyFromNpm
 }
