@@ -28,7 +28,7 @@ public class CardDirectoryService {
 	private final Map<Integer, Villain> villainsById;
 	
 	private final Map<Integer, Mastermind> mastermindsById;
-
+	
 	@Autowired
 	private HeroesRepository heroes;
 	
