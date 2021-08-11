@@ -12,3 +12,4 @@ comment: false
 
 ignore:
   - "/node_modules/"
+  - "/node/"
