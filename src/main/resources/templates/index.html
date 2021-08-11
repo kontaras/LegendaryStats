@@ -4,12 +4,9 @@
 		<link rel="stylesheet" th:href="@{/styles/normalize.css}"
 			href="https://necolas.github.io/normalize.css/latest/normalize.css">
 		 <link rel="stylesheet" th:href="@{/styles/style.css}"
-			href="../static/styles/style.css"> 
+			href="../static/styles/style.css">
 		<title>Legendary Game Stats</title>
-		<style type="text/css">
-			
-		</style>
-		
+
 		<th:block th:replace="fragments/tables :: scripts" />
 	</head>
 	<body>
@@ -26,19 +23,19 @@
 		</p>
 		</div>
 		<div id="contents">
-	
+
 		<th:block
 			th:replace="fragments/tables :: tableTemple (name = 'Heroes', id = 'heroes', rows = ${heroes})" />
-	
+
 		<th:block
 			th:replace="fragments/tables :: tableTemple (name = 'Villains', id = 'villains', rows = ${villains})" />
-			
+
 		<th:block
 			th:replace="fragments/tables :: tableTemple (name = 'Masterminds', id = 'masterminds', rows = ${masterminds})" />
-			
-			
-		
+
+
+
 		</div>
-	
+
 </body>
 </html>
