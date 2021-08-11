@@ -34,7 +34,7 @@ dependencies {
 	}
 	testImplementation "org.mockito:mockito-core:3.11.2"
 	//Needed for Mokito to work with Java 16, see if it is still needed in the future.
-	testImplementation "net.bytebuddy:byte-buddy:1.11.9"
+	testImplementation "net.bytebuddy:byte-buddy:1.11.12"
 	
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 	
