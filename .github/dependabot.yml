@@ -20,3 +20,8 @@ updates:
     target-branch: "master"
     schedule:
       interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "dev"
+    schedule:
+      interval: "daily"
