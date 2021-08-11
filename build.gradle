@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 	id "org.sonarqube" version "3.3"
 	id 'jacoco'
-	id 'org.siouan.frontend-jdk11' version '5.2.0'
+	id 'org.siouan.frontend-jdk11' version '5.3.0'
 }
 
 group = 'kon'
@@ -20,26 +20,26 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	
+
 	implementation 'com.google.guava:guava:30.1.1-jre'
-	
+
 	implementation 'org.tinylog:tinylog-api:2.3.2'
 	runtimeOnly 'org.tinylog:tinylog-impl:2.3.2'
-	
-	runtimeOnly 'org.flywaydb:flyway-core:7.12.0'
+
+	runtimeOnly 'org.flywaydb:flyway-core:7.13.0'
 	runtimeOnly 'com.h2database:h2:1.4.200'
-	
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation "org.mockito:mockito-core:3.11.2"
 	//Needed for Mokito to work with Java 16, see if it is still needed in the future.
-	testImplementation "net.bytebuddy:byte-buddy:1.11.9"
-	
+	testImplementation "net.bytebuddy:byte-buddy:1.11.12"
+
 	testImplementation 'com.openpojo:openpojo:0.9.1'
-	
+
 	//Needed for Eclipse JUnit runner, see if it is still needed in the future.
-	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.7.2" 
+	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.7.2"
 }
 
 test {
@@ -56,10 +56,10 @@ sonarqube {
     property "sonar.projectKey", "knary_LegendaryStats"
     property "sonar.organization", "kon"
     property "sonar.host.url", "https://sonarcloud.io"
-    property "sonar.sources", "src/main/java,src/main/resources/templates"
+    property "sonar.sources", "src/main/java,src/main/resources/templates,src/main/resources/static/scripts/,src/main/resources/static/styles/"
   }
 }
-  
+
 jacocoTestReport {
     dependsOn test
     reports {
@@ -70,37 +70,59 @@ jacocoTestReport {
 
 task javascriptCopy(type: Copy) {
 	dependsOn installFrontend
-	
+
 	inputs.files(fileTree('node_modules'))
-	
+
 	from 'node_modules'
-	
+
 	include '*/dist/*.js'
-	
+
 	eachFile { fileCopyDetails ->
         def originalPath = fileCopyDetails.path
         fileCopyDetails.path = fileCopyDetails.name
     }
-    
-    
+
     into 'build/resources/main/static/scripts'
-    
+
     outputs.files(fileTree('build/resources/main/static/scripts'))
 }
 
+task cssCopy(type: Copy) {
+	dependsOn installFrontend
+
+	inputs.files(fileTree('node_modules'))
+	from '.'
+
+	include 'node_modules/*/*.css'
+
+	eachFile { fileCopyDetails ->
+        fileCopyDetails.path = fileCopyDetails.name
+    }
+
+    into 'build/resources/main/static/styles'
+
+    outputs.files(fileTree('build/resources/main/static/styles'))
+}
+
+task copyFromNpm(type: Task) {
+	dependsOn javascriptCopy
+	dependsOn cssCopy
+
+	inputs.files(fileTree('node_modules'))
+}
 
 jar.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
 
 bootJarMainClassName.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
 
 bootRunMainClassName.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }
 
 compileTestJava.configure {
-	dependsOn tasks.javascriptCopy
+	dependsOn tasks.copyFromNpm
 }

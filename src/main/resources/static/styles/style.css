@@ -1,0 +1,76 @@
+body {
+	background-color: white;
+}
+
+
+table, th, td {
+	border: thin solid black;
+	text-align: center;
+	border-collapse: collapse;
+	background-color: white;
+}
+
+table {
+	margin: 15px;
+	float: left;
+}
+
+th, td {
+	padding: 2px 5px;
+}
+
+table caption {
+	font-size: large;
+	font-weight: bold;
+	background-color: white
+}
+
+.marvel {
+	color: navy;
+}
+
+.mcu {
+	color: #5c7413;
+}
+
+.dxp {
+	color: #5c1d89;
+}
+
+p#links {
+	display: inline;
+	text-align: right;
+	position: absolute;
+	right: 15px
+}
+
+#header {
+	color: #FFFFAA;
+	background-color: #0000AA;
+	padding: 3px 0;
+	margin: 0;
+}
+
+h1 {
+	margin-left: 10px;
+}
+
+#contents {
+	padding-left: 20px;
+	margin: 0;
+}
+
+#links a {
+	padding-left: 2px;
+	color: #DDDDDD;
+}
+
+#name_picker {
+	right: 10px;
+	top: 2em;
+	border: thin solid black;
+	
+	width: 180px;
+
+	position: fixed;
+}

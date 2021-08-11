@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
 import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
+import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -25,33 +27,42 @@ public class CardDirectoryService {
 	
 	private final Map<Integer, Villain> villainsById;
 	
+	private final Map<Integer, Mastermind> mastermindsById;
+	
 	@Autowired
 	private HeroesRepository heroes;
 	
 	@Autowired
 	private VillainsRepository villains;
-
+	
 	@Autowired
+	private MastermindsRepository masterminds;
+
 	private CardDirectoryService() {
 		heroesById = new HashMap<>();
 		villainsById = new HashMap<>();
+		mastermindsById = new HashMap<>();
 	}
 	
 	@PostConstruct
 	private void init() {
 		Logger.info("Starting to preload heroes");
-		
 		for (Hero hero : heroes.findAll()) {
 			heroesById.put(hero.getId(), hero);
 		}
 		Logger.info("Finished preloading heroes");
 		
 		Logger.info("Starting to preload villains");
-		
-		for (Villain hero : villains.findAll()) {
-			villainsById.put(hero.getId(), hero);
+		for (Villain villain : villains.findAll()) {
+			villainsById.put(villain.getId(), villain);
 		}
 		Logger.info("Finished preloading villains");
+		
+		Logger.info("Starting to preload masterminds");
+		for (Mastermind mastermind : masterminds.findAll()) {
+			mastermindsById.put(mastermind.getId(), mastermind);
+		}
+		Logger.info("Finished preloading masterminds");
 	}
 
 	/**
@@ -74,6 +85,17 @@ public class CardDirectoryService {
 	 */
 	public Villain getVillainById(Integer id) {
 		return villainsById.get(id);
+	}
+	
+	/**
+	 * Get a mastermind by id. Similar to {@link MastermindsRepository#findById(Integer)},
+	 * though it does not access the database for every call.
+	 * 
+	 * @param id The id of the mastermind to find.
+	 * @return The cached Mastermind, or null if the id is not present
+	 */
+	public Mastermind getMastermindById(Integer id) {
+		return mastermindsById.get(id);
 	}
 
 }

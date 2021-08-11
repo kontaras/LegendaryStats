@@ -16,8 +16,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import kon.legendarystatsserver.model.game.Hero;
+import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
+import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -36,10 +38,16 @@ class CardDirectoryServiceTest {
 	VillainsRepository villains;
 	
 	@Mock
+	MastermindsRepository masterminds;
+	
+	@Mock
 	Hero mockHero0, mockHero1, mockHero2;
 	
 	@Mock
 	Villain mockVillain0, mockVillain1, mockVillain2;
+	
+	@Mock
+	Mastermind mockMastermind0, mockMastermind1, mockMastermind2;
 	
 	/**
 	 * Create a {@link CardDirectoryService} with mock values injected prior to initialization.
@@ -68,6 +76,16 @@ class CardDirectoryServiceTest {
 		
 		Mockito.when(villains.findAll()).thenReturn(villainList);
 		
+		Mockito.when(mockMastermind0.getId()).thenReturn(0);
+		Mockito.when(mockMastermind1.getId()).thenReturn(1);
+		Mockito.when(mockMastermind2.getId()).thenReturn(2);
+		
+		List<Mastermind> mastermindList = new ArrayList<>(3);
+		mastermindList.add(mockMastermind0);
+		mastermindList.add(mockMastermind1);
+		
+		Mockito.when(masterminds.findAll()).thenReturn(mastermindList);
+		
 		
 		Method initMethod = CardDirectoryService.class.getDeclaredMethod("init");
 		initMethod.setAccessible(true);
@@ -76,6 +94,7 @@ class CardDirectoryServiceTest {
 		//Should not be in the dir, if the dir is caching
 		heroList.add(mockHero2);
 		villainList.add(mockVillain2);
+		mastermindList.add(mockMastermind2);
 	}
 	
 	@Test
@@ -90,5 +109,12 @@ class CardDirectoryServiceTest {
 		Assertions.assertEquals(mockVillain0, directory.getVillainById(0));
 		Assertions.assertEquals(mockVillain1, directory.getVillainById(1));
 		Assertions.assertEquals(null, directory.getVillainById(2));
+	}
+	
+	@Test
+	void testMastermindCache() {
+		Assertions.assertEquals(mockMastermind0, directory.getMastermindById(0));
+		Assertions.assertEquals(mockMastermind1, directory.getMastermindById(1));
+		Assertions.assertEquals(null, directory.getMastermindById(2));
 	}
 }
