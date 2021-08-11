@@ -10,6 +10,21 @@
 					setNames("dxp");
 					setNames("mcu");
 					setNames("marvel");
+					
+					const contents = jQuery("#contents");
+					
+					contents.prepend(
+							`<div id="name_picker"><h3>Displayed set name</h3>
+								<form>
+								<input type="radio" name="dsplay_name" id="marvel" value="marvel" onchange="setNames('marvel');"/>
+								<label for="marvel"><span class="marvel">Comic art</span></label><br />
+								<input type="radio" name="dsplay_name" id="mcu" value="mcu" onchange="setNames('mcu');" />
+								<label for="mcu"><span class="mcu">Marvel Movie Stills</span></label><br />
+								<input type="radio" name="dsplay_name" id="dxp" value="dxp" onchange="setNames('dxp');" />
+								<label for="dxp"><span class="dxp">DXP Apps</span></label></form>
+							</div>`);
+					
+					contents.css("padding-right", "200px");
 				});
 			</script>
 		</th:block>
