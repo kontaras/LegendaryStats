@@ -63,3 +63,4 @@ fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
 }
 
 data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int)
+

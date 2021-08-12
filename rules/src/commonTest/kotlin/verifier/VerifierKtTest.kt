@@ -3,7 +3,11 @@ package kon.foo.verifier
 import kon.foo.model.Outcome
 import kon.foo.model.Play
 import kon.foo.model.PlayerCount
-import kon.foo.set.base.*
+import kon.foo.set.base.Masterminds
+import kon.foo.set.base.Schemes
+import kon.foo.set.base.Heroes
+import kon.foo.set.base.Henchmen
+import kon.foo.set.base.Villains
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
