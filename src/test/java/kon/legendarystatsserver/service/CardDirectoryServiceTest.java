@@ -15,9 +15,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Villain;
+import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
@@ -41,6 +43,9 @@ class CardDirectoryServiceTest {
 	MastermindsRepository masterminds;
 	
 	@Mock
+	HenchmenRepository henchmen;
+	
+	@Mock
 	Hero mockHero0, mockHero1, mockHero2;
 	
 	@Mock
@@ -48,6 +53,9 @@ class CardDirectoryServiceTest {
 	
 	@Mock
 	Mastermind mockMastermind0, mockMastermind1, mockMastermind2;
+	
+	@Mock
+	Henchman mockHenchman0, mockHenchman1, mockHenchman2;
 	
 	/**
 	 * Create a {@link CardDirectoryService} with mock values injected prior to initialization.
@@ -66,6 +74,7 @@ class CardDirectoryServiceTest {
 		
 		Mockito.when(heroes.findAll()).thenReturn(heroList);
 		
+		
 		Mockito.when(mockVillain0.getId()).thenReturn(0);
 		Mockito.when(mockVillain1.getId()).thenReturn(1);
 		Mockito.when(mockVillain2.getId()).thenReturn(2);
@@ -75,6 +84,7 @@ class CardDirectoryServiceTest {
 		villainList.add(mockVillain1);
 		
 		Mockito.when(villains.findAll()).thenReturn(villainList);
+		
 		
 		Mockito.when(mockMastermind0.getId()).thenReturn(0);
 		Mockito.when(mockMastermind1.getId()).thenReturn(1);
@@ -87,6 +97,17 @@ class CardDirectoryServiceTest {
 		Mockito.when(masterminds.findAll()).thenReturn(mastermindList);
 		
 		
+		Mockito.when(mockHenchman0.getId()).thenReturn(0);
+		Mockito.when(mockHenchman1.getId()).thenReturn(1);
+		Mockito.when(mockHenchman2.getId()).thenReturn(2);
+		
+		List<Henchman> henchmanList = new ArrayList<>(3);
+		henchmanList.add(mockHenchman0);
+		henchmanList.add(mockHenchman1);
+		
+		Mockito.when(henchmen.findAll()).thenReturn(henchmanList);
+		
+		
 		Method initMethod = CardDirectoryService.class.getDeclaredMethod("init");
 		initMethod.setAccessible(true);
 		initMethod.invoke(directory);
@@ -95,6 +116,7 @@ class CardDirectoryServiceTest {
 		heroList.add(mockHero2);
 		villainList.add(mockVillain2);
 		mastermindList.add(mockMastermind2);
+		henchmanList.add(mockHenchman2);
 	}
 	
 	@Test
@@ -116,5 +138,12 @@ class CardDirectoryServiceTest {
 		Assertions.assertEquals(mockMastermind0, directory.getMastermindById(0));
 		Assertions.assertEquals(mockMastermind1, directory.getMastermindById(1));
 		Assertions.assertEquals(null, directory.getMastermindById(2));
+	}
+	
+	@Test
+	void testHenchmanCache() {
+		Assertions.assertEquals(mockHenchman0, directory.getHenchmanById(0));
+		Assertions.assertEquals(mockHenchman1, directory.getHenchmanById(1));
+		Assertions.assertEquals(null, directory.getHenchmanById(2));
 	}
 }
