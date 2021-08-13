@@ -17,10 +17,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import kon.legendarystatsserver.model.game.CardSet;
+import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.CardSetRepository;
+import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
@@ -51,6 +53,9 @@ class WinRateServiceTest {
 	
 	@MockBean
 	private MastermindsRepository mastermindRepo;
+	
+	@MockBean
+	private HenchmenRepository henchmanRepo;
 
 	@Test
 	void testEmptyRepo() {
@@ -64,14 +69,14 @@ class WinRateServiceTest {
 		Mockito.when(win0.getId()).thenReturn(3);
 		Mockito.when(mockRepo.findWinRates()).thenReturn(List.of(win0));
 
-		CardSet hero0 = Mockito.mock(CardSet.class);
-		Mockito.when(mockLooup.apply(3)).thenReturn(hero0);
+		CardSet card0 = Mockito.mock(CardSet.class);
+		Mockito.when(mockLooup.apply(3)).thenReturn(card0);
 
 		Map<CardSet, IWinRate> winRates = testMe.getCardSetWinRates(mockRepo, mockLooup);
 		Iterator<Entry<CardSet, IWinRate>> iter = winRates.entrySet().iterator();
 
 		Entry<CardSet, IWinRate> entry = iter.next();
-		Assertions.assertSame(hero0, entry.getKey());
+		Assertions.assertSame(card0, entry.getKey());
 		Assertions.assertSame(win0, entry.getValue());
 		Assertions.assertFalse(iter.hasNext());
 	}
@@ -88,28 +93,28 @@ class WinRateServiceTest {
 		Mockito.when(win2.getId()).thenReturn(1000);
 		Mockito.when(mockRepo.findWinRates()).thenReturn(List.of(win0, win1, win2));
 
-		CardSet hero0 = Mockito.mock(CardSet.class);
-		Mockito.when(mockLooup.apply(3)).thenReturn(hero0);
+		CardSet card0 = Mockito.mock(CardSet.class);
+		Mockito.when(mockLooup.apply(3)).thenReturn(card0);
 
-		CardSet hero1 = Mockito.mock(CardSet.class);
-		Mockito.when(mockLooup.apply(7)).thenReturn(hero1);
+		CardSet card1 = Mockito.mock(CardSet.class);
+		Mockito.when(mockLooup.apply(7)).thenReturn(card1);
 
-		CardSet hero2 = Mockito.mock(CardSet.class);
-		Mockito.when(mockLooup.apply(1000)).thenReturn(hero2);
+		CardSet card2 = Mockito.mock(CardSet.class);
+		Mockito.when(mockLooup.apply(1000)).thenReturn(card2);
 
 		Map<CardSet, IWinRate> winRates = testMe.getCardSetWinRates(mockRepo, mockLooup);
 		Iterator<Entry<CardSet, IWinRate>> iter = winRates.entrySet().iterator();
 
 		Entry<CardSet, IWinRate> entry = iter.next();
-		Assertions.assertSame(hero0, entry.getKey());
+		Assertions.assertSame(card0, entry.getKey());
 		Assertions.assertSame(win0, entry.getValue());
 
 		entry = iter.next();
-		Assertions.assertSame(hero1, entry.getKey());
+		Assertions.assertSame(card1, entry.getKey());
 		Assertions.assertSame(win1, entry.getValue());
 
 		entry = iter.next();
-		Assertions.assertSame(hero2, entry.getKey());
+		Assertions.assertSame(card2, entry.getKey());
 		Assertions.assertSame(win2, entry.getValue());
 		Assertions.assertFalse(iter.hasNext());
 	}
@@ -164,6 +169,24 @@ class WinRateServiceTest {
 
 		Entry<Mastermind, IWinRate> entry = iter.next();
 		Assertions.assertSame(mastermind0, entry.getKey());
+		Assertions.assertSame(win0, entry.getValue());
+		Assertions.assertFalse(iter.hasNext());
+	}
+	
+	@Test
+	void testSingleHenchman() {
+		IWinRate win0 = Mockito.mock(IWinRate.class);
+		Mockito.when(win0.getId()).thenReturn(3);
+		Mockito.when(henchmanRepo.findWinRates()).thenReturn(List.of(win0));
+
+		Henchman henchman0 = Mockito.mock(Henchman.class);
+		Mockito.when(cd.getHenchmanById(3)).thenReturn(henchman0);
+
+		Map<Henchman, IWinRate> winRates = testMe.getHenchmanWinRates();
+		Iterator<Entry<Henchman, IWinRate>> iter = winRates.entrySet().iterator();
+
+		Entry<Henchman, IWinRate> entry = iter.next();
+		Assertions.assertSame(henchman0, entry.getKey());
 		Assertions.assertSame(win0, entry.getValue());
 		Assertions.assertFalse(iter.hasNext());
 	}

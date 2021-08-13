@@ -12,10 +12,12 @@ import org.tinylog.Logger;
 import com.google.common.annotations.VisibleForTesting;
 
 import kon.legendarystatsserver.model.game.CardSet;
+import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.CardSetRepository;
+import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
@@ -45,6 +47,12 @@ public class WinRateService {
 	 */
 	@Autowired
 	private MastermindsRepository masterminds;
+	
+	/**
+	 * Repository that can get us henchman win rates
+	 */
+	@Autowired
+	private HenchmenRepository henchmen;
 
 	/**
 	 * Directory that we use to dereference IDs to actual objects
@@ -88,6 +96,19 @@ public class WinRateService {
 		long start = System.currentTimeMillis();
 		Map<Mastermind, IWinRate> winRates = getCardSetWinRates(masterminds, directory::getMastermindById);
 		Logger.info("Finished getting mastermind win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		return winRates;
+	}
+	
+	/**
+	 * Get all qualifying henchmen with their {@link IWinRate}.
+	 * 
+	 * @return The list of henchmen, ordered by the win percentage of each hero.
+	 */
+	public Map<Henchman, IWinRate> getHenchmanWinRates() {
+		Logger.info("Starting to get henchman win rates");
+		long start = System.currentTimeMillis();
+		Map<Henchman, IWinRate> winRates = getCardSetWinRates(henchmen, directory::getHenchmanById);
+		Logger.info("Finished getting henchman win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
 	
