@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
+import kon.legendarystatsserver.model.game.Scheme;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.service.WinRateService;
@@ -40,6 +41,8 @@ class FrontPageControllerTest {
 		Mockito.when(winRates.getMastermindWinRates()).thenReturn(testMastermindWinRateMap);
 		Map<Henchman, IWinRate> testHenchmanWinRateMap = new HashMap<>(0);
 		Mockito.when(winRates.getHenchmanWinRates()).thenReturn(testHenchmanWinRateMap);
+		Map<Scheme, IWinRate> testSchemeWinRateMap = new HashMap<>(0);
+		Mockito.when(winRates.getSchemeWinRates()).thenReturn(testSchemeWinRateMap);
 		
 		Model mod = Mockito.mock(Model.class);
 		Assertions.assertEquals("index", controller.mainPage(mod));
@@ -48,6 +51,7 @@ class FrontPageControllerTest {
 		Mockito.verify(mod).addAttribute("villains", testVillainWinRateMap);
 		Mockito.verify(mod).addAttribute("masterminds", testMastermindWinRateMap);
 		Mockito.verify(mod).addAttribute("henchmen", testHenchmanWinRateMap);
+		Mockito.verify(mod).addAttribute("schemes", testSchemeWinRateMap);
 	}
 
 }
