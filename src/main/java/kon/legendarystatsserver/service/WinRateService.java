@@ -15,12 +15,14 @@ import kon.legendarystatsserver.model.game.CardSet;
 import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
+import kon.legendarystatsserver.model.game.Scheme;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.CardSetRepository;
 import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
+import kon.legendarystatsserver.model.game.repositories.SchemesRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -53,6 +55,12 @@ public class WinRateService {
 	 */
 	@Autowired
 	private HenchmenRepository henchmen;
+	
+	/**
+	 * Repository that can get us scheme win rates
+	 */
+	@Autowired
+	private SchemesRepository schemes;
 
 	/**
 	 * Directory that we use to dereference IDs to actual objects
@@ -76,7 +84,7 @@ public class WinRateService {
 	/**
 	 * Get all qualifying villains with their {@link IWinRate}.
 	 * 
-	 * @return The list of villains, ordered by the win percentage of each hero.
+	 * @return The list of villains, ordered by the win percentage of each villain.
 	 */
 	public Map<Villain, IWinRate> getVillainWinRates() {
 		Logger.info("Starting to get villain win rates");
@@ -89,7 +97,7 @@ public class WinRateService {
 	/**
 	 * Get all qualifying masterminds with their {@link IWinRate}.
 	 * 
-	 * @return The list of masterminds, ordered by the win percentage of each hero.
+	 * @return The list of masterminds, ordered by the win percentage of each mastermind.
 	 */
 	public Map<Mastermind, IWinRate> getMastermindWinRates() {
 		Logger.info("Starting to get mastermind win rates");
@@ -102,13 +110,26 @@ public class WinRateService {
 	/**
 	 * Get all qualifying henchmen with their {@link IWinRate}.
 	 * 
-	 * @return The list of henchmen, ordered by the win percentage of each hero.
+	 * @return The list of henchmen, ordered by the win percentage of each henchman.
 	 */
 	public Map<Henchman, IWinRate> getHenchmanWinRates() {
 		Logger.info("Starting to get henchman win rates");
 		long start = System.currentTimeMillis();
 		Map<Henchman, IWinRate> winRates = getCardSetWinRates(henchmen, directory::getHenchmanById);
 		Logger.info("Finished getting henchman win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		return winRates;
+	}
+	
+	/**
+	 * Get all qualifying schemes with their {@link IWinRate}.
+	 * 
+	 * @return The list of schemes, ordered by the win percentage of each scheme.
+	 */
+	public Map<Scheme, IWinRate> getSchemeWinRates() {
+		Logger.info("Starting to get scheme win rates");
+		long start = System.currentTimeMillis();
+		Map<Scheme, IWinRate> winRates = getCardSetWinRates(schemes, directory::getSchemeById);
+		Logger.info("Finished getting scheme win rates, took {}ms", () -> (System.currentTimeMillis() - start));
 		return winRates;
 	}
 	
