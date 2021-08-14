@@ -19,11 +19,11 @@ INSERT INTO hero (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
 
 
 INSERT INTO scheme (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
-	(1, 101, 'The Legacy Virus', 'Bleed nullem White', 'Radioactive Palladium Poisoning'),
+	(1, 101, 'The Legacy Virus', 'Bleed ''em White', 'Radioactive Palladium Poisoning'),
 	(1, 102, 'Midtown Bank Robbery', 'Pillage The Countryside', 'Destroy the Cities of Earth!'),
 	(1, 103, 'Negative Zone Prison Breakout', 'Overwhelming Hordes', 'Asgard Under Siege'),
 	(1, 104, 'Portals to the Dark Dimension', 'The Growing Darkness', 'Invade Asgard'),
-	(1, 105, 'Replace Earthnulls Leaders with Killbots', 'The Dead Shall Rise!', 'Replace Earthnulls Leaders with HYDRA'),
+	(1, 105, 'Replace Earth''s Leaders with Killbots', 'The Dead Shall Rise!', 'Replace Earth''s Leaders with HYDRA'),
 	(1, 106, 'Secret Invasion of the Skrull Shapeshifters', 'The Lure of Voodoo', 'Enslave Minds with the Chitauri Scepter'),
 	(1, 107, 'Super Hero Civil War', 'No More Heroes', 'Super Hero Civil War'),
 	(1, 108, 'Unleash the Power of the Cosmic Cube', 'Apex of Power', 'Unleash the Power of the Cosmic Cube');

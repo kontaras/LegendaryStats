@@ -20,12 +20,14 @@ import kon.legendarystatsserver.model.game.CardSet;
 import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
+import kon.legendarystatsserver.model.game.Scheme;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.CardSetRepository;
 import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.IWinRate;
 import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
+import kon.legendarystatsserver.model.game.repositories.SchemesRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -56,6 +58,9 @@ class WinRateServiceTest {
 	
 	@MockBean
 	private HenchmenRepository henchmanRepo;
+	
+	@MockBean
+	private SchemesRepository schemeRepo;
 
 	@Test
 	void testEmptyRepo() {
@@ -187,6 +192,24 @@ class WinRateServiceTest {
 
 		Entry<Henchman, IWinRate> entry = iter.next();
 		Assertions.assertSame(henchman0, entry.getKey());
+		Assertions.assertSame(win0, entry.getValue());
+		Assertions.assertFalse(iter.hasNext());
+	}
+	
+	@Test
+	void testSingleScheme() {
+		IWinRate win0 = Mockito.mock(IWinRate.class);
+		Mockito.when(win0.getId()).thenReturn(3);
+		Mockito.when(schemeRepo.findWinRates()).thenReturn(List.of(win0));
+
+		Scheme scheme0 = Mockito.mock(Scheme.class);
+		Mockito.when(cd.getSchemeById(3)).thenReturn(scheme0);
+
+		Map<Scheme, IWinRate> winRates = testMe.getSchemeWinRates();
+		Iterator<Entry<Scheme, IWinRate>> iter = winRates.entrySet().iterator();
+
+		Entry<Scheme, IWinRate> entry = iter.next();
+		Assertions.assertSame(scheme0, entry.getKey());
 		Assertions.assertSame(win0, entry.getValue());
 		Assertions.assertFalse(iter.hasNext());
 	}

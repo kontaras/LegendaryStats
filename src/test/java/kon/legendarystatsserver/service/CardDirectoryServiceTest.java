@@ -18,10 +18,12 @@ import org.mockito.MockitoAnnotations;
 import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
+import kon.legendarystatsserver.model.game.Scheme;
 import kon.legendarystatsserver.model.game.Villain;
 import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
+import kon.legendarystatsserver.model.game.repositories.SchemesRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -46,6 +48,9 @@ class CardDirectoryServiceTest {
 	HenchmenRepository henchmen;
 	
 	@Mock
+	SchemesRepository schemes;
+	
+	@Mock
 	Hero mockHero0, mockHero1, mockHero2;
 	
 	@Mock
@@ -56,6 +61,9 @@ class CardDirectoryServiceTest {
 	
 	@Mock
 	Henchman mockHenchman0, mockHenchman1, mockHenchman2;
+	
+	@Mock
+	Scheme mockScheme0, mockScheme1, mockScheme2;
 	
 	/**
 	 * Create a {@link CardDirectoryService} with mock values injected prior to initialization.
@@ -108,6 +116,17 @@ class CardDirectoryServiceTest {
 		Mockito.when(henchmen.findAll()).thenReturn(henchmanList);
 		
 		
+		Mockito.when(mockScheme0.getId()).thenReturn(0);
+		Mockito.when(mockScheme1.getId()).thenReturn(1);
+		Mockito.when(mockScheme2.getId()).thenReturn(2);
+		
+		List<Scheme> schemeList = new ArrayList<>(3);
+		schemeList.add(mockScheme0);
+		schemeList.add(mockScheme1);
+		
+		Mockito.when(schemes.findAll()).thenReturn(schemeList);
+		
+		
 		Method initMethod = CardDirectoryService.class.getDeclaredMethod("init");
 		initMethod.setAccessible(true);
 		initMethod.invoke(directory);
@@ -117,6 +136,7 @@ class CardDirectoryServiceTest {
 		villainList.add(mockVillain2);
 		mastermindList.add(mockMastermind2);
 		henchmanList.add(mockHenchman2);
+		schemeList.add(mockScheme2);
 	}
 	
 	@Test
@@ -145,5 +165,12 @@ class CardDirectoryServiceTest {
 		Assertions.assertEquals(mockHenchman0, directory.getHenchmanById(0));
 		Assertions.assertEquals(mockHenchman1, directory.getHenchmanById(1));
 		Assertions.assertEquals(null, directory.getHenchmanById(2));
+	}
+	
+	@Test
+	void testSchemeCache() {
+		Assertions.assertEquals(mockScheme0, directory.getSchemeById(0));
+		Assertions.assertEquals(mockScheme1, directory.getSchemeById(1));
+		Assertions.assertEquals(null, directory.getSchemeById(2));
 	}
 }
