@@ -17,6 +17,6 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew clean build bootBuildImage
+      run: ./gradlew clean build bootBuildImage --imageName "ghcr.io/kontaras/legendary-stats:0.0.1-rc" --info
     - name: Push to Repo
-      run: docker push
+      run: docker push "ghcr.io/kontaras/legendary-stats:0.0.1-rc"
