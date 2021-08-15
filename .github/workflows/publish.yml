@@ -18,3 +18,5 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew clean build bootBuildImage --publishImage
+    - name: Push to Repo
+      run: docker push
