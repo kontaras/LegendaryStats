@@ -3,7 +3,7 @@ on: push
 
 env:
   REGISTRY: ghcr.io
-  DEPLOYMENT_NAME: prod-server
+  DEPLOYMENT_NAME: legendary-stats
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -43,16 +43,10 @@ jobs:
         cluster_name: ${{ secrets.GKE_CLUSTER }}
         location: ${{ secrets.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
-    # Set up kustomize
-    - name: Set up Kustomize
-      run: |-
-        curl --location https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.2.0/kustomize_v4.2.0_linux_amd64.tar.gz | tar xz
-        chmod u+x ./kustomize
 
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        ./kustomize edit set image ghcr.io/kontaras/legendary-stats:0.0.1-rc
-        ./kustomize build . | kubectl apply -f -
+        kubectl apply -f deployment.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
