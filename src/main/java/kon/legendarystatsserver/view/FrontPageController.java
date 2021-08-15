@@ -20,6 +20,8 @@ public class FrontPageController {
 		model.addAttribute("heroes", winRates.getHeroWinRates());
 		model.addAttribute("villains", winRates.getVillainWinRates());
 		model.addAttribute("masterminds", winRates.getMastermindWinRates());
+		model.addAttribute("henchmen", winRates.getHenchmanWinRates());
+		model.addAttribute("schemes", winRates.getSchemeWinRates());
 		return "index";
 	}
 }

@@ -26,7 +26,8 @@ dependencies {
 	implementation 'org.tinylog:tinylog-api:2.3.2'
 	runtimeOnly 'org.tinylog:tinylog-impl:2.3.2'
 
-	runtimeOnly 'org.flywaydb:flyway-core:7.12.1'
+	runtimeOnly 'org.flywaydb:flyway-core:7.13.0'
+
 	runtimeOnly 'com.h2database:h2:1.4.200'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -82,7 +83,6 @@ task javascriptCopy(type: Copy) {
         fileCopyDetails.path = fileCopyDetails.name
     }
 
-
     into 'build/resources/main/static/scripts'
 
     outputs.files(fileTree('build/resources/main/static/scripts'))
@@ -92,7 +92,6 @@ task cssCopy(type: Copy) {
 	dependsOn installFrontend
 
 	inputs.files(fileTree('node_modules'))
-
 	from '.'
 
 	include 'node_modules/*/*.css'
@@ -100,7 +99,6 @@ task cssCopy(type: Copy) {
 	eachFile { fileCopyDetails ->
         fileCopyDetails.path = fileCopyDetails.name
     }
-
 
     into 'build/resources/main/static/styles'
 
@@ -113,7 +111,6 @@ task copyFromNpm(type: Task) {
 
 	inputs.files(fileTree('node_modules'))
 }
-
 
 jar.configure {
 	dependsOn tasks.copyFromNpm

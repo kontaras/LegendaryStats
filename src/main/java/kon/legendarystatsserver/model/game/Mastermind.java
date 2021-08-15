@@ -22,5 +22,4 @@ public class Mastermind extends CardSet {
 	public java.util.Set<Play> getPlays() {
 		return plays;
 	}
-
 }
