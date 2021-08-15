@@ -26,6 +26,4 @@ public class Henchman extends CardSet {
 		return plays;
 	}
 
-	
-	
 }

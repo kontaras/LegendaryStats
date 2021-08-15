@@ -32,10 +32,13 @@
 
 		<th:block
 			th:replace="fragments/tables :: tableTemple (name = 'Masterminds', id = 'masterminds', rows = ${masterminds})" />
-
-
-
+			
+		<th:block
+			th:replace="fragments/tables :: tableTemple (name = 'Henchmen', id = 'henchmen', rows = ${henchmen})" />
+			
+		<th:block
+			th:replace="fragments/tables :: tableTemple (name = 'Schemes', id = 'schemes', rows = ${schemes})" />
+		
 		</div>
-
-</body>
+	</body>
 </html>

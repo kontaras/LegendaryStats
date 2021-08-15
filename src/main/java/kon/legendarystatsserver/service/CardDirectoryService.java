@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
+import kon.legendarystatsserver.model.game.Henchman;
 import kon.legendarystatsserver.model.game.Hero;
 import kon.legendarystatsserver.model.game.Mastermind;
+import kon.legendarystatsserver.model.game.Scheme;
 import kon.legendarystatsserver.model.game.Villain;
+import kon.legendarystatsserver.model.game.repositories.HenchmenRepository;
 import kon.legendarystatsserver.model.game.repositories.HeroesRepository;
 import kon.legendarystatsserver.model.game.repositories.MastermindsRepository;
+import kon.legendarystatsserver.model.game.repositories.SchemesRepository;
 import kon.legendarystatsserver.model.game.repositories.VillainsRepository;
 
 /**
@@ -29,6 +33,10 @@ public class CardDirectoryService {
 	
 	private final Map<Integer, Mastermind> mastermindsById;
 	
+	private final Map<Integer, Henchman> henchmenById;
+	
+	private final Map<Integer, Scheme> schemesById;
+	
 	@Autowired
 	private HeroesRepository heroes;
 	
@@ -37,11 +45,19 @@ public class CardDirectoryService {
 	
 	@Autowired
 	private MastermindsRepository masterminds;
+	
+	@Autowired
+	private HenchmenRepository henchmen;
+	
+	@Autowired
+	private SchemesRepository schemes;
 
 	private CardDirectoryService() {
 		heroesById = new HashMap<>();
 		villainsById = new HashMap<>();
 		mastermindsById = new HashMap<>();
+		henchmenById = new HashMap<>();
+		schemesById = new HashMap<>();
 	}
 	
 	@PostConstruct
@@ -63,6 +79,18 @@ public class CardDirectoryService {
 			mastermindsById.put(mastermind.getId(), mastermind);
 		}
 		Logger.info("Finished preloading masterminds");
+		
+		Logger.info("Starting to preload henchmen");
+		for (Henchman henchman : henchmen.findAll()) {
+			henchmenById.put(henchman.getId(), henchman);
+		}
+		Logger.info("Finished preloading henchmen");
+		
+		Logger.info("Starting to preload schemes");
+		for (Scheme scheme : schemes.findAll()) {
+			schemesById.put(scheme.getId(), scheme);
+		}
+		Logger.info("Finished preloading schemes");
 	}
 
 	/**
@@ -97,5 +125,26 @@ public class CardDirectoryService {
 	public Mastermind getMastermindById(Integer id) {
 		return mastermindsById.get(id);
 	}
+	
+	/**
+	 * Get a henchman by id. Similar to {@link HenchmenRepository#findById(Integer)},
+	 * though it does not access the database for every call.
+	 * 
+	 * @param id The id of the henchman to find.
+	 * @return The cached Henchman, or null if the id is not present
+	 */
+	public Henchman getHenchmanById(Integer id) {
+		return henchmenById.get(id);
+	}
 
+	/**
+	 * Get a scheme by id. Similar to {@link SchemesRepository#findById(Integer)},
+	 * though it does not access the database for every call.
+	 * 
+	 * @param id The id of the scheme to find.
+	 * @return The cached Scheme, or null if the id is not present
+	 */
+	public Scheme getSchemeById(Integer id) {
+		return schemesById.get(id);
+	}
 }

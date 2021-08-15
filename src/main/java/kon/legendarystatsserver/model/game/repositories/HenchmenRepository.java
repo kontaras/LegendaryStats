@@ -5,6 +5,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import kon.legendarystatsserver.model.game.Henchman;
 
 @RepositoryRestResource
-public interface HenchmenRepository extends ReadOnlyRepository<Henchman, Integer> {
+public interface HenchmenRepository extends CardSetRepository<Henchman, Integer> {
 
 }

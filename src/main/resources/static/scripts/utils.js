@@ -1,7 +1,6 @@
 /**
  * 
  */
-
 window.tableIds = []
 
 function setNames (cls) {
