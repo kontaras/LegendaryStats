@@ -1,6 +1,9 @@
 name: Publish
 on: push
 
+env:
+  REGISTRY: ghcr.io
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-image:
@@ -18,5 +21,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew clean build bootBuildImage --imageName "ghcr.io/kontaras/legendary-stats:0.0.1-rc" --info
+    - name: Log in to the Container registry
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Push to Repo
       run: docker push "ghcr.io/kontaras/legendary-stats:0.0.1-rc"
