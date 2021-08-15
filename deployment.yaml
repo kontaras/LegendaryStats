@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: legendary-stats
+spec:
+  selector:
+    matchLabels:
+      app: legendary
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: legendary
+    spec:
+      containers:
+      - name: server
+        image: ghcr.io/kontaras/legendary-stats:0.0.1-rc
+        ports:
+        - containerPort: 8080
