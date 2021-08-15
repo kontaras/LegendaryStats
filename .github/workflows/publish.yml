@@ -17,4 +17,4 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew clean build bootBuildImage
+      run: ./gradlew clean build bootBuildImage --publishImage
