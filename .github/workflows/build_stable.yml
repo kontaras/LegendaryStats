@@ -47,5 +47,5 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{github.event_name}}
+      - run: echo ${{github.event_name}} ${{github.ref}}
   
