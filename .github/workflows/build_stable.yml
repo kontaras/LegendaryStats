@@ -51,6 +51,7 @@ jobs:
     env:
       REGISTRY: ghcr.io
     steps:
+      - uses: actions/checkout@v2
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
