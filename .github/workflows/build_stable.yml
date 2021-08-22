@@ -47,12 +47,23 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pushfo' && github.ref == 'refs/heads/test-publish' }}
-    #needs: build
+    needs: build
+    env:
+      REGISTRY: ghcr.io
     steps:
-      - run: echo ${{github.event_name}} ${{github.ref}}
+      - name: Build with Gradle
+        run: ./gradlew bootBuildImage --imageName "$REGISTRY/kontaras/legendary-stats:$GITHUB_SHA" --info
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push to Repo
+        run: docker push "$REGISTRY/kontaras/legendary-stats:$GITHUB_SHA"
   deploy:
     runs-on: ubuntu-latest
     needs: publish
     steps:
-      - run: echo ${{github.event_name}} ${{github.ref}}
+      - run: echo "nothing to do"
   
