@@ -46,7 +46,7 @@ jobs:
         verbose: true
   publish:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pushfo' && github.ref == 'refs/heads/test-publish' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/test-publish' }}
     needs: build
     env:
       REGISTRY: ghcr.io
