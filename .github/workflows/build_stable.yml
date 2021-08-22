@@ -46,7 +46,7 @@ jobs:
         verbose: true
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull' && github.ref == 'refs/heads/test-publish' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/test-publish' }}
     steps:
       - run: echo ${{github.event_name}} ${{github.ref}}
   
