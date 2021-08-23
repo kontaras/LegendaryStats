@@ -1,0 +1,32 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      label:
+        description: 'Label to deploy'
+        default: 'latest'
+        required: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup gcloud CLI
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        project_id: ${{ secrets.GKE_PROJECT }}
+    - run: |-
+        gcloud --quiet auth configure-docker
+    - uses: google-github-actions/get-gke-credentials@v1.10.0
+      with:
+        cluster_name: ${{ secrets.GKE_CLUSTER }}
+        location: ${{ secrets.GKE_ZONE }}
+        credentials: ${{ secrets.GKE_SA_KEY }}
+    - name: Deploy
+      run: |-
+        kubectl apply -f deployment.yaml
+        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl get services -o wide
