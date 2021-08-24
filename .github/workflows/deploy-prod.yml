@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: Prod deploy
 on:
   workflow_dispatch:
     # Inputs the workflow accepts.
@@ -20,7 +20,7 @@ jobs:
         project_id: ${{ secrets.GKE_PROJECT }}
     - run: |-
         gcloud --quiet auth configure-docker
-    - uses: google-github-actions/get-gke-credentials@v1.10.0
+    - uses: google-github-actions/get-gke-credentials@v0.2.1
       with:
         cluster_name: ${{ secrets.GKE_CLUSTER }}
         location: ${{ secrets.GKE_ZONE }}
