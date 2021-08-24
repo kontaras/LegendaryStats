@@ -1,4 +1,4 @@
-# This is a basic workflow that is manually triggered
+
 
 name: Prod deploy
 on:
@@ -9,6 +9,8 @@ on:
         description: 'Label to deploy'
         default: 'latest'
         required: true
+env:
+  DEPLOYMENT_NAME: legendary-stats
 jobs:
   deploy:
     runs-on: ubuntu-latest
