@@ -66,7 +66,8 @@ CREATE TYPE game_outcome AS ENUM
 (
    'WIN',
    'LOSS',
-   'DRAW'
+   'DRAW',
+   'INCOMPLETE'
 );
 CREATE TYPE player_count AS ENUM
 (

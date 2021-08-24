@@ -3,7 +3,8 @@ package kon.foo.model
 enum class Outcome {
     WIN,
     LOSS,
-    DRAW
+    DRAW,
+    INCOMPLETE
 }
 
 enum class PlayerCount {
