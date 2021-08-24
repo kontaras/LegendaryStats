@@ -11,10 +11,18 @@ on:
         required: true
 env:
   DEPLOYMENT_NAME: legendary-stats
+  REGISTRY: ghcr.io
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+    - name: Log in to the Container registry
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup gcloud CLI
       uses: google-github-actions/setup-gcloud@v0.2.1
       with:
@@ -27,7 +35,6 @@ jobs:
         cluster_name: ${{ secrets.GKE_CLUSTER }}
         location: ${{ secrets.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
-    - uses: actions/checkout@v2
     - name: Deploy
       run: |-
         kubectl apply -f deployment.yaml
