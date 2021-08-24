@@ -25,6 +25,7 @@ jobs:
         cluster_name: ${{ secrets.GKE_CLUSTER }}
         location: ${{ secrets.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
+    - uses: actions/checkout@v2
     - name: Deploy
       run: |-
         kubectl apply -f deployment.yaml
