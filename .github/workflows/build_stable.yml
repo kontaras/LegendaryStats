@@ -41,7 +41,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: ./gradlew sonarqube --info
     - name: CodeCov
-      uses: codecov/codecov-action@v2.0.2
+      uses: codecov/codecov-action@v2.0.3
       with:
         verbose: true
   publish:
