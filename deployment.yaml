@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: ghcr.io/kontaras/legendary-stats:0.0.1-rc
+        image: ghcr.io/kontaras/legendary-stats:latest
         ports:
         - containerPort: 8080
         env:
