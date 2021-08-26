@@ -37,6 +37,6 @@ jobs:
       env:
         VERSION_TO_DEPLOY: ${{ github.event.inputs.label }}
       run: |-
-        envsubst deployment.yaml | kubectl apply -f -
+        envsubst < deployment.yaml | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
