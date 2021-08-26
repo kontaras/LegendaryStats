@@ -17,3 +17,19 @@ spec:
         image: ghcr.io/kontaras/legendary-stats:0.0.1-rc
         ports:
         - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: legendary-stats
+  labels:
+    app: legendary
+spec:
+  selector:
+    app: legendary
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+
