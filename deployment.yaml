@@ -17,6 +17,24 @@ spec:
         image: ghcr.io/kontaras/legendary-stats:0.0.1-rc
         ports:
         - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            secretKeyRef:
+              name: legendary-db
+              key: db-url
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: legendary-db
+              key: db-url
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: legendary-db
+              key: db-url
 ---
 kind: Service
 apiVersion: v1
@@ -32,4 +50,3 @@ spec:
       port: 80
       targetPort: 8080
   type: LoadBalancer
-

@@ -28,7 +28,8 @@ dependencies {
 
 	runtimeOnly 'org.flywaydb:flyway-core:7.14.0'
 
-	runtimeOnly 'com.h2database:h2:1.4.200'
+	runtimeOnly 'com.h2database:h2:1.4.200' //Dev DB
+	runtimeOnly 'org.postgresql:postgresql' //Prod DB
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
