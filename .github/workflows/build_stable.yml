@@ -46,7 +46,7 @@ jobs:
         verbose: true
   publish:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/feature/prod-db' }}
     needs: build
     env:
       REGISTRY: ghcr.io
