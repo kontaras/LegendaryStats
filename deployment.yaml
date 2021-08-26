@@ -29,12 +29,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: legendary-db
-              key: db-url
+              key: db-user
         - name: SPRING_DATASOURCE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: legendary-db
-              key: db-url
+              key: db-pass
 ---
 kind: Service
 apiVersion: v1
