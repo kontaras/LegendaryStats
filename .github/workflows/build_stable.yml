@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: publish
     steps:
-      - run: echo "TODO: Deploy to dev and test"
+      - run: echo "TODO Deploy to dev and test"
   tag:
     runs-on: ubuntu-latest
     needs: deploy-test
@@ -94,5 +94,5 @@ jobs:
     runs-on: ubuntu-latest
     needs: tag
     steps:
-      - run: echo "TODO: Deploy to stage and test"
+      - run: echo "TODO Deploy to stage and test"
   
