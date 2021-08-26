@@ -1,65 +1,65 @@
 CREATE TABLE release
 (
-   id int not null,
-   marvel_name varchar,
-   dxp_name varchar,
-   mcu_name varchar,
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
    PRIMARY KEY (id)
 );
 CREATE TABLE hero
 (
-   id int not null,
-   marvel_name varchar,
-   dxp_name varchar,
-   mcu_name varchar,
-   release_id int,
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT,
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
 CREATE TABLE mastermind
 (
-   id int not null,
-   marvel_name varchar,
-   dxp_name varchar,
-   mcu_name varchar,
-   release_id int,
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT,
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
 CREATE TABLE villain
 (
-   id int not null,
-   marvel_name varchar,
-   dxp_name varchar,
-   mcu_name varchar,
-   release_id int,
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT,
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
 CREATE TABLE henchman
 (
-   id int not null,
-   marvel_name varchar,
-   dxp_name varchar,
-   mcu_name varchar,
-   release_id int,
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT,
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
 CREATE TABLE scheme
 (
-   id int not null,
-   marvel_name varchar,
-   dxp_name varchar,
-   mcu_name varchar,
-   release_id int,
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT,
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
-CREATE TABLE user
+CREATE TABLE "user"
 (
-   id long not null,
-   user_name varchar,
+   id BIGINT NOT NULL,
+   user_name VARCHAR,
    PRIMARY KEY (id) --password
 );
 CREATE TYPE game_outcome AS ENUM
@@ -80,24 +80,24 @@ CREATE TYPE player_count AS ENUM
 );
 CREATE TABLE play
 (
-   id long not null,
-   player_id long,
+   id BIGINT NOT NULL,
+   player_id BIGINT,
    outcome game_outcome,
    players player_count,
-   scheme_id int,
-   mastermind_id int,
-   misc_hero_id int,
-   notes varchar,
+   scheme_id INT,
+   mastermind_id INT,
+   misc_hero_id INT,
+   notes VARCHAR,
    PRIMARY KEY (id),
-   FOREIGN KEY (player_id) REFERENCES user (id),
+   FOREIGN KEY (player_id) REFERENCES "user" (id),
    FOREIGN KEY (scheme_id) REFERENCES scheme (id),
    FOREIGN KEY (mastermind_id) REFERENCES mastermind (id),
    FOREIGN KEY (misc_hero_id) REFERENCES hero (id)
 );
 CREATE TABLE play_hero
 (
-   hero_id int,
-   play_id long,
+   hero_id INT,
+   play_id BIGINT,
    PRIMARY KEY
    (
       hero_id,
@@ -108,8 +108,8 @@ CREATE TABLE play_hero
 );
 CREATE TABLE play_villain
 (
-   villain_id int,
-   play_id long,
+   villain_id INT,
+   play_id BIGINT,
    PRIMARY KEY
    (
       villain_id,
@@ -120,8 +120,8 @@ CREATE TABLE play_villain
 );
 CREATE TABLE play_henchman
 (
-   henchman_id int,
-   play_id long,
+   henchman_id INT,
+   play_id BIGINT,
    PRIMARY KEY
    (
       henchman_id,
