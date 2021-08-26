@@ -12,7 +12,7 @@ import kon.legendarystatsserver.model.Play;
  */
 @Entity
 public class Scheme extends CardSet {
-	@OneToMany(mappedBy = "mastermind")
+	@OneToMany(mappedBy = "scheme")
 	@JsonIgnore 
 	private java.util.Set<Play> plays;
 
