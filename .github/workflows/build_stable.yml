@@ -69,9 +69,30 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push to Repo
         run: docker push "$REGISTRY/kontaras/legendary-stats:$GITHUB_SHA"
-  deploy:
+  deploy-test:
     runs-on: ubuntu-latest
     needs: publish
     steps:
-      - run: echo "nothing to do"
+      - run: echo "TODO: Deploy to dev and test"
+  tag:
+    runs-on: ubuntu-latest
+    needs: deploy-test
+    env:
+      REGISTRY: ghcr.io
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push to Repo
+        run: |
+          docker tag "$REGISTRY/kontaras/legendary-stats:$GITHUB_SHA" "$REGISTRY/kontaras/legendary-stats:latest"
+          docker push "$REGISTRY/kontaras/legendary-stats:latest"
+  deploy-stage:
+    runs-on: ubuntu-latest
+    needs: tag
+    steps:
+      - run: echo "TODO: Deploy to stage and test"
   
