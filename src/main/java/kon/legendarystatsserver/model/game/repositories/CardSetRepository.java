@@ -18,7 +18,7 @@ public interface CardSetRepository<T extends CardSet, ID> extends ReadOnlyReposi
 			+ "         COUNT(CASE WHEN p.outcome = 'LOSS' THEN 1 ELSE null END) AS lost "
 			+ "    FROM #{#entityName} h INNER JOIN h.plays p"
 			+ "    GROUP BY h"
-			+ "    ORDER BY COUNT(CASE WHEN p.outcome = 'WIN' THEN 1 ELSE null END) / "
+			+ "    ORDER BY CAST(COUNT(CASE WHEN p.outcome = 'WIN' THEN 1 ELSE null END) AS float) / "
 			+ "             CAST(COUNT(*) AS float) DESC")
 	List<IWinRate> findWinRates();
 }
