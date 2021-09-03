@@ -81,11 +81,11 @@ CREATE TYPE player_count AS ENUM
 CREATE TABLE play
 (
    id BIGINT NOT NULL,
-   player_id BIGINT,
-   outcome game_outcome,
-   players player_count,
-   scheme_id INT,
-   mastermind_id INT,
+   player_id BIGINT NOT NULL,
+   outcome game_outcome NOT NULL,
+   players player_count NOT NULL,
+   scheme_id INT NOT NULL,
+   mastermind_id INT NOT NULL,
    misc_hero_id INT,
    notes VARCHAR,
    PRIMARY KEY (id),
