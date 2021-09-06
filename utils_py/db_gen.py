@@ -56,6 +56,8 @@ def generate_db(starting_id, num_plays, out_file):
     generate_user(out_file)
     plays = generate_plays(starting_id, num_plays, out_file)
     generate_heroes(plays, out_file)
+    generate_villains(plays, out_file)
+    generate_henchmen(plays, out_file)
 
 
 def generate_user(out_file):
@@ -100,7 +102,9 @@ def generate_heroes(plays, out_file):
         elif players is Players.FIVE.db_value:
             num_heroes = 6
 
-        for hero_id in random.choices(range(MIN_HER0, MAX_HERO + 1), k=num_heroes):
+        heroes = list(range(MIN_HER0, MAX_HERO + 1))
+        random.shuffle(heroes)
+        for hero_id in heroes[:num_heroes]:
             if not first:
                 out_file.write(",\n")
             else:
@@ -110,5 +114,53 @@ def generate_heroes(plays, out_file):
     out_file.write(";\n\n")
 
 
+def generate_villains(plays, out_file):
+    out_file.write("INSERT INTO play_villain (play_id, villain_id) VALUES\n")
+    first = True
+    for play_id, play in plays.items():
+        players = play["players"]
+        if players in [Players.SOLO.db_value, Players.ADVANCED.db_value]:
+            num_villains = 1
+        elif players is Players.TWO.db_value:
+            num_villains = 2
+        elif players in [Players.THREE.db_value, Players.FOUR.db_value]:
+            num_villains = 3
+        elif players is Players.FIVE.db_value:
+            num_villains = 4
+
+        villains = list(range(MIN_VILLAIN, MAX_VILLAIN + 1))
+        random.shuffle(villains)
+        for villain_id in villains[:num_villains]:
+            if not first:
+                out_file.write(",\n")
+            else:
+                first = False
+            out_file.write("\t(%d, %d)" % (play_id, villain_id))
+
+    out_file.write(";\n\n")
+
+
+def generate_henchmen(plays, out_file):
+    out_file.write("INSERT INTO play_henchman (play_id, henchman_id) VALUES\n")
+    first = True
+    for play_id, play in plays.items():
+        players = play["players"]
+        if players in [Players.SOLO.db_value, Players.ADVANCED.db_value, Players.TWO.db_value, Players.THREE.db_value]:
+            num_henchmen = 1
+        elif players in [Players.FOUR.db_value, Players.FIVE.db_value]:
+            num_henchmen = 2
+
+        henchmen = list(range(MIN_HENCHMEN, MAX_HENCHMEN + 1))
+        random.shuffle(henchmen)
+        for henchman_id in henchmen[:num_henchmen]:
+            if not first:
+                out_file.write(",\n")
+            else:
+                first = False
+            out_file.write("\t(%d, %d)" % (play_id, henchman_id))
+
+    out_file.write(";\n\n")
+
+
 if __name__ == '__main__':
-    generate_db(5, 10, sys.stdout)
+    generate_db(0, 100, sys.stdout)
