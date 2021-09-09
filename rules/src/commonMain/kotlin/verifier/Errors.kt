@@ -1,11 +1,14 @@
 package games.lmdbg.rules.verifier
 
+/** The common error class for all issues that can be found when validating plays */
 interface PrintableError {
+    /* A human-readable explanation of the error */
     fun getMessage(): String
 }
 
-private const val LARGE_ENOUGH_PRIME = 13
-
+/**
+ * A card set has the wrong number of cards
+ */
 class WrongSetCount(val setType: String, val expected: Int, val actual: Int) : PrintableError {
     override fun getMessage(): String {
         return "Expected to provide $expected $setType sets, got $actual"
@@ -27,6 +30,7 @@ class WrongSetCount(val setType: String, val expected: Int, val actual: Int) : P
     }
 }
 
+/** A card type does not have a set with a given ID */
 class InvalidCardSet(val setType: String, val id: Int) : PrintableError {
     override fun getMessage(): String {
         return "Invalid $setType: $id"
