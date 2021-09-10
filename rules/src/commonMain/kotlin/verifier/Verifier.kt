@@ -69,13 +69,7 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
  * @return true if there is a set that contains that id, false otherwise
  */
 private fun checkValidHero(hero: Int): Boolean {
-    for (plugin in plugins) {
-        if (hero in plugin.heroesRange) {
-            return true
-        }
-    }
-
-    return false
+    return plugins.any { plugin -> hero in plugin.heroesRange }
 }
 
 /**
