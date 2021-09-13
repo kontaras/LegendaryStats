@@ -52,7 +52,7 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
 
     for (hero in play.heroes) {
-        if (!checkValidHero(hero)) {
+        if (!checkValidValue(hero, ReleaseRulesPlugin::heroesRange)) {
             errors.add(InvalidCardSet("hero", hero))
         }
     }
@@ -68,8 +68,8 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
  * @param hero Hero ID to check
  * @return true if there is a set that contains that id, false otherwise
  */
-private fun checkValidHero(hero: Int): Boolean {
-    return plugins.any { plugin -> hero in plugin.heroesRange }
+private fun checkValidValue(hero: Int, field: (ReleaseRulesPlugin) -> IntRange ): Boolean {
+    return plugins.any { plugin -> hero in field(plugin) }
 }
 
 /**
