@@ -59,19 +59,23 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
             errors.add(InvalidCardSet("hero", hero))
         }
     }
+
     for (villain in play.villains) {
         if (!checkValidValue(villain, ReleaseRulesPlugin::villainsRange)) {
             errors.add(InvalidCardSet("villain", villain))
         }
     }
+
     for (henchman in play.henchmen) {
         if (!checkValidValue(henchman, ReleaseRulesPlugin::henchmenRange)) {
             errors.add(InvalidCardSet("henchman", henchman))
         }
     }
+
     if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
         errors.add(InvalidCardSet("scheme", play.scheme))
     }
+
     if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindsRange)) {
         errors.add(InvalidCardSet("mastermind", play.mastermind))
     }
