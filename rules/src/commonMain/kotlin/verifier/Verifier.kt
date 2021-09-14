@@ -57,19 +57,38 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
         }
     }
 
-    //TODO Check other sets
+    for (villain in play.villains) {
+        if (!checkValidValue(villain, ReleaseRulesPlugin::villainsRange)) {
+            errors.add(InvalidCardSet("villain", villain))
+        }
+    }
+
+    for (henchman in play.henchmen) {
+        if (!checkValidValue(henchman, ReleaseRulesPlugin::henchmenRange)) {
+            errors.add(InvalidCardSet("henchman", henchman))
+        }
+    }
+
+    if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
+        errors.add(InvalidCardSet("scheme", play.scheme))
+    }
+
+    if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindRange)) {
+        errors.add(InvalidCardSet("mastermind", play.mastermind))
+    }
 
     return errors
 }
 
 /**
- * Check if a given hero id is a valid one
+ * Check if a given card set id is a valid one
  *
- * @param hero Hero ID to check
+ * @param setId Card Set ID to check
+ * @param field The plugin field accessor to get the valid values for the set id
  * @return true if there is a set that contains that id, false otherwise
  */
-private fun checkValidValue(hero: Int, field: (ReleaseRulesPlugin) -> IntRange ): Boolean {
-    return plugins.any { plugin -> hero in field(plugin) }
+private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange ): Boolean {
+    return plugins.any { plugin -> setId in field(plugin) }
 }
 
 /**
