@@ -3,10 +3,10 @@ package games.lmdbg.rules.model
 /** The possible game outcomes */
 enum class Outcome {
     /** Players won by defeating the mastermind */
-    WIN,
+    WIN_DEFEAT_MASTERMIND,
 
     /** Players lost due to the scheme */
-    LOSS,
+    LOSS_SCHEME,
 
     /** Game was a draw (hero or villain deck ran out) */
     DRAW,
