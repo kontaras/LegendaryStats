@@ -1,4 +1,4 @@
-package kon.foo.verifier
+package games.lmdbg.rules.verifier
 
 val plugins: MutableSet<ReleaseRulesPlugin> = mutableSetOf()
 

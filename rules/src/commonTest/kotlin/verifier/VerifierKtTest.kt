@@ -1,13 +1,13 @@
-package kon.foo.verifier
+package games.lmdbg.rules.verifier
 
-import kon.foo.model.Outcome
-import kon.foo.model.Play
-import kon.foo.model.PlayerCount
-import kon.foo.set.base.Masterminds
-import kon.foo.set.base.Schemes
-import kon.foo.set.base.Heroes
-import kon.foo.set.base.Henchmen
-import kon.foo.set.base.Villains
+import games.lmdbg.rules.model.Outcome
+import games.lmdbg.rules.model.Play
+import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.set.base.Masterminds
+import games.lmdbg.rules.set.base.Schemes
+import games.lmdbg.rules.set.base.Heroes
+import games.lmdbg.rules.set.base.Henchmen
+import games.lmdbg.rules.set.base.Villains
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

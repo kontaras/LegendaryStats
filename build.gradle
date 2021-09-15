@@ -7,8 +7,8 @@ plugins {
 	id 'org.siouan.frontend-jdk11' version '5.3.0'
 }
 
-group = 'kon'
-version = '0.0.1-SNAPSHOT'
+group = 'games.lmdbg'
+version = '0.0.2'
 sourceCompatibility = '11'
 
 repositories {

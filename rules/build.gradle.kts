@@ -2,7 +2,7 @@ plugins {
     kotlin("multiplatform") version "1.5.10"
 }
 
-group = "kon.legendarystats.rules"
+group = "games.lmdbg.rules"
 version = "0.1-SNAPSHOT"
 
 repositories {

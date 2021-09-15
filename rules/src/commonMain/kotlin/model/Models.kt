@@ -1,4 +1,4 @@
-package kon.foo.model
+package games.lmdbg.rules.model
 
 enum class Outcome {
     WIN,

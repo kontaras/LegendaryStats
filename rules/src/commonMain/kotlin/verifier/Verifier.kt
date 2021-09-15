@@ -1,7 +1,7 @@
-package kon.foo.verifier
+package games.lmdbg.rules.verifier
 
-import kon.foo.model.Play
-import kon.foo.model.PlayerCount
+import games.lmdbg.rules.model.Play
+import games.lmdbg.rules.model.PlayerCount
 
 fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
