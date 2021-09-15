@@ -13,7 +13,10 @@ fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     val setCounts = getPlayerCountRules(play.players)
 
+    updateSetCountsFromScheme(play.scheme, setCounts)
+
     errors.addAll(checkCardSetSizes(play, setCounts))
+    errors.addAll(checkValuesInRange(play))
 
     return errors
 }
@@ -50,33 +53,27 @@ fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
  */
 fun checkValuesInRange(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
-
     for (hero in play.heroes) {
         if (!checkValidValue(hero, ReleaseRulesPlugin::heroesRange)) {
             errors.add(InvalidCardSet("hero", hero))
         }
     }
-
     for (villain in play.villains) {
         if (!checkValidValue(villain, ReleaseRulesPlugin::villainsRange)) {
             errors.add(InvalidCardSet("villain", villain))
         }
     }
-
     for (henchman in play.henchmen) {
         if (!checkValidValue(henchman, ReleaseRulesPlugin::henchmenRange)) {
             errors.add(InvalidCardSet("henchman", henchman))
         }
     }
-
     if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
         errors.add(InvalidCardSet("scheme", play.scheme))
     }
-
     if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindRange)) {
         errors.add(InvalidCardSet("mastermind", play.mastermind))
     }
-
     return errors
 }
 
@@ -87,8 +84,17 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
  * @param field The plugin field accessor to get the valid values for the set id
  * @return true if there is a set that contains that id, false otherwise
  */
-private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange ): Boolean {
+private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange): Boolean {
     return plugins.any { plugin -> setId in field(plugin) }
+}
+
+fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {
+    for (plugin in plugins) {
+        if(scheme in plugin.schemesRange) {
+            plugin.updateSetCountsFromScheme(scheme, setCounts)
+            return
+        }
+    } //It is possible that the scheme is not in any plugin, but that will be caught by checkValuesInRange
 }
 
 /**

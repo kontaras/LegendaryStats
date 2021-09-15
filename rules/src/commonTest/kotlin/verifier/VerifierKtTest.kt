@@ -29,30 +29,38 @@ internal class VerifierKtTest {
             henchmen
         )
 
-        assertContentEquals(listOf(), verify(testPlay))
+        val counts = getPlayerCountRules(PlayerCount.FOUR)
+
+        assertContentEquals(listOf(), checkCardSetSizes(testPlay, counts))
 
         heroes.remove(Heroes.GAMBIT)
-        assertContentEquals(listOf(WrongSetCount("hero", 5, 4)), verify(testPlay))
+        assertContentEquals(listOf(WrongSetCount("hero", 5, 4)),
+            checkCardSetSizes(testPlay, counts))
         heroes.add(Heroes.GAMBIT)
 
         heroes.add(Heroes.DEADPOOL)
-        assertContentEquals(listOf(WrongSetCount("hero", 5, 6)), verify(testPlay))
+        assertContentEquals(listOf(WrongSetCount("hero", 5, 6)),
+            checkCardSetSizes(testPlay, counts))
         heroes.remove(Heroes.GAMBIT)
 
         villains.remove(Villains.ENEMIES_OF_ASGARD)
-        assertContentEquals(listOf(WrongSetCount("villain", 3, 2)), verify(testPlay))
+        assertContentEquals(listOf(WrongSetCount("villain", 3, 2)),
+            checkCardSetSizes(testPlay, counts))
         villains.add(Villains.ENEMIES_OF_ASGARD)
 
         villains.add(Villains.MASTERS_OF_EVIL)
-        assertContentEquals(listOf(WrongSetCount("villain", 3, 4)), verify(testPlay))
+        assertContentEquals(listOf(WrongSetCount("villain", 3, 4)),
+            checkCardSetSizes(testPlay, counts))
         villains.remove(Villains.ENEMIES_OF_ASGARD)
 
         henchmen.remove(Henchmen.DOOMBOT_LEGION)
-        assertContentEquals(listOf(WrongSetCount("henchman", 2, 1)), verify(testPlay))
+        assertContentEquals(listOf(WrongSetCount("henchman", 2, 1)),
+            checkCardSetSizes(testPlay, counts))
         henchmen.add(Henchmen.DOOMBOT_LEGION)
 
         henchmen.add(Henchmen.HAND_NINJAS)
-        assertContentEquals(listOf(WrongSetCount("henchman", 2, 3)), verify(testPlay))
+        assertContentEquals(listOf(WrongSetCount("henchman", 2, 3)),
+            checkCardSetSizes(testPlay, counts))
         henchmen.remove(Henchmen.DOOMBOT_LEGION)
     }
 
@@ -64,18 +72,21 @@ internal class VerifierKtTest {
             override val henchmenRange: IntRange = IntRange.EMPTY
             override val schemesRange: IntRange = 0..0
             override val mastermindRange: IntRange = 0..0
+            override fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {}
         }, object : ReleaseRulesPlugin {
             override val heroesRange: IntRange = 1..2
             override val villainsRange: IntRange = 101..102
             override val henchmenRange: IntRange = 201..202
             override val schemesRange: IntRange = 301..302
             override val mastermindRange: IntRange = 401..402
+            override fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {}
         }, object : ReleaseRulesPlugin {
             override val heroesRange: IntRange = 5..7
             override val villainsRange: IntRange = 105..107
             override val henchmenRange: IntRange = 205..207
             override val schemesRange: IntRange = 305..307
             override val mastermindRange: IntRange = 405..407
+            override fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {}
         })
 
         assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker()) })
@@ -182,5 +193,10 @@ internal class VerifierKtTest {
         assertEquals(SetCounts(5, 3, 1), getPlayerCountRules(PlayerCount.THREE))
         assertEquals(SetCounts(5, 3, 2), getPlayerCountRules(PlayerCount.FOUR))
         assertEquals(SetCounts(6, 4, 2), getPlayerCountRules(PlayerCount.FIVE))
+    }
+
+    @Test
+    fun updateSetCountsFromSchemeTest() {
+        TODO()
     }
 }
