@@ -1,4 +1,4 @@
-package kon.foo.set.base
+package games.lmdbg.rules.set.base
 
 object Heroes {
     const val BLACK_WIDOW = 101

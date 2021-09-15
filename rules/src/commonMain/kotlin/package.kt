@@ -1,1 +1,1 @@
-package kon.foo
+package games.lmdbg.rules

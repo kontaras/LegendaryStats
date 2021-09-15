@@ -1,4 +1,4 @@
-package kon.foo.verifier
+package games.lmdbg.rules.verifier
 
 interface PrintableError {
     fun getMessage(): String
