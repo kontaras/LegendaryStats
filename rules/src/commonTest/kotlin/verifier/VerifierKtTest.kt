@@ -72,21 +72,21 @@ internal class VerifierKtTest {
             override val henchmenRange: IntRange = IntRange.EMPTY
             override val schemesRange: IntRange = 0..0
             override val mastermindRange: IntRange = 0..0
-            override fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {}
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {}
         }, object : ReleaseRulesPlugin {
             override val heroesRange: IntRange = 1..2
             override val villainsRange: IntRange = 101..102
             override val henchmenRange: IntRange = 201..202
             override val schemesRange: IntRange = 301..302
             override val mastermindRange: IntRange = 401..402
-            override fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {}
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {}
         }, object : ReleaseRulesPlugin {
             override val heroesRange: IntRange = 5..7
             override val villainsRange: IntRange = 105..107
             override val henchmenRange: IntRange = 205..207
             override val schemesRange: IntRange = 305..307
             override val mastermindRange: IntRange = 405..407
-            override fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {}
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {}
         })
 
         assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker()) })
