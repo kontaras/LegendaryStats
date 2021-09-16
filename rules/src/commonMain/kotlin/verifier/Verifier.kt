@@ -13,7 +13,7 @@ fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     val setCounts = getPlayerCountRules(play.players)
 
-    updateSetCountsFromScheme(play.scheme, setCounts)
+    updateSetCountsFromScheme(play, setCounts)
 
     errors.addAll(checkCardSetSizes(play, setCounts))
     errors.addAll(checkValuesInRange(play))
@@ -88,10 +88,10 @@ private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange)
     return plugins.any { plugin -> setId in field(plugin) }
 }
 
-fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts) {
+fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
     for (plugin in plugins) {
-        if(scheme in plugin.schemesRange) {
-            plugin.updateSetCountsFromScheme(scheme, setCounts)
+        if(play.scheme in plugin.schemesRange) {
+            plugin.updateSetCountsFromScheme(play, setCounts)
             return
         }
     } //It is possible that the scheme is not in any plugin, but that will be caught by checkValuesInRange

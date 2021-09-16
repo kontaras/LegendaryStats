@@ -1,9 +1,10 @@
 package games.lmdbg.rules.verifier
 
-import kon.foo.model.Play
+import games.lmdbg.rules.model.Play
+import games.lmdbg.rules.set.base.Rules
 
 /** A list of all the release rules engine plugins */
-val plugins: MutableSet<ReleaseRulesPlugin> = mutableSetOf()
+val plugins: MutableSet<ReleaseRulesPlugin> = mutableSetOf(Rules())
 
 /** Data about each release that the rules engine needs to validate sets including that release */
 interface ReleaseRulesPlugin {
@@ -23,9 +24,11 @@ interface ReleaseRulesPlugin {
     val mastermindRange: IntRange
 
     /**
-     * Update count of card sets required based on the
+     * Update count of card sets required based on the scheme.
      *
-     * @param scheme The scheme
+     * @param play A play including this scheme.
+     *      Precondition: [Play.scheme] in [schemesRange]
+     * @param setCounts The set counts to update (if applicable)
      */
-    fun updateSetCountsFromScheme(scheme: Int, setCounts: SetCounts)
+    fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts)
 }
