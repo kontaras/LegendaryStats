@@ -3,11 +3,7 @@ package games.lmdbg.rules.verifier
 import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
-import games.lmdbg.rules.set.base.Masterminds
-import games.lmdbg.rules.set.base.Schemes
-import games.lmdbg.rules.set.base.Heroes
-import games.lmdbg.rules.set.base.Henchmen
-import games.lmdbg.rules.set.base.Villains
+import games.lmdbg.rules.set.base.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -155,6 +151,49 @@ internal class VerifierKtTest {
             })
     }
 
+    @Test
+    fun getPlayerCountRulesTest() {
+        assertEquals(SetCounts(3, 1, 1), getPlayerCountRules(PlayerCount.SOLO))
+        assertEquals(SetCounts(3, 1, 1), getPlayerCountRules(PlayerCount.ADVANCED))
+        assertEquals(SetCounts(5, 2, 1), getPlayerCountRules(PlayerCount.TWO))
+        assertEquals(SetCounts(5, 3, 1), getPlayerCountRules(PlayerCount.THREE))
+        assertEquals(SetCounts(5, 3, 2), getPlayerCountRules(PlayerCount.FOUR))
+        assertEquals(SetCounts(6, 4, 2), getPlayerCountRules(PlayerCount.FIVE))
+    }
+
+    @Test
+    fun updateSetCountsFromSchemeTest() {
+        val plugin = object : ReleaseRulesPlugin {
+            override val heroesRange: IntRange = IntRange.EMPTY
+            override val villainsRange: IntRange = IntRange.EMPTY
+            override val henchmenRange: IntRange = IntRange.EMPTY
+            override val schemesRange: IntRange = 0..10
+            override val mastermindRange: IntRange = 0..0
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
+                logic(play, setCounts)
+            }
+
+            var logic: (Play, SetCounts) -> Unit = { _, _ ->
+                run {}
+            }
+        }
+
+        val plugins = setOf(plugin)
+
+        plugin.logic = {_, setCount -> setCount.heroes++}
+
+        val setCounts = SetCounts(0, 0, 0)
+        runWithPlugins(plugins) {
+            updateSetCountsFromScheme(playMaker(scheme = 3), setCounts)
+        }
+        assertEquals(SetCounts(1,0,0), setCounts)
+
+        plugin.logic = {_, _ -> throw Exception("This code should not be reached")}
+        runWithPlugins(plugins) {
+            updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
+        }
+    }
+
     private fun <T> runWithPlugins(newPlugins: Set<ReleaseRulesPlugin>, func: () -> T): T {
         val realPlugins = plugins.toSet()
         plugins.clear()
@@ -183,20 +222,5 @@ internal class VerifierKtTest {
             if (villain != null) setOf(villain) else setOf(),
             if (henchman != null) setOf(henchman) else setOf()
         )
-    }
-
-    @Test
-    fun getPlayerCountRulesTest() {
-        assertEquals(SetCounts(3, 1, 1), getPlayerCountRules(PlayerCount.SOLO))
-        assertEquals(SetCounts(3, 1, 1), getPlayerCountRules(PlayerCount.ADVANCED))
-        assertEquals(SetCounts(5, 2, 1), getPlayerCountRules(PlayerCount.TWO))
-        assertEquals(SetCounts(5, 3, 1), getPlayerCountRules(PlayerCount.THREE))
-        assertEquals(SetCounts(5, 3, 2), getPlayerCountRules(PlayerCount.FOUR))
-        assertEquals(SetCounts(6, 4, 2), getPlayerCountRules(PlayerCount.FIVE))
-    }
-
-    @Test
-    fun updateSetCountsFromSchemeTest() {
-        TODO()
     }
 }
