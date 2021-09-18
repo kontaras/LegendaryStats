@@ -8,6 +8,10 @@ interface PrintableError {
 
 /**
  * A card set has the wrong number of cards
+ *
+ * @property setType The card set type
+ * @property expected How many card sets of the type are expected
+ * @property actual How many card sets are in the play
  */
 class WrongSetCount(val setType: String, val expected: Int, val actual: Int) : PrintableError {
     override fun getMessage(): String {
@@ -30,7 +34,12 @@ class WrongSetCount(val setType: String, val expected: Int, val actual: Int) : P
     }
 }
 
-/** A card type does not have a set with a given ID */
+/**
+ * A card type does not have a set with a given ID
+ *
+ * @property setType The type of set it is
+ * @property id The invalid ID
+ */
 class InvalidCardSet(val setType: String, val id: Int) : PrintableError {
     override fun getMessage(): String {
         return "Invalid $setType: $id"
@@ -48,5 +57,31 @@ class InvalidCardSet(val setType: String, val id: Int) : PrintableError {
 
     override fun toString(): String {
         return "InvalidCardSet $setType $id"
+    }
+}
+
+/**
+ * A card set that is required by the setup is not present.
+ *
+ * @property setType The type of card set that is missing
+ * @property setId The ID of the set that is expected
+ */
+class MissingRequiredSet(val setType: String, val setId: Int): PrintableError {
+    override fun getMessage(): String {
+        return "Missing required $setType $setId"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other is MissingRequiredSet)
+                && this.setId == other.setId
+                && this.setType == other.setType
+    }
+
+    override fun hashCode(): Int {
+        return getMessage().hashCode()
+    }
+
+    override fun toString(): String {
+        return "MissingRequiredSet $setType $setId"
     }
 }

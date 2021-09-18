@@ -2,6 +2,7 @@ package games.lmdbg.rules.set.base
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.verifier.MandatoryCardSet
 import games.lmdbg.rules.verifier.ReleaseRulesPlugin
 import games.lmdbg.rules.verifier.SetCounts
 
@@ -24,5 +25,9 @@ class Rules : ReleaseRulesPlugin {
             Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE -> {
             } //No changes to be made
         }
+    }
+
+    override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
+        TODO("Not yet implemented")
     }
 }

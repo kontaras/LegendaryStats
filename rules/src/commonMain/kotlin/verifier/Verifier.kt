@@ -17,6 +17,7 @@ fun verify(play: Play): List<PrintableError> {
 
     errors.addAll(checkCardSetSizes(play, setCounts))
     errors.addAll(checkValuesInRange(play))
+    errors.addAll(checkRequiredCardSets(play))
 
     return errors
 }
@@ -88,9 +89,15 @@ private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange)
     return plugins.any { plugin -> setId in field(plugin) }
 }
 
+/**
+ * Look at the scheme and decide if any of the set counts need to be adjusted.
+ *
+ * @param play The play of the scheme, in case other factors, like player count, need to be examined.
+ * @param setCounts The set counts to update, if there are any changes to be made
+ */
 fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
     for (plugin in plugins) {
-        if(play.scheme in plugin.schemesRange) {
+        if (play.scheme in plugin.schemesRange) {
             plugin.updateSetCountsFromScheme(play, setCounts)
             return
         }
@@ -123,3 +130,56 @@ fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
  */
 data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int)
 
+/**
+ * Check if the play includes all card sets required by the scheme and mastermind.
+ *
+ * @param play The play to check
+ * @return A list of [MissingRequiredSet] containing which card set is missing
+ */
+fun checkRequiredCardSets(play: Play): List<PrintableError> {
+    val errors = mutableListOf<PrintableError>()
+
+    if(play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED)) {
+        val alwaysLead = getMastermindAlwaysLeads(play.mastermind)
+        if (alwaysLead.isNotEmpty()) {
+            var leadFound = false
+            for (set in alwaysLead) {
+                if (set.setType == CardSetTypes.HENCHMAN) {
+                    if (set.setId in play.henchmen) {
+                        leadFound = true
+                        break
+                    }
+                } else if (set.setType == CardSetTypes.VILLAIN) {
+                    if (set.setId in play.villains) {
+                        leadFound = true
+                        break
+                    }
+                }
+            }
+
+            if(!leadFound) {
+                for (set in alwaysLead) {
+                    errors.add(MissingRequiredSet(set.setType.name.lowercase(), set.setId))
+                }
+            }
+        }
+    }
+
+    return errors
+}
+
+/**
+ * Get the Always Leads group for a mastermind.
+ *
+ * @param mastermind the mastermind
+ * @return The villain group(s) that the mastermind could lead, generally 1
+ */
+fun getMastermindAlwaysLeads(mastermind: Int): Set<MandatoryCardSet> {
+    for (plugin in plugins) {
+        if (mastermind in plugin.mastermindRange) {
+            return plugin.getAlwaysLead(mastermind)
+        }
+    }
+    //It is possible that the mastermind is not in any plugin, but that will be caught by checkValuesInRange
+    return setOf()
+}

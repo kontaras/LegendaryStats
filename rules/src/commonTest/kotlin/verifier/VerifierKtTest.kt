@@ -30,33 +30,45 @@ internal class VerifierKtTest {
         assertContentEquals(listOf(), checkCardSetSizes(testPlay, counts))
 
         heroes.remove(Heroes.GAMBIT)
-        assertContentEquals(listOf(WrongSetCount("hero", 5, 4)),
-            checkCardSetSizes(testPlay, counts))
+        assertContentEquals(
+            listOf(WrongSetCount("hero", 5, 4)),
+            checkCardSetSizes(testPlay, counts)
+        )
         heroes.add(Heroes.GAMBIT)
 
         heroes.add(Heroes.DEADPOOL)
-        assertContentEquals(listOf(WrongSetCount("hero", 5, 6)),
-            checkCardSetSizes(testPlay, counts))
+        assertContentEquals(
+            listOf(WrongSetCount("hero", 5, 6)),
+            checkCardSetSizes(testPlay, counts)
+        )
         heroes.remove(Heroes.GAMBIT)
 
         villains.remove(Villains.ENEMIES_OF_ASGARD)
-        assertContentEquals(listOf(WrongSetCount("villain", 3, 2)),
-            checkCardSetSizes(testPlay, counts))
+        assertContentEquals(
+            listOf(WrongSetCount("villain", 3, 2)),
+            checkCardSetSizes(testPlay, counts)
+        )
         villains.add(Villains.ENEMIES_OF_ASGARD)
 
         villains.add(Villains.MASTERS_OF_EVIL)
-        assertContentEquals(listOf(WrongSetCount("villain", 3, 4)),
-            checkCardSetSizes(testPlay, counts))
+        assertContentEquals(
+            listOf(WrongSetCount("villain", 3, 4)),
+            checkCardSetSizes(testPlay, counts)
+        )
         villains.remove(Villains.ENEMIES_OF_ASGARD)
 
         henchmen.remove(Henchmen.DOOMBOT_LEGION)
-        assertContentEquals(listOf(WrongSetCount("henchman", 2, 1)),
-            checkCardSetSizes(testPlay, counts))
+        assertContentEquals(
+            listOf(WrongSetCount("henchman", 2, 1)),
+            checkCardSetSizes(testPlay, counts)
+        )
         henchmen.add(Henchmen.DOOMBOT_LEGION)
 
         henchmen.add(Henchmen.HAND_NINJAS)
-        assertContentEquals(listOf(WrongSetCount("henchman", 2, 3)),
-            checkCardSetSizes(testPlay, counts))
+        assertContentEquals(
+            listOf(WrongSetCount("henchman", 2, 3)),
+            checkCardSetSizes(testPlay, counts)
+        )
         henchmen.remove(Henchmen.DOOMBOT_LEGION)
     }
 
@@ -68,21 +80,39 @@ internal class VerifierKtTest {
             override val henchmenRange: IntRange = IntRange.EMPTY
             override val schemesRange: IntRange = 0..0
             override val mastermindRange: IntRange = 0..0
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {}
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
+                throw Exception("Should not be called")
+            }
+
+            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
+                throw Exception("Should not be called")
+            }
         }, object : ReleaseRulesPlugin {
             override val heroesRange: IntRange = 1..2
             override val villainsRange: IntRange = 101..102
             override val henchmenRange: IntRange = 201..202
             override val schemesRange: IntRange = 301..302
             override val mastermindRange: IntRange = 401..402
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {}
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
+                throw Exception("Should not be called")
+            }
+
+            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
+                throw Exception("Should not be called")
+            }
         }, object : ReleaseRulesPlugin {
             override val heroesRange: IntRange = 5..7
             override val villainsRange: IntRange = 105..107
             override val henchmenRange: IntRange = 205..207
             override val schemesRange: IntRange = 305..307
             override val mastermindRange: IntRange = 405..407
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {}
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
+                throw Exception("Should not be called")
+            }
+
+            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
+                throw Exception("Should not be called")
+            }
         })
 
         assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker()) })
@@ -169,28 +199,120 @@ internal class VerifierKtTest {
             override val henchmenRange: IntRange = IntRange.EMPTY
             override val schemesRange: IntRange = 0..10
             override val mastermindRange: IntRange = 0..0
+            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
+                throw Exception("Should not be called")
+            }
+
             override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
                 logic(play, setCounts)
             }
 
             var logic: (Play, SetCounts) -> Unit = { _, _ ->
-                run {}
+                throw Exception("Should not be called")
             }
         }
 
         val plugins = setOf(plugin)
 
-        plugin.logic = {_, setCount -> setCount.heroes++}
+        plugin.logic = { _, setCount -> setCount.heroes++ }
 
         val setCounts = SetCounts(0, 0, 0)
         runWithPlugins(plugins) {
             updateSetCountsFromScheme(playMaker(scheme = 3), setCounts)
         }
-        assertEquals(SetCounts(1,0,0), setCounts)
+        assertEquals(SetCounts(1, 0, 0), setCounts)
 
-        plugin.logic = {_, _ -> throw Exception("This code should not be reached")}
+        plugin.logic = { _, _ -> throw Exception("This code should not be reached") }
         runWithPlugins(plugins) {
             updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
+        }
+    }
+
+    @Test
+    fun checkRequiredCardSetsTest() {
+        val plugin = object : ReleaseRulesPlugin {
+            override val heroesRange: IntRange = IntRange.EMPTY
+            override val villainsRange: IntRange = IntRange.EMPTY
+            override val henchmenRange: IntRange = IntRange.EMPTY
+            override val schemesRange: IntRange = 0..0
+            override val mastermindRange: IntRange = 0..10
+            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
+                return logic(mastermind)
+            }
+
+            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
+                throw Exception("Should not be called")
+            }
+
+            var logic: (Int) -> Set<MandatoryCardSet> = { _ ->
+                throw Exception("Should not be called")
+            }
+        }
+
+        val plugins = setOf(plugin)
+
+        plugin.logic = { _ -> setOf() }
+        runWithPlugins(plugins) {
+            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10)))
+        }
+
+        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.VILLAIN, 3)) }
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(MissingRequiredSet("villain", 3)),
+                checkRequiredCardSets(playMaker(mastermind = 10))
+            )
+        }
+
+        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.VILLAIN, 3)) }
+        runWithPlugins(plugins) {
+            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, villain = 3)))
+        }
+
+        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, 3)) }
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(MissingRequiredSet("henchman", 3)),
+                checkRequiredCardSets(playMaker(mastermind = 10))
+            )
+        }
+
+        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, 3)) }
+        runWithPlugins(plugins) {
+            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, henchman = 3)))
+        }
+
+        plugin.logic = { _ ->
+            setOf(
+                MandatoryCardSet(CardSetTypes.VILLAIN, 3),
+                MandatoryCardSet(CardSetTypes.HENCHMAN, 3)
+            )
+        }
+        runWithPlugins(plugins) {
+            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, henchman = 3)))
+        }
+
+        plugin.logic = { _ ->
+            setOf(
+                MandatoryCardSet(CardSetTypes.VILLAIN, 3),
+                MandatoryCardSet(CardSetTypes.HENCHMAN, 3)
+            )
+        }
+        runWithPlugins(plugins) {
+            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, villain = 3)))
+        }
+
+        plugin.logic = { _ ->
+            setOf(
+                MandatoryCardSet(CardSetTypes.VILLAIN, 3),
+                MandatoryCardSet(CardSetTypes.HENCHMAN, 3)
+            )
+        }
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(MissingRequiredSet("henchman", 3), MissingRequiredSet("villain", 3)).sortedBy { it.toString() },
+                checkRequiredCardSets(playMaker(mastermind = 10)).sortedBy { it.toString() }
+            )
         }
     }
 
