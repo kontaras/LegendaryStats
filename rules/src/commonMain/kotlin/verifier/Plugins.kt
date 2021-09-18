@@ -31,4 +31,26 @@ interface ReleaseRulesPlugin {
      * @param setCounts The set counts to update (if applicable)
      */
     fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts)
+
+    /**
+     * Get the Always Leads group for a mastermind in the set.
+     *
+     * @param mastermind A mastermind in [mastermindRange]
+     * @return The villain group(s) that the mastermind could lead, generally 1
+     */
+    fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet>
 }
+
+/** Card set types in the game that can be a [MandatoryCardSet] */
+enum class CardSetTypes {
+    HENCHMAN,
+    VILLAIN
+}
+
+/**
+ * A card set that must be present in the play
+ *
+ * @property setType The type of card set
+ * @property setId Set id of the villain group
+ */
+data class MandatoryCardSet(val setType: CardSetTypes, val setId: Int)
