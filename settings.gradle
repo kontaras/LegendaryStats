@@ -1,1 +1,6 @@
-rootProject.name = 'legendary-stats-server'
+rootProject.name = 'legendary-stats'
+include 'server'
+include 'rules'
+
+
+
