@@ -40,7 +40,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GRADLE_OPTS: -XX:MaxMetaspaceSize=512m
-      run: ./gradlew sonarqube --info
+      run: |
+        ./gradlew --stop
+        ./gradlew sonarqube --info
     - name: CodeCov
       uses: codecov/codecov-action@v2.1.0
       with:
