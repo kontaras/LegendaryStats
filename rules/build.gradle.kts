@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.5.31"
+    id("org.sonarqube") version "3.3"
 }
 
 group = "games.lmdbg.rules"
@@ -38,5 +39,13 @@ kotlin {
         val jvmTest by getting
         val jsMain by getting
         val jsTest by getting
+    }
+}
+sonarqube {
+    properties {
+        property("sonar.projectKey", "knary_LegendaryStats")
+        property( "sonar.organization", "kon")
+        property( "sonar.host.url", "https://sonarcloud.io")
+        property( "sonar.sources", "src/commonMain/kotlin")
     }
 }
