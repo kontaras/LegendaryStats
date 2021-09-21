@@ -46,6 +46,5 @@ sonarqube {
         property("sonar.projectKey", "knary_LegendaryStats")
         property( "sonar.organization", "kon")
         property( "sonar.host.url", "https://sonarcloud.io")
-        property( "sonar.sources", "src/commonMain/kotlin")
     }
 }
