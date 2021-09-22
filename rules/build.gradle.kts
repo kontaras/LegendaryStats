@@ -29,9 +29,12 @@ kotlin {
         }
     }
 
-    
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                api("org.lighthousegames:logging:1.0.0")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))

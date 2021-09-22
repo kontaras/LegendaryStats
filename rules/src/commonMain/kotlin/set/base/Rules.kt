@@ -2,9 +2,11 @@ package games.lmdbg.rules.set.base
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.verifier.CardSetTypes
 import games.lmdbg.rules.verifier.MandatoryCardSet
 import games.lmdbg.rules.verifier.ReleaseRulesPlugin
 import games.lmdbg.rules.verifier.SetCounts
+import org.lighthousegames.logging.logging
 
 class Rules : ReleaseRulesPlugin {
     override val heroesRange: IntRange = Heroes.BLACK_WIDOW..Heroes.WOLVERINE
@@ -24,10 +26,29 @@ class Rules : ReleaseRulesPlugin {
             Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS,
             Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE -> {
             } //No changes to be made
+            else -> {
+                log.error { "Base set unknown scheme ${play.scheme} in updateSetCounts" }
+            }
         }
     }
 
     override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
-        TODO("Not yet implemented")
+        val group: MandatoryCardSet? = when(mastermind) {
+            Masterminds.DR_DOOM, Masterminds.EPIC_DURISSA_THE_DISPOSSESSED -> MandatoryCardSet(CardSetTypes.HENCHMAN, Henchmen.DOOMBOT_LEGION);
+            Masterminds.LOKI, Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES -> MandatoryCardSet(CardSetTypes.VILLAIN, Villains.ENEMIES_OF_ASGARD)
+            Masterminds.MAGNETO, Masterminds.EPIC_NAX_LORD_OF_CRIMSON_BOG -> MandatoryCardSet(CardSetTypes.VILLAIN, Villains.BROTHERHOOD)
+            Masterminds.RED_SKULL, Masterminds.EPIC_KELILA_BENDER_OF_WILLS -> MandatoryCardSet(CardSetTypes.VILLAIN, Villains.HYDRA)
+            Masterminds.IRON_MONGER -> MandatoryCardSet(CardSetTypes.VILLAIN, Villains.IRON_FOES)
+            else -> {
+                log.error { "Base set always leads got an invalid mastermind value $mastermind" }
+                null
+            }
+        }
+
+        return group?.let { setOf(it) } ?: setOf()
+    }
+
+    companion object {
+        val log = logging()
     }
 }
