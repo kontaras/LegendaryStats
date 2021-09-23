@@ -2,6 +2,8 @@ package games.lmdbg.rules.set.base
 
 import games.lmdbg.rules.model.PlayerCount
 import games.lmdbg.rules.playMaker
+import games.lmdbg.rules.verifier.CardSetTypes
+import games.lmdbg.rules.verifier.MandatoryCardSet
 import games.lmdbg.rules.verifier.SetCounts
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -108,13 +110,15 @@ internal class RulesTest {
         )
         assertEquals(SetCounts(0, 0, 0), original)
 
+        val invalidScheme = -1
         for (scheme: Int in listOf(
             Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS,
             Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
             Schemes.THE_LEGACY_VIRUS,
             Schemes.MIDTOWN_BANK_ROBBERY,
             Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE,
-            Schemes.PORTALS_TO_THE_DARK_DIMENSION
+            Schemes.PORTALS_TO_THE_DARK_DIMENSION,
+            invalidScheme
         )) {
             original = SetCounts(0, 0, 0)
             rules.updateSetCountsFromScheme(playMaker(scheme = scheme), original)
@@ -127,5 +131,33 @@ internal class RulesTest {
             original
         )
         assertEquals(SetCounts(0, 0, 1), original)
+    }
+
+    @Test
+    fun getAlwaysLeadTest() {
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, Henchmen.DOOMBOT_LEGION)),
+            rules.getAlwaysLead(Masterminds.DR_DOOM)
+        )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.ENEMIES_OF_ASGARD)),
+            rules.getAlwaysLead(Masterminds.LOKI)
+        )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.BROTHERHOOD)),
+            rules.getAlwaysLead(Masterminds.MAGNETO)
+        )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.HYDRA)),
+            rules.getAlwaysLead(Masterminds.RED_SKULL)
+        )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.IRON_FOES)),
+            rules.getAlwaysLead(Masterminds.IRON_MONGER)
+        )
     }
 }
