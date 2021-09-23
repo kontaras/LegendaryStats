@@ -1,6 +1,10 @@
 package games.lmdbg.rules.set.base
 
+import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.playMaker
+import games.lmdbg.rules.verifier.SetCounts
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class RulesTest {
@@ -86,5 +90,42 @@ internal class RulesTest {
                 Masterminds.EPIC_KELILA_BENDER_OF_WILLS,
                 Masterminds.IRON_MONGER
             ).all { it in rules.mastermindsRange })
+    }
+
+    @Test
+    fun updateSetCountsFromSchemeTest() {
+        var original = SetCounts(0, 0, 0)
+        rules.updateSetCountsFromScheme(
+            playMaker(scheme = Schemes.SUPER_HERO_CIVIL_WAR, players = PlayerCount.TWO),
+            original
+        )
+        assertEquals(SetCounts(4, 0, 0), original)
+
+        original = SetCounts(0, 0, 0)
+        rules.updateSetCountsFromScheme(
+            playMaker(scheme = Schemes.SUPER_HERO_CIVIL_WAR, players = PlayerCount.FOUR),
+            original
+        )
+        assertEquals(SetCounts(0, 0, 0), original)
+
+        for (scheme: Int in listOf(
+            Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS,
+            Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
+            Schemes.THE_LEGACY_VIRUS,
+            Schemes.MIDTOWN_BANK_ROBBERY,
+            Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE,
+            Schemes.PORTALS_TO_THE_DARK_DIMENSION
+        )) {
+            original = SetCounts(0, 0, 0)
+            rules.updateSetCountsFromScheme(playMaker(scheme = scheme), original)
+            assertEquals(SetCounts(0, 0, 0), original)
+        }
+
+        original = SetCounts(0, 0, 0)
+        rules.updateSetCountsFromScheme(
+            playMaker(scheme = Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT),
+            original
+        )
+        assertEquals(SetCounts(0, 0, 1), original)
     }
 }

@@ -34,7 +34,7 @@ class Rules : ReleaseRulesPlugin {
 
     override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
         val group: MandatoryCardSet? = when(mastermind) {
-            Masterminds.DR_DOOM, Masterminds.EPIC_DURISSA_THE_DISPOSSESSED -> MandatoryCardSet(CardSetTypes.HENCHMAN, Henchmen.DOOMBOT_LEGION);
+            Masterminds.DR_DOOM, Masterminds.EPIC_DURISSA_THE_DISPOSSESSED -> MandatoryCardSet(CardSetTypes.HENCHMAN, Henchmen.DOOMBOT_LEGION)
             Masterminds.LOKI, Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES -> MandatoryCardSet(CardSetTypes.VILLAIN, Villains.ENEMIES_OF_ASGARD)
             Masterminds.MAGNETO, Masterminds.EPIC_NAX_LORD_OF_CRIMSON_BOG -> MandatoryCardSet(CardSetTypes.VILLAIN, Villains.BROTHERHOOD)
             Masterminds.RED_SKULL, Masterminds.EPIC_KELILA_BENDER_OF_WILLS -> MandatoryCardSet(CardSetTypes.VILLAIN, Villains.HYDRA)
