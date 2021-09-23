@@ -159,5 +159,25 @@ internal class RulesTest {
             setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.IRON_FOES)),
             rules.getAlwaysLead(Masterminds.IRON_MONGER)
         )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, Henchmen.DOOMBOT_LEGION)),
+            rules.getAlwaysLead(Masterminds.EPIC_DURISSA_THE_DISPOSSESSED)
+        )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.HYDRA)),
+            rules.getAlwaysLead(Masterminds.EPIC_KELILA_BENDER_OF_WILLS)
+        )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.BROTHERHOOD)),
+            rules.getAlwaysLead(Masterminds.EPIC_NAX_LORD_OF_CRIMSON_BOG)
+        )
+
+        assertEquals(
+            setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.ENEMIES_OF_ASGARD)),
+            rules.getAlwaysLead(Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES)
+        )
     }
 }
