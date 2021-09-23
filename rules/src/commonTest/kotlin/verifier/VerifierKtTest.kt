@@ -79,7 +79,7 @@ internal class VerifierKtTest {
             override val villainsRange: IntRange = IntRange.EMPTY
             override val henchmenRange: IntRange = IntRange.EMPTY
             override val schemesRange: IntRange = 0..0
-            override val mastermindRange: IntRange = 0..0
+            override val mastermindsRange: IntRange = 0..0
             override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
                 throw Exception("Should not be called")
             }
@@ -92,7 +92,7 @@ internal class VerifierKtTest {
             override val villainsRange: IntRange = 101..102
             override val henchmenRange: IntRange = 201..202
             override val schemesRange: IntRange = 301..302
-            override val mastermindRange: IntRange = 401..402
+            override val mastermindsRange: IntRange = 401..402
             override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
                 throw Exception("Should not be called")
             }
@@ -105,7 +105,7 @@ internal class VerifierKtTest {
             override val villainsRange: IntRange = 105..107
             override val henchmenRange: IntRange = 205..207
             override val schemesRange: IntRange = 305..307
-            override val mastermindRange: IntRange = 405..407
+            override val mastermindsRange: IntRange = 405..407
             override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
                 throw Exception("Should not be called")
             }
@@ -198,7 +198,7 @@ internal class VerifierKtTest {
             override val villainsRange: IntRange = IntRange.EMPTY
             override val henchmenRange: IntRange = IntRange.EMPTY
             override val schemesRange: IntRange = 0..10
-            override val mastermindRange: IntRange = 0..0
+            override val mastermindsRange: IntRange = 0..0
             override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
                 throw Exception("Should not be called")
             }
@@ -235,7 +235,7 @@ internal class VerifierKtTest {
             override val villainsRange: IntRange = IntRange.EMPTY
             override val henchmenRange: IntRange = IntRange.EMPTY
             override val schemesRange: IntRange = 0..0
-            override val mastermindRange: IntRange = 0..10
+            override val mastermindsRange: IntRange = 0..10
             override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
                 return logic(mastermind)
             }

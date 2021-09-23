@@ -11,9 +11,9 @@ import org.lighthousegames.logging.logging
 class Rules : ReleaseRulesPlugin {
     override val heroesRange: IntRange = Heroes.BLACK_WIDOW..Heroes.WOLVERINE
     override val villainsRange: IntRange = Villains.BROTHERHOOD..Villains.IRON_FOES
-    override val henchmenRange: IntRange = Henchmen.DOOMBOT_LEGION..Henchmen.SAVAGE_LAND_MUTATES
+    override val henchmenRange: IntRange = Henchmen.DOOMBOT_LEGION..Henchmen.SENTINEL
     override val schemesRange: IntRange = Schemes.THE_LEGACY_VIRUS..Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE
-    override val mastermindRange: IntRange = Masterminds.DR_DOOM..Masterminds.IRON_MONGER
+    override val mastermindsRange: IntRange = Masterminds.DR_DOOM..Masterminds.IRON_MONGER
 
     override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
         when (play.scheme) {

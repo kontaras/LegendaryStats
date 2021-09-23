@@ -72,7 +72,7 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
     if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
         errors.add(InvalidCardSet("scheme", play.scheme))
     }
-    if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindRange)) {
+    if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindsRange)) {
         errors.add(InvalidCardSet("mastermind", play.mastermind))
     }
     return errors
@@ -176,7 +176,7 @@ fun checkRequiredCardSets(play: Play): List<PrintableError> {
  */
 fun getMastermindAlwaysLeads(mastermind: Int): Set<MandatoryCardSet> {
     for (plugin in plugins) {
-        if (mastermind in plugin.mastermindRange) {
+        if (mastermind in plugin.mastermindsRange) {
             return plugin.getAlwaysLead(mastermind)
         }
     }
