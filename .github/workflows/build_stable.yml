@@ -42,7 +42,7 @@ jobs:
         GRADLE_OPTS: -XX:MaxMetaspaceSize=700m
       run: |
         ./gradlew --stop
-        ./gradlew rules:sonarqube --info
+        ./gradlew sonarqube --info
     - name: CodeCov
       uses: codecov/codecov-action@v2.1.0
       with:
