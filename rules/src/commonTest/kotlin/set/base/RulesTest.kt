@@ -179,5 +179,10 @@ internal class RulesTest {
             setOf(MandatoryCardSet(CardSetTypes.VILLAIN, Villains.ENEMIES_OF_ASGARD)),
             rules.getAlwaysLead(Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES)
         )
+
+        val invalidMastermind = -1
+        assertEquals(
+            setOf(), rules.getAlwaysLead(invalidMastermind)
+        )
     }
 }
