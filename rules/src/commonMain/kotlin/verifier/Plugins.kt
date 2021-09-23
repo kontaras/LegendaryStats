@@ -21,7 +21,7 @@ interface ReleaseRulesPlugin {
     val schemesRange: IntRange
 
     /** The range of valid ID numbers for masterminds */
-    val mastermindRange: IntRange
+    val mastermindsRange: IntRange
 
     /**
      * Update count of card sets required based on the scheme.
@@ -35,7 +35,7 @@ interface ReleaseRulesPlugin {
     /**
      * Get the Always Leads group for a mastermind in the set.
      *
-     * @param mastermind A mastermind in [mastermindRange]
+     * @param mastermind A mastermind in [mastermindsRange]
      * @return The villain group(s) that the mastermind could lead, generally 1
      */
     fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet>
