@@ -3,6 +3,7 @@ package games.lmdbg.rules.verifier
 import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.playMaker
 import games.lmdbg.rules.set.base.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -327,22 +328,5 @@ internal class VerifierKtTest {
             plugins.addAll(realPlugins)
         }
     }
-
-    private fun playMaker(
-        hero: Int? = null,
-        villain: Int? = null,
-        henchman: Int? = null,
-        mastermind: Int? = null,
-        scheme: Int? = null
-    ): Play {
-        return Play(
-            Outcome.WIN,
-            PlayerCount.THREE,
-            scheme ?: 0,
-            mastermind ?: 0,
-            if (hero != null) setOf(hero) else setOf(),
-            if (villain != null) setOf(villain) else setOf(),
-            if (henchman != null) setOf(henchman) else setOf()
-        )
-    }
 }
+
