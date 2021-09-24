@@ -26,6 +26,11 @@ kotlin {
             commonWebpackConfig {
                 cssSupport.enabled = true
             }
+
+            dceTask {
+                //Just because my code is not calling a function does not make it safe to delete
+                keep("legendary-stats-rules.games.lmdbg.rules")
+            }
         }
     }
 

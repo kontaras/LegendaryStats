@@ -18,7 +18,6 @@ repositories {
 
 dependencies {
 	implementation project(':rules')
-
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -112,6 +111,18 @@ task copyFromNpm(type: Task) {
 	dependsOn cssCopy
 
 	inputs.files(fileTree('node_modules'))
+}
+
+tasks.processResources {
+    // make sure we build the frontend before creating the jar
+    dependsOn(":rules:assemble")
+    // package the frontend app within the jar as static
+    def frontendBuildDir = project(":rules").buildDir
+    def frontendDist = frontendBuildDir.toPath().resolve("distributions")
+    from(frontendDist) {
+        include("**/*")
+        into("static/scripts")
+    }
 }
 
 jar.configure {

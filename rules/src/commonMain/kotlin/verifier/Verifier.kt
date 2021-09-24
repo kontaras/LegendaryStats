@@ -2,6 +2,7 @@ package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import kotlin.js.JsName
 
 /**
  * Check if a given play follows all game setup rules
@@ -9,6 +10,7 @@ import games.lmdbg.rules.model.PlayerCount
  * @param play The play to verify
  * @return A list of issues with this play. Will be empty if there are no issues.
  */
+@JsName("verify") //Prevent mangling
 fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     val setCounts = getPlayerCountRules(play.players)
