@@ -14,11 +14,11 @@ import games.lmdbg.server.model.game.CardSet;
 public interface CardSetRepository<T extends CardSet, ID> extends ReadOnlyRepository<T, ID> {
 	@Query(value = "SELECT h.id AS id, "
 			+ "         COUNT(*) AS played,"
-			+ "         COUNT(CASE WHEN p.outcome = 'WIN' THEN 1 ELSE null END) AS won, "
-			+ "         COUNT(CASE WHEN p.outcome = 'LOSS' THEN 1 ELSE null END) AS lost "
+			+ "         COUNT(CASE WHEN p.outcome LIKE 'WIN%' THEN 1 ELSE null END) AS won, "
+			+ "         COUNT(CASE WHEN p.outcome LIKE 'LOSS%' THEN 1 ELSE null END) AS lost "
 			+ "    FROM #{#entityName} h INNER JOIN h.plays p"
 			+ "    GROUP BY h"
-			+ "    ORDER BY CAST(COUNT(CASE WHEN p.outcome = 'WIN' THEN 1 ELSE null END) AS float) / "
+			+ "    ORDER BY CAST(COUNT(CASE WHEN p.outcome LIKE 'WIN%' THEN 1 ELSE null END) AS float) / "
 			+ "             CAST(COUNT(*) AS float) DESC")
 	List<IWinRate> findWinRates();
 }

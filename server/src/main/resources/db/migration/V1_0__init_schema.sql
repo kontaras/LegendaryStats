@@ -65,8 +65,8 @@ CREATE TABLE "user"
 );
 CREATE TYPE game_outcome AS ENUM
 (
-   'WIN',
-   'LOSS',
+   'WIN_DEFEAT_MASTERMIND',
+   'LOSS_SCHEME',
    'DRAW',
    'INCOMPLETE'
 );
