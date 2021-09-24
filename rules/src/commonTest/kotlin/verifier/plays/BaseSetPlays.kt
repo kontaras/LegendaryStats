@@ -18,7 +18,7 @@ internal class BaseSetPlays {
             listOf(),
             verify(
                 Play(
-                    Outcome.WIN,
+                    Outcome.WIN_DEFEAT_MASTERMIND,
                     PlayerCount.FOUR,
                     Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
                     Masterminds.LOKI,
@@ -42,7 +42,7 @@ internal class BaseSetPlays {
             ),
             verify(
                 Play(
-                    Outcome.WIN,
+                    Outcome.WIN_DEFEAT_MASTERMIND,
                     PlayerCount.FOUR,
                     -1,
                     -1,

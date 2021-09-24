@@ -13,7 +13,7 @@ fun playMaker(
     players: PlayerCount? = null
 ): Play {
     return Play(
-        Outcome.WIN,
+        Outcome.WIN_DEFEAT_MASTERMIND,
         players ?: PlayerCount.THREE,
         scheme ?: 0,
         mastermind ?: 0,
