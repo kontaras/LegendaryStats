@@ -3,6 +3,10 @@ import random
 import sys
 from enum import Enum
 
+NUM_PLAYS = 100
+
+STARTING_ID = 0
+
 MIN_HER0 = 101
 MAX_HERO = 115
 
@@ -23,9 +27,9 @@ USER_NAME = "system_automation"
 
 
 class Outcomes(Enum):
-    WIN = "WIN"
+    WIN = "WIN_DEFEAT_MASTERMIND"
     DRAW = "DRAW"
-    LOSS = "LOSS"
+    LOSS = "LOSS_SCHEME"
     INC = "INCOMPLETE"
 
     def __init__(self, represent):
@@ -163,4 +167,4 @@ def generate_henchmen(plays, out_file):
 
 
 if __name__ == '__main__':
-    generate_db(0, 100, sys.stdout)
+    generate_db(STARTING_ID, NUM_PLAYS, sys.stdout)
