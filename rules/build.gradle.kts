@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.5.31"
+    kotlin("plugin.serialization") version "1.5.31"
     id("org.sonarqube") version "3.3"
     id("java-library")
     jacoco
@@ -38,6 +39,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("org.lighthousegames:logging:1.0.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
             }
         }
         val commonTest by getting {
