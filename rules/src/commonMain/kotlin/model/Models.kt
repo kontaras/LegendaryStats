@@ -1,5 +1,10 @@
 package games.lmdbg.rules.model
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
 /** The possible game outcomes */
 enum class Outcome {
     /** Players won by defeating the mastermind */
@@ -26,6 +31,7 @@ enum class PlayerCount {
 }
 
 /** All of the data about a play that can be validated */
+@Serializable
 data class Play(
     /** How did the game end? */
     val outcome: Outcome,
@@ -43,5 +49,15 @@ data class Play(
     val henchmen: Set<Int>,
     /** Which hero was used for a special purpose (i.e. not in the hero deck)? */
     val misc_hero: Int? = null
-)
+) {
+    companion object {
+        fun playFromString(encoded: String): Play {
+            return Json.decodeFromString(encoded)
+        }
+
+        fun playToString(play: Play): String {
+            return Json.encodeToString(play)
+        }
+    }
+}
 
