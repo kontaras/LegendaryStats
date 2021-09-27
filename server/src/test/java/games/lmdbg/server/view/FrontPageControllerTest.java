@@ -18,6 +18,7 @@ import games.lmdbg.server.model.game.Mastermind;
 import games.lmdbg.server.model.game.Scheme;
 import games.lmdbg.server.model.game.Villain;
 import games.lmdbg.server.model.game.repositories.IWinRate;
+import games.lmdbg.server.service.WinRate;
 import games.lmdbg.server.service.WinRateService;
 
 /**
@@ -26,7 +27,19 @@ import games.lmdbg.server.service.WinRateService;
 @SpringBootTest
 class FrontPageControllerTest {
 	@MockBean
-	private WinRateService winRates;
+	private WinRate<Hero> heroWinRates;
+	
+	@MockBean
+	private WinRate<Villain> villainWinRates;
+
+	@MockBean
+	private WinRate<Mastermind> mastermindWinRates;
+	
+	@MockBean
+	private WinRate<Henchman> henchmanWinRates;
+	
+	@MockBean
+	private WinRate<Scheme> schemeWinRates;
 	
 	@Autowired
 	private FrontPageController controller;
@@ -34,15 +47,15 @@ class FrontPageControllerTest {
 	@Test
 	void testMainPage() {
 		Map<Hero, IWinRate> testHeroWinRateMap = new HashMap<>(0);
-		Mockito.when(winRates.getHeroWinRates()).thenReturn(testHeroWinRateMap);
+		Mockito.when(heroWinRates.getWinRates()).thenReturn(testHeroWinRateMap);
 		Map<Villain, IWinRate> testVillainWinRateMap = new HashMap<>(0);
-		Mockito.when(winRates.getVillainWinRates()).thenReturn(testVillainWinRateMap);
+		Mockito.when(villainWinRates.getWinRates()).thenReturn(testVillainWinRateMap);
 		Map<Mastermind, IWinRate> testMastermindWinRateMap = new HashMap<>(0);
-		Mockito.when(winRates.getMastermindWinRates()).thenReturn(testMastermindWinRateMap);
+		Mockito.when(mastermindWinRates.getWinRates()).thenReturn(testMastermindWinRateMap);
 		Map<Henchman, IWinRate> testHenchmanWinRateMap = new HashMap<>(0);
-		Mockito.when(winRates.getHenchmanWinRates()).thenReturn(testHenchmanWinRateMap);
+		Mockito.when(henchmanWinRates.getWinRates()).thenReturn(testHenchmanWinRateMap);
 		Map<Scheme, IWinRate> testSchemeWinRateMap = new HashMap<>(0);
-		Mockito.when(winRates.getSchemeWinRates()).thenReturn(testSchemeWinRateMap);
+		Mockito.when(schemeWinRates.getWinRates()).thenReturn(testSchemeWinRateMap);
 		
 		Model mod = Mockito.mock(Model.class);
 		Assertions.assertEquals("index", controller.mainPage(mod));
