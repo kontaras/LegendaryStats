@@ -85,4 +85,9 @@ public class Namable implements Comparable<Namable> {
 	public boolean equals(Object obj) {
 		return obj != null && this.getClass().equals(obj.getClass()) && this.id.equals(((Namable) obj).id);
 	}
+	
+	@Override
+	public int hashCode() {
+		return this.getClass().hashCode() + this.id.intValue();
+	}
 }
