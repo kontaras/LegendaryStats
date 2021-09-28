@@ -19,7 +19,6 @@ import games.lmdbg.server.model.game.Scheme;
 import games.lmdbg.server.model.game.Villain;
 import games.lmdbg.server.model.game.repositories.IWinRate;
 import games.lmdbg.server.service.WinRate;
-import games.lmdbg.server.service.WinRateService;
 
 /**
  * Test {@link FrontPageController}

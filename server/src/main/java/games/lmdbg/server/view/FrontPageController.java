@@ -17,21 +17,32 @@ import games.lmdbg.server.service.WinRate;
  */
 @Controller
 public class FrontPageController {
+	/** Source of win rates for {@link Hero} */
 	@Autowired
 	private WinRate<Hero> heroWinRates;
-	
+
+	/** Source of win rates for {@link Villain} */
 	@Autowired
 	private WinRate<Villain> villainWinRates;
 
+	/** Source of win rates for {@link Mastermind} */
 	@Autowired
 	private WinRate<Mastermind> mastermindWinRates;
-	
+
+	/** Source of win rates for {@link Henchman} */
 	@Autowired
 	private WinRate<Henchman> henchmanWinRates;
-	
+
+	/** Source of win rates for {@link Scheme} */
 	@Autowired
 	private WinRate<Scheme> schemeWinRates;
-	
+
+	/**
+	 * Generate data for rendering the front page.
+	 * 
+	 * @param model Model to put data into
+	 * @return The template to create the index page
+	 */
 	@GetMapping("/")
 	public String mainPage(Model model) {
 		model.addAttribute("heroes", heroWinRates.getWinRates());

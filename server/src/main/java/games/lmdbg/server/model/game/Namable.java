@@ -3,12 +3,14 @@ package games.lmdbg.server.model.game;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.google.common.base.Strings;
+
 /**
  * A common superclass for any card/card set that has a different name in
  * releases.
  */
 @MappedSuperclass
-public class Namable {
+public class Namable implements Comparable<Namable> {
 	/** Database ID */
 	@Id
 	private Integer id;
@@ -48,6 +50,35 @@ public class Namable {
 	 */
 	public String getDxpName() {
 		return dxpName;
+	}
+
+	@Override
+	public int compareTo(Namable other) {
+		return this.toString().compareTo(other.toString());
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		if (!Strings.isNullOrEmpty(marvelName)) {
+			builder.append(marvelName);
+			builder.append(' ');
+		}
+
+		if (!Strings.isNullOrEmpty(mcuName)) {
+			builder.append(mcuName);
+			builder.append(' ');
+		}
+
+		if (!Strings.isNullOrEmpty(mcuName)) {
+			builder.append(getDxpName());
+			builder.append(' ');
+		}
+		
+		builder.append(id);
+
+		return builder.toString();
 	}
 
 }

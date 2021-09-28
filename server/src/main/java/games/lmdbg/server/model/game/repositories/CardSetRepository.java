@@ -12,6 +12,11 @@ import games.lmdbg.server.model.game.CardSet;
  */
 @NoRepositoryBean
 public interface CardSetRepository<T extends CardSet, ID> extends ReadOnlyRepository<T, ID> {
+	/**
+	 * Calculate win rates for all entries in the database
+	 * 
+	 * @return The win rates, sorted by {@link IWinRate#getWon()}/{@link IWinRate#getPlayed()}
+	 */
 	@Query(value = "SELECT h.id AS id, "
 			+ "         COUNT(*) AS played,"
 			+ "         COUNT(CASE WHEN p.outcome LIKE 'WIN%' THEN 1 ELSE null END) AS won, "
