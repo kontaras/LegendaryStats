@@ -14,7 +14,7 @@ public class Namable implements Comparable<Namable> {
 	/** Database ID */
 	@Id
 	private Integer id;
-	
+
 	/** The name of the set for Marvel comics sets */
 	private String marvelName;
 
@@ -30,7 +30,7 @@ public class Namable implements Comparable<Namable> {
 	public Integer getId() {
 		return id;
 	}
-	
+
 	/**
 	 * @return the name as released in mainline Legendary Marvel releases.
 	 */
@@ -56,7 +56,7 @@ public class Namable implements Comparable<Namable> {
 	public int compareTo(Namable other) {
 		return this.toString().compareTo(other.toString());
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -75,10 +75,14 @@ public class Namable implements Comparable<Namable> {
 			builder.append(getDxpName());
 			builder.append(' ');
 		}
-		
+
 		builder.append(id);
 
 		return builder.toString();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && this.getClass().equals(obj.getClass()) && this.id.equals(((Namable) obj).id);
+	}
 }
