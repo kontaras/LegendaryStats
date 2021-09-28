@@ -1,43 +1,28 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/page_template :: layout(~{::headers}, ~{::contents})}">
 	<head>
-		<link rel="stylesheet" th:href="@{/styles/normalize.css}"
-			href="https://necolas.github.io/normalize.css/latest/normalize.css">
-		 <link rel="stylesheet" th:href="@{/styles/style.css}"
-			href="../static/styles/style.css">
 		<title>Legendary Game Stats</title>
-
-		<th:block th:replace="fragments/tables :: scripts" />
+		<th:block th:fragment="headers">
+			<th:block th:replace="fragments/tables :: scripts" />
+		</th:block>
 	</head>
 	<body>
-		<div id="header"><h1 style="display: inline">Legendary Stats</h1>
-		<p id="links">
-			<a href="">Login</a>
-			<a href="">Register</a>
-			-
-			<a href="">Heroes</a>
-			<a href="">Schemes</a>
-			<a href="">Masterminds</a>
-			<a href="">Villains</a>
-			<a href="">Henchmen</a>
-		</p>
-		</div>
-		<div id="contents">
+		<div th:fragment=="contents">
 
-		<th:block
-			th:replace="fragments/tables :: tableTemple (name = 'Heroes', id = 'heroes', rows = ${heroes})" />
-
-		<th:block
-			th:replace="fragments/tables :: tableTemple (name = 'Villains', id = 'villains', rows = ${villains})" />
-
-		<th:block
-			th:replace="fragments/tables :: tableTemple (name = 'Masterminds', id = 'masterminds', rows = ${masterminds})" />
-			
-		<th:block
-			th:replace="fragments/tables :: tableTemple (name = 'Henchmen', id = 'henchmen', rows = ${henchmen})" />
-			
-		<th:block
-			th:replace="fragments/tables :: tableTemple (name = 'Schemes', id = 'schemes', rows = ${schemes})" />
+			<th:block
+				th:replace="fragments/tables :: tableTemple (name = 'Heroes', id = 'heroes', rows = ${heroes})" />
+	
+			<th:block
+				th:replace="fragments/tables :: tableTemple (name = 'Villains', id = 'villains', rows = ${villains})" />
+	
+			<th:block
+				th:replace="fragments/tables :: tableTemple (name = 'Masterminds', id = 'masterminds', rows = ${masterminds})" />
+				
+			<th:block
+				th:replace="fragments/tables :: tableTemple (name = 'Henchmen', id = 'henchmen', rows = ${henchmen})" />
+				
+			<th:block
+				th:replace="fragments/tables :: tableTemple (name = 'Schemes', id = 'schemes', rows = ${schemes})" />
 		
 		</div>
 	</body>

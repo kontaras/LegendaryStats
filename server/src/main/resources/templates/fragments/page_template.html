@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout (extra_head, content)">
+	<head>
+		<link rel="stylesheet" th:href="@{/styles/normalize.css}"
+			href="https://necolas.github.io/normalize.css/latest/normalize.css">
+		 <link rel="stylesheet" th:href="@{/styles/style.css}"
+			href="../static/styles/style.css">
+		<title>Legendary Game Stats</title>
+
+		<th:block th:replace="${extra_head}" />
+	</head>
+	<body>
+		<div id="header"><h1 style="display: inline">Legendary Stats</h1>
+		<p id="links">
+			<a href="">Login</a>
+			<a href="">Register</a>
+			-
+			<a href="">Heroes</a>
+			<a href="">Schemes</a>
+			<a href="">Masterminds</a>
+			<a href="">Villains</a>
+			<a href="">Henchmen</a>
+		</p>
+		</div>
+		<div id="contents" th:insert="${content}">
+			<!-- Contents goes here -->
+		</div>
+	</body>
+</html>
