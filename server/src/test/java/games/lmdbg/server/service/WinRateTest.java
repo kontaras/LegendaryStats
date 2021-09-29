@@ -8,13 +8,16 @@ import java.util.Map.Entry;
 import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import games.lmdbg.server.model.game.CardSet;
 import games.lmdbg.server.model.game.repositories.CardSetRepository;
 import games.lmdbg.server.model.game.repositories.IWinRate;
 
+@ExtendWith(MockitoExtension.class)
 class WinRateTest {
 	@Mock
 	CardSetRepository<CardSet, Integer> repo;

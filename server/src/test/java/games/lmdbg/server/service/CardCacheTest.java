@@ -6,12 +6,18 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import games.lmdbg.server.model.game.CardSet;
 import games.lmdbg.server.model.game.repositories.CardSetRepository;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT) // Needed so that comparison is not order dependent
 class CardCacheTest {
 	@Mock
 	private CardSetRepository<CardSet, Integer> mockRepo;
