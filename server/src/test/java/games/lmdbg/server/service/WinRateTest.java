@@ -15,7 +15,7 @@ import games.lmdbg.server.model.game.CardSet;
 import games.lmdbg.server.model.game.repositories.CardSetRepository;
 import games.lmdbg.server.model.game.repositories.IWinRate;
 
-public class WinRateTest {
+class WinRateTest {
 	@Mock
 	CardSetRepository<CardSet, Integer> repo;
 
@@ -23,7 +23,7 @@ public class WinRateTest {
 	CardCache<CardSet> cache;
 	
 	@Test
-	private void testWinRate() {
+	void testWinRate() {
 		WinRate<CardSet> testMe = new WinRate<>(repo, cache);
 		
 		IWinRate mockRate0 = Mockito.mock(IWinRate.class);
