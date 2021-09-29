@@ -17,7 +17,7 @@ class CardCacheTest {
 	private CardSetRepository<CardSet, Integer> mockRepo;
 
 	@Test
-	private void testCaching() {
+	void testCaching() {
 		List<CardSet> cards = new ArrayList<>(3);
 
 		CardSet mockCardSet1 = Mockito.mock(CardSet.class);
