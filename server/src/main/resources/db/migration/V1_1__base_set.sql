@@ -56,3 +56,6 @@ INSERT INTO henchman (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
 	(1, 102, 'Hand Ninjas', 'Leprechauns', 'HYDRA Pilots'),
 	(1, 103, 'Savage Land Mutates', 'Books of the Dead', 'HYDRA Spies'),
 	(1, 104, 'Sentinel', 'Phyllo Assassins', 'Ten Rings Fanatics');
+	
+INSERT INTO support (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
+	(1, 101, 'S.H.I.E.L.D. Officer', 'Mayor Shufflebottom', 'S.H.I.E.L.D. Officer');

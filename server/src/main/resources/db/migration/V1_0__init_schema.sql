@@ -79,6 +79,16 @@ CREATE TYPE player_count AS ENUM
    'FOUR',
    'FIVE'
 );
+CREATE TABLE support
+(
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (release_id) REFERENCES release (id)
+);
 CREATE TABLE play
 (
    id BIGINT NOT NULL,
@@ -129,5 +139,17 @@ CREATE TABLE play_henchman
       play_id
    ),
    FOREIGN KEY (henchman_id) REFERENCES henchman (id),
+   FOREIGN KEY (play_id) REFERENCES play (id)
+);
+CREATE TABLE play_support
+(
+   support_id INT NOT NULL,
+   play_id BIGINT  NOT NULL,
+   PRIMARY KEY
+   (
+      support_id,
+      play_id
+   ),
+   FOREIGN KEY (support_id) REFERENCES support (id),
    FOREIGN KEY (play_id) REFERENCES play (id)
 );
