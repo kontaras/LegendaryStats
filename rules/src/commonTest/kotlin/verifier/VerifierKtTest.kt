@@ -1,5 +1,6 @@
 package games.lmdbg.rules.verifier
 
+import games.lmdbg.rules.MockRules
 import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
@@ -23,7 +24,8 @@ internal class VerifierKtTest {
             Masterminds.LOKI,
             heroes,
             villains,
-            henchmen
+            henchmen,
+            setOf()
         )
 
         val counts = getPlayerCountRules(PlayerCount.FOUR)
@@ -75,46 +77,25 @@ internal class VerifierKtTest {
 
     @Test
     fun checkValuesInRangeTest() {
-        val plugins = setOf(object : ReleaseRulesPlugin {
-            override val heroesRange: IntRange = IntRange.EMPTY
-            override val villainsRange: IntRange = IntRange.EMPTY
-            override val henchmenRange: IntRange = IntRange.EMPTY
-            override val schemesRange: IntRange = 0..0
-            override val mastermindsRange: IntRange = 0..0
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
-                throw Exception("Should not be called")
-            }
-
-            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
-                throw Exception("Should not be called")
-            }
-        }, object : ReleaseRulesPlugin {
-            override val heroesRange: IntRange = 1..2
-            override val villainsRange: IntRange = 101..102
-            override val henchmenRange: IntRange = 201..202
-            override val schemesRange: IntRange = 301..302
-            override val mastermindsRange: IntRange = 401..402
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
-                throw Exception("Should not be called")
-            }
-
-            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
-                throw Exception("Should not be called")
-            }
-        }, object : ReleaseRulesPlugin {
-            override val heroesRange: IntRange = 5..7
-            override val villainsRange: IntRange = 105..107
-            override val henchmenRange: IntRange = 205..207
-            override val schemesRange: IntRange = 305..307
-            override val mastermindsRange: IntRange = 405..407
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
-                throw Exception("Should not be called")
-            }
-
-            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
-                throw Exception("Should not be called")
-            }
-        })
+        val plugins = setOf(
+            MockRules(schemesRange = 0..0, mastermindsRange = 0..0),
+            MockRules(
+                heroesRange = 1..2,
+                villainsRange = 101..102,
+                henchmenRange = 201..202,
+                schemesRange = 301..302,
+                mastermindsRange = 401..402,
+                supportCardRange = 501..502
+            ),
+            MockRules(
+                heroesRange = 5..7,
+                villainsRange = 105..107,
+                henchmenRange = 205..207,
+                schemesRange = 305..307,
+                mastermindsRange = 405..407,
+                supportCardRange = 505..507
+            )
+        )
 
         assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker()) })
 
@@ -148,6 +129,12 @@ internal class VerifierKtTest {
             listOf(InvalidCardSet("mastermind", -128)),
             runWithPlugins(plugins) { checkValuesInRange(playMaker(mastermind = -128)) })
 
+        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 501)) })
+        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 507)) })
+        assertContentEquals(
+            listOf(InvalidCardSet("support", 192168001)),
+            runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 192168001)) })
+
         assertContentEquals(
             listOf(),
             runWithPlugins(plugins) {
@@ -157,7 +144,8 @@ internal class VerifierKtTest {
                         villain = 101,
                         henchman = 207,
                         scheme = 307,
-                        mastermind = 407
+                        mastermind = 407,
+                        support = 507
                     )
                 )
             })
@@ -166,6 +154,7 @@ internal class VerifierKtTest {
                 InvalidCardSet("hero", -7),
                 InvalidCardSet("villain", -6),
                 InvalidCardSet("henchman", -34),
+                InvalidCardSet("support", 192168001),
                 InvalidCardSet("scheme", -123),
                 InvalidCardSet("mastermind", -128)
             ),
@@ -176,7 +165,8 @@ internal class VerifierKtTest {
                         hero = -7,
                         henchman = -34,
                         scheme = -123,
-                        mastermind = -128
+                        mastermind = -128,
+                        support = 192168001
                     )
                 )
             })
@@ -194,28 +184,11 @@ internal class VerifierKtTest {
 
     @Test
     fun updateSetCountsFromSchemeTest() {
-        val plugin = object : ReleaseRulesPlugin {
-            override val heroesRange: IntRange = IntRange.EMPTY
-            override val villainsRange: IntRange = IntRange.EMPTY
-            override val henchmenRange: IntRange = IntRange.EMPTY
-            override val schemesRange: IntRange = 0..10
-            override val mastermindsRange: IntRange = 0..0
-            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
-                throw Exception("Should not be called")
-            }
-
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
-                logic(play, setCounts)
-            }
-
-            var logic: (Play, SetCounts) -> Unit = { _, _ ->
-                throw Exception("Should not be called")
-            }
-        }
+        val plugin = MockRules(schemesRange = 0..10)
 
         val plugins = setOf(plugin)
 
-        plugin.logic = { _, setCount -> setCount.heroes++ }
+        plugin.setCountLogic = { _, setCount -> setCount.heroes++ }
 
         val setCounts = SetCounts(0, 0, 0)
         runWithPlugins(plugins) {
@@ -223,87 +196,70 @@ internal class VerifierKtTest {
         }
         assertEquals(SetCounts(1, 0, 0), setCounts)
 
-        plugin.logic = { _, _ -> throw Exception("This code should not be reached") }
+        plugin.setCountLogic = { _, _ -> throw Exception("This code should not be reached") }
         runWithPlugins(plugins) {
             updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
         }
     }
 
     @Test
-    fun checkRequiredCardSetsTest() {
-        val plugin = object : ReleaseRulesPlugin {
-            override val heroesRange: IntRange = IntRange.EMPTY
-            override val villainsRange: IntRange = IntRange.EMPTY
-            override val henchmenRange: IntRange = IntRange.EMPTY
-            override val schemesRange: IntRange = 0..0
-            override val mastermindsRange: IntRange = 0..10
-            override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
-                return logic(mastermind)
-            }
-
-            override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
-                throw Exception("Should not be called")
-            }
-
-            var logic: (Int) -> Set<MandatoryCardSet> = { _ ->
-                throw Exception("Should not be called")
-            }
-        }
+    fun checkAlwaysLeadsTest() {
+        val plugin = MockRules(mastermindsRange = 0..10)
 
         val plugins = setOf(plugin)
 
-        plugin.logic = { _ -> setOf() }
+        plugin.alwaysLeadsLogic = { _ -> setOf() }
         runWithPlugins(plugins) {
-            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10)))
+            assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10)))
         }
 
-        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.VILLAIN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetTypes.VILLAIN, 3)) }
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(MissingRequiredSet("villain", 3)),
-                checkRequiredCardSets(playMaker(mastermind = 10))
+                checkAlwaysLeads(playMaker(mastermind = 10))
             )
         }
 
-        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.VILLAIN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetTypes.VILLAIN, 3)) }
         runWithPlugins(plugins) {
-            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, villain = 3)))
+            assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10, villain = 3)))
         }
 
-        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, 3)) }
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(MissingRequiredSet("henchman", 3)),
-                checkRequiredCardSets(playMaker(mastermind = 10))
+                checkAlwaysLeads(playMaker(mastermind = 10))
             )
         }
 
-        plugin.logic = { _ -> setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetTypes.HENCHMAN, 3)) }
         runWithPlugins(plugins) {
-            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, henchman = 3)))
+            assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10, henchman = 3)))
         }
 
-        plugin.logic = { _ ->
+        plugin.alwaysLeadsLogic = { _ ->
             setOf(
                 MandatoryCardSet(CardSetTypes.VILLAIN, 3),
                 MandatoryCardSet(CardSetTypes.HENCHMAN, 3)
             )
         }
         runWithPlugins(plugins) {
-            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, henchman = 3)))
+            assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10, henchman = 3)))
         }
 
-        plugin.logic = { _ ->
+        plugin.alwaysLeadsLogic = { _ ->
             setOf(
                 MandatoryCardSet(CardSetTypes.VILLAIN, 3),
                 MandatoryCardSet(CardSetTypes.HENCHMAN, 3)
             )
         }
         runWithPlugins(plugins) {
-            assertEquals(listOf(), checkRequiredCardSets(playMaker(mastermind = 10, villain = 3)))
+            assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10, villain = 3)))
         }
 
-        plugin.logic = { _ ->
+        plugin.alwaysLeadsLogic = { _ ->
             setOf(
                 MandatoryCardSet(CardSetTypes.VILLAIN, 3),
                 MandatoryCardSet(CardSetTypes.HENCHMAN, 3)
@@ -312,7 +268,42 @@ internal class VerifierKtTest {
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(MissingRequiredSet("henchman", 3), MissingRequiredSet("villain", 3)).sortedBy { it.toString() },
-                checkRequiredCardSets(playMaker(mastermind = 10)).sortedBy { it.toString() }
+                checkAlwaysLeads(playMaker(mastermind = 10)).sortedBy { it.toString() }
+            )
+        }
+    }
+
+    @Test
+    fun checkRecruitSupport() {
+        val plugin = MockRules(recruitSupports = 101)
+
+        val plugins = setOf(plugin)
+
+        runWithPlugins(setOf()) {
+            assertEquals(
+                listOf(MissingRecruitSupport),
+                checkRequiredCardSets(playMaker())
+            )
+        }
+
+        runWithPlugins(setOf()) {
+            assertEquals(
+                listOf(MissingRecruitSupport),
+                checkRequiredCardSets(playMaker(support = 101))
+            )
+        }
+
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(MissingRecruitSupport),
+                checkRequiredCardSets(playMaker())
+            )
+        }
+
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(),
+                checkRequiredCardSets(playMaker(support = 101))
             )
         }
     }

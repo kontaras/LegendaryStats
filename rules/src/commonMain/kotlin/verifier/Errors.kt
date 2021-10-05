@@ -85,3 +85,11 @@ class MissingRequiredSet(val setType: String, val setId: Int): PrintableError {
         return "MissingRequiredSet $setType $setId"
     }
 }
+
+
+
+object MissingRecruitSupport: PrintableError {
+    override fun getMessage(): String {
+        return "A setup needs to include a recruit support."
+    }
+}

@@ -54,7 +54,7 @@ fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
  * @param play The play to check
  * @return [InvalidCardSet] for each invalid card set id
  */
-fun checkValuesInRange(play: Play): List<PrintableError> {
+internal fun checkValuesInRange(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     for (hero in play.heroes) {
         if (!checkValidValue(hero, ReleaseRulesPlugin::heroesRange)) {
@@ -74,6 +74,12 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
         }
     }
 
+    for (support in play.supports) {
+        if (!checkValidValue(support, ReleaseRulesPlugin::supportCardRange)) {
+            errors.add(InvalidCardSet("support", support))
+        }
+    }
+
     if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
         errors.add(InvalidCardSet("scheme", play.scheme))
     }
@@ -81,6 +87,7 @@ fun checkValuesInRange(play: Play): List<PrintableError> {
     if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindsRange)) {
         errors.add(InvalidCardSet("mastermind", play.mastermind))
     }
+
     return errors
 }
 
@@ -101,7 +108,7 @@ private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange)
  * @param play The play of the scheme, in case other factors, like player count, need to be examined.
  * @param setCounts The set counts to update, if there are any changes to be made
  */
-fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
+internal fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
     for (plugin in plugins) {
         if (play.scheme in plugin.schemesRange) {
             plugin.updateSetCountsFromScheme(play, setCounts)
@@ -116,7 +123,7 @@ fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
  * @param playerCount The number of players in a play
  * @return The default number of card sets for the player count
  */
-fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
+internal fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
     return when (playerCount) {
         PlayerCount.SOLO -> SetCounts(3, 1, 1)
         PlayerCount.ADVANCED -> SetCounts(3, 1, 1)
@@ -140,12 +147,39 @@ data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int)
  * Check if the play includes all card sets required by the scheme and mastermind.
  *
  * @param play The play to check
- * @return A list of [MissingRequiredSet] containing which card set is missing
+ * @return A list of [MissingRequiredSet] or [MissingRecruitSupport] containing which card set is missing
  */
-fun checkRequiredCardSets(play: Play): List<PrintableError> {
+internal fun checkRequiredCardSets(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
 
-    if(play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED)) {
+    errors.addAll(checkAlwaysLeads(play))
+
+    var noSupport = true
+    for (plugin in plugins) {
+        if (plugin.recruitSupports.intersect(play.supports).isNotEmpty()) {
+            noSupport = false
+            break
+        }
+    }
+
+    if (noSupport) {
+        errors.add(MissingRecruitSupport)
+    }
+
+    return errors
+}
+
+/**
+ * Check if the play includes the mastermind's always leads group.
+ *
+ * @param play The play to check
+ * @return A list of [MissingRequiredSet] containing which card set is missing
+ */
+internal fun checkAlwaysLeads(
+    play: Play
+): List<PrintableError> {
+    val errors = mutableListOf<PrintableError>()
+    if (play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED)) {
         val alwaysLead = getMastermindAlwaysLeads(play.mastermind)
         if (alwaysLead.isNotEmpty()) {
             var leadFound = false
@@ -163,14 +197,13 @@ fun checkRequiredCardSets(play: Play): List<PrintableError> {
                 }
             }
 
-            if(!leadFound) {
+            if (!leadFound) {
                 for (set in alwaysLead) {
                     errors.add(MissingRequiredSet(set.setType.name.lowercase(), set.setId))
                 }
             }
         }
     }
-
     return errors
 }
 
@@ -180,7 +213,7 @@ fun checkRequiredCardSets(play: Play): List<PrintableError> {
  * @param mastermind the mastermind
  * @return The villain group(s) that the mastermind could lead, generally 1
  */
-fun getMastermindAlwaysLeads(mastermind: Int): Set<MandatoryCardSet> {
+internal fun getMastermindAlwaysLeads(mastermind: Int): Set<MandatoryCardSet> {
     for (plugin in plugins) {
         if (mastermind in plugin.mastermindsRange) {
             return plugin.getAlwaysLead(mastermind)

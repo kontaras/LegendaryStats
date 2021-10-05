@@ -21,6 +21,7 @@ private class ModelsTest {
         val play = "{\n" +
                 "  \"scheme\": 108,\n" +
                 "  \"mastermind\": 109,\n" +
+                "  \"supports\": [101],\n" +
                 "  \"heroes\": [\n" +
                 "    101,\n" +
                 "    102,\n" +
@@ -48,6 +49,7 @@ private class ModelsTest {
                 109,
                 setOf(101, 102, 105, 103, 108),
                 setOf(106, 107, 108),
+                setOf(101),
                 setOf(101)
             ), Play.playFromString(play)
         )
