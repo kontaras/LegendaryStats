@@ -60,3 +60,7 @@ object Henchmen {
     const val SAVAGE_LAND_MUTATES = 103
     const val SENTINEL = 104
 }
+
+object Support {
+    const val SHIELD_OFFICER = 101
+}

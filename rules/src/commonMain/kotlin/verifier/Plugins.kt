@@ -23,6 +23,12 @@ interface ReleaseRulesPlugin {
     /** The range of valid ID numbers for masterminds */
     val mastermindsRange: IntRange
 
+    /** The range of valid ID numbers for support cards, if any */
+    val supportCardRange: IntRange
+
+    /** The recruit granting supports for this set */
+    val recruitSupports: Set<Int>
+
     /**
      * Update count of card sets required based on the scheme.
      *

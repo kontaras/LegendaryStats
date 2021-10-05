@@ -47,6 +47,8 @@ data class Play(
     val villains: Set<Int>,
     /** What henchmen villain groups where in the villain deck? */
     val henchmen: Set<Int>,
+    /** What support cards where included? */
+    val supports: Set<Int>,
     /** Which hero was used for a special purpose (i.e. not in the hero deck)? */
     val misc_hero: Int? = null
 ) {
