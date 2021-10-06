@@ -22,6 +22,7 @@ private class ModelsTest {
                 "  \"scheme\": 108,\n" +
                 "  \"mastermind\": 109,\n" +
                 "  \"supports\": [101],\n" +
+                "  \"starters\": {101: 3},\n" +
                 "  \"heroes\": [\n" +
                 "    101,\n" +
                 "    102,\n" +
@@ -50,7 +51,8 @@ private class ModelsTest {
                 setOf(101, 102, 105, 103, 108),
                 setOf(106, 107, 108),
                 setOf(101),
-                setOf(101)
+                setOf(101),
+                mapOf(101 to 3)
             ), Play.playFromString(play)
         )
     }

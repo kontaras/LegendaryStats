@@ -96,19 +96,19 @@ internal class RulesTest {
 
     @Test
     fun updateSetCountsFromSchemeTest() {
-        var original = SetCounts(0, 0, 0)
+        var original = SetCounts(0, 0, 0, 0)
         rules.updateSetCountsFromScheme(
             playMaker(scheme = Schemes.SUPER_HERO_CIVIL_WAR, players = PlayerCount.TWO),
             original
         )
-        assertEquals(SetCounts(4, 0, 0), original)
+        assertEquals(SetCounts(4, 0, 0, 0), original)
 
-        original = SetCounts(0, 0, 0)
+        original = SetCounts(0, 0, 0, 0)
         rules.updateSetCountsFromScheme(
             playMaker(scheme = Schemes.SUPER_HERO_CIVIL_WAR, players = PlayerCount.FOUR),
             original
         )
-        assertEquals(SetCounts(0, 0, 0), original)
+        assertEquals(SetCounts(0, 0, 0, 0), original)
 
         val invalidScheme = -1
         for (scheme: Int in listOf(
@@ -120,17 +120,17 @@ internal class RulesTest {
             Schemes.PORTALS_TO_THE_DARK_DIMENSION,
             invalidScheme
         )) {
-            original = SetCounts(0, 0, 0)
+            original = SetCounts(0, 0, 0, 0)
             rules.updateSetCountsFromScheme(playMaker(scheme = scheme), original)
-            assertEquals(SetCounts(0, 0, 0), original)
+            assertEquals(SetCounts(0, 0, 0, 0), original)
         }
 
-        original = SetCounts(0, 0, 0)
+        original = SetCounts(0, 0, 0, 0)
         rules.updateSetCountsFromScheme(
             playMaker(scheme = Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT),
             original
         )
-        assertEquals(SetCounts(0, 0, 1), original)
+        assertEquals(SetCounts(0, 0, 1, 0), original)
     }
 
     @Test

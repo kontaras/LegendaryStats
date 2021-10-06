@@ -49,6 +49,8 @@ data class Play(
     val henchmen: Set<Int>,
     /** What support cards where included? */
     val supports: Set<Int>,
+    /** How many of each starting decks was used in the play? */
+    val starters: Map<Int, Int>,
     /** Which hero was used for a special purpose (i.e. not in the hero deck)? */
     val misc_hero: Int? = null
 ) {

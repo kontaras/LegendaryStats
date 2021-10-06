@@ -26,6 +26,9 @@ interface ReleaseRulesPlugin {
     /** The range of valid ID numbers for support cards, if any */
     val supportCardRange: IntRange
 
+    /** The range of valid ID numbers for starter decks, if any */
+    val starterRange: IntRange
+
     /** The recruit granting supports for this set */
     val recruitSupports: Set<Int>
 

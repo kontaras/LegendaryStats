@@ -14,8 +14,9 @@ class Rules : ReleaseRulesPlugin {
     override val henchmenRange: IntRange = Henchmen.DOOMBOT_LEGION..Henchmen.SENTINEL
     override val schemesRange: IntRange = Schemes.THE_LEGACY_VIRUS..Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE
     override val mastermindsRange: IntRange = Masterminds.DR_DOOM..Masterminds.IRON_MONGER
-    override val supportCardRange: IntRange = Support.SHIELD_OFFICER..Support.SHIELD_OFFICER
-    override val recruitSupports: Set<Int> = setOf(Support.SHIELD_OFFICER)
+    override val supportCardRange: IntRange = Supports.SHIELD_OFFICER..Supports.SHIELD_OFFICER
+    override val recruitSupports: Set<Int> = setOf(Supports.SHIELD_OFFICER)
+    override val starterRange: IntRange = Starters.SHIELD..Starters.SHIELD
 
     override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
         when (play.scheme) {
