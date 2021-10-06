@@ -45,6 +45,17 @@ fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
         errors.add(WrongSetCount("henchman", setCounts.henchmen, play.henchmen.size))
     }
 
+    var totalStarters = 0
+    for ((deckType, deckCount) in play.starters) {
+        if (deckCount <= 0) {
+            errors.add(InvalidCardQuantity("starting deck", deckType, deckCount))
+        }
+        totalStarters += deckCount
+    }
+    if (totalStarters != setCounts.starters) {
+        errors.add(WrongSetCount("starting deck", setCounts.starters, totalStarters))
+    }
+
     return errors
 }
 
@@ -88,6 +99,12 @@ internal fun checkValuesInRange(play: Play): List<PrintableError> {
         errors.add(InvalidCardSet("mastermind", play.mastermind))
     }
 
+    for (starter in play.starters.keys) {
+        if (!checkValidValue(starter, ReleaseRulesPlugin::starterRange)) {
+            errors.add(InvalidCardSet("starting deck", starter))
+        }
+    }
+
     return errors
 }
 
@@ -125,12 +142,12 @@ internal fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
  */
 internal fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
     return when (playerCount) {
-        PlayerCount.SOLO -> SetCounts(3, 1, 1)
-        PlayerCount.ADVANCED -> SetCounts(3, 1, 1)
-        PlayerCount.TWO -> SetCounts(5, 2, 1)
-        PlayerCount.THREE -> SetCounts(5, 3, 1)
-        PlayerCount.FOUR -> SetCounts(5, 3, 2)
-        PlayerCount.FIVE -> SetCounts(6, 4, 2)
+        PlayerCount.SOLO -> SetCounts(3, 1, 1, 1)
+        PlayerCount.ADVANCED -> SetCounts(3, 1, 1, 1)
+        PlayerCount.TWO -> SetCounts(5, 2, 1, 2)
+        PlayerCount.THREE -> SetCounts(5, 3, 1,3)
+        PlayerCount.FOUR -> SetCounts(5, 3, 2, 4)
+        PlayerCount.FIVE -> SetCounts(6, 4, 2,5)
     }
 }
 
@@ -140,8 +157,9 @@ internal fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
  * @property heroes The number of hero sets that are expected for the play
  * @property villains The number of villain sets that are expected for the play
  * @property henchmen The number of henchmen sets that are expected for the play
+ * @property starters The number of starting decks for the play
  */
-data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int)
+data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int, var starters: Int)
 
 /**
  * Check if the play includes all card sets required by the scheme and mastermind.

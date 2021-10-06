@@ -86,7 +86,26 @@ class MissingRequiredSet(val setType: String, val setId: Int): PrintableError {
     }
 }
 
+class InvalidCardQuantity(val setType: String, val setId: Int, val quantity: Int): PrintableError {
+    override fun getMessage(): String {
+        return "Invalid quantity of $setType $setId: $quantity"
+    }
 
+    override fun equals(other: Any?): Boolean {
+        return (other is InvalidCardQuantity)
+                && this.setId == other.setId
+                && this.setType == other.setType
+                && this.quantity == other.quantity
+    }
+
+    override fun hashCode(): Int {
+        return getMessage().hashCode()
+    }
+
+    override fun toString(): String {
+        return "InvalidCardQuantity $setType $setId $quantity"
+    }
+}
 
 object MissingRecruitSupport: PrintableError {
     override fun getMessage(): String {

@@ -17,6 +17,7 @@ internal class VerifierKtTest {
             mutableSetOf(Heroes.BLACK_WIDOW, Heroes.CAPTAIN_AMERICA, Heroes.CYCLOPS, Heroes.IRON_MAN, Heroes.GAMBIT)
         val villains: MutableSet<Int> = mutableSetOf(Villains.ENEMIES_OF_ASGARD, Villains.BROTHERHOOD, Villains.HYDRA)
         val henchmen: MutableSet<Int> = mutableSetOf(Henchmen.SENTINEL, Henchmen.DOOMBOT_LEGION)
+        val starters: MutableMap<Int, Int> = mutableMapOf(Starters.SHIELD to 4)
         val testPlay = Play(
             Outcome.DRAW,
             PlayerCount.FOUR,
@@ -25,7 +26,8 @@ internal class VerifierKtTest {
             heroes,
             villains,
             henchmen,
-            setOf()
+            setOf(),
+            starters
         )
 
         val counts = getPlayerCountRules(PlayerCount.FOUR)
@@ -73,6 +75,25 @@ internal class VerifierKtTest {
             checkCardSetSizes(testPlay, counts)
         )
         henchmen.remove(Henchmen.DOOMBOT_LEGION)
+
+        starters[Starters.SHIELD] = 3
+        assertContentEquals(
+            listOf(WrongSetCount("starting deck", 4, 3)),
+            checkCardSetSizes(testPlay, counts)
+        )
+
+        starters[Starters.SHIELD] = 5
+        assertContentEquals(
+            listOf(WrongSetCount("starting deck", 4, 5)),
+            checkCardSetSizes(testPlay, counts)
+        )
+
+        starters[Starters.SHIELD] = 0
+        assertContentEquals(
+            listOf(InvalidCardQuantity("starting deck", Starters.SHIELD, 0), WrongSetCount("starting deck", 4, 0)),
+            checkCardSetSizes(testPlay, counts)
+        )
+        starters[Starters.SHIELD] = 4
     }
 
     @Test
@@ -85,7 +106,8 @@ internal class VerifierKtTest {
                 henchmenRange = 201..202,
                 schemesRange = 301..302,
                 mastermindsRange = 401..402,
-                supportCardRange = 501..502
+                supportCardRange = 501..502,
+                starterDeckRange = 601..602
             ),
             MockRules(
                 heroesRange = 5..7,
@@ -93,7 +115,8 @@ internal class VerifierKtTest {
                 henchmenRange = 205..207,
                 schemesRange = 305..307,
                 mastermindsRange = 405..407,
-                supportCardRange = 505..507
+                supportCardRange = 505..507,
+                starterDeckRange = 605..607
             )
         )
 
@@ -137,6 +160,16 @@ internal class VerifierKtTest {
 
         assertContentEquals(
             listOf(),
+            runWithPlugins(plugins) { checkValuesInRange(playMaker(startingDeck = 601, startingDeckCount = 4)) })
+        assertContentEquals(
+            listOf(),
+            runWithPlugins(plugins) { checkValuesInRange(playMaker(startingDeck = 607, startingDeckCount = 5)) })
+        assertContentEquals(
+            listOf(InvalidCardSet("starting deck", 8675309)),
+            runWithPlugins(plugins) { checkValuesInRange(playMaker(startingDeck = 8675309, startingDeckCount = 9001)) })
+
+        assertContentEquals(
+            listOf(),
             runWithPlugins(plugins) {
                 checkValuesInRange(
                     playMaker(
@@ -145,7 +178,8 @@ internal class VerifierKtTest {
                         henchman = 207,
                         scheme = 307,
                         mastermind = 407,
-                        support = 507
+                        support = 507,
+                        startingDeck = 607, startingDeckCount = 5
                     )
                 )
             })
@@ -156,7 +190,8 @@ internal class VerifierKtTest {
                 InvalidCardSet("henchman", -34),
                 InvalidCardSet("support", 192168001),
                 InvalidCardSet("scheme", -123),
-                InvalidCardSet("mastermind", -128)
+                InvalidCardSet("mastermind", -128),
+                InvalidCardSet("starting deck", 8675309)
             ),
             runWithPlugins(plugins) {
                 checkValuesInRange(
@@ -166,7 +201,8 @@ internal class VerifierKtTest {
                         henchman = -34,
                         scheme = -123,
                         mastermind = -128,
-                        support = 192168001
+                        support = 192168001,
+                        startingDeck = 8675309, startingDeckCount = 9001
                     )
                 )
             })
@@ -174,12 +210,12 @@ internal class VerifierKtTest {
 
     @Test
     fun getPlayerCountRulesTest() {
-        assertEquals(SetCounts(3, 1, 1), getPlayerCountRules(PlayerCount.SOLO))
-        assertEquals(SetCounts(3, 1, 1), getPlayerCountRules(PlayerCount.ADVANCED))
-        assertEquals(SetCounts(5, 2, 1), getPlayerCountRules(PlayerCount.TWO))
-        assertEquals(SetCounts(5, 3, 1), getPlayerCountRules(PlayerCount.THREE))
-        assertEquals(SetCounts(5, 3, 2), getPlayerCountRules(PlayerCount.FOUR))
-        assertEquals(SetCounts(6, 4, 2), getPlayerCountRules(PlayerCount.FIVE))
+        assertEquals(SetCounts(3, 1, 1, 1), getPlayerCountRules(PlayerCount.SOLO))
+        assertEquals(SetCounts(3, 1, 1, 1), getPlayerCountRules(PlayerCount.ADVANCED))
+        assertEquals(SetCounts(5, 2, 1, 2), getPlayerCountRules(PlayerCount.TWO))
+        assertEquals(SetCounts(5, 3, 1, 3), getPlayerCountRules(PlayerCount.THREE))
+        assertEquals(SetCounts(5, 3, 2, 4), getPlayerCountRules(PlayerCount.FOUR))
+        assertEquals(SetCounts(6, 4, 2, 5), getPlayerCountRules(PlayerCount.FIVE))
     }
 
     @Test
@@ -190,11 +226,11 @@ internal class VerifierKtTest {
 
         plugin.setCountLogic = { _, setCount -> setCount.heroes++ }
 
-        val setCounts = SetCounts(0, 0, 0)
+        val setCounts = SetCounts(0, 0, 0, 0)
         runWithPlugins(plugins) {
             updateSetCountsFromScheme(playMaker(scheme = 3), setCounts)
         }
-        assertEquals(SetCounts(1, 0, 0), setCounts)
+        assertEquals(SetCounts(1, 0, 0, 0), setCounts)
 
         plugin.setCountLogic = { _, _ -> throw Exception("This code should not be reached") }
         runWithPlugins(plugins) {

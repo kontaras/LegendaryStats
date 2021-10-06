@@ -26,7 +26,8 @@ internal class BaseSetPlays {
                     setOf(Heroes.HULK, Heroes.BLACK_WIDOW, Heroes.HAWKEYE, Heroes.DEADPOOL, Heroes.SPIDER_MAN),
                     setOf(Villains.ENEMIES_OF_ASGARD, Villains.BROTHERHOOD, Villains.MASTERS_OF_EVIL),
                     setOf(Henchmen.DOOMBOT_LEGION, Henchmen.HAND_NINJAS),
-                    setOf(Support.SHIELD_OFFICER)
+                    setOf(Supports.SHIELD_OFFICER),
+                    mapOf(Starters.SHIELD to 4)
                 )
             )
         )
@@ -39,6 +40,7 @@ internal class BaseSetPlays {
                 WrongSetCount("hero", 5, 0),
                 WrongSetCount("villain", 3, 0),
                 WrongSetCount("henchman", 2, 0),
+                WrongSetCount("starting deck", 4, 0),
                 InvalidCardSet("scheme", -1),
                 InvalidCardSet("mastermind", -1),
                 MissingRecruitSupport
@@ -52,7 +54,8 @@ internal class BaseSetPlays {
                     setOf(),
                     setOf(),
                     setOf(),
-                    setOf()
+                    setOf(),
+                    mapOf()
                 )
             )
         )

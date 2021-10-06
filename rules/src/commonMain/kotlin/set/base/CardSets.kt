@@ -61,6 +61,10 @@ object Henchmen {
     const val SENTINEL = 104
 }
 
-object Support {
+object Supports {
     const val SHIELD_OFFICER = 101
+}
+
+object Starters {
+    const val SHIELD = 101
 }

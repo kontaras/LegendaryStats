@@ -14,7 +14,9 @@ fun playMaker(
     mastermind: Int? = null,
     scheme: Int? = null,
     players: PlayerCount? = null,
-    support: Int? = null
+    support: Int? = null,
+    startingDeck: Int? = null,
+    startingDeckCount: Int? = null
 ): Play {
     return Play(
         Outcome.WIN_DEFEAT_MASTERMIND,
@@ -24,7 +26,8 @@ fun playMaker(
         if (hero != null) setOf(hero) else setOf(),
         if (villain != null) setOf(villain) else setOf(),
         if (henchman != null) setOf(henchman) else setOf(),
-        if (support != null) setOf(support) else setOf()
+        if (support != null) setOf(support) else setOf(),
+        if (startingDeck != null && startingDeckCount != null) mapOf(startingDeck to startingDeckCount) else mapOf()
     )
 }
 
@@ -35,6 +38,7 @@ class MockRules(
     schemesRange: IntRange? = null,
     mastermindsRange: IntRange? = null,
     supportCardRange: IntRange? = null,
+    starterDeckRange: IntRange? = null,
     recruitSupports: Int? = null
 ) : ReleaseRulesPlugin {
     override val heroesRange: IntRange = heroesRange ?: IntRange.EMPTY
@@ -44,6 +48,7 @@ class MockRules(
     override val mastermindsRange: IntRange = mastermindsRange ?: IntRange.EMPTY
     override val supportCardRange: IntRange = supportCardRange ?: IntRange.EMPTY
     override val recruitSupports: Set<Int> = if (recruitSupports != null) setOf(recruitSupports) else setOf()
+    override val starterRange: IntRange = starterDeckRange ?: IntRange.EMPTY
 
     override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
         return alwaysLeadsLogic(mastermind)
