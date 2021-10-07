@@ -95,6 +95,23 @@ internal class RulesTest {
     }
 
     @Test
+    fun supportRangeTest() {
+        assertTrue(
+            listOf(
+                Supports.SHIELD_OFFICER
+            ).all { it in rules.supportCardRange })
+        assertTrue(rules.recruitSupports.all { it in rules.supportCardRange })
+    }
+
+    @Test
+    fun starterRangeTest() {
+        assertTrue(
+            listOf(
+                Starters.SHIELD
+            ).all { it in rules.starterRange })
+    }
+
+    @Test
     fun updateSetCountsFromSchemeTest() {
         var original = SetCounts(0, 0, 0, 0)
         rules.updateSetCountsFromScheme(
