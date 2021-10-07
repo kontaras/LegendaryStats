@@ -59,3 +59,6 @@ INSERT INTO henchman (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
 	
 INSERT INTO support (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
 	(1, 101, 'S.H.I.E.L.D. Officer', 'Mayor Shufflebottom', 'S.H.I.E.L.D. Officer');
+	
+INSERT INTO starter (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
+	(1, 101, 'S.H.I.E.L.D.', 'Fixers', 'S.H.I.E.L.D.');

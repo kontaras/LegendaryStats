@@ -72,4 +72,29 @@ class GameModelPojoTests extends PojoTestUtil {
 	void testVillain() {
 		validate(Villain.class);
 	}
+	
+	/**
+	 * Test {@link Support}
+	 */
+	@Test
+	void testSupport() {
+		validate(Support.class);
+	}
+	
+	/**
+	 * Test {@link Starter}
+	 */
+	@Test
+	void testStarter() {
+		validate(Starter.class);
+	}
+	
+	/**
+	 * Test {@link StarterPlay}
+	 */
+	@Test
+	void testStarterPlay() {
+		validate(StarterPlay.class);
+		validate(StarterPlay.Key.class);
+	}
 }

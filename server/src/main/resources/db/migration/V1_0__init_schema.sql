@@ -89,6 +89,16 @@ CREATE TABLE support
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
+CREATE TABLE starter
+(
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (release_id) REFERENCES release (id)
+);
 CREATE TABLE play
 (
    id BIGINT NOT NULL,
@@ -151,5 +161,18 @@ CREATE TABLE play_support
       play_id
    ),
    FOREIGN KEY (support_id) REFERENCES support (id),
+   FOREIGN KEY (play_id) REFERENCES play (id)
+);
+CREATE TABLE play_starter
+(
+   starter_id INT NOT NULL,
+   play_id BIGINT  NOT NULL,
+   quantity INT NOT NULL,
+   PRIMARY KEY
+   (
+      starter_id,
+      play_id
+   ),
+   FOREIGN KEY (starter_id) REFERENCES starter (id),
    FOREIGN KEY (play_id) REFERENCES play (id)
 );

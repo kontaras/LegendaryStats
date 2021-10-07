@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,6 +16,8 @@ import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
 import games.lmdbg.server.model.game.Mastermind;
 import games.lmdbg.server.model.game.Scheme;
+import games.lmdbg.server.model.game.StarterPlay;
+import games.lmdbg.server.model.game.Support;
 import games.lmdbg.server.model.game.Villain;
 
 /**
@@ -82,6 +85,18 @@ public class Play {
 	@JsonIgnore
 	@JoinTable(name = "play_henchman", inverseJoinColumns = { @JoinColumn(name = "henchman_id") })
 	private Set<Henchman> henchmen;
+	
+	/**
+	 * Henchmen villains fought
+	 */
+	@ManyToMany
+	@JsonIgnore
+	@JoinTable(name = "play_support", inverseJoinColumns = { @JoinColumn(name = "support_id") })
+	private Set<Support> supports;
+	
+	@OneToMany
+	@JsonIgnore
+	private Set<StarterPlay> starters;
 
 	/**
 	 * Any other notes the user may have
@@ -156,5 +171,19 @@ public class Play {
 	 */
 	public String getNotes() {
 		return notes;
+	}
+
+	/**
+	 * @return the {@link #supports}
+	 */
+	public Set<Support> getSupports() {
+		return supports;
+	}
+
+	/**
+	 * @return the {@link #starters}
+	 */
+	public Set<StarterPlay> getStarters() {
+		return starters;
 	}
 }
