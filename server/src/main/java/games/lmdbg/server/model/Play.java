@@ -1,5 +1,6 @@
 package games.lmdbg.server.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -35,6 +36,11 @@ public class Play {
 	@ManyToOne
 	@JsonIgnore
 	private User player;
+	
+	/**
+	 * Date on which the game was played
+	 */
+	private Date playDate;
 
 	/**
 	 * Did the players win and how?
@@ -115,6 +121,13 @@ public class Play {
 	 */
 	public User getPlayer() {
 		return player;
+	}
+
+	/**
+	 * @return the {@link #playDate}
+	 */
+	public Date getPlayDate() {
+		return playDate;
 	}
 
 	/**
