@@ -23,7 +23,7 @@ enum class Outcome {
 /** Possible player counts */
 enum class PlayerCount {
     SOLO,
-    ADVANCED,
+    ADVANCED_SOLO,
     TWO,
     THREE,
     FOUR,

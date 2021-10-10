@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Fragments for creating play entry forms</title>
+	</head>
+	<body>
+		<fieldset th:fragment="inputSet (type, label, rows)">
+			<legend th:text="${#strings.capitalize(label)}"></legend>
+			<th:block th:each="row:${rows}">
+				<input th:type="${type}" th:id="${label} + '_' + ${row.id}" th:name="${label}" th:value="${row.id}" />
+				<label th:for="${label} + '_' + ${row.id}" th:utext="${@viewHelper.getDisplayName(row)}" />
+				<br />
+			</th:block>
+		</fieldset>
+		
+		<div th:fragment="dropdown (label, rows)">
+			<label th:for="${label}" th:utext="${#strings.capitalize(label)}" />
+			<select th:id="${label}" th:name="${label}">
+				<th:block th:each="row:${rows}">
+					<option th:value="${row}" th:text="${#strings.capitalizeWords(#strings.toLowerCase(#strings.replace(row,'_',' ')))}" />
+				</th:block>
+			</select>
+		</div>
+	</body>
+</html>

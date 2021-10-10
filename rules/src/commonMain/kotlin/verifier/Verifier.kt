@@ -143,7 +143,7 @@ internal fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
 internal fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
     return when (playerCount) {
         PlayerCount.SOLO -> SetCounts(3, 1, 1, 1)
-        PlayerCount.ADVANCED -> SetCounts(3, 1, 1, 1)
+        PlayerCount.ADVANCED_SOLO -> SetCounts(3, 1, 1, 1)
         PlayerCount.TWO -> SetCounts(5, 2, 1, 2)
         PlayerCount.THREE -> SetCounts(5, 3, 1,3)
         PlayerCount.FOUR -> SetCounts(5, 3, 2, 4)
@@ -197,7 +197,7 @@ internal fun checkAlwaysLeads(
     play: Play
 ): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
-    if (play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED)) {
+    if (play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED_SOLO)) {
         val alwaysLead = getMastermindAlwaysLeads(play.mastermind)
         if (alwaysLead.isNotEmpty()) {
             var leadFound = false
