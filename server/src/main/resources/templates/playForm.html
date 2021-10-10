@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/page_template :: layout(~{::headers}, ~{::contents})}">
+	<head>
+		<title>Legendary Game Stats</title>
+		<th:block th:fragment="headers">
+			<!-- Extra headers -->
+		</th:block>
+	</head>
+	<body>
+		<div th:fragment=="contents">
+			<form>
+				<th:block
+					th:replace="fragments/forms :: inputSet (type = 'radio', label = 'scheme', rows = ${schemes})" />
+					
+				<th:block
+					th:replace="fragments/forms :: inputSet (type = 'radio', label = 'mastermind', rows = ${masterminds})" />
+					
+				<th:block
+					th:replace="fragments/forms :: dropdown (label = 'outcome', rows = ${outcomes})" />
+					
+				<th:block
+					th:replace="fragments/forms :: dropdown (label = 'players', rows = ${players})" />
+					
+				<th:block
+					th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'heroes', rows = ${heroes})" />
+					
+				<th:block
+					th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'villains', rows = ${villains})" />
+					
+				<th:block
+					th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'henchmen', rows = ${henchmen})" />
+			</form>
+		</div>
+	</body>
+</html>
