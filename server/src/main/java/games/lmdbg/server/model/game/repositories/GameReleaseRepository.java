@@ -5,8 +5,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import games.lmdbg.server.model.game.GameRelease;
 
 /**
- * Repository to get Sets
+ * Repository to get GameReleases
  */
 @RepositoryRestResource
-public interface SetsRepository extends ReadOnlyRepository<GameRelease, Integer> {
+public interface GameReleaseRepository extends ReadOnlyRepository<GameRelease, Integer> {
 }
