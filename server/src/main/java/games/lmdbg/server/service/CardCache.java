@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.repository.CrudRepository;
 import org.tinylog.Logger;
 
 import games.lmdbg.server.model.game.CardSet;
-import games.lmdbg.server.model.game.repositories.CardSetRepository;
 
 /**
- * A cache of cards in a {@link CardSetRepository}, since that list should never
+ * A cache of cards in a {@link CrudRepository}, since that list should never
  * change for a running system and fetching the data is a round trip call to the
  * database.
  * 
@@ -28,7 +28,7 @@ public class CardCache<C extends CardSet> {
 	/**
 	 * @param repo The repository the data of which is being cached.
 	 */
-	public CardCache(CardSetRepository<C, Integer> repo) {
+	public CardCache(CrudRepository<C, Integer> repo) {
 		cardsById = new HashMap<>();
 		cardList = new ArrayList<>();
 
