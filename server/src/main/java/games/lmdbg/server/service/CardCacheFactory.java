@@ -7,11 +7,15 @@ import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
 import games.lmdbg.server.model.game.Mastermind;
 import games.lmdbg.server.model.game.Scheme;
+import games.lmdbg.server.model.game.Starter;
+import games.lmdbg.server.model.game.Support;
 import games.lmdbg.server.model.game.Villain;
 import games.lmdbg.server.model.game.repositories.HenchmenRepository;
 import games.lmdbg.server.model.game.repositories.HeroesRepository;
 import games.lmdbg.server.model.game.repositories.MastermindsRepository;
 import games.lmdbg.server.model.game.repositories.SchemesRepository;
+import games.lmdbg.server.model.game.repositories.StartersRepository;
+import games.lmdbg.server.model.game.repositories.SupportsRepository;
 import games.lmdbg.server.model.game.repositories.VillainsRepository;
 
 /**
@@ -70,5 +74,25 @@ public class CardCacheFactory {
 	@Bean
 	public CardCache<Scheme> getSchemeCache(SchemesRepository schemes) {
 		return new CardCache<>(schemes);
+	}
+	
+	/**
+	 * Cache {@link Support}
+	 * 
+	 * @return A cache of scheme sets
+	 */
+	@Bean
+	public CardCache<Support> getSupportCache(SupportsRepository supports) {
+		return new CardCache<>(supports);
+	}
+	
+	/**
+	 * Cache {@link Starter}
+	 * 
+	 * @return A cache of scheme sets
+	 */
+	@Bean
+	public CardCache<Starter> getStarterCache(StartersRepository starters) {
+		return new CardCache<>(starters);
 	}
 }
