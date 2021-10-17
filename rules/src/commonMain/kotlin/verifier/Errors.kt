@@ -109,6 +109,6 @@ class InvalidCardQuantity(val setType: String, val setId: Int, val quantity: Int
 
 object MissingRecruitSupport: PrintableError {
     override fun getMessage(): String {
-        return "A setup needs to include a recruit support."
+        return "A setup needs to include a recruit granting support."
     }
 }
