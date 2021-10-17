@@ -9,26 +9,59 @@
 	<body>
 		<div th:fragment=="contents">
 			<form>
-				<th:block
-					th:replace="fragments/forms :: inputSet (type = 'radio', label = 'scheme', rows = ${schemes})" />
+				<fieldset>
+					<legend>Game Information (all required)</legend>
+					<th:block
+						th:replace="fragments/forms :: inputSet (type = 'radio', label = 'scheme', rows = ${schemes})" />
+						
+					<th:block
+						th:replace="fragments/forms :: inputSet (type = 'radio', label = 'mastermind', rows = ${masterminds})" />
+						
+					<th:block
+						th:replace="fragments/forms :: dropdown (label = 'players', rows = ${players})" />
+						
+					<fieldset>
+						<legend>Supports</legend>
+						<th:block th:each="row:${supports}">
+							<input type="checkbox" th:id="'supports_' + ${row.id}" name="supports" th:value="${row.id}" disabled="disabled" checked="checked" />
+							<label th:for="'supports_' + ${row.id}" th:utext="${@viewHelper.getDisplayName(row)}" />
+							<br />
+						</th:block>
+					</fieldset>
+						
+					<fieldset>
+						<legend>Starters</legend>
+						<th:block th:each="row:${starters}">
+							<label th:for="'starters_' + ${row.id}" th:utext="${@viewHelper.getDisplayName(row)}" />
+							<input type="text" th:id="'starters_' + ${row.id}" name="supports" disabled="disabled" />
+							<br />
+						</th:block>
+					</fieldset>
+						
+					<th:block
+						th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'heroes', rows = ${heroes})" />
+						
+					<th:block
+						th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'villains', rows = ${villains})" />
+						
+					<th:block
+						th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'henchmen', rows = ${henchmen})" />
+						
+					<th:block
+						th:replace="fragments/forms :: dropdown (label = 'outcome', rows = ${outcomes})" />
+				</fieldset>
+				<fieldset>
+					<legend>Private information (optional)</legend>
+					<div>
+						<label for="date">Play Date</label>
+						<input type="date" id="date" name="date" />
+					</div>
 					
-				<th:block
-					th:replace="fragments/forms :: inputSet (type = 'radio', label = 'mastermind', rows = ${masterminds})" />
-					
-				<th:block
-					th:replace="fragments/forms :: dropdown (label = 'outcome', rows = ${outcomes})" />
-					
-				<th:block
-					th:replace="fragments/forms :: dropdown (label = 'players', rows = ${players})" />
-					
-				<th:block
-					th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'heroes', rows = ${heroes})" />
-					
-				<th:block
-					th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'villains', rows = ${villains})" />
-					
-				<th:block
-					th:replace="fragments/forms :: inputSet (type = 'checkbox', label = 'henchmen', rows = ${henchmen})" />
+					<div>
+						<label for="notes">Notes</label><br />
+						<textarea name="notes" id="notes" rows="10" cols="80"></textarea>
+					</div>
+				</fieldset>
 			</form>
 		</div>
 	</body>

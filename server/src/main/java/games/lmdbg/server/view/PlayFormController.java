@@ -16,6 +16,8 @@ import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
 import games.lmdbg.server.model.game.Mastermind;
 import games.lmdbg.server.model.game.Scheme;
+import games.lmdbg.server.model.game.Starter;
+import games.lmdbg.server.model.game.Support;
 import games.lmdbg.server.model.game.Villain;
 import games.lmdbg.server.service.CardCache;
 
@@ -35,6 +37,12 @@ public class PlayFormController {
 	
 	@Autowired
 	private CardCache<Henchman> henchmen;
+	
+	@Autowired
+	private CardCache<Starter> starters;
+	
+	@Autowired
+	private CardCache<Support> supports;
 
 	@GetMapping("/play")
 	public String mainPage(Model model) {
@@ -50,6 +58,8 @@ public class PlayFormController {
 		model.addAttribute("heroes", heroes.getCardsInOrder());
 		model.addAttribute("villains", villains.getCardsInOrder());
 		model.addAttribute("henchmen", henchmen.getCardsInOrder());
+		model.addAttribute("starters", starters.getCardsInOrder());
+		model.addAttribute("supports", supports.getCardsInOrder());
 		return "playForm";
 	}
 }
