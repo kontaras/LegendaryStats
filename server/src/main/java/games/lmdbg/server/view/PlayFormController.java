@@ -45,7 +45,7 @@ public class PlayFormController {
 	private CardCache<Support> supports;
 
 	@GetMapping("/play")
-	public String mainPage(Model model) {
+	public String createForm(Model model) {
 		List<String> outcomes = Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
 		Collections.sort(outcomes);
 		
