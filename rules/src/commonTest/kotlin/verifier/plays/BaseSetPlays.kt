@@ -4,10 +4,7 @@ import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
 import games.lmdbg.rules.set.base.*
-import games.lmdbg.rules.verifier.InvalidCardSet
-import games.lmdbg.rules.verifier.MissingRecruitSupport
-import games.lmdbg.rules.verifier.WrongSetCount
-import games.lmdbg.rules.verifier.verify
+import games.lmdbg.rules.verifier.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
@@ -37,12 +34,12 @@ internal class BaseSetPlays {
     fun verifyEmptyPlay() {
         assertContentEquals(
             listOf(
-                WrongSetCount("hero", 5, 0),
-                WrongSetCount("villain", 3, 0),
-                WrongSetCount("henchman", 2, 0),
-                WrongSetCount("starting deck", 4, 0),
-                InvalidCardSet("scheme", -1),
-                InvalidCardSet("mastermind", -1),
+                WrongSetCount(CardSetType.HERO, 5, 0),
+                WrongSetCount(CardSetType.VILLAIN, 3, 0),
+                WrongSetCount(CardSetType.HENCHMAN, 2, 0),
+                WrongSetCount(CardSetType.STARTER, 4, 0),
+                InvalidCardSet(CardSetType.SCHEME, -1),
+                InvalidCardSet(CardSetType.MASTERMIND, -1),
                 MissingRecruitSupport
             ),
             verify(

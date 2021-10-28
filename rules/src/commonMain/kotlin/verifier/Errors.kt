@@ -13,9 +13,9 @@ interface PrintableError {
  * @property expected How many card sets of the type are expected
  * @property actual How many card sets are in the play
  */
-class WrongSetCount(val setType: String, val expected: Int, val actual: Int) : PrintableError {
+class WrongSetCount(val setType: CardSetType, val expected: Int, val actual: Int) : PrintableError {
     override fun getMessage(): String {
-        return "Expected to provide $expected $setType sets, got $actual"
+        return "Expected to provide $expected ${setType.toString().lowercase()} sets, got $actual"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -40,9 +40,9 @@ class WrongSetCount(val setType: String, val expected: Int, val actual: Int) : P
  * @property setType The type of set it is
  * @property id The invalid ID
  */
-class InvalidCardSet(val setType: String, val id: Int) : PrintableError {
+class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
     override fun getMessage(): String {
-        return "Invalid $setType: $id"
+        return "Invalid ${setType.toString().lowercase()}: $id"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -66,9 +66,9 @@ class InvalidCardSet(val setType: String, val id: Int) : PrintableError {
  * @property setType The type of card set that is missing
  * @property setId The ID of the set that is expected
  */
-class MissingRequiredSet(val setType: String, val setId: Int): PrintableError {
+class MissingRequiredSet(val setType: CardSetType, val setId: Int): PrintableError {
     override fun getMessage(): String {
-        return "Missing required $setType $setId"
+        return "Missing required ${setType.toString().lowercase()} $setId"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -86,9 +86,9 @@ class MissingRequiredSet(val setType: String, val setId: Int): PrintableError {
     }
 }
 
-class InvalidCardQuantity(val setType: String, val setId: Int, val quantity: Int): PrintableError {
+class InvalidCardQuantity(val setType: CardSetType, val setId: Int, val quantity: Int): PrintableError {
     override fun getMessage(): String {
-        return "Invalid quantity of $setType $setId: $quantity"
+        return "Invalid quantity of ${setType.toString().lowercase()} $setId: $quantity"
     }
 
     override fun equals(other: Any?): Boolean {

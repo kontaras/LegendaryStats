@@ -51,9 +51,14 @@ interface ReleaseRulesPlugin {
 }
 
 /** Card set types in the game that can be a [MandatoryCardSet] */
-enum class CardSetTypes {
+enum class CardSetType {
+    HERO,
     HENCHMAN,
-    VILLAIN
+    VILLAIN,
+    STARTER,
+    SUPPORT,
+    SCHEME,
+    MASTERMIND
 }
 
 /**
@@ -62,4 +67,4 @@ enum class CardSetTypes {
  * @property setType The type of card set
  * @property setId Set id of the villain group
  */
-data class MandatoryCardSet(val setType: CardSetTypes, val setId: Int)
+data class MandatoryCardSet(val setType: CardSetType, val setId: Int)
