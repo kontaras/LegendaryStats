@@ -24,7 +24,7 @@ import games.lmdbg.server.service.CardCache;
  * Test {@link PlayFormController}
  */
 @SpringBootTest
-public class PlayFormControllerTest {
+class PlayFormControllerTest {
 	@MockBean
 	private CardCache<Scheme> mockSchemes;
 	
