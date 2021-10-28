@@ -34,26 +34,26 @@ fun verify(play: Play): List<PrintableError> {
 fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     if (play.heroes.size != setCounts.heroes) {
-        errors.add(WrongSetCount("hero", setCounts.heroes, play.heroes.size))
+        errors.add(WrongSetCount(CardSetType.HERO, setCounts.heroes, play.heroes.size))
     }
 
     if (play.villains.size != setCounts.villains) {
-        errors.add(WrongSetCount("villain", setCounts.villains, play.villains.size))
+        errors.add(WrongSetCount(CardSetType.VILLAIN, setCounts.villains, play.villains.size))
     }
 
     if (play.henchmen.size != setCounts.henchmen) {
-        errors.add(WrongSetCount("henchman", setCounts.henchmen, play.henchmen.size))
+        errors.add(WrongSetCount(CardSetType.HENCHMAN, setCounts.henchmen, play.henchmen.size))
     }
 
     var totalStarters = 0
     for ((deckType, deckCount) in play.starters) {
         if (deckCount <= 0) {
-            errors.add(InvalidCardQuantity("starting deck", deckType, deckCount))
+            errors.add(InvalidCardQuantity(CardSetType.STARTER, deckType, deckCount))
         }
         totalStarters += deckCount
     }
     if (totalStarters != setCounts.starters) {
-        errors.add(WrongSetCount("starting deck", setCounts.starters, totalStarters))
+        errors.add(WrongSetCount(CardSetType.STARTER, setCounts.starters, totalStarters))
     }
 
     return errors
@@ -69,39 +69,39 @@ internal fun checkValuesInRange(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     for (hero in play.heroes) {
         if (!checkValidValue(hero, ReleaseRulesPlugin::heroesRange)) {
-            errors.add(InvalidCardSet("hero", hero))
+            errors.add(InvalidCardSet(CardSetType.HERO, hero))
         }
     }
 
     for (villain in play.villains) {
         if (!checkValidValue(villain, ReleaseRulesPlugin::villainsRange)) {
-            errors.add(InvalidCardSet("villain", villain))
+            errors.add(InvalidCardSet(CardSetType.VILLAIN, villain))
         }
     }
 
     for (henchman in play.henchmen) {
         if (!checkValidValue(henchman, ReleaseRulesPlugin::henchmenRange)) {
-            errors.add(InvalidCardSet("henchman", henchman))
+            errors.add(InvalidCardSet(CardSetType.HENCHMAN, henchman))
         }
     }
 
     for (support in play.supports) {
         if (!checkValidValue(support, ReleaseRulesPlugin::supportCardRange)) {
-            errors.add(InvalidCardSet("support", support))
+            errors.add(InvalidCardSet(CardSetType.SUPPORT, support))
         }
     }
 
     if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
-        errors.add(InvalidCardSet("scheme", play.scheme))
+        errors.add(InvalidCardSet(CardSetType.SCHEME, play.scheme))
     }
 
     if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindsRange)) {
-        errors.add(InvalidCardSet("mastermind", play.mastermind))
+        errors.add(InvalidCardSet(CardSetType.MASTERMIND, play.mastermind))
     }
 
     for (starter in play.starters.keys) {
         if (!checkValidValue(starter, ReleaseRulesPlugin::starterRange)) {
-            errors.add(InvalidCardSet("starting deck", starter))
+            errors.add(InvalidCardSet(CardSetType.STARTER, starter))
         }
     }
 
@@ -202,12 +202,12 @@ internal fun checkAlwaysLeads(
         if (alwaysLead.isNotEmpty()) {
             var leadFound = false
             for (set in alwaysLead) {
-                if (set.setType == CardSetTypes.HENCHMAN) {
+                if (set.setType == CardSetType.HENCHMAN) {
                     if (set.setId in play.henchmen) {
                         leadFound = true
                         break
                     }
-                } else if (set.setType == CardSetTypes.VILLAIN) {
+                } else if (set.setType == CardSetType.VILLAIN) {
                     if (set.setId in play.villains) {
                         leadFound = true
                         break
@@ -217,7 +217,7 @@ internal fun checkAlwaysLeads(
 
             if (!leadFound) {
                 for (set in alwaysLead) {
-                    errors.add(MissingRequiredSet(set.setType.name.lowercase(), set.setId))
+                    errors.add(MissingRequiredSet(set.setType, set.setId))
                 }
             }
         }
