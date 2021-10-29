@@ -27,6 +27,7 @@ object Schemes {
     const val SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS = 106
     const val SUPER_HERO_CIVIL_WAR = 107
     const val UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE = 108
+    const val ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER = 109
 }
 
 object Masterminds {

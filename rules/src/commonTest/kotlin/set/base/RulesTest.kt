@@ -74,7 +74,8 @@ internal class RulesTest {
                 Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
                 Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS,
                 Schemes.SUPER_HERO_CIVIL_WAR,
-                Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE
+                Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE,
+                Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER
             ).all { it in rules.schemesRange })
     }
 
