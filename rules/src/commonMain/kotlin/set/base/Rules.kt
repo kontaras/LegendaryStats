@@ -12,7 +12,7 @@ class Rules : ReleaseRulesPlugin {
     override val heroesRange: IntRange = Heroes.BLACK_WIDOW..Heroes.WOLVERINE
     override val villainsRange: IntRange = Villains.BROTHERHOOD..Villains.IRON_FOES
     override val henchmenRange: IntRange = Henchmen.DOOMBOT_LEGION..Henchmen.SENTINEL
-    override val schemesRange: IntRange = Schemes.THE_LEGACY_VIRUS..Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE
+    override val schemesRange: IntRange = Schemes.THE_LEGACY_VIRUS..Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER
     override val mastermindsRange: IntRange = Masterminds.DR_DOOM..Masterminds.IRON_MONGER
     override val supportCardRange: IntRange = Supports.SHIELD_OFFICER..Supports.SHIELD_OFFICER
     override val recruitSupports: Set<Int> = setOf(Supports.SHIELD_OFFICER)
@@ -27,6 +27,7 @@ class Rules : ReleaseRulesPlugin {
             Schemes.PORTALS_TO_THE_DARK_DIMENSION,
             Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
             Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS,
+            Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER,
             Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE -> {
             } //No changes to be made
             else -> {
