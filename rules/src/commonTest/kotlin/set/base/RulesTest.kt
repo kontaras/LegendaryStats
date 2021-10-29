@@ -3,7 +3,7 @@ package games.lmdbg.rules.set.base
 import games.lmdbg.rules.model.PlayerCount
 import games.lmdbg.rules.playMaker
 import games.lmdbg.rules.verifier.CardSetType
-import games.lmdbg.rules.verifier.MandatoryCardSet
+import games.lmdbg.rules.verifier.TypedCardSet
 import games.lmdbg.rules.verifier.SetCounts
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -153,47 +153,47 @@ internal class RulesTest {
     @Test
     fun getAlwaysLeadTest() {
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.HENCHMAN, Henchmen.DOOMBOT_LEGION)),
+            setOf(TypedCardSet(CardSetType.HENCHMAN, Henchmen.DOOMBOT_LEGION)),
             rules.getAlwaysLead(Masterminds.DR_DOOM)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.VILLAIN, Villains.ENEMIES_OF_ASGARD)),
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.ENEMIES_OF_ASGARD)),
             rules.getAlwaysLead(Masterminds.LOKI)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.VILLAIN, Villains.BROTHERHOOD)),
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.BROTHERHOOD)),
             rules.getAlwaysLead(Masterminds.MAGNETO)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.VILLAIN, Villains.HYDRA)),
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.HYDRA)),
             rules.getAlwaysLead(Masterminds.RED_SKULL)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.VILLAIN, Villains.IRON_FOES)),
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.IRON_FOES)),
             rules.getAlwaysLead(Masterminds.IRON_MONGER)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.HENCHMAN, Henchmen.DOOMBOT_LEGION)),
+            setOf(TypedCardSet(CardSetType.HENCHMAN, Henchmen.DOOMBOT_LEGION)),
             rules.getAlwaysLead(Masterminds.EPIC_DURISSA_THE_DISPOSSESSED)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.VILLAIN, Villains.HYDRA)),
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.HYDRA)),
             rules.getAlwaysLead(Masterminds.EPIC_KELILA_BENDER_OF_WILLS)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.VILLAIN, Villains.BROTHERHOOD)),
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.BROTHERHOOD)),
             rules.getAlwaysLead(Masterminds.EPIC_NAX_LORD_OF_CRIMSON_BOG)
         )
 
         assertEquals(
-            setOf(MandatoryCardSet(CardSetType.VILLAIN, Villains.ENEMIES_OF_ASGARD)),
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.ENEMIES_OF_ASGARD)),
             rules.getAlwaysLead(Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES)
         )
 

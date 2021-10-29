@@ -3,7 +3,7 @@ package games.lmdbg.rules
 import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
-import games.lmdbg.rules.verifier.MandatoryCardSet
+import games.lmdbg.rules.verifier.TypedCardSet
 import games.lmdbg.rules.verifier.ReleaseRulesPlugin
 import games.lmdbg.rules.verifier.SetCounts
 
@@ -50,11 +50,11 @@ class MockRules(
     override val recruitSupports: Set<Int> = if (recruitSupports != null) setOf(recruitSupports) else setOf()
     override val starterRange: IntRange = starterDeckRange ?: IntRange.EMPTY
 
-    override fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet> {
+    override fun getAlwaysLead(mastermind: Int): Set<TypedCardSet> {
         return alwaysLeadsLogic(mastermind)
     }
 
-    var alwaysLeadsLogic: (Int) -> Set<MandatoryCardSet> = { _ ->
+    var alwaysLeadsLogic: (Int) -> Set<TypedCardSet> = { _ ->
         throw Exception("Should not be called")
     }
 

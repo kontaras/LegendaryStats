@@ -46,9 +46,9 @@ fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
     }
 
     var totalStarters = 0
-    for ((deckType, deckCount) in play.starters) {
-        if (deckCount <= 0) {
-            errors.add(InvalidCardQuantity(CardSetType.STARTER, deckType, deckCount))
+    for ((setId, deckCount) in play.starters) {
+        if (deckCount < 0) {
+            errors.add(InvalidCardQuantity(TypedCardSet(CardSetType.STARTER, setId), deckCount))
         }
         totalStarters += deckCount
     }
@@ -145,9 +145,9 @@ internal fun getPlayerCountRules(playerCount: PlayerCount): SetCounts {
         PlayerCount.SOLO -> SetCounts(3, 1, 1, 1)
         PlayerCount.ADVANCED_SOLO -> SetCounts(3, 1, 1, 1)
         PlayerCount.TWO -> SetCounts(5, 2, 1, 2)
-        PlayerCount.THREE -> SetCounts(5, 3, 1,3)
+        PlayerCount.THREE -> SetCounts(5, 3, 1, 3)
         PlayerCount.FOUR -> SetCounts(5, 3, 2, 4)
-        PlayerCount.FIVE -> SetCounts(6, 4, 2,5)
+        PlayerCount.FIVE -> SetCounts(6, 4, 2, 5)
     }
 }
 
@@ -217,7 +217,7 @@ internal fun checkAlwaysLeads(
 
             if (!leadFound) {
                 for (set in alwaysLead) {
-                    errors.add(MissingRequiredSet(set.setType, set.setId))
+                    errors.add(MissingRequiredSet(set))
                 }
             }
         }
@@ -231,7 +231,7 @@ internal fun checkAlwaysLeads(
  * @param mastermind the mastermind
  * @return The villain group(s) that the mastermind could lead, generally 1
  */
-internal fun getMastermindAlwaysLeads(mastermind: Int): Set<MandatoryCardSet> {
+internal fun getMastermindAlwaysLeads(mastermind: Int): Set<TypedCardSet> {
     for (plugin in plugins) {
         if (mastermind in plugin.mastermindsRange) {
             return plugin.getAlwaysLead(mastermind)
