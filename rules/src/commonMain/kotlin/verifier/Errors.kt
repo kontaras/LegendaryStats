@@ -4,6 +4,11 @@ package games.lmdbg.rules.verifier
 interface PrintableError {
     /* A human-readable explanation of the error */
     fun getMessage(): String
+
+    /** Return any card sets related to the error. The caller can then map them to card set names. */
+    fun getCardSets(): List<TypedCardSet> {
+        return listOf()
+    }
 }
 
 /**
@@ -63,18 +68,20 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
 /**
  * A card set that is required by the setup is not present.
  *
- * @property setType The type of card set that is missing
- * @property setId The ID of the set that is expected
+ * @property cardSet The ID of the set that is expected
  */
-class MissingRequiredSet(val setType: CardSetType, val setId: Int): PrintableError {
+class MissingRequiredSet(val cardSet: TypedCardSet) : PrintableError {
     override fun getMessage(): String {
-        return "Missing required ${setType.toString().lowercase()} $setId"
+        return "Missing required ${cardSet.setType.toString().lowercase()}"
+    }
+
+    override fun getCardSets(): List<TypedCardSet> {
+        return listOf(cardSet)
     }
 
     override fun equals(other: Any?): Boolean {
         return (other is MissingRequiredSet)
-                && this.setId == other.setId
-                && this.setType == other.setType
+                && this.cardSet == other.cardSet
     }
 
     override fun hashCode(): Int {
@@ -82,19 +89,28 @@ class MissingRequiredSet(val setType: CardSetType, val setId: Int): PrintableErr
     }
 
     override fun toString(): String {
-        return "MissingRequiredSet $setType $setId"
+        return "MissingRequiredSet $cardSet"
     }
 }
 
-class InvalidCardQuantity(val setType: CardSetType, val setId: Int, val quantity: Int): PrintableError {
+/**
+ * The play contains an invalid number for the quantity of a card.
+ *
+ * @property setId  The card set
+ * @property quantity The invalid quantity
+ */
+class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : PrintableError {
     override fun getMessage(): String {
-        return "Invalid quantity of ${setType.toString().lowercase()} $setId: $quantity"
+        return "Invalid quantity of ${setId.setType.toString().lowercase()}: $quantity"
+    }
+
+    override fun getCardSets(): List<TypedCardSet> {
+        return listOf(setId)
     }
 
     override fun equals(other: Any?): Boolean {
         return (other is InvalidCardQuantity)
                 && this.setId == other.setId
-                && this.setType == other.setType
                 && this.quantity == other.quantity
     }
 
@@ -103,11 +119,14 @@ class InvalidCardQuantity(val setType: CardSetType, val setId: Int, val quantity
     }
 
     override fun toString(): String {
-        return "InvalidCardQuantity $setType $setId $quantity"
+        return "InvalidCardQuantity $setId $quantity"
     }
 }
 
-object MissingRecruitSupport: PrintableError {
+/**
+ * A play does not include a recruit support (such as SHIELD Agent or Madame HYDRA)
+ */
+object MissingRecruitSupport : PrintableError {
     override fun getMessage(): String {
         return "A setup needs to include a recruit granting support."
     }

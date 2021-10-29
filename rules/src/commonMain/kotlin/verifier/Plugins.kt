@@ -47,10 +47,10 @@ interface ReleaseRulesPlugin {
      * @param mastermind A mastermind in [mastermindsRange]
      * @return The villain group(s) that the mastermind could lead, generally 1
      */
-    fun getAlwaysLead(mastermind: Int): Set<MandatoryCardSet>
+    fun getAlwaysLead(mastermind: Int): Set<TypedCardSet>
 }
 
-/** Card set types in the game that can be a [MandatoryCardSet] */
+/** Card set types in the game that can be a [TypedCardSet] */
 enum class CardSetType {
     HERO,
     HENCHMAN,
@@ -62,9 +62,9 @@ enum class CardSetType {
 }
 
 /**
- * A card set that must be present in the play
+ * An identifier for a card set that includes the card type.
  *
  * @property setType The type of card set
- * @property setId Set id of the villain group
+ * @property setId Set id of the cards
  */
-data class MandatoryCardSet(val setType: CardSetType, val setId: Int)
+data class TypedCardSet(val setType: CardSetType, val setId: Int)

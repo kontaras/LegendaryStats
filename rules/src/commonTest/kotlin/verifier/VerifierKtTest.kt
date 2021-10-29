@@ -88,11 +88,11 @@ internal class VerifierKtTest {
             checkCardSetSizes(testPlay, counts)
         )
 
-        starters[Starters.SHIELD] = 0
+        starters[Starters.SHIELD] = -1
         assertContentEquals(
             listOf(
-                InvalidCardQuantity(CardSetType.STARTER, Starters.SHIELD, 0),
-                WrongSetCount(CardSetType.STARTER, 4, 0)
+                InvalidCardQuantity(TypedCardSet(CardSetType.STARTER, Starters.SHIELD), -1),
+                WrongSetCount(CardSetType.STARTER, 4, -1)
             ),
             checkCardSetSizes(testPlay, counts)
         )
@@ -252,36 +252,36 @@ internal class VerifierKtTest {
             assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10)))
         }
 
-        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetType.VILLAIN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(TypedCardSet(CardSetType.VILLAIN, 3)) }
         runWithPlugins(plugins) {
             assertEquals(
-                listOf(MissingRequiredSet(CardSetType.VILLAIN, 3)),
+                listOf(MissingRequiredSet(TypedCardSet(CardSetType.VILLAIN, 3))),
                 checkAlwaysLeads(playMaker(mastermind = 10))
             )
         }
 
-        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetType.VILLAIN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(TypedCardSet(CardSetType.VILLAIN, 3)) }
         runWithPlugins(plugins) {
             assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10, villain = 3)))
         }
 
-        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetType.HENCHMAN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(TypedCardSet(CardSetType.HENCHMAN, 3)) }
         runWithPlugins(plugins) {
             assertEquals(
-                listOf(MissingRequiredSet(CardSetType.HENCHMAN, 3)),
+                listOf(MissingRequiredSet(TypedCardSet(CardSetType.HENCHMAN, 3))),
                 checkAlwaysLeads(playMaker(mastermind = 10))
             )
         }
 
-        plugin.alwaysLeadsLogic = { _ -> setOf(MandatoryCardSet(CardSetType.HENCHMAN, 3)) }
+        plugin.alwaysLeadsLogic = { _ -> setOf(TypedCardSet(CardSetType.HENCHMAN, 3)) }
         runWithPlugins(plugins) {
             assertEquals(listOf(), checkAlwaysLeads(playMaker(mastermind = 10, henchman = 3)))
         }
 
         plugin.alwaysLeadsLogic = { _ ->
             setOf(
-                MandatoryCardSet(CardSetType.VILLAIN, 3),
-                MandatoryCardSet(CardSetType.HENCHMAN, 3)
+                TypedCardSet(CardSetType.VILLAIN, 3),
+                TypedCardSet(CardSetType.HENCHMAN, 3)
             )
         }
         runWithPlugins(plugins) {
@@ -290,8 +290,8 @@ internal class VerifierKtTest {
 
         plugin.alwaysLeadsLogic = { _ ->
             setOf(
-                MandatoryCardSet(CardSetType.VILLAIN, 3),
-                MandatoryCardSet(CardSetType.HENCHMAN, 3)
+                TypedCardSet(CardSetType.VILLAIN, 3),
+                TypedCardSet(CardSetType.HENCHMAN, 3)
             )
         }
         runWithPlugins(plugins) {
@@ -300,15 +300,15 @@ internal class VerifierKtTest {
 
         plugin.alwaysLeadsLogic = { _ ->
             setOf(
-                MandatoryCardSet(CardSetType.VILLAIN, 3),
-                MandatoryCardSet(CardSetType.HENCHMAN, 3)
+                TypedCardSet(CardSetType.VILLAIN, 3),
+                TypedCardSet(CardSetType.HENCHMAN, 3)
             )
         }
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(
-                    MissingRequiredSet(CardSetType.HENCHMAN, 3),
-                    MissingRequiredSet(CardSetType.VILLAIN, 3)
+                    MissingRequiredSet(TypedCardSet(CardSetType.HENCHMAN, 3)),
+                    MissingRequiredSet(TypedCardSet(CardSetType.VILLAIN, 3))
                 ).sortedBy { it.toString() },
                 checkAlwaysLeads(playMaker(mastermind = 10)).sortedBy { it.toString() }
             )
