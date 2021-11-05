@@ -49,6 +49,12 @@ interface ReleaseRulesPlugin {
      */
     fun getAlwaysLead(mastermind: Int): Set<TypedCardSet>
 
+    /**
+     * Get any required card sets for a scheme in the set.
+     *
+     * @param scheme A scheme in [schemesRange]
+     * @return The card sets required for the scheme, if any
+     */
     fun schemeMandatorySets(scheme: Int): Set<TypedCardSet>
 }
 
