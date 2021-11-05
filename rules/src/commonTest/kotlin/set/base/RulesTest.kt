@@ -3,8 +3,8 @@ package games.lmdbg.rules.set.base
 import games.lmdbg.rules.model.PlayerCount
 import games.lmdbg.rules.playMaker
 import games.lmdbg.rules.verifier.CardSetType
-import games.lmdbg.rules.verifier.TypedCardSet
 import games.lmdbg.rules.verifier.SetCounts
+import games.lmdbg.rules.verifier.TypedCardSet
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -202,5 +202,33 @@ internal class RulesTest {
         assertEquals(
             setOf(), rules.getAlwaysLead(invalidMastermind)
         )
+    }
+
+    @Test
+    fun schemeMandatorySetsTest() {
+        assertEquals(
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.CHITAURI)),
+            rules.schemeMandatorySets(Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER)
+        )
+
+        assertEquals(
+            setOf(TypedCardSet(CardSetType.VILLAIN, Villains.SKRULLS)),
+            rules.schemeMandatorySets(Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS)
+        )
+
+        for (scheme in listOf(
+            Schemes.THE_LEGACY_VIRUS,
+            Schemes.MIDTOWN_BANK_ROBBERY,
+            Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT,
+            Schemes.PORTALS_TO_THE_DARK_DIMENSION,
+            Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
+            Schemes.SUPER_HERO_CIVIL_WAR,
+            Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE
+        )) {
+            assertEquals(
+                setOf(),
+                rules.schemeMandatorySets(scheme)
+            )
+        }
     }
 }

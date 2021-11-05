@@ -2,7 +2,10 @@ package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import org.lighthousegames.logging.logging
 import kotlin.js.JsName
+
+val log = logging()
 
 /**
  * Check if a given play follows all game setup rules
@@ -170,7 +173,14 @@ data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int, var 
 internal fun checkRequiredCardSets(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
 
-    errors.addAll(checkAlwaysLeads(play))
+    val requiredSets = mutableListOf<Set<TypedCardSet>>()
+    if (play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED_SOLO)) {
+        requiredSets.add(getMastermindAlwaysLeads(play.mastermind))
+    }
+
+    requiredSets.add(getSchemeRequiredSets(play.scheme))
+
+    errors.addAll(checkMandatorySets(play, requiredSets))
 
     var noSupport = true
     for (plugin in plugins) {
@@ -188,40 +198,39 @@ internal fun checkRequiredCardSets(play: Play): List<PrintableError> {
 }
 
 /**
- * Check if the play includes the mastermind's always leads group.
+ * Check if the play includes all of the required sets
  *
  * @param play The play to check
- * @return A list of [MissingRequiredSet] containing which card set is missing
+ * @param sets Card sets to look for
+ * @return A list of [MissingRequiredSet] containing which card sets are missing
  */
-internal fun checkAlwaysLeads(
-    play: Play
-): List<PrintableError> {
+internal fun checkMandatorySets(play: Play, sets: List<Set<TypedCardSet>>): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
-    if (play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED_SOLO)) {
-        val alwaysLead = getMastermindAlwaysLeads(play.mastermind)
-        if (alwaysLead.isNotEmpty()) {
-            var leadFound = false
-            for (set in alwaysLead) {
-                if (set.setType == CardSetType.HENCHMAN) {
-                    if (set.setId in play.henchmen) {
-                        leadFound = true
-                        break
-                    }
-                } else if (set.setType == CardSetType.VILLAIN) {
-                    if (set.setId in play.villains) {
-                        leadFound = true
-                        break
-                    }
+    for (set in sets) {
+        if (set.isEmpty()) {
+            continue
+        }
+
+        var leadFound = false
+        for (card in set) {
+            val usedCards = when (card.setType) {
+                CardSetType.VILLAIN -> play.villains
+                CardSetType.HENCHMAN -> play.henchmen
+                else -> {
+                    log.error { "No logic to check for a mandatory set of ${card.setType}" }
+                    setOf()
                 }
             }
-
-            if (!leadFound) {
-                for (set in alwaysLead) {
-                    errors.add(MissingRequiredSet(set))
-                }
+            if (card.setId in usedCards) {
+                leadFound = true
             }
         }
+
+        if (!leadFound) {
+            errors.add(MissingRequiredSet(set.toList().sortedBy { it.toString() })) //Sort for ease of tests
+        }
     }
+
     return errors
 }
 
@@ -238,5 +247,21 @@ internal fun getMastermindAlwaysLeads(mastermind: Int): Set<TypedCardSet> {
         }
     }
     //It is possible that the mastermind is not in any plugin, but that will be caught by checkValuesInRange
+    return setOf()
+}
+
+/**
+ * Get any card sets the scheme mandates
+ *
+ * @param scheme the scheme
+ * @return The card set the scheme requires, if any
+ */
+internal fun getSchemeRequiredSets(scheme: Int): Set<TypedCardSet> {
+    for (plugin in plugins) {
+        if (scheme in plugin.schemesRange) {
+            return plugin.schemeMandatorySets(scheme)
+        }
+    }
+    //It is possible that the scheme is not in any plugin, but that will be caught by checkValuesInRange
     return setOf()
 }

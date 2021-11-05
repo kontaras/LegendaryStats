@@ -68,20 +68,20 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
 /**
  * A card set that is required by the setup is not present.
  *
- * @property cardSet The ID of the set that is expected
+ * @property cards The ID of the set that is expected
  */
-class MissingRequiredSet(val cardSet: TypedCardSet) : PrintableError {
+class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     override fun getMessage(): String {
-        return "Missing required ${cardSet.setType.toString().lowercase()}"
+        return "Missing required card set"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
-        return listOf(cardSet)
+        return cards
     }
 
     override fun equals(other: Any?): Boolean {
         return (other is MissingRequiredSet)
-                && this.cardSet == other.cardSet
+                && this.cards == other.cards
     }
 
     override fun hashCode(): Int {
@@ -89,7 +89,7 @@ class MissingRequiredSet(val cardSet: TypedCardSet) : PrintableError {
     }
 
     override fun toString(): String {
-        return "MissingRequiredSet $cardSet"
+        return "MissingRequiredSet $cards"
     }
 }
 
