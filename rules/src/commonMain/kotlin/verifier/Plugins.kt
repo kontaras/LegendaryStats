@@ -48,6 +48,8 @@ interface ReleaseRulesPlugin {
      * @return The villain group(s) that the mastermind could lead, generally 1
      */
     fun getAlwaysLead(mastermind: Int): Set<TypedCardSet>
+
+    fun schemeMandatorySets(scheme: Int): Set<TypedCardSet>
 }
 
 /** Card set types in the game that can be a [TypedCardSet] */

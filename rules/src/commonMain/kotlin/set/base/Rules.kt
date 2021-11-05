@@ -52,6 +52,14 @@ class Rules : ReleaseRulesPlugin {
         return group?.let { setOf(it) } ?: setOf()
     }
 
+    override fun schemeMandatorySets(scheme: Int): Set<TypedCardSet> {
+        return when (scheme) {
+            Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS -> setOf(TypedCardSet(CardSetType.VILLAIN, Villains.SKRULLS))
+            Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER -> setOf(TypedCardSet(CardSetType.VILLAIN, Villains.CHITAURI))
+            else -> setOf()
+        }
+    }
+
     companion object {
         val log = logging()
     }

@@ -65,4 +65,12 @@ class MockRules(
     var setCountLogic: (Play, SetCounts) -> Unit = { _, _ ->
         throw Exception("Should not be called")
     }
+
+    override fun schemeMandatorySets(scheme: Int): Set<TypedCardSet> {
+        return schemeSetsLogic(scheme)
+    }
+
+    var schemeSetsLogic: (Int) -> Set<TypedCardSet> = {  _ ->
+        throw Exception("Should not be called")
+    }
 }
