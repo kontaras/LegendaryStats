@@ -18,10 +18,10 @@ class ModelPojoTests extends PojoTestUtil {
 	}
 
 	/**
-	 * Test {@link User}
+	 * Test {@link Account}
 	 */
 	@Test
 	void testUser() {
-		validate(User.class);
+		validate(Account.class);
 	}
 }

@@ -31,11 +31,11 @@ public class Play {
 	private Long id;
 
 	/**
-	 * User who played the game
+	 * Account who played the game
 	 */
 	@ManyToOne
 	@JsonIgnore
-	private User player;
+	private Account player;
 	
 	/**
 	 * Date on which the game was played
@@ -119,7 +119,7 @@ public class Play {
 	/**
 	 * @return the player
 	 */
-	public User getPlayer() {
+	public Account getPlayer() {
 		return player;
 	}
 
