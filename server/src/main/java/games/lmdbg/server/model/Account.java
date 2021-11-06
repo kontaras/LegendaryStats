@@ -4,10 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * User info kept in the database
+ * Account info kept in the database
  */
 @Entity
-public class User {
+public class Account {
 	/** Database ID */
 	@Id
 	private Long id;

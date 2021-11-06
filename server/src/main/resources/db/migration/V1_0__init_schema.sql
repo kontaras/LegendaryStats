@@ -56,7 +56,7 @@ CREATE TABLE scheme
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
-CREATE TABLE "user"
+CREATE TABLE account
 (
    id BIGINT NOT NULL,
    user_name VARCHAR NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE play
    notes VARCHAR,
    misc_hero_id INT,
    PRIMARY KEY (id),
-   FOREIGN KEY (player_id) REFERENCES "user" (id),
+   FOREIGN KEY (player_id) REFERENCES account (id),
    FOREIGN KEY (scheme_id) REFERENCES scheme (id),
    FOREIGN KEY (mastermind_id) REFERENCES mastermind (id),
    FOREIGN KEY (misc_hero_id) REFERENCES hero (id)
