@@ -6,15 +6,25 @@ CREATE TABLE release
    mcu_name VARCHAR,
    PRIMARY KEY (id)
 );
+CREATE TABLE team
+(
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   PRIMARY KEY (id)
+);
 CREATE TABLE hero
 (
    id INT NOT NULL,
    marvel_name VARCHAR,
    dxp_name VARCHAR,
    mcu_name VARCHAR,
+   team_id INT NOT NULL,
    release_id INT  NOT NULL,
    PRIMARY KEY (id),
-   FOREIGN KEY (release_id) REFERENCES release (id)
+   FOREIGN KEY (release_id) REFERENCES release (id),
+   FOREIGN KEY (team_id) REFERENCES team (id)
 );
 CREATE TABLE mastermind
 (

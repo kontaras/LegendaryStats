@@ -1,21 +1,28 @@
 INSERT INTO release (id, marvel_name, dxp_name, mcu_name) VALUES (1, 'Base Set', 'Base Set', 'Phase 1');
 
-INSERT INTO hero (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
-	(1, 101, 'Black Widow', 'Steelvara the Light', 'Black Widow'),
-	(1, 102, 'Captain America', 'Lord Cedric of the Citadel', 'Captain America'),
-	(1, 103, 'Cyclops', 'Disaray the Sufferer', NULL),
-	(1, 104, 'Deadpool', 'Nunchi', NULL),
-	(1, 105, 'Emma Frost', 'Doneya Petalfall', NULL),
-	(1, 106, 'Gambit', 'Makea the All-Knowing', NULL),
-	(1, 107, 'Hawkeye', 'Arcillo the Noble Hearted', 'Hawkeye'),
-	(1, 108, 'Hulk', 'Cawr', 'Hulk'),
-	(1, 109, 'Iron Man', 'Lollycooler', 'Iron Man'),
-	(1, 110, 'Nick Fury', 'Mal Gravemore', 'Nick Fury'),
-	(1, 111, 'Rogue', 'Ceridwen', NULL),
-	(1, 112, 'Spider-Man', 'Ryuhi', NULL),
-	(1, 113, 'Storm', 'Ordmantil the Shadow', NULL),
-	(1, 114, 'Thor', '"Hog" Dryll', 'Thor'),
-	(1, 115, 'Wolverine', 'Kamina the Curious', NULL);
+INSERT INTO team (id, marvel_name, dxp_name, mcu_name) VALUES
+	(1, 'Avengers', 'Orrin''s Wall', 'Avengers'),
+	(2, 'S.H.I.E.L.D.', 'Fixers', 'S.H.I.E.L.D.'),
+	(3, 'Spider Friends', 'The Intrepid', NULL),
+	(4, 'Unaffiliated', 'Unaffiliated', 'Unaffiliated'),
+	(5, 'X-Men', 'Magi-Nation', NULL);
+
+INSERT INTO hero (release_id, id, marvel_name, dxp_name, mcu_name, team_id) VALUES
+	(1, 101, 'Black Widow', 'Steelvara the Light', 'Black Widow', 1),
+	(1, 102, 'Captain America', 'Lord Cedric of the Citadel', 'Captain America', 1),
+	(1, 103, 'Cyclops', 'Disaray the Sufferer', NULL, 5),
+	(1, 104, 'Deadpool', 'Nunchi', NULL, 4),
+	(1, 105, 'Emma Frost', 'Doneya Petalfall', NULL, 5),
+	(1, 106, 'Gambit', 'Makea the All-Knowing', NULL, 5),
+	(1, 107, 'Hawkeye', 'Arcillo the Noble Hearted', 'Hawkeye', 1),
+	(1, 108, 'Hulk', 'Cawr', 'Hulk', 1),
+	(1, 109, 'Iron Man', 'Lollycooler', 'Iron Man', 1),
+	(1, 110, 'Nick Fury', 'Mal Gravemore', 'Nick Fury', 2),
+	(1, 111, 'Rogue', 'Ceridwen', NULL, 5),
+	(1, 112, 'Spider-Man', 'Ryuhi', NULL, 3),
+	(1, 113, 'Storm', 'Ordmantil the Shadow', NULL, 5),
+	(1, 114, 'Thor', '"Hog" Dryll', 'Thor', 1),
+	(1, 115, 'Wolverine', 'Kamina the Curious', NULL, 5);
 
 
 INSERT INTO scheme (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
