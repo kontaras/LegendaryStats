@@ -1,9 +1,13 @@
 package games.lmdbg.server.model.game;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,12 +27,23 @@ public class Hero extends CardSet {
 	@ManyToMany
 	@JsonIgnore 
 	@JoinTable(name = "play_hero", inverseJoinColumns = { @JoinColumn(name = "play_id") })
-	private java.util.Set<Play> plays;
+	private Set<Play> plays;
+	
+	/** What team the hero belongs to. */
+	@ManyToOne
+	private Team team;
 
 	/**
 	 * @return the {@link #plays}
 	 */
-	public java.util.Set<Play> getPlays() {
+	public Set<Play> getPlays() {
 		return plays;
+	}
+
+	/**
+	 * @return the {@link #team}
+	 */
+	public Team getTeam() {
+		return team;
 	}
 }
