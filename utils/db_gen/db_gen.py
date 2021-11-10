@@ -11,7 +11,7 @@ MIN_HER0 = 101
 MAX_HERO = 115
 
 MIN_SCHEME = 101
-MAX_SCHEME = 108
+MAX_SCHEME = 109
 
 MIN_MASTERMIND = 101
 MAX_MASTERMIND = 109
@@ -65,7 +65,7 @@ def generate_db(starting_id, num_plays, out_file):
 
 
 def generate_user(out_file):
-    out_file.write("""INSERT INTO \"user\" (id, user_name)
+    out_file.write("""INSERT INTO account (id, user_name)
         VALUES (%d, '%s')
         ON CONFLICT DO NOTHING;\n\n""" % (USER_ID, USER_NAME))
 
