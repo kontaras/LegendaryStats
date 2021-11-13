@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.js.JsName
 
 /** The possible game outcomes */
 enum class Outcome {
@@ -55,10 +56,12 @@ data class Play(
     val misc_hero: Int? = null
 ) {
     companion object {
+        @JsName("playFromString") //Prevent mangling
         fun playFromString(encoded: String): Play {
             return Json.decodeFromString(encoded)
         }
 
+        @JsName("playToString") //Prevent mangling
         fun playToString(play: Play): String {
             return Json.encodeToString(play)
         }
