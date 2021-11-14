@@ -10,7 +10,7 @@ plugins {
 
 group = 'games.lmdbg'
 version = '0.0.2'
-sourceCompatibility = '11'
+sourceCompatibility = '16' //Trying to build for Java 17 is causing import issues.
 
 repositories {
 	mavenCentral()
