@@ -10,7 +10,7 @@ plugins {
 
 group = 'games.lmdbg'
 version = '0.0.2'
-sourceCompatibility = '16' //Trying to build for Java 17 is causing import issues.
+sourceCompatibility = '11' //No stable image for 16, but does not build with Java 17
 
 repositories {
 	mavenCentral()
@@ -87,6 +87,10 @@ task javascriptCopy(type: Copy) {
     into 'build/resources/main/static/scripts'
 
     outputs.files(fileTree('build/resources/main/static/scripts'))
+}
+
+bootBuildImage {
+	environment = ["BP_JVM_VERSION" : "17.*"]
 }
 
 task cssCopy(type: Copy) {
