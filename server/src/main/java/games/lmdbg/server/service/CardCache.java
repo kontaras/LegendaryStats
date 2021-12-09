@@ -60,4 +60,13 @@ public class CardCache<C extends CardSet> {
 	public List<C> getCardsInOrder() {
 		return Collections.unmodifiableList(cardList);
 	}
+
+	/**
+	 * Get all of the cards in the set, mapped by ID.
+	 * 
+	 * @return A map of ID to card.
+	 */
+	public Map<Integer, C> getAllById() {
+		return Collections.unmodifiableMap(cardsById);
+	}
 }
