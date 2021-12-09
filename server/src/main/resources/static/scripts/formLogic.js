@@ -9,7 +9,13 @@ function verify() {
 			const iter = errors.iterator();
 			var message = "";
 			while(iter.hasNext()) {
-				message += iter.next().getMessage() + "\n";
+				const error = iter.next();
+				message += error.getMessage() + "\n";
+				const cards = error.getCardSets().iterator();
+				while(cards.hasNext()) {
+					const set = cards.next();
+					message += "\t" + prettyCardSet(set);
+				}
 			}
 			alert (message);
 		}
