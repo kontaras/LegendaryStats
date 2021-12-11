@@ -2,7 +2,6 @@ package games.lmdbg.server.view;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -51,19 +50,19 @@ class PlayFormControllerTest {
 
 	@Test
 	void testCreateForm() {
-		List<Scheme> schemes = Lists.emptyList();
+		List<Scheme> schemes = List.of();
 		Mockito.when(mockSchemes.getCardsInOrder()).thenReturn(schemes);
-		List<Mastermind> masterminds = Lists.emptyList();
+		List<Mastermind> masterminds = List.of();
 		Mockito.when(mockMasterminds.getCardsInOrder()).thenReturn(masterminds);
-		List<Hero> heroes = Lists.emptyList();
+		List<Hero> heroes = List.of();
 		Mockito.when(mockHeroes.getCardsInOrder()).thenReturn(heroes);
-		List<Villain> villains = Lists.emptyList();
+		List<Villain> villains = List.of();
 		Mockito.when(mockVillains.getCardsInOrder()).thenReturn(villains);
-		List<Henchman> henchmen = Lists.emptyList();
+		List<Henchman> henchmen = List.of();
 		Mockito.when(mockHenchmen.getCardsInOrder()).thenReturn(henchmen);
-		List<Starter> starters = Lists.emptyList();
+		List<Starter> starters = List.of();
 		Mockito.when(mockStarters.getCardsInOrder()).thenReturn(starters);
-		List<Support> supports = Lists.emptyList();
+		List<Support> supports = List.of();
 		Mockito.when(mockSupports.getCardsInOrder()).thenReturn(supports);
 		
 		Model mod = Mockito.mock(Model.class);
