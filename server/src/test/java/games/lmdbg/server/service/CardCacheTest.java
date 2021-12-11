@@ -2,6 +2,7 @@ package games.lmdbg.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -47,16 +48,24 @@ class CardCacheTest {
 		Mockito.when(mockCardSet3.compareTo(mockCardSet2)).thenReturn(-1);
 
 		Mockito.when(mockRepo.findAll()).thenReturn(cards);
-		CardCache<CardSet> testMe = new CardCache<>(mockRepo);
+		CardCache<CardSet> cache = new CardCache<>(mockRepo);
 
-		Assertions.assertEquals(mockCardSet2, testMe.getById(2));
-		Assertions.assertEquals(mockCardSet1, testMe.getById(1));
-		Assertions.assertEquals(null, testMe.getById(3));
+		Assertions.assertEquals(mockCardSet2, cache.getById(2));
+		Assertions.assertEquals(mockCardSet1, cache.getById(1));
+		Assertions.assertEquals(null, cache.getById(3));
 
-		Assertions.assertEquals(List.of(mockCardSet1, mockCardSet2), testMe.getCardsInOrder());
+		Assertions.assertEquals(List.of(mockCardSet1, mockCardSet2), cache.getCardsInOrder());
+		Assertions.assertEquals(Map.of(1, mockCardSet1, 2, mockCardSet2), cache.getAllById());
 
 		// Add a new set after the cache is built
 		cards.add(mockCardSet3);
+		
+		Assertions.assertEquals(mockCardSet2, cache.getById(2));
+		Assertions.assertEquals(mockCardSet1, cache.getById(1));
+		Assertions.assertEquals(null, cache.getById(3));
+
+		Assertions.assertEquals(List.of(mockCardSet1, mockCardSet2), cache.getCardsInOrder());
+		Assertions.assertEquals(Map.of(1, mockCardSet1, 2, mockCardSet2), cache.getAllById());
 	}
 
 }
