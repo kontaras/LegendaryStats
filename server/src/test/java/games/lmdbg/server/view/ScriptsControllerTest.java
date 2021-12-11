@@ -18,7 +18,7 @@ import games.lmdbg.server.service.CardCache;
  * Tests for {@link ScriptsController}
  */
 @SpringBootTest
-public class ScriptsControllerTest {
+class ScriptsControllerTest {
 	@MockBean
 	private CardCache<Villain> mockVillains;
 	

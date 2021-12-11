@@ -10,7 +10,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 /**
  * Tests for {@link ThymeleafConfig}
  */
-public class ThymeleafConfigTest {
+class ThymeleafConfigTest {
 
 	/**
 	 * Test to make sure {@link ThymeleafConfig#getTemplateEngine()} returns the
@@ -21,6 +21,6 @@ public class ThymeleafConfigTest {
 		SpringTemplateEngine engine = new ThymeleafConfig().getTemplateEngine();
 		Set<ITemplateResolver> resolvers = engine.getTemplateResolvers();
 
-		Assertions.assertEquals(resolvers.size(), 2);
+		Assertions.assertEquals(2, resolvers.size());
 	}
 }

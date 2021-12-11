@@ -4,8 +4,8 @@ cardSets["villains"] = /*[[${villainsMap}]]*/ {};
 cardSets["henchmen"] = /*[[${henchmenMap}]]*/ {};
 
 function prettyCardSet(cardSet) {
-	type = cardSet.setType.name;
-	id =  cardSet.setId;
+	const type = cardSet.setType.name;
+	const id =  cardSet.setId;
 	
 	var lookupTable = null;
 	
@@ -29,7 +29,7 @@ function prettyCardSet(cardSet) {
 			name = lookupTable[id].mcuName;
 		}
 		if (!name || name.length === 0 ) {
-			name = type + " " + id;;
+			name = type + " " + id;
 		}
 		
 		return name

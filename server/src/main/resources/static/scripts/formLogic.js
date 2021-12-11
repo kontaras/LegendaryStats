@@ -14,7 +14,7 @@ function verify() {
 				const cards = error.getCardSets().iterator();
 				while(cards.hasNext()) {
 					const set = cards.next();
-					message += "\t" + prettyCardSet(set);
+					message += "\t" + prettyCardSet(set) + "\n";
 				}
 			}
 			alert (message);
@@ -79,7 +79,7 @@ function formToJson() {
 		return null;
 	}
 	
-	alert(JSON.stringify(play));
+	//alert(JSON.stringify(play));
 	
 	return JSON.stringify(play);
 }
