@@ -79,8 +79,6 @@ function formToJson() {
 		return null;
 	}
 	
-	//alert(JSON.stringify(play));
-	
 	return JSON.stringify(play);
 }
 
