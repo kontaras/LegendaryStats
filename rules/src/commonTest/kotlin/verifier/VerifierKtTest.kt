@@ -382,6 +382,49 @@ internal class VerifierKtTest {
         }
     }
 
+    @Test
+    fun checkPlayValidForSchemeTest() {
+        val plugin = MockRules(schemesRange = 1..1)
+        val plugins = setOf(plugin)
+
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(),
+                checkPlayValidForScheme(playMaker(scheme = 2))
+            )
+        }
+
+        val testPlay = playMaker(scheme = 1)
+        plugin.schemeCheckPlayLogic = { scheme, play ->
+            assertEquals(1, scheme)
+            assertEquals(testPlay, play)
+            listOf()
+        }
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(),
+                checkPlayValidForScheme(testPlay)
+            )
+        }
+
+        val testError = object : PrintableError {
+            override fun getMessage(): String {
+                throw Exception("Should not be called")
+            }
+        }
+        plugin.schemeCheckPlayLogic = { scheme, play ->
+            assertEquals(1, scheme)
+            assertEquals(testPlay, play)
+            listOf(testError)
+        }
+        runWithPlugins(plugins) {
+            assertEquals(
+                listOf(testError),
+                checkPlayValidForScheme(testPlay)
+            )
+        }
+    }
+
     private fun <T> runWithPlugins(newPlugins: Set<ReleaseRulesPlugin>, func: () -> T): T {
         val realPlugins = plugins.toSet()
         plugins.clear()

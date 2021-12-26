@@ -5,6 +5,7 @@ import games.lmdbg.rules.playMaker
 import games.lmdbg.rules.verifier.CardSetType
 import games.lmdbg.rules.verifier.SetCounts
 import games.lmdbg.rules.verifier.TypedCardSet
+import games.lmdbg.rules.verifier.PlayerSchemeMismatch
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -229,6 +230,49 @@ internal class RulesTest {
                 setOf(),
                 rules.schemeMandatorySets(scheme)
             )
+        }
+    }
+
+    @Test
+    fun schemeCheckPlayTest() {
+        for (scheme in listOf(
+            Schemes.THE_LEGACY_VIRUS,
+            Schemes.MIDTOWN_BANK_ROBBERY,
+            Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT,
+            Schemes.PORTALS_TO_THE_DARK_DIMENSION,
+            Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
+            Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS,
+            Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER,
+            Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE
+        )) {
+            assertEquals(
+                listOf(),
+                rules.schemeCheckPlay(scheme, playMaker())
+            )
+        }
+
+        for (scheme in listOf(
+            Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT,
+            Schemes.SUPER_HERO_CIVIL_WAR,
+        )) {
+            for (players in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED_SOLO)) {
+                assertEquals(
+                    listOf(PlayerSchemeMismatch),
+                    rules.schemeCheckPlay(scheme, playMaker(players = players))
+                )
+            }
+        }
+
+        for (scheme in listOf(
+            Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT,
+            Schemes.SUPER_HERO_CIVIL_WAR,
+        )) {
+            for (players in listOf(PlayerCount.TWO, PlayerCount.THREE, PlayerCount.FOUR, PlayerCount.FIVE)) {
+                assertEquals(
+                    listOf(),
+                    rules.schemeCheckPlay(scheme, playMaker(players = players))
+                )
+            }
         }
     }
 }
