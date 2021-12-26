@@ -57,4 +57,24 @@ internal class BaseSetPlays {
             )
         )
     }
+
+    @Test
+    fun verifyCivilWarSchemeError() {
+        assertContentEquals(
+            listOf(WrongSetCount(CardSetType.HERO, 3, 2), PlayerSchemeMismatch),
+            verify(
+                Play(
+                    Outcome.LOSS_SCHEME,
+                    PlayerCount.ADVANCED_SOLO,
+                    Schemes.SUPER_HERO_CIVIL_WAR,
+                    Masterminds.MAGNETO,
+                    setOf(Heroes.CAPTAIN_AMERICA, Heroes.SPIDER_MAN),
+                    setOf(Villains.SKRULLS),
+                    setOf(Henchmen.SENTINEL),
+                    setOf(Supports.SHIELD_OFFICER),
+                    mapOf(Starters.SHIELD to 1)
+                )
+            )
+        )
+    }
 }
