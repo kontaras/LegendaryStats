@@ -2,7 +2,12 @@ package games.lmdbg.rules.set.base
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
-import games.lmdbg.rules.verifier.*
+import games.lmdbg.rules.verifier.CardSetType
+import games.lmdbg.rules.verifier.TypedCardSet
+import games.lmdbg.rules.verifier.ReleaseRulesPlugin
+import games.lmdbg.rules.verifier.SetCounts
+import games.lmdbg.rules.verifier.PrintableError
+import games.lmdbg.rules.verifier.PlayerSchemeMismatch
 import org.lighthousegames.logging.logging
 
 class Rules : ReleaseRulesPlugin {
@@ -34,23 +39,11 @@ class Rules : ReleaseRulesPlugin {
     }
 
     override fun getAlwaysLead(mastermind: Int): Set<TypedCardSet> {
-        val group: TypedCardSet? = when (mastermind) {
-            Masterminds.DR_DOOM, Masterminds.EPIC_DURISSA_THE_DISPOSSESSED -> TypedCardSet(
-                CardSetType.HENCHMAN,
-                Henchmen.DOOMBOT_LEGION
-            )
-            Masterminds.LOKI, Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES -> TypedCardSet(
-                CardSetType.VILLAIN,
-                Villains.ENEMIES_OF_ASGARD
-            )
-            Masterminds.MAGNETO, Masterminds.EPIC_NAX_LORD_OF_CRIMSON_BOG -> TypedCardSet(
-                CardSetType.VILLAIN,
-                Villains.BROTHERHOOD
-            )
-            Masterminds.RED_SKULL, Masterminds.EPIC_KELILA_BENDER_OF_WILLS -> TypedCardSet(
-                CardSetType.VILLAIN,
-                Villains.HYDRA
-            )
+        val group: TypedCardSet? = when(mastermind) {
+            Masterminds.DR_DOOM, Masterminds.EPIC_DURISSA_THE_DISPOSSESSED -> TypedCardSet(CardSetType.HENCHMAN, Henchmen.DOOMBOT_LEGION)
+            Masterminds.LOKI, Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES -> TypedCardSet(CardSetType.VILLAIN, Villains.ENEMIES_OF_ASGARD)
+            Masterminds.MAGNETO, Masterminds.EPIC_NAX_LORD_OF_CRIMSON_BOG -> TypedCardSet(CardSetType.VILLAIN, Villains.BROTHERHOOD)
+            Masterminds.RED_SKULL, Masterminds.EPIC_KELILA_BENDER_OF_WILLS -> TypedCardSet(CardSetType.VILLAIN, Villains.HYDRA)
             Masterminds.IRON_MONGER -> TypedCardSet(CardSetType.VILLAIN, Villains.IRON_FOES)
             else -> {
                 log.error { "Base set always leads got an invalid mastermind value $mastermind" }
@@ -63,18 +56,8 @@ class Rules : ReleaseRulesPlugin {
 
     override fun schemeMandatorySets(scheme: Int): Set<TypedCardSet> {
         return when (scheme) {
-            Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS -> setOf(
-                TypedCardSet(
-                    CardSetType.VILLAIN,
-                    Villains.SKRULLS
-                )
-            )
-            Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER -> setOf(
-                TypedCardSet(
-                    CardSetType.VILLAIN,
-                    Villains.CHITAURI
-                )
-            )
+            Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS -> setOf(TypedCardSet(CardSetType.VILLAIN, Villains.SKRULLS))
+            Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER -> setOf(TypedCardSet(CardSetType.VILLAIN, Villains.CHITAURI))
             else -> setOf()
         }
     }
