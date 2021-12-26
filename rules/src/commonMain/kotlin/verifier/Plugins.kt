@@ -56,6 +56,15 @@ interface ReleaseRulesPlugin {
      * @return The card sets required for the scheme, if any
      */
     fun schemeMandatorySets(scheme: Int): Set<TypedCardSet>
+
+    /**
+     * Check to see if a play is valid for a scheme.
+     *
+     * @param play The play to check
+     * @param scheme The scheme that the play should comply to
+     * @return Issues, if any, in the scheme
+     */
+    fun schemeCheckPlay(scheme: Int, play: Play): List<PrintableError>
 }
 
 /** Card set types in the game that can be a [TypedCardSet] */

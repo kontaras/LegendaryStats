@@ -3,6 +3,7 @@ package games.lmdbg.rules
 import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.verifier.PrintableError
 import games.lmdbg.rules.verifier.TypedCardSet
 import games.lmdbg.rules.verifier.ReleaseRulesPlugin
 import games.lmdbg.rules.verifier.SetCounts
@@ -71,6 +72,14 @@ class MockRules(
     }
 
     var schemeSetsLogic: (Int) -> Set<TypedCardSet> = {  _ ->
+        throw Exception("Should not be called")
+    }
+
+    override fun schemeCheckPlay(scheme: Int, play: Play): List<PrintableError> {
+        return schemeCheckPlayLogic(scheme, play)
+    }
+
+    var schemeCheckPlayLogic: (scheme: Int, play: Play)-> List<PrintableError> = { _, _ ->
         throw Exception("Should not be called")
     }
 }

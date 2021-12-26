@@ -23,6 +23,7 @@ fun verify(play: Play): List<PrintableError> {
     errors.addAll(checkCardSetSizes(play, setCounts))
     errors.addAll(checkValuesInRange(play))
     errors.addAll(checkRequiredCardSets(play))
+    errors.addAll(checkPlayValidForScheme(play))
 
     return errors
 }
@@ -264,4 +265,14 @@ internal fun getSchemeRequiredSets(scheme: Int): Set<TypedCardSet> {
     }
     //It is possible that the scheme is not in any plugin, but that will be caught by checkValuesInRange
     return setOf()
+}
+
+internal fun checkPlayValidForScheme(play: Play): List<PrintableError> {
+    val scheme = play.scheme
+    for (plugin in plugins) {
+        if (scheme in plugin.schemesRange) {
+             return plugin.schemeCheckPlay(scheme, play)
+        }
+    }
+    return listOf()
 }

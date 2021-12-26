@@ -131,3 +131,9 @@ object MissingRecruitSupport : PrintableError {
         return "A setup needs to include a recruit granting support."
     }
 }
+
+object PlayerSchemeMismatch : PrintableError {
+    override fun getMessage(): String {
+        return "The scheme you selected is not playable with the selected player count."
+    }
+}
