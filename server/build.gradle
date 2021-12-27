@@ -6,11 +6,12 @@ plugins {
 	id 'jacoco'
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
+	id 'com.google.cloud.tools.jib' version '2.7.1'
 }
 
 group = 'games.lmdbg'
 version = '0.0.2'
-sourceCompatibility = '11' //No stable image for 16, but does not build with Java 17
+sourceCompatibility = '16' //No stable image for 16, but does not build with Java 17
 
 repositories {
 	mavenCentral()
@@ -90,8 +91,11 @@ task javascriptCopy(type: Copy) {
 }
 
 bootBuildImage {
-	environment = ["BP_JVM_VERSION" : "17.*"]
+	environment = ["BP_JVM_VERSION" : "1.16.*"]
+	buildpacks = ["gcr.io/paketo-buildpacks/adoptium"]
 }
+
+jib.from.image = 'adoptopenjdk:16'
 
 task cssCopy(type: Copy) {
 	dependsOn installFrontend
