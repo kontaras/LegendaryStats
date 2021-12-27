@@ -16,7 +16,7 @@ repositories {
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "17" //Kotlin does not support Java 17 yet
+            kotlinOptions.jvmTarget = "16"
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
