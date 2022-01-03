@@ -6,7 +6,7 @@ plugins {
 	id 'jacoco'
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
-	id 'com.google.cloud.tools.jib' version '2.7.1'
+	id 'com.google.cloud.tools.jib' version '3.1.4'
 }
 
 group = 'games.lmdbg'
@@ -95,8 +95,10 @@ bootBuildImage {
 	buildpacks = ["gcr.io/paketo-buildpacks/adoptium"]
 }
 
-jib.from.image = 'adoptopenjdk:16'
-
+jib {
+	from.image = 'adoptopenjdk:16'
+	extraDirectories.paths = ['src/main/resources']
+}
 task cssCopy(type: Copy) {
 	dependsOn installFrontend
 
