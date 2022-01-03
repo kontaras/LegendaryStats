@@ -17,7 +17,7 @@
 				const contents = jQuery("#contents");
 				
 				contents.prepend(
-						`<div id="name_picker"><h3>Displayed set name</h3>
+						`<div id="name_picker"><h3>Displayed set names</h3>
 							<form>
 							<input type="radio" name="dsplay_name" id="marvel" value="marvel" onchange="setNames('marvel');"/>
 							<label for="marvel"><span class="marvel">Comic art</span></label><br />
@@ -36,14 +36,9 @@
 	<body>
 		<div id="header"><h1 style="display: inline">Legendary Stats</h1>
 		<p id="links">
-			<a href="">Login</a>
-			<a href="">Register</a>
+			<a th:href="@{/}">Home</a>
 			-
-			<a href="">Heroes</a>
-			<a href="">Schemes</a>
-			<a href="">Masterminds</a>
-			<a href="">Villains</a>
-			<a href="">Henchmen</a>
+			Plays: <a th:href="@{/play}">New</a>
 		</p>
 		</div>
 		<div id="contents" th:insert="${content}">
