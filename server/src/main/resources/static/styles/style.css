@@ -49,10 +49,15 @@ p#links {
 	background-color: #0000AA;
 	padding: 3px 0;
 	margin: 0;
+	height: 2em;
 }
 
 h1 {
 	margin-left: 10px;
+}
+
+h3 {
+	margin: 5px;
 }
 
 #contents {
@@ -67,7 +72,7 @@ h1 {
 
 #name_picker {
 	right: 10px;
-	top: 2em;
+	top: 2.75em;
 	border: thin solid black;
 	
 	width: 180px;
