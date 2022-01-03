@@ -11,7 +11,7 @@ plugins {
 
 group = 'games.lmdbg'
 version = '0.0.2'
-sourceCompatibility = '16' //No stable image for 16, but does not build with Java 17
+sourceCompatibility = '16' //Project does not build with Java 17
 
 repositories {
 	mavenCentral()
@@ -90,15 +90,11 @@ task javascriptCopy(type: Copy) {
     outputs.files(fileTree('build/resources/main/static/scripts'))
 }
 
-bootBuildImage {
-	environment = ["BP_JVM_VERSION" : "1.16.*"]
-	buildpacks = ["gcr.io/paketo-buildpacks/adoptium"]
-}
-
 jib {
 	from.image = 'adoptopenjdk:16'
 	extraDirectories.paths = ['src/main/resources']
 }
+
 task cssCopy(type: Copy) {
 	dependsOn installFrontend
 
