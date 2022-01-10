@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link StaticPageContoller}
  */
-public class StaticPageContollerTest {
+class StaticPageContollerTest {
 
 	/** Instance under test. */
 	private StaticPageContoller testInstance;
