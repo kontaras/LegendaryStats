@@ -79,3 +79,12 @@ h3 {
 
 	position: fixed;
 }
+
+dt {
+	font-weight: bolder;
+	margin-top: .75em;
+}
+
+dd {
+    
+}
