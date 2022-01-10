@@ -30,8 +30,9 @@ jobs:
         resource-group: ${{ secrets.AZURE_CLUSTER_RESOURCE_GROUP }}
     
     - run: |-
-        envsubst < deployment.yaml > ${{ github.workspace }}/deployment.yaml
-        cat ${{ github.workspace }}/deployment.yaml
+        cat deployment.yaml
+        envsubst < deployment.yaml 
+        #cat ${{ github.workspace }}/deployment.yaml
     
     # Deploy app to AKS
     - uses: azure/k8s-deploy@v1
