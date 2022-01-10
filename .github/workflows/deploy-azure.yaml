@@ -33,6 +33,8 @@ jobs:
         #cat deployment.yaml
         envsubst < deployment.yaml > deployment_tmp.yaml
         cat deployment_tmp.yaml
+      env:
+        VERSION_TO_DEPLOY: ${{ github.event.inputs.label }}
     
     # Deploy app to AKS
     - uses: azure/k8s-deploy@v1
