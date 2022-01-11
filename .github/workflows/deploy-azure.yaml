@@ -41,3 +41,4 @@ jobs:
       with:
         manifests: |
           deployment_tmp.yaml
+        force: true
