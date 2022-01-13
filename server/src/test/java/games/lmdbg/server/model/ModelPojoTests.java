@@ -13,15 +13,15 @@ class ModelPojoTests extends PojoTestUtil {
 	 * Test {@link Play}
 	 */
 	@Test
-	void testPlay() {
-		validate(Play.class);
+	static void testPlay() {
+		validateSetOnlyPojo(Play.class);
 	}
 
 	/**
 	 * Test {@link Account}
 	 */
 	@Test
-	void testUser() {
-		validate(Account.class);
+	static void testUser() {
+		validateSetOnlyPojo(Account.class);
 	}
 }

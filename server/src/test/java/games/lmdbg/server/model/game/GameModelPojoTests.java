@@ -13,88 +13,88 @@ class GameModelPojoTests extends PojoTestUtil {
 	 * Test {@link Namable}
 	 */
 	@Test
-	void testNamable() {
-		validate(Namable.class);
+	static void testNamable() {
+		validateSetOnlyPojo(Namable.class);
 	}
 	
 	/**
 	 * Test {@link CardSet}
 	 */
 	@Test
-	void testCardSet() {
-		validate(CardSet.class);
+	static void testCardSet() {
+		validateSetOnlyPojo(CardSet.class);
 	}
 	
 	/**
 	 * Test {@link GameRelease}
 	 */
 	@Test
-	void testGameRelease() {
-		validate(GameRelease.class);
+	static void testGameRelease() {
+		validateSetOnlyPojo(GameRelease.class);
 	}
 
 	/**
 	 * Test {@link Henchman}
 	 */
 	@Test
-	void testHenchman() {
-		validate(Henchman.class);
+	static void testHenchman() {
+		validateSetOnlyPojo(Henchman.class);
 	}
 
 	/**
 	 * Test {@link Hero}
 	 */
 	@Test
-	void testHero() {
-		validate(Hero.class);
+	static void testHero() {
+		validateSetOnlyPojo(Hero.class);
 	}
 
 	/**
 	 * Test {@link Mastermind}
 	 */
 	@Test
-	void testMastermind() {
-		validate(Mastermind.class);
+	static void testMastermind() {
+		validateSetOnlyPojo(Mastermind.class);
 	}
 
 	/**
 	 * Test {@link Scheme}
 	 */
 	@Test
-	void testScheme() {
-		validate(Scheme.class);
+	static void testScheme() {
+		validateSetOnlyPojo(Scheme.class);
 	}
 
 	/**
 	 * Test {@link Villain}
 	 */
 	@Test
-	void testVillain() {
-		validate(Villain.class);
+	static void testVillain() {
+		validateSetOnlyPojo(Villain.class);
 	}
 	
 	/**
 	 * Test {@link Support}
 	 */
 	@Test
-	void testSupport() {
-		validate(Support.class);
+	static void testSupport() {
+		validateSetOnlyPojo(Support.class);
 	}
 	
 	/**
 	 * Test {@link Starter}
 	 */
 	@Test
-	void testStarter() {
-		validate(Starter.class);
+	static void testStarter() {
+		validateSetOnlyPojo(Starter.class);
 	}
 	
 	/**
 	 * Test {@link StarterPlay}
 	 */
 	@Test
-	void testStarterPlay() {
-		validate(StarterPlay.class);
-		validate(StarterPlay.Key.class);
+	static void testStarterPlay() {
+		validateSetOnlyPojo(StarterPlay.class);
+		validateSetOnlyPojo(StarterPlay.Key.class);
 	}
 }
