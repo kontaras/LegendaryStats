@@ -54,7 +54,7 @@ public class Namable implements Comparable<Namable> {
 
 	@Override
 	public int compareTo(Namable other) {
-		return this.toString().compareTo(other.toString());
+		return this.hashCode() - other.hashCode();
 	}
 
 	@Override
