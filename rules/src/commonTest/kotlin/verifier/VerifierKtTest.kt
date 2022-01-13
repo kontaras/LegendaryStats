@@ -5,7 +5,7 @@ import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
 import games.lmdbg.rules.playMaker
-import games.lmdbg.rules.set.base.*
+import games.lmdbg.rules.set.core.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-INSERT INTO release (id, marvel_name, dxp_name, mcu_name) VALUES (1, 'Base Set', 'Base Set', 'Phase 1');
+INSERT INTO release (id, marvel_name, dxp_name, mcu_name) VALUES (1, 'Core Set', 'Core Set', 'Phase 1');
 
 INSERT INTO team (id, marvel_name, dxp_name, mcu_name) VALUES
 	(1, 'Avengers', 'Orrin''s Wall', 'Avengers'),

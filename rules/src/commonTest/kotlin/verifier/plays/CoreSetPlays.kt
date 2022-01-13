@@ -3,13 +3,13 @@ package games.lmdbg.rules.verifier.plays
 import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
-import games.lmdbg.rules.set.base.*
+import games.lmdbg.rules.set.core.*
 import games.lmdbg.rules.verifier.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
-/** Verify tests using the base set */
-internal class BaseSetPlays {
+/** Verify tests using the core set */
+internal class CoreSetPlays {
     @Test
     fun verifyRealPlays() {
         assertContentEquals(
