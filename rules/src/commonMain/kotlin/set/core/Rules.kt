@@ -1,4 +1,4 @@
-package games.lmdbg.rules.set.base
+package games.lmdbg.rules.set.core
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount

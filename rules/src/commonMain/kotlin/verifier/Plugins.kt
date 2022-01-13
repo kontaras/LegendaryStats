@@ -1,7 +1,7 @@
 package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.model.Play
-import games.lmdbg.rules.set.base.Rules
+import games.lmdbg.rules.set.core.Rules
 
 /** A list of all the release rules engine plugins */
 val plugins: MutableSet<ReleaseRulesPlugin> = mutableSetOf(Rules())

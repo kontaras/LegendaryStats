@@ -1,4 +1,4 @@
-package games.lmdbg.rules.set.base
+package games.lmdbg.rules.set.core
 
 import games.lmdbg.rules.model.PlayerCount
 import games.lmdbg.rules.playMaker
