@@ -14,7 +14,7 @@ public class CardSet  extends Namable {
 	 * @return the {@link #releaseId}
 	 */
 	public Integer getReleaseId() {
-		return releaseId;
+		return this.releaseId;
 	}
 
 }

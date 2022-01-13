@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.Repository;
 
 import games.lmdbg.server.model.game.CardSet;
 
 /**
  * Common repository methods to be used for all {@link CardSet}s
+ * @param <T> See {@link Repository}
+ * @param <ID> See {@link Repository}
  */
 @NoRepositoryBean
 public interface CardSetRepository<T extends CardSet, ID> extends ReadOnlyRepository<T, ID> {
