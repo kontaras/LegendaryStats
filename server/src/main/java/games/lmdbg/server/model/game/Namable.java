@@ -28,28 +28,28 @@ public class Namable implements Comparable<Namable> {
 	 * @return the {@link #id}
 	 */
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
 	 * @return the name as released in mainline Legendary Marvel releases.
 	 */
 	public String getMarvelName() {
-		return marvelName;
+		return this.marvelName;
 	}
 
 	/**
 	 * @return the name as released in Marvel Cinematic Universe releases.
 	 */
 	public String getMcuName() {
-		return mcuName;
+		return this.mcuName;
 	}
 
 	/**
 	 * @return the name as released in the Legendary DXP app.
 	 */
 	public String getDxpName() {
-		return dxpName;
+		return this.dxpName;
 	}
 
 	@Override
@@ -61,22 +61,22 @@ public class Namable implements Comparable<Namable> {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 
-		if (!Strings.isNullOrEmpty(marvelName)) {
-			builder.append(marvelName);
+		if (!Strings.isNullOrEmpty(this.marvelName)) {
+			builder.append(this.marvelName);
 			builder.append(' ');
 		}
 
-		if (!Strings.isNullOrEmpty(mcuName)) {
-			builder.append(mcuName);
+		if (!Strings.isNullOrEmpty(this.mcuName)) {
+			builder.append(this.mcuName);
 			builder.append(' ');
 		}
 
-		if (!Strings.isNullOrEmpty(mcuName)) {
+		if (!Strings.isNullOrEmpty(this.mcuName)) {
 			builder.append(getDxpName());
 			builder.append(' ');
 		}
 
-		builder.append(id);
+		builder.append(this.id);
 
 		return builder.toString();
 	}
@@ -85,17 +85,15 @@ public class Namable implements Comparable<Namable> {
 	public boolean equals(Object obj) {
 		if (this.id == null) {
 			return obj != null && this.getClass().equals(obj.getClass()) && ((Namable) obj).id == null;
-		} else {
-			return obj != null && this.getClass().equals(obj.getClass()) && this.id.equals(((Namable) obj).id);
 		}
+		return obj != null && this.getClass().equals(obj.getClass()) && this.id.equals(((Namable) obj).id);
 	}
 
 	@Override
 	public int hashCode() {
 		if (this.id == null) {
 			return this.getClass().hashCode();
-		} else {
-			return this.getClass().hashCode() + this.id.intValue();
 		}
+		return this.getClass().hashCode() + this.id.intValue();
 	}
 }
