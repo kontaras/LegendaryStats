@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import games.lmdbg.server.model.game.Board;
 import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
 import games.lmdbg.server.model.game.Mastermind;
@@ -60,6 +61,13 @@ public class Play {
 	@ManyToOne
 	@JsonIgnore
 	private Mastermind mastermind;
+	
+	/**
+	 * Board the game was played on
+	 */
+	@ManyToOne
+	@JsonIgnore
+	private Board board;
 
 	/**
 	 * Heroes used in the game
@@ -100,6 +108,9 @@ public class Play {
 	@JoinTable(name = "play_support", inverseJoinColumns = { @JoinColumn(name = "support_id") })
 	private Set<Support> supports;
 	
+	/**
+	 * Starting decks used by players
+	 */
 	@OneToMany
 	@JsonIgnore
 	private Set<StarterPlay> starters;
@@ -113,90 +124,100 @@ public class Play {
 	 * @return the id
 	 */
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
 	 * @return the player
 	 */
 	public Account getPlayer() {
-		return player;
+		return this.player;
 	}
 
 	/**
 	 * @return the {@link #playDate}
 	 */
 	public Date getPlayDate() {
-		return playDate;
+		return this.playDate;
 	}
 
 	/**
 	 * @return the outcome
 	 */
 	public String getOutcome() {
-		return outcome;
+		return this.outcome;
 	}
 
 	/**
 	 * @return the scheme
 	 */
 	public Scheme getScheme() {
-		return scheme;
+		return this.scheme;
 	}
 
 	/**
 	 * @return the mastermind
 	 */
 	public Mastermind getMastermind() {
-		return mastermind;
+		return this.mastermind;
+	}
+
+	/**
+	 * Getter for board
+	 *
+	 * @return the board
+	 */
+	public Board getBoard()
+	{
+		return this.board;
 	}
 
 	/**
 	 * @return the heros
 	 */
 	public Set<Hero> getHeroes() {
-		return heroes;
+		return this.heroes;
 	}
 
 	/**
 	 * @return the miscHero
 	 */
 	public Hero getMiscHero() {
-		return miscHero;
+		return this.miscHero;
 	}
 
 	/**
 	 * @return the villains
 	 */
 	public Set<Villain> getVillains() {
-		return villains;
+		return this.villains;
 	}
 
 	/**
 	 * @return the henchmen
 	 */
 	public Set<Henchman> getHenchmen() {
-		return henchmen;
+		return this.henchmen;
 	}
 
 	/**
 	 * @return the notes
 	 */
 	public String getNotes() {
-		return notes;
+		return this.notes;
 	}
 
 	/**
 	 * @return the {@link #supports}
 	 */
 	public Set<Support> getSupports() {
-		return supports;
+		return this.supports;
 	}
 
 	/**
 	 * @return the {@link #starters}
 	 */
 	public Set<StarterPlay> getStarters() {
-		return starters;
+		return this.starters;
 	}
 }

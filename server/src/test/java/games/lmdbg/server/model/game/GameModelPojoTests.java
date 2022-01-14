@@ -98,4 +98,12 @@ class GameModelPojoTests extends PojoTestUtil {
 		validateSetOnlyPojo(StarterPlay.class);
 		validateSetOnlyPojo(StarterPlay.Key.class);
 	}
+	
+	/**
+	 * Test {@link Board}
+	 */
+	@Test
+	void testBoard() {
+		validateSetOnlyPojo(Board.class);
+	}
 }
