@@ -32,36 +32,6 @@ internal class CoreSetPlays {
     }
 
     @Test
-    fun verifyEmptyPlay() {
-        assertContentEquals(
-            listOf(
-                WrongSetCount(CardSetType.HERO, 5, 0),
-                WrongSetCount(CardSetType.VILLAIN, 3, 0),
-                WrongSetCount(CardSetType.HENCHMAN, 2, 0),
-                WrongSetCount(CardSetType.STARTER, 4, 0),
-                InvalidCardSet(CardSetType.SCHEME, -1),
-                InvalidCardSet(CardSetType.MASTERMIND, -1),
-                InvalidCardSet(CardSetType.BOARD, -1),
-                MissingRecruitSupport
-            ),
-            verify(
-                Play(
-                    Outcome.INCOMPLETE,
-                    PlayerCount.FOUR,
-                    -1,
-                    -1,
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    mapOf(),
-                    -1
-                )
-            )
-        )
-    }
-
-    @Test
     fun verifyCivilWarSchemeError() {
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.HERO, 3, 2), PlayerSchemeMismatch),
