@@ -72,4 +72,4 @@ INSERT INTO starter (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
 	(1, 101, 'S.H.I.E.L.D.', 'Fixers', 'S.H.I.E.L.D.');
 
 INSERT INTO board (release_id, id, marvel_name, dxp_name, mcu_name) VALUES
-	(1, 101, 'Heroic.', 'Heroic', 'Heroic');
+	(1, 101, 'HQ.', 'Guild Hall', 'HQ');
