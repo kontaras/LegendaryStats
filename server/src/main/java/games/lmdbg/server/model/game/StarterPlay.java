@@ -37,21 +37,21 @@ public class StarterPlay {
 	 * @return the {@link #starter}
 	 */
 	public Starter getStarter() {
-		return starter;
+		return this.starter;
 	}
 
 	/**
 	 * @return the {@link #play}
 	 */
 	public Play getPlay() {
-		return play;
+		return this.play;
 	}
 
 	/**
 	 * @return the {@link #quantity}
 	 */
 	public Integer getQuantity() {
-		return quantity;
+		return this.quantity;
 	}
 
 	/**
@@ -78,14 +78,14 @@ public class StarterPlay {
 		 * @return the {@link #starter}
 		 */
 		public Starter getStarter() {
-			return starter;
+			return this.starter;
 		}
 
 		/**
 		 * @return the {@link #play}
 		 */
 		public Play getPlay() {
-			return play;
+			return this.play;
 		}
 		
 		@Override
@@ -100,7 +100,7 @@ public class StarterPlay {
 		@Override
 		public int hashCode() {
 			final short PRIME = 47;
-			return (int) (starter.getId() + play.getId() * PRIME);
+			return this.starter.getId().intValue() + this.play.getId().intValue() * PRIME;
 		}	
 	}
 }

@@ -71,7 +71,7 @@ public class Namable implements Comparable<Namable> {
 			builder.append(' ');
 		}
 
-		if (!Strings.isNullOrEmpty(this.mcuName)) {
+		if (!Strings.isNullOrEmpty(this.dxpName)) {
 			builder.append(getDxpName());
 			builder.append(' ');
 		}
@@ -83,10 +83,14 @@ public class Namable implements Comparable<Namable> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this.id == null) {
-			return obj != null && this.getClass().equals(obj.getClass()) && ((Namable) obj).id == null;
+		if (obj == null || !this.getClass().equals(obj.getClass())) {
+			return false;
 		}
-		return obj != null && this.getClass().equals(obj.getClass()) && this.id.equals(((Namable) obj).id);
+		
+		if (this.id == null) {
+			return ((Namable) obj).id == null;
+		}
+		return this.id.equals(((Namable) obj).id);
 	}
 
 	@Override

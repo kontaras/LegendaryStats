@@ -8,13 +8,14 @@ import games.lmdbg.server.test.util.PojoTestUtil;
  * Test POJOs in the {@link games.lmdbg.server.model.game} package for
  * coverage and to weed out stupid bugs.
  */
+@SuppressWarnings("static-method")
 class GameModelPojoTests extends PojoTestUtil {
 	/**
 	 * Test {@link Namable}
 	 */
 	@Test
 	void testNamable() {
-		validate(Namable.class);
+		validateSetOnlyPojo(Namable.class);
 	}
 	
 	/**
@@ -22,7 +23,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testCardSet() {
-		validate(CardSet.class);
+		validateSetOnlyPojo(CardSet.class);
 	}
 	
 	/**
@@ -30,7 +31,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testGameRelease() {
-		validate(GameRelease.class);
+		validateSetOnlyPojo(GameRelease.class);
 	}
 
 	/**
@@ -38,7 +39,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testHenchman() {
-		validate(Henchman.class);
+		validateSetOnlyPojo(Henchman.class);
 	}
 
 	/**
@@ -46,7 +47,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testHero() {
-		validate(Hero.class);
+		validateSetOnlyPojo(Hero.class);
 	}
 
 	/**
@@ -54,7 +55,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testMastermind() {
-		validate(Mastermind.class);
+		validateSetOnlyPojo(Mastermind.class);
 	}
 
 	/**
@@ -62,7 +63,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testScheme() {
-		validate(Scheme.class);
+		validateSetOnlyPojo(Scheme.class);
 	}
 
 	/**
@@ -70,7 +71,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testVillain() {
-		validate(Villain.class);
+		validateSetOnlyPojo(Villain.class);
 	}
 	
 	/**
@@ -78,7 +79,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testSupport() {
-		validate(Support.class);
+		validateSetOnlyPojo(Support.class);
 	}
 	
 	/**
@@ -86,7 +87,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testStarter() {
-		validate(Starter.class);
+		validateSetOnlyPojo(Starter.class);
 	}
 	
 	/**
@@ -94,7 +95,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testStarterPlay() {
-		validate(StarterPlay.class);
-		validate(StarterPlay.Key.class);
+		validateSetOnlyPojo(StarterPlay.class);
+		validateSetOnlyPojo(StarterPlay.Key.class);
 	}
 }

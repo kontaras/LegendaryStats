@@ -8,17 +8,28 @@ import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 
+/**
+ * Utility to test pojos. 
+ */
 public class PojoTestUtil {
 
-	static Validator valid;
+	/** Validator to use for POJO testing. */
+	private static Validator readValidator;
 
+	/**
+	 * Initialize the validator
+	 */
 	@BeforeAll
 	static void setUp() {
-		valid = ValidatorBuilder.create().with(new GetterMustExistRule()).with(new GetterTester()).build();
+		readValidator = ValidatorBuilder.create().with(new GetterMustExistRule()).with(new GetterTester()).build();
 	}
 
-	protected void validate(Class<?> clazz) {
-		valid.validate(PojoClassFactory.getPojoClass(clazz));
+	/**
+	 * Validate that a given setter only POJO has correct behavior
+	 * @param clazz The class to test
+	 */
+	protected static void validateSetOnlyPojo(Class<?> clazz) {
+		readValidator.validate(PojoClassFactory.getPojoClass(clazz));
 	}
 
 }

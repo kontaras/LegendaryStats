@@ -7,6 +7,7 @@ import games.lmdbg.server.test.util.PojoTestUtil;
 /**
  * Test POJOs in the {@link games.lmdbg.server.model} package for coverage and to weed out stupid bugs.
  */
+@SuppressWarnings("static-method")
 class ModelPojoTests extends PojoTestUtil {
 
 	/**
@@ -14,7 +15,7 @@ class ModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testPlay() {
-		validate(Play.class);
+		validateSetOnlyPojo(Play.class);
 	}
 
 	/**
@@ -22,6 +23,6 @@ class ModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testUser() {
-		validate(Account.class);
+		validateSetOnlyPojo(Account.class);
 	}
 }
