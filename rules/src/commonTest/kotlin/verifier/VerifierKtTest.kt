@@ -27,7 +27,8 @@ internal class VerifierKtTest {
             villains,
             henchmen,
             setOf(),
-            starters
+            starters,
+            Boards.HQ
         )
 
         val counts = getPlayerCountRules(PlayerCount.FOUR)
@@ -102,7 +103,7 @@ internal class VerifierKtTest {
     @Test
     fun checkValuesInRangeTest() {
         val plugins = setOf(
-            MockRules(schemesRange = 0..0, mastermindsRange = 0..0),
+            MockRules(schemesRange = 0..0, mastermindsRange = 0..0, boardRange = 0..0),
             MockRules(
                 heroesRange = 1..2,
                 villainsRange = 101..102,
@@ -110,7 +111,8 @@ internal class VerifierKtTest {
                 schemesRange = 301..302,
                 mastermindsRange = 401..402,
                 supportCardRange = 501..502,
-                starterDeckRange = 601..602
+                starterDeckRange = 601..602,
+                boardRange = 701..702
             ),
             MockRules(
                 heroesRange = 5..7,
@@ -119,7 +121,8 @@ internal class VerifierKtTest {
                 schemesRange = 305..307,
                 mastermindsRange = 405..407,
                 supportCardRange = 505..507,
-                starterDeckRange = 605..607
+                starterDeckRange = 605..607,
+                boardRange = 705..707
             )
         )
 
@@ -155,6 +158,12 @@ internal class VerifierKtTest {
             listOf(InvalidCardSet(CardSetType.MASTERMIND, -128)),
             runWithPlugins(plugins) { checkValuesInRange(playMaker(mastermind = -128)) })
 
+        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(board = 701)) })
+        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(board = 707)) })
+        assertContentEquals(
+            listOf(InvalidCardSet(CardSetType.BOARD, -867)),
+            runWithPlugins(plugins) { checkValuesInRange(playMaker(board = -867)) })
+
         assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 501)) })
         assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 507)) })
         assertContentEquals(
@@ -182,7 +191,9 @@ internal class VerifierKtTest {
                         scheme = 307,
                         mastermind = 407,
                         support = 507,
-                        startingDeck = 607, startingDeckCount = 5
+                        startingDeck = 607,
+                        startingDeckCount = 5,
+                        board = 707
                     )
                 )
             })
@@ -194,7 +205,8 @@ internal class VerifierKtTest {
                 InvalidCardSet(CardSetType.SUPPORT, 192168001),
                 InvalidCardSet(CardSetType.SCHEME, -123),
                 InvalidCardSet(CardSetType.MASTERMIND, -128),
-                InvalidCardSet(CardSetType.STARTER, 8675309)
+                InvalidCardSet(CardSetType.STARTER, 8675309),
+                InvalidCardSet(CardSetType.BOARD, -867)
             ),
             runWithPlugins(plugins) {
                 checkValuesInRange(
@@ -205,7 +217,9 @@ internal class VerifierKtTest {
                         scheme = -123,
                         mastermind = -128,
                         support = 192168001,
-                        startingDeck = 8675309, startingDeckCount = 9001
+                        startingDeck = 8675309,
+                        startingDeckCount = 9001,
+                        board = -867
                     )
                 )
             })

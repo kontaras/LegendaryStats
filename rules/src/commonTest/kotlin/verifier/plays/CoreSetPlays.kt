@@ -24,7 +24,8 @@ internal class CoreSetPlays {
                     setOf(Villains.ENEMIES_OF_ASGARD, Villains.BROTHERHOOD, Villains.MASTERS_OF_EVIL),
                     setOf(Henchmen.DOOMBOT_LEGION, Henchmen.HAND_NINJAS),
                     setOf(Supports.SHIELD_OFFICER),
-                    mapOf(Starters.SHIELD to 4)
+                    mapOf(Starters.SHIELD to 4),
+                    Boards.HQ
                 )
             )
         )
@@ -40,6 +41,7 @@ internal class CoreSetPlays {
                 WrongSetCount(CardSetType.STARTER, 4, 0),
                 InvalidCardSet(CardSetType.SCHEME, -1),
                 InvalidCardSet(CardSetType.MASTERMIND, -1),
+                InvalidCardSet(CardSetType.BOARD, -1),
                 MissingRecruitSupport
             ),
             verify(
@@ -52,7 +54,8 @@ internal class CoreSetPlays {
                     setOf(),
                     setOf(),
                     setOf(),
-                    mapOf()
+                    mapOf(),
+                    -1
                 )
             )
         )
@@ -72,7 +75,8 @@ internal class CoreSetPlays {
                     setOf(Villains.SKRULLS),
                     setOf(Henchmen.SENTINEL),
                     setOf(Supports.SHIELD_OFFICER),
-                    mapOf(Starters.SHIELD to 1)
+                    mapOf(Starters.SHIELD to 1),
+                    Boards.HQ
                 )
             )
         )
