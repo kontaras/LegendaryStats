@@ -42,11 +42,11 @@ public class WinRate<C extends CardSet> {
 
 		Logger.info("Starting to get win rates");
 		long start = System.currentTimeMillis();
-		List<IWinRate> winRates = repo.findWinRates();
-		Logger.info("Finished getting win rates, took {}ms", () -> (System.currentTimeMillis() - start));
+		List<IWinRate> winRates = this.repo.findWinRates();
+		Logger.info("Finished getting win rates, took {}ms", () -> (Long.valueOf(System.currentTimeMillis() - start)));
 
 		for (IWinRate winRate : winRates) {
-			C hero = cache.getById(winRate.getId());
+			C hero = this.cache.getById(winRate.getId());
 			retVal.put(hero, winRate);
 		}
 

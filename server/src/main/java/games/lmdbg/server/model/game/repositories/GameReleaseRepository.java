@@ -9,4 +9,5 @@ import games.lmdbg.server.model.game.GameRelease;
  */
 @RepositoryRestResource
 public interface GameReleaseRepository extends ReadOnlyRepository<GameRelease, Integer> {
+	//No additional behavior beyond ReadOnlyRepository
 }

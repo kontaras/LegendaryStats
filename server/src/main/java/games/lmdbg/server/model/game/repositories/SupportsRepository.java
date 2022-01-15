@@ -9,5 +9,5 @@ import games.lmdbg.server.model.game.Support;
  */
 @RepositoryRestResource
 public interface SupportsRepository extends CardSetRepository<Support, Integer> {
-
+	//No additional behavior beyond CardSetRepository
 }

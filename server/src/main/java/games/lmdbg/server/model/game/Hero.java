@@ -37,13 +37,13 @@ public class Hero extends CardSet {
 	 * @return the {@link #plays}
 	 */
 	public Set<Play> getPlays() {
-		return plays;
+		return this.plays;
 	}
 
 	/**
 	 * @return the {@link #team}
 	 */
 	public Team getTeam() {
-		return team;
+		return this.team;
 	}
 }

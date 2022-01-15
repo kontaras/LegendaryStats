@@ -21,13 +21,13 @@ public class Account {
 	 * @return the id
 	 */
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 	
 	/**
 	 * @return Get the {@link #userName}
 	 */
 	public String getUserName() {
-		return userName;
+		return this.userName;
 	}
 }

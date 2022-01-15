@@ -45,11 +45,11 @@ public class FrontPageController {
 	 */
 	@GetMapping("/")
 	public String mainPage(Model model) {
-		model.addAttribute("heroes", heroWinRates.getWinRates());
-		model.addAttribute("villains", villainWinRates.getWinRates());
-		model.addAttribute("masterminds", mastermindWinRates.getWinRates());
-		model.addAttribute("henchmen", henchmanWinRates.getWinRates());
-		model.addAttribute("schemes", schemeWinRates.getWinRates());
+		model.addAttribute("heroes", this.heroWinRates.getWinRates());
+		model.addAttribute("villains", this.villainWinRates.getWinRates());
+		model.addAttribute("masterminds", this.mastermindWinRates.getWinRates());
+		model.addAttribute("henchmen", this.henchmanWinRates.getWinRates());
+		model.addAttribute("schemes", this.schemeWinRates.getWinRates());
 		return "index";
 	}
 }

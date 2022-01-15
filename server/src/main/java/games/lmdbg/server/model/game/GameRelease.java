@@ -44,35 +44,35 @@ public class GameRelease extends Namable {
 	 * @return the {@link #heroes}
 	 */
 	public Set<Hero> getHeroes() {
-		return heroes;
+		return this.heroes;
 	}
 	
 	/**
 	 * @return the {@link #villains}
 	 */
 	public Set<Villain> getVillains() {
-		return villains;
+		return this.villains;
 	}
 
 	/**
 	 * @return the {@link #masterminds}
 	 */
 	public Set<Mastermind> getMasterminds() {
-		return masterminds;
+		return this.masterminds;
 	}
 
 	/**
 	 * @return the {@link #henchmen}
 	 */
 	public Set<Henchman> getHenchmen() {
-		return henchmen;
+		return this.henchmen;
 	}
 
 	/**
 	 * @return the {@link #schemes}
 	 */
 	public Set<Scheme> getSchemes() {
-		return schemes;
+		return this.schemes;
 	}
 
 }

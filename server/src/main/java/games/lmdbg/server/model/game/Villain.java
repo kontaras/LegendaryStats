@@ -26,7 +26,7 @@ public class Villain extends CardSet {
 	 * @return the {@link #plays}
 	 */
 	public java.util.Set<Play> getPlays() {
-		return plays;
+		return this.plays;
 	}
 
 }
