@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import games.lmdbg.rules.model.Outcome;
 import games.lmdbg.rules.model.PlayerCount;
+import games.lmdbg.server.model.game.Board;
 import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
 import games.lmdbg.server.model.game.Mastermind;
@@ -53,6 +54,10 @@ public class PlayFormController {
 	/** All of the support piles */
 	@Autowired
 	private CardCache<Support> supports;
+	
+	/** All of the game boards */
+	@Autowired
+	private CardCache<Board> boards;
 
 	/**
 	 * Generate data for rendering a game entry form
@@ -76,6 +81,7 @@ public class PlayFormController {
 		model.addAttribute("henchmen", this.henchmen.getCardsInOrder());
 		model.addAttribute("starters", this.starters.getCardsInOrder());
 		model.addAttribute("supports", this.supports.getCardsInOrder());
+		model.addAttribute("boards", this.boards.getCardsInOrder());
 		return "playForm";
 	}
 }

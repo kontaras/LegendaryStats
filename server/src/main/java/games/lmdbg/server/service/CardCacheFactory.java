@@ -2,6 +2,7 @@ package games.lmdbg.server.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import games.lmdbg.server.model.game.Board;
 import games.lmdbg.server.model.game.CardSet;
 import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
@@ -10,6 +11,7 @@ import games.lmdbg.server.model.game.Scheme;
 import games.lmdbg.server.model.game.Starter;
 import games.lmdbg.server.model.game.Support;
 import games.lmdbg.server.model.game.Villain;
+import games.lmdbg.server.model.game.repositories.BoardRepository;
 import games.lmdbg.server.model.game.repositories.HenchmenRepository;
 import games.lmdbg.server.model.game.repositories.HeroesRepository;
 import games.lmdbg.server.model.game.repositories.MastermindsRepository;
@@ -101,5 +103,16 @@ public class CardCacheFactory {
 	@Bean
 	public static CardCache<Starter> getStarterCache(StartersRepository starters) {
 		return new CardCache<>(starters);
+	}
+	
+	/**
+	 * Cache {@link Board}
+	 * 
+	 * @param starters Repository to cache
+	 * @return A cache of scheme sets
+	 */
+	@Bean
+	public static CardCache<Board> getBoardCache(BoardRepository board) {
+		return new CardCache<>(board);
 	}
 }
