@@ -9,5 +9,5 @@ import games.lmdbg.server.model.game.Starter;
  */
 @RepositoryRestResource
 public interface StartersRepository extends ReadOnlyRepository<Starter, Integer> {
-
+	//No additional behavior beyond ReadOnlyRepository
 }

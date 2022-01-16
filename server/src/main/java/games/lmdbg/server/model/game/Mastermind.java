@@ -12,6 +12,7 @@ import games.lmdbg.server.model.Play;
  */
 @Entity
 public class Mastermind extends CardSet {
+	/** Plays including this card set */
 	@OneToMany(mappedBy = "mastermind")
 	@JsonIgnore 
 	private java.util.Set<Play> plays;
@@ -20,6 +21,6 @@ public class Mastermind extends CardSet {
 	 * @return the {@link #plays}
 	 */
 	public java.util.Set<Play> getPlays() {
-		return plays;
+		return this.plays;
 	}
 }

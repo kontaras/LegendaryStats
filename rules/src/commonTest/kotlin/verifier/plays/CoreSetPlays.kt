@@ -24,35 +24,8 @@ internal class CoreSetPlays {
                     setOf(Villains.ENEMIES_OF_ASGARD, Villains.BROTHERHOOD, Villains.MASTERS_OF_EVIL),
                     setOf(Henchmen.DOOMBOT_LEGION, Henchmen.HAND_NINJAS),
                     setOf(Supports.SHIELD_OFFICER),
-                    mapOf(Starters.SHIELD to 4)
-                )
-            )
-        )
-    }
-
-    @Test
-    fun verifyEmptyPlay() {
-        assertContentEquals(
-            listOf(
-                WrongSetCount(CardSetType.HERO, 5, 0),
-                WrongSetCount(CardSetType.VILLAIN, 3, 0),
-                WrongSetCount(CardSetType.HENCHMAN, 2, 0),
-                WrongSetCount(CardSetType.STARTER, 4, 0),
-                InvalidCardSet(CardSetType.SCHEME, -1),
-                InvalidCardSet(CardSetType.MASTERMIND, -1),
-                MissingRecruitSupport
-            ),
-            verify(
-                Play(
-                    Outcome.INCOMPLETE,
-                    PlayerCount.FOUR,
-                    -1,
-                    -1,
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    mapOf()
+                    mapOf(Starters.SHIELD to 4),
+                    Boards.HQ
                 )
             )
         )
@@ -72,7 +45,8 @@ internal class CoreSetPlays {
                     setOf(Villains.SKRULLS),
                     setOf(Henchmen.SENTINEL),
                     setOf(Supports.SHIELD_OFFICER),
-                    mapOf(Starters.SHIELD to 1)
+                    mapOf(Starters.SHIELD to 1),
+                    Boards.HQ
                 )
             )
         )

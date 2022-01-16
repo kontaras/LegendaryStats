@@ -14,6 +14,7 @@ import games.lmdbg.server.model.Play;
  */
 @Entity
 public class Henchman extends CardSet {
+	/** Plays including this card set */
 	@ManyToMany
 	@JsonIgnore 
 	@JoinTable(name = "play_henchman", inverseJoinColumns = { @JoinColumn(name = "play_id") })
@@ -23,7 +24,7 @@ public class Henchman extends CardSet {
 	 * @return the {@link #plays}
 	 */
 	public java.util.Set<Play> getPlays() {
-		return plays;
+		return this.plays;
 	}
 
 }

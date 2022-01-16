@@ -19,6 +19,7 @@ class Rules : ReleaseRulesPlugin {
     override val supportCardRange: IntRange = Supports.SHIELD_OFFICER..Supports.SHIELD_OFFICER
     override val recruitSupports: Set<Int> = setOf(Supports.SHIELD_OFFICER)
     override val starterRange: IntRange = Starters.SHIELD..Starters.SHIELD
+    override val boardRange: IntRange = Boards.HQ ..Boards.HQ
 
     override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
         when (play.scheme) {

@@ -17,7 +17,8 @@ fun playMaker(
     players: PlayerCount? = null,
     support: Int? = null,
     startingDeck: Int? = null,
-    startingDeckCount: Int? = null
+    startingDeckCount: Int? = null,
+    board: Int? = null,
 ): Play {
     return Play(
         Outcome.WIN_DEFEAT_MASTERMIND,
@@ -28,7 +29,8 @@ fun playMaker(
         if (villain != null) setOf(villain) else setOf(),
         if (henchman != null) setOf(henchman) else setOf(),
         if (support != null) setOf(support) else setOf(),
-        if (startingDeck != null && startingDeckCount != null) mapOf(startingDeck to startingDeckCount) else mapOf()
+        if (startingDeck != null && startingDeckCount != null) mapOf(startingDeck to startingDeckCount) else mapOf(),
+        board ?: 0,
     )
 }
 
@@ -40,7 +42,8 @@ class MockRules(
     mastermindsRange: IntRange? = null,
     supportCardRange: IntRange? = null,
     starterDeckRange: IntRange? = null,
-    recruitSupports: Int? = null
+    recruitSupports: Int? = null,
+    boardRange: IntRange? = null
 ) : ReleaseRulesPlugin {
     override val heroesRange: IntRange = heroesRange ?: IntRange.EMPTY
     override val villainsRange: IntRange = villainsRange ?: IntRange.EMPTY
@@ -50,6 +53,7 @@ class MockRules(
     override val supportCardRange: IntRange = supportCardRange ?: IntRange.EMPTY
     override val recruitSupports: Set<Int> = if (recruitSupports != null) setOf(recruitSupports) else setOf()
     override val starterRange: IntRange = starterDeckRange ?: IntRange.EMPTY
+    override val boardRange: IntRange = boardRange ?: IntRange.EMPTY
 
     override fun getAlwaysLead(mastermind: Int): Set<TypedCardSet> {
         return alwaysLeadsLogic(mastermind)

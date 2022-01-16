@@ -52,6 +52,8 @@ data class Play(
     val supports: Set<Int>,
     /** How many of each starting decks was used in the play? */
     val starters: Map<Int, Int>,
+    /** What game board was used? */
+    val board: Int,
     /** Which hero was used for a special purpose (i.e. not in the hero deck)? */
     val misc_hero: Int? = null
 ) {

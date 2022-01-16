@@ -109,6 +109,16 @@ CREATE TABLE starter
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
+CREATE TABLE board
+(
+   id INT NOT NULL,
+   marvel_name VARCHAR,
+   dxp_name VARCHAR,
+   mcu_name VARCHAR,
+   release_id INT NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (release_id) REFERENCES release (id)
+);
 CREATE TABLE play
 (
    id BIGINT NOT NULL,
@@ -118,12 +128,14 @@ CREATE TABLE play
    players player_count NOT NULL,
    scheme_id INT NOT NULL,
    mastermind_id INT NOT NULL,
+   board_id INT NOT NULL,
    notes VARCHAR,
    misc_hero_id INT,
    PRIMARY KEY (id),
    FOREIGN KEY (player_id) REFERENCES account (id),
    FOREIGN KEY (scheme_id) REFERENCES scheme (id),
    FOREIGN KEY (mastermind_id) REFERENCES mastermind (id),
+   FOREIGN KEY (board_id) REFERENCES board (id),
    FOREIGN KEY (misc_hero_id) REFERENCES hero (id)
 );
 CREATE TABLE play_hero

@@ -1,25 +1,22 @@
 package games.lmdbg.server.model.game;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import games.lmdbg.server.model.Play;
 
 /**
- * A villain group in the game
+ * The game board that was used for a game
  */
 @Entity
-public class Villain extends CardSet {
+public class Board extends CardSet {
 	/**
-	 * Plays of the game which include this villain group.
+	 * Plays that include this board
 	 */
-	@ManyToMany
+	@OneToMany(mappedBy = "board")
 	@JsonIgnore 
-	@JoinTable(name = "play_villain", inverseJoinColumns = { @JoinColumn(name = "play_id") })
 	private java.util.Set<Play> plays;
 
 	/**
@@ -28,5 +25,4 @@ public class Villain extends CardSet {
 	public java.util.Set<Play> getPlays() {
 		return this.plays;
 	}
-
 }

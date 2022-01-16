@@ -22,7 +22,7 @@ public class WinRateFactory {
 	 * @return Get the {@link WinRate} instance for {@link Hero}
 	 */
 	@Bean
-	public WinRate<Hero> getHeroWinRates(HeroesRepository heroes, CardCache<Hero> heroCache) {
+	public static WinRate<Hero> getHeroWinRates(HeroesRepository heroes, CardCache<Hero> heroCache) {
 		return new WinRate<>(heroes, heroCache);
 	}
 
@@ -32,7 +32,7 @@ public class WinRateFactory {
 	 * @return Get the {@link WinRate} instance for {@link Villain}
 	 */
 	@Bean
-	public WinRate<Villain> getVillainWinRates(VillainsRepository villains, CardCache<Villain> villainCache) {
+	public static WinRate<Villain> getVillainWinRates(VillainsRepository villains, CardCache<Villain> villainCache) {
 		return new WinRate<>(villains, villainCache);
 	}
 
@@ -42,7 +42,7 @@ public class WinRateFactory {
 	 * @return Get the {@link WinRate} instance for {@link Mastermind}
 	 */
 	@Bean
-	public WinRate<Mastermind> getMastermindWinRates(MastermindsRepository masterminds, CardCache<Mastermind> mastermindCache) {
+	public static WinRate<Mastermind> getMastermindWinRates(MastermindsRepository masterminds, CardCache<Mastermind> mastermindCache) {
 		return new WinRate<>(masterminds, mastermindCache);
 	}
 
@@ -52,7 +52,7 @@ public class WinRateFactory {
 	 * @return Get the {@link WinRate} instance for {@link Henchman}
 	 */
 	@Bean
-	public WinRate<Henchman> getHenchmanWinRates(HenchmenRepository henchmen, CardCache<Henchman> henchmanCache) {
+	public static WinRate<Henchman> getHenchmanWinRates(HenchmenRepository henchmen, CardCache<Henchman> henchmanCache) {
 		return new WinRate<>(henchmen, henchmanCache);
 	}
 
@@ -62,7 +62,7 @@ public class WinRateFactory {
 	 * @return Get the {@link WinRate} instance for {@link Scheme}
 	 */
 	@Bean
-	public WinRate<Scheme> getSchemeWinRates(SchemesRepository schemes, CardCache<Scheme> schemeCache) {
+	public static WinRate<Scheme> getSchemeWinRates(SchemesRepository schemes, CardCache<Scheme> schemeCache) {
 		return new WinRate<>(schemes, schemeCache);
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import games.lmdbg.rules.model.Outcome;
 import games.lmdbg.rules.model.PlayerCount;
+import games.lmdbg.server.model.game.Board;
 import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
 import games.lmdbg.server.model.game.Mastermind;
@@ -21,29 +22,49 @@ import games.lmdbg.server.model.game.Support;
 import games.lmdbg.server.model.game.Villain;
 import games.lmdbg.server.service.CardCache;
 
+/**
+ * Controller for creating the game entry form.
+ */
 @Controller
 public class PlayFormController {
+	/** All of the schemes */
 	@Autowired
 	private CardCache<Scheme> schemes;
 
+	/** All of the masterminds */
 	@Autowired
 	private CardCache<Mastermind> masterminds;
 
+	/** All of the heroes */
 	@Autowired
 	private CardCache<Hero> heroes;
 	
+	/** All of the villains */
 	@Autowired
 	private CardCache<Villain> villains;
 	
+	/** All of the henchmen */
 	@Autowired
 	private CardCache<Henchman> henchmen;
 	
+	/** All of the starting decks */
 	@Autowired
 	private CardCache<Starter> starters;
 	
+	/** All of the support piles */
 	@Autowired
 	private CardCache<Support> supports;
+	
+	/** All of the game boards */
+	@Autowired
+	private CardCache<Board> boards;
 
+	/**
+	 * Generate data for rendering a game entry form
+	 * 
+	 * @param model Model to put data into
+	 * @return The template to create the game entry form page
+	 */
 	@GetMapping("/play")
 	public String createForm(Model model) {
 		List<String> outcomes = Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
@@ -53,13 +74,14 @@ public class PlayFormController {
 
 		model.addAttribute("outcomes", outcomes);
 		model.addAttribute("players", players);
-		model.addAttribute("schemes", schemes.getCardsInOrder());
-		model.addAttribute("masterminds", masterminds.getCardsInOrder());
-		model.addAttribute("heroes", heroes.getCardsInOrder());
-		model.addAttribute("villains", villains.getCardsInOrder());
-		model.addAttribute("henchmen", henchmen.getCardsInOrder());
-		model.addAttribute("starters", starters.getCardsInOrder());
-		model.addAttribute("supports", supports.getCardsInOrder());
+		model.addAttribute("schemes", this.schemes.getCardsInOrder());
+		model.addAttribute("masterminds", this.masterminds.getCardsInOrder());
+		model.addAttribute("heroes", this.heroes.getCardsInOrder());
+		model.addAttribute("villains", this.villains.getCardsInOrder());
+		model.addAttribute("henchmen", this.henchmen.getCardsInOrder());
+		model.addAttribute("starters", this.starters.getCardsInOrder());
+		model.addAttribute("supports", this.supports.getCardsInOrder());
+		model.addAttribute("boards", this.boards.getCardsInOrder());
 		return "playForm";
 	}
 }

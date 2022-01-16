@@ -1,6 +1,7 @@
 package games.lmdbg.rules.model
 
 import games.lmdbg.rules.playMaker
+import games.lmdbg.rules.set.core.Boards
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -40,6 +41,7 @@ private class ModelsTest {
                 "  ],\n" +
                 "  \"outcome\": \"WIN_DEFEAT_MASTERMIND\",\n" +
                 "  \"players\": \"THREE\"\n" +
+                "  \"board\": \"101\"\n" +
                 "}"
 
         assertEquals(
@@ -52,7 +54,8 @@ private class ModelsTest {
                 setOf(106, 107, 108),
                 setOf(101),
                 setOf(101),
-                mapOf(101 to 3)
+                mapOf(101 to 3),
+                Boards.HQ
             ), Play.playFromString(play)
         )
     }

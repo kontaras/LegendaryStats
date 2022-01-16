@@ -109,6 +109,10 @@ internal fun checkValuesInRange(play: Play): List<PrintableError> {
         }
     }
 
+    if (!checkValidValue(play.board, ReleaseRulesPlugin::boardRange)) {
+        errors.add(InvalidCardSet(CardSetType.BOARD, play.board))
+    }
+
     return errors
 }
 

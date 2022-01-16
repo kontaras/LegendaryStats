@@ -7,5 +7,5 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Team extends Namable {
-
+	//No extra fields beyond those in Namable
 }

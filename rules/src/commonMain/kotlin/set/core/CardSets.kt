@@ -69,3 +69,7 @@ object Supports {
 object Starters {
     const val SHIELD = 101
 }
+
+object Boards {
+    const val HQ = 101
+}

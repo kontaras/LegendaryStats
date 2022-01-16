@@ -20,6 +20,6 @@ public class Starter extends CardSet {
 	 * @return the {@link #plays}
 	 */
 	public java.util.Set<StarterPlay> getPlays() {
-		return plays;
+		return this.plays;
 	}
 }

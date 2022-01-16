@@ -29,6 +29,9 @@ interface ReleaseRulesPlugin {
     /** The range of valid ID numbers for starter decks, if any */
     val starterRange: IntRange
 
+    /** The range of valid ID numbers for game boards, if any */
+    val boardRange: IntRange
+
     /** The recruit granting supports for this set */
     val recruitSupports: Set<Int>
 
@@ -75,7 +78,8 @@ enum class CardSetType {
     STARTER,
     SUPPORT,
     SCHEME,
-    MASTERMIND
+    MASTERMIND,
+    BOARD
 }
 
 /**
