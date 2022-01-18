@@ -1,4 +1,4 @@
-package games.lmdbg.server.view;
+package games.lmdbg.server;
 
 import java.util.Set;
 
@@ -10,6 +10,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 /**
  * Tests for {@link ThymeleafConfig}
  */
+@SuppressWarnings("static-method")
 class ThymeleafConfigTest {
 
 	/**
@@ -18,7 +19,7 @@ class ThymeleafConfigTest {
 	 */
 	@Test
 	void testGetTemplateEngine() {
-		SpringTemplateEngine engine = new ThymeleafConfig().getTemplateEngine();
+		SpringTemplateEngine engine = ThymeleafConfig.getTemplateEngine();
 		Set<ITemplateResolver> resolvers = engine.getTemplateResolvers();
 
 		Assertions.assertEquals(2, resolvers.size());
