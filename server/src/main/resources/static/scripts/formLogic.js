@@ -40,6 +40,14 @@ function formToJson() {
 		return null;
 	}
 	
+	const board = jQuery('input:radio[name=board]:checked').val();
+	if (board != undefined) {
+		play["board"] = parseInt(board);
+	} else {
+		alert("Missing board");
+		return null;
+	}
+	
 	const players = jQuery('select[name=players]').val()
 	if (players != undefined) {
 		play["players"] = players;
