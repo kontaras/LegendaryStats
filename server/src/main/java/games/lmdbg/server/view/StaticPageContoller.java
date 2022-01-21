@@ -14,7 +14,16 @@ public class StaticPageContoller {
 	 * @return The template for the page
 	 */
 	@GetMapping("faq")
-	public String faqPage() {
+	public static String faqPage() {
 		return "faq";
+	}
+	
+	/**
+	 * Serve up the Login page
+	 * @return The template for the page
+	 */
+	@GetMapping("login")
+	public static String loginPage() {
+		return "login";
 	}
 }
