@@ -8,13 +8,28 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class StaticPageContoller {
-	
+
+	/**
+	 * There should not be reason to instantiate an instance. 
+	 */
+	private StaticPageContoller() {
+		//Nothing to do here
+	}
 	/**
 	 * Serve up the FAQ page
 	 * @return The template for the page
 	 */
 	@GetMapping("faq")
-	public String faqPage() {
+	public static String faqPage() {
 		return "faq";
+	}
+	
+	/**
+	 * Serve up the Login page
+	 * @return The template for the page
+	 */
+	@GetMapping("login")
+	public static String loginPage() {
+		return "login";
 	}
 }
