@@ -37,7 +37,7 @@ jobs:
         VERSION_TO_DEPLOY: ${{ github.event.inputs.label }}
     
     # Deploy app to AKS
-    - uses: azure/k8s-deploy@v1
+    - uses: azure/k8s-deploy@v2.0
       with:
         manifests: |
           deployment_tmp.yaml
