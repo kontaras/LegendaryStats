@@ -38,7 +38,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("org.lighthousegames:logging:1.1.1")
+                api("org.lighthousegames:logging:1.1.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
             }
         }
