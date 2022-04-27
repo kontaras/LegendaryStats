@@ -6,9 +6,9 @@ tasks:
       . /home/gitpod/.sdkman/bin/sdkman-init.sh
       sdk env install
     command: |
-      ./gradlew build
+      ./gradlew build test
 
 ports:
   - port: 9876
-    onOpen: ignore
+    onOpen: open-browser
     visibility: private
