@@ -7,3 +7,8 @@ tasks:
       sdk env install
     command: |
       ./gradlew build
+
+ports:
+  - port: 9876
+    onOpen: ignore
+    visibility: private
