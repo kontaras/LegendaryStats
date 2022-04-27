@@ -1,0 +1,6 @@
+tasks:
+  - init: |
+      . /home/gitpod/.sdkman/bin/sdkman-init.sh
+      sdk install java 18.0.1-open
+    command: |
+      ./gradlew build
