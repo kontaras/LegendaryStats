@@ -10,5 +10,5 @@ tasks:
 
 ports:
   - port: 9876
-    onOpen: open-browser
-    visibility: private
+    onOpen: ignore
+    visibility: public
