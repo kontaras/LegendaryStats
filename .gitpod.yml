@@ -8,7 +8,7 @@ tasks:
     command: |
       gp await-port 6080
       gp await-port 5900
-      sleep 100
+      sleep 600
       time ./gradlew build test
 
 ports:
