@@ -12,3 +12,6 @@ ports:
   - port: 9876
     onOpen: ignore
     visibility: public
+  - port: 6080
+    onOpen: ignore
+    visibility: public
