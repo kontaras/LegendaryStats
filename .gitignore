@@ -6,6 +6,7 @@ build/
 !**/src/test/**
 .DS_Store
 */bin/
+**/kotlin-js-store/**
 
 
 ### STS ###
