@@ -6,10 +6,8 @@ tasks:
       . /home/gitpod/.sdkman/bin/sdkman-init.sh
       sdk env install
     command: |
-      gp await-port 6080
-      gp await-port 5900
-      sleep 600
-      time ./gradlew build test
+      ./gradlew clean assemble --info
+      ./gradlew build
 
 ports:
   - port: 9876
