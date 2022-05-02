@@ -7,7 +7,6 @@ tasks:
       sdk env install
     command: |
       ./gradlew clean assemble --info
-      ./gradlew build
 
 ports:
   - port: 9876
