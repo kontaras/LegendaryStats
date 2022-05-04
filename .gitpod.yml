@@ -8,7 +8,7 @@ tasks:
   - command: |
       sdk env install
       java --version
-      echo ./gradlew clean assemble
+      ./gradlew clean assemble --info | tee build.log
 
 ports:
   - port: 9876
