@@ -6,7 +6,9 @@ tasks:
       . /home/gitpod/.sdkman/bin/sdkman-init.sh
       sdk env install
   - command: |
-      ./gradlew clean assemble
+      sdk env install
+      java --version
+      echo ./gradlew clean assemble
 
 ports:
   - port: 9876
