@@ -5,7 +5,7 @@ tasks:
   - init: |
       . /home/gitpod/.sdkman/bin/sdkman-init.sh
       sdk env install
-    command: |
+  - command: |
       ./gradlew clean assemble
 
 ports:
