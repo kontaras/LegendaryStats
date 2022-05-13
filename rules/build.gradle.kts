@@ -39,7 +39,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("org.lighthousegames:logging:1.2.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
             }
         }
         val commonTest by getting {
