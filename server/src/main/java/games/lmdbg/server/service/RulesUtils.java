@@ -14,9 +14,13 @@ import games.lmdbg.server.model.game.Support;
 import games.lmdbg.server.model.game.Villain;
 
 public class RulesUtils {
+	
+	private RulesUtils() {
+		//Never instantiated
+	}
 
 	public static games.lmdbg.rules.model.Play serverToRules(games.lmdbg.server.model.Play serverPlay) {
-		games.lmdbg.rules.model.Play rulesPlay = new games.lmdbg.rules.model.Play(
+		return new games.lmdbg.rules.model.Play(
 				Outcome.valueOf(serverPlay.getOutcome()), 
 				PlayerCount.valueOf(serverPlay.getPlayers()),
 				serverPlay.getScheme().getId(),
@@ -26,10 +30,9 @@ public class RulesUtils {
 				serverPlay.getHenchmen().parallelStream().map(Henchman::getId).collect(Collectors.toSet()),
 				serverPlay.getSupports().parallelStream().map(Support::getId).collect(Collectors.toSet()),
 				serverPlay.getStarters().parallelStream()
-						.collect(Collectors.toMap((t) -> t.getStarter().getId(), PlayStarter::getQuantity)),
+						.collect(Collectors.toMap(t -> t.getStarter().getId(), PlayStarter::getQuantity)),
 				serverPlay.getBoard().getId(),
 				null);
-		return rulesPlay;
 	}
 	
 	public static List<PrintableError> verify(games.lmdbg.server.model.Play serverPlay) {

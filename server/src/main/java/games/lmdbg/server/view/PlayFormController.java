@@ -79,7 +79,7 @@ public class PlayFormController {
 
 	@Autowired
 	private PlaysRepository plays;
-	
+
 	@Autowired
 	private AccountRepository accounts;
 
@@ -106,7 +106,7 @@ public class PlayFormController {
 			final BindingResult bindingResult) {
 		Map<String, String[]> params = request.getParameterMap();
 		for (Entry<String, String[]> param : params.entrySet()) {
-			System.out.println(param.getKey() + Arrays.toString(param.getValue()));
+			Logger.debug(param.getKey() + Arrays.toString(param.getValue()));
 		}
 
 		Set<PlayStarter> playStarters = new HashSet<>();
@@ -142,23 +142,24 @@ public class PlayFormController {
 
 		playInfo.setStarters(playStarters);
 
-		System.out.println(playInfo);
-		System.out.println(playInfo.getHeroes());
+		Logger.debug(playInfo);
+		Logger.debug(playInfo.getHeroes());
 
-		System.out.println(
-				String.join(", ", bindingResult.getAllErrors().parallelStream().map(t -> t.toString()).toList()));
+		Logger.debug(
+				String.join(", ", bindingResult.getAllErrors().parallelStream().map(ObjectError::toString).toList()));
 
 		if (bindingResult.hasErrors()) {
 			// errors
 		} else {
 			List<PrintableError> verificationResult = RulesUtils.verify(playInfo);
-			if (verificationResult.size() > 0) {
-				//TODO: Card Set
-				verificationResult.stream().forEach(t -> bindingResult.addError(new ObjectError("globalError", t.getMessage())));
+			if (!verificationResult.isEmpty()) {
+				// TODO: Card Set
+				verificationResult.stream()
+						.forEach(t -> bindingResult.addError(new ObjectError("globalError", t.getMessage())));
 			} else {
 				playInfo.setPlayer(accounts.findById(Long.valueOf(1)).get());
 				plays.save(playInfo);
-				return "play"; //TODO: view play page
+				return "play"; // TODO: view play page
 			}
 		}
 
@@ -170,8 +171,7 @@ public class PlayFormController {
 		List<String> outcomes = Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
 		Collections.sort(outcomes);
 
-		List<String> players = Arrays.stream(PlayerCount.values()).map(PlayerCount::toString)
-				.collect(Collectors.toList());
+		List<String> players = Arrays.stream(PlayerCount.values()).map(PlayerCount::toString).toList();
 
 		model.addAttribute("outcomes", outcomes);
 		model.addAttribute("players", players);

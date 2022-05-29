@@ -88,8 +88,8 @@ public class ViewHelper {
 	public Collection asCollection(Object o) {
 		if (o == null) {
 			return Collections.emptySet();
-		} else if (o instanceof Collection) {
-			return (Collection) o;
+		} else if (o instanceof Collection col) {
+			return col;
 		}
 		
 		return Collections.singleton(o);
