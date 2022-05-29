@@ -3,13 +3,19 @@ package games.lmdbg.server.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,7 +24,7 @@ import games.lmdbg.server.model.game.Henchman;
 import games.lmdbg.server.model.game.Hero;
 import games.lmdbg.server.model.game.Mastermind;
 import games.lmdbg.server.model.game.Scheme;
-import games.lmdbg.server.model.game.StarterPlay;
+import games.lmdbg.server.model.game.PlayStarter;
 import games.lmdbg.server.model.game.Support;
 import games.lmdbg.server.model.game.Villain;
 
@@ -29,6 +35,9 @@ import games.lmdbg.server.model.game.Villain;
 public class Play {
 	/** Database ID */
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "play_id_generator")
+	@SequenceGenerator(name = "play_id_generator", allocationSize = 1, sequenceName = "play_ids")
+	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 
 	/**
@@ -46,13 +55,21 @@ public class Play {
 	/**
 	 * Did the players win and how?
 	 */
+	@NotNull
 	private String outcome;
+	
+	/**
+	 * How many players played?
+	 */
+	@NotNull
+	private String players;
 
 	/**
 	 * Scheme played
 	 */
 	@ManyToOne
 	@JsonIgnore
+	@NotNull
 	private Scheme scheme;
 
 	/**
@@ -60,6 +77,7 @@ public class Play {
 	 */
 	@ManyToOne
 	@JsonIgnore
+	@NotNull
 	private Mastermind mastermind;
 	
 	/**
@@ -67,6 +85,7 @@ public class Play {
 	 */
 	@ManyToOne
 	@JsonIgnore
+	@NotNull
 	private Board board;
 
 	/**
@@ -75,6 +94,7 @@ public class Play {
 	@ManyToMany
 	@JsonIgnore
 	@JoinTable(name = "play_hero", inverseJoinColumns = { @JoinColumn(name = "hero_id") })
+	@NotNull
 	private Set<Hero> heroes;
 
 	/**
@@ -90,6 +110,7 @@ public class Play {
 	@ManyToMany
 	@JsonIgnore
 	@JoinTable(name = "play_villain", inverseJoinColumns = { @JoinColumn(name = "villain_id") })
+	@NotNull
 	private Set<Villain> villains;
 
 	/**
@@ -98,6 +119,7 @@ public class Play {
 	@ManyToMany
 	@JsonIgnore
 	@JoinTable(name = "play_henchman", inverseJoinColumns = { @JoinColumn(name = "henchman_id") })
+	@NotNull
 	private Set<Henchman> henchmen;
 	
 	/**
@@ -106,14 +128,16 @@ public class Play {
 	@ManyToMany
 	@JsonIgnore
 	@JoinTable(name = "play_support", inverseJoinColumns = { @JoinColumn(name = "support_id") })
+	@NotNull
 	private Set<Support> supports;
 	
 	/**
 	 * Starting decks used by players
 	 */
-	@OneToMany
+	@OneToMany(mappedBy = "play", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private Set<StarterPlay> starters;
+	//@JoinTable(name = "play_starter", mappededBy)
+	private Set<PlayStarter> starters;
 
 	/**
 	 * Any other notes the user may have
@@ -146,6 +170,13 @@ public class Play {
 	 */
 	public String getOutcome() {
 		return this.outcome;
+	}
+
+	/**
+	 * @return the {@link #players}
+	 */
+	public String getPlayers() {
+		return players;
 	}
 
 	/**
@@ -217,7 +248,112 @@ public class Play {
 	/**
 	 * @return the {@link #starters}
 	 */
-	public Set<StarterPlay> getStarters() {
+	public Set<PlayStarter> getStarters() {
 		return this.starters;
+	}
+
+	/**
+	 * @param id the {@link #id} to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param player the {@link #player} to set
+	 */
+	public void setPlayer(Account player) {
+		this.player = player;
+	}
+
+	/**
+	 * @param playDate the {@link #playDate} to set
+	 */
+	public void setPlayDate(Date playDate) {
+		this.playDate = playDate;
+	}
+
+	/**
+	 * @param outcome the {@link #outcome} to set
+	 */
+	public void setOutcome(String outcome) {
+		this.outcome = outcome;
+	}
+
+	/**
+	 * @param players the {@link #players} to set
+	 */
+	public void setPlayers(String players) {
+		this.players = players;
+	}
+
+	/**
+	 * @param scheme the {@link #scheme} to set
+	 */
+	public void setScheme(Scheme scheme) {
+		this.scheme = scheme;
+	}
+
+	/**
+	 * @param mastermind the {@link #mastermind} to set
+	 */
+	public void setMastermind(Mastermind mastermind) {
+		this.mastermind = mastermind;
+	}
+
+	/**
+	 * @param board the {@link #board} to set
+	 */
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
+	/**
+	 * @param heroes the {@link #heroes} to set
+	 */
+	public void setHeroes(Set<Hero> heroes) {
+		this.heroes = heroes;
+	}
+
+	/**
+	 * @param miscHero the {@link #miscHero} to set
+	 */
+	public void setMiscHero(Hero miscHero) {
+		this.miscHero = miscHero;
+	}
+
+	/**
+	 * @param villains the {@link #villains} to set
+	 */
+	public void setVillains(Set<Villain> villains) {
+		this.villains = villains;
+	}
+
+	/**
+	 * @param henchmen the {@link #henchmen} to set
+	 */
+	public void setHenchmen(Set<Henchman> henchmen) {
+		this.henchmen = henchmen;
+	}
+
+	/**
+	 * @param supports the {@link #supports} to set
+	 */
+	public void setSupports(Set<Support> supports) {
+		this.supports = supports;
+	}
+
+	/**
+	 * @param starters the {@link #starters} to set
+	 */
+	public void setStarters(Set<PlayStarter> starters) {
+		this.starters = starters;
+	}
+
+	/**
+	 * @param notes the {@link #notes} to set
+	 */
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 }

@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.3'
+	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id "org.sonarqube" version "3.3"
@@ -7,6 +7,7 @@ plugins {
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
 	id 'com.google.cloud.tools.jib' version '3.2.0'
+	id 'com.adarshr.test-logger' version '3.2.0'
 }
 
 group = 'games.lmdbg'
@@ -23,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	implementation 'com.google.guava:guava:31.0.1-jre'
 
@@ -31,7 +33,7 @@ dependencies {
 
 	runtimeOnly 'org.flywaydb:flyway-core:8.4.2'
 
-	runtimeOnly 'com.h2database:h2:2.1.210' //Dev DB
+	runtimeOnly 'com.h2database:h2:2.1.212' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -47,6 +49,12 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	testlogger {
+            showPassedStandardStreams false
+    showSkippedStandardStreams false
+    showFailedStandardStreams true
+    showFullStackTraces true
+    }
 }
 
 frontend {

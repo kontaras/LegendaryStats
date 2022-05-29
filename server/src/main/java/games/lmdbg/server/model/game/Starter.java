@@ -14,12 +14,12 @@ public class Starter extends CardSet {
 	 * Plays of the game which include this starting deck.
 	 */
 	@OneToMany
-	Set<StarterPlay> plays;
+	Set<PlayStarter> plays;
 	
 	/**
 	 * @return the {@link #plays}
 	 */
-	public java.util.Set<StarterPlay> getPlays() {
+	public java.util.Set<PlayStarter> getPlays() {
 		return this.plays;
 	}
 }

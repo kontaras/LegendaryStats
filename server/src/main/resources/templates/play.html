@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/page_template :: layout(~{::headers}, ~{::contents})}">
+	<head>
+		<title>Legendary Game Stats</title>
+		<th:block th:fragment="headers">
+			<script th:src="@{/scripts/rules.js}" type="text/javascript"></script>
+			<script th:src="@{/autoscripts/cardLookup}" type="text/javascript"></script>
+			<script th:src="@{/scripts/formLogic.js}" type="text/javascript"></script>
+		</th:block>
+	</head>
+	<body>
+		<div th:fragment=="contents">
+			<form th:action="@{/play}" autocomplete="off" method="post" th:object="${playInfo}">
+				<ul>
+					<li th:each="e : ${#fields.detailedErrors()}">
+						<span th:unless="${e.global}" th:text="${e.fieldName}">The field name</span>
+						<span th:text="${e.message}">The error message</span>
+					</li>
+				</ul>
+				<fieldset>
+					<legend>Game Information (all required)</legend>
+					<fieldset>
+						<legend>Scheme</legend>
+						<th:block th:each="item : ${schemes}">
+						<input type="radio" th:field="*{scheme}" th:value="${item.id}" />
+						<label th:for="${#ids.prev('scheme')}" th:utext="${@viewHelper.getDisplayName(item)}">SCHEME NAME</label>
+						<br />
+						</th:block>
+					</fieldset>
+					
+					<fieldset>
+						<legend>Mastermind</legend>
+						<th:block th:each="item : ${masterminds}">
+						<input type="radio" th:field="*{mastermind}" th:value="${item.id}" />
+						<label th:for="${#ids.prev('mastermind')}" th:utext="${@viewHelper.getDisplayName(item)}">MASTERMIND NAME</label>
+						<br />
+						</th:block>
+					</fieldset>
+					
+					<label for="players">Players</label>
+					<select th:field="*{players}" name="players">
+						<option th:each="item : ${players}" 
+							th:value="${item}" 
+							th:text="${#strings.capitalizeWords(#strings.toLowerCase(#strings.replace(item,'_',' ')))}">PLAYER COUNT</option>
+					</select>
+					
+					<fieldset>
+						<legend>Supports</legend>
+						<th:block th:each="item : ${supports}">
+						<input type="checkbox" th:field="*{supports}" th:value="${item.id}" readonly="readonly" />
+						<label th:for="${#ids.prev('supports')}" th:utext="${@viewHelper.getDisplayName(item)}">SUPPORT NAME</label>
+						<br />
+						</th:block>
+					</fieldset>
+						
+					
+					<fieldset>
+						<legend>Starters</legend>
+						<th:block th:each="row:${starters}">
+							<label th:for="'starters_' + ${row.id}" th:utext="${@viewHelper.getDisplayName(row)}" />
+							<input type="text" th:id="'starters_' + ${row.id}" th:name="'starters_' + ${row.id}" readonly="readonly" />
+							<br />
+						</th:block>
+					</fieldset>
+					
+
+					<fieldset>
+						<legend>Board</legend>
+						<th:block th:each="item : ${boards}">
+						<input type="radio" th:field="*{board}" th:value="${item.id}" />
+						<label th:for="${#ids.prev('board')}" th:utext="${@viewHelper.getDisplayName(item)}">BOARD NAME</label>
+						<br />
+						</th:block>
+					</fieldset>
+					
+					<fieldset>
+						<legend>Heroes</legend>
+						<th:block th:each="item : ${heroes}">
+						<input type="checkbox" th:field="*{heroes}" th:value="${item.id}" />
+						<label th:for="${#ids.prev('heroes')}" th:utext="${@viewHelper.getDisplayName(item)}">HERO NAME</label>
+						<br />
+						</th:block>
+					</fieldset>
+					
+					<fieldset>
+						<legend>Villains</legend>
+						<th:block th:each="item : ${villains}">
+						<input type="checkbox" th:field="*{villains}" th:value="${item.id}" />
+						<label th:for="${#ids.prev('villains')}" th:utext="${@viewHelper.getDisplayName(item)}">VILLAIN NAME</label>
+						<br />
+						</th:block>
+					</fieldset>
+						
+					<fieldset>
+						<legend>Henchmen</legend>
+						<th:block th:each="item : ${henchmen}">
+						<input type="checkbox" th:field="*{henchmen}" th:value="${item.id}" />
+						<label th:for="${#ids.prev('henchmen')}" th:utext="${@viewHelper.getDisplayName(item)}">HENCHMEN NAME</label>
+						<br />
+						</th:block>
+					</fieldset>
+						
+					<label for="outcome">Outcome</label>
+					<select th:field="*{outcome}" name="outcome">
+						<option th:each="item : ${outcomes}" 
+							th:value="${item}" 
+							th:text="${#strings.capitalizeWords(#strings.toLowerCase(#strings.replace(item,'_',' ')))}">PLAYER COUNT</option>
+					</select>
+					
+				</fieldset>
+				<fieldset>
+					<legend>Private information (optional)</legend>
+					<div>
+						<label for="date">Play Date</label>
+						<input type="date" id="date" name="date" th:value="${#dates.format(#object.playDate, 'yyyy-MM-dd')}" />
+					</div>
+					
+					<div>
+						<label for="notes">Notes</label><br />
+						<textarea name="notes" id="notes" rows="10" cols="80" th:text="*{notes}"></textarea>
+					</div>
+				</fieldset>
+				<button type="button" onclick="verify()">Verify</button> 
+				<input type="submit" />
+			</form>
+		</div>
+	</body>
+</html>

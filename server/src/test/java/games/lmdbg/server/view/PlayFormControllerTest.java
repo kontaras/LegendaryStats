@@ -62,11 +62,11 @@ class PlayFormControllerTest {
 		Mockito.when(mockHenchmen.getCardsInOrder()).thenReturn(henchmen);
 		List<Starter> starters = List.of();
 		Mockito.when(mockStarters.getCardsInOrder()).thenReturn(starters);
-		List<Support> supports = List.of();
+		List<Support> supports = List.of(Mockito.mock(Support.class));
 		Mockito.when(mockSupports.getCardsInOrder()).thenReturn(supports);
 		
 		Model mod = Mockito.mock(Model.class);
-		Assertions.assertEquals("playForm", controller.createForm(mod));
+		Assertions.assertEquals("play", controller.createForm(mod));
 		
 		Mockito.verify(mod).addAttribute("schemes", schemes);
 		Mockito.verify(mod).addAttribute("masterminds", masterminds);
@@ -75,5 +75,6 @@ class PlayFormControllerTest {
 		Mockito.verify(mod).addAttribute("henchmen", henchmen);
 		Mockito.verify(mod).addAttribute("starters", starters);
 		Mockito.verify(mod).addAttribute("supports", supports);
+		//TODO: TEST playInfo
 	}
 }

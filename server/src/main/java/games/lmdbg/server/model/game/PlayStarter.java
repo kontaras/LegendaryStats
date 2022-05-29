@@ -16,8 +16,8 @@ import games.lmdbg.server.model.Play;
  * The usage of a {@link Starter} in a {@link Play}
  */
 @Entity
-@IdClass(StarterPlay.Key.class)
-public class StarterPlay {
+@IdClass(PlayStarter.Key.class)
+public class PlayStarter {
 	/** Starting deck used */
 	@Id
 	@ManyToOne
@@ -33,6 +33,17 @@ public class StarterPlay {
 	/** The number of times this deck was used */
 	private Integer quantity;
 	
+	/**
+	 * @param starter
+	 * @param play
+	 * @param quantity
+	 */
+	public PlayStarter(Starter starter, Play play, Integer quantity) {
+		this.starter = starter;
+		this.play = play;
+		this.quantity = quantity;
+	}
+
 	/**
 	 * @return the {@link #starter}
 	 */
