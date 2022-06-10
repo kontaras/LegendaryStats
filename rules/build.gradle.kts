@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.7.0"
-    kotlin("plugin.serialization") version "1.6.21"
+    kotlin("plugin.serialization") version "1.7.0"
     id("org.sonarqube") version "3.4.0.2513"
     id("java-library")
     jacoco
