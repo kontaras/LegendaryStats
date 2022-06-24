@@ -159,7 +159,7 @@ public class PlayFormController {
 			} else {
 				playInfo.setPlayer(accounts.findById(Long.valueOf(1)).get());
 				plays.save(playInfo);
-				return "play"; // TODO: view play page
+				return "redirect:/plays/" + playInfo.getId(); // TODO: view play page
 			}
 		}
 
