@@ -38,7 +38,7 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation "org.mockito:mockito-core:4.7.0"
-	testImplementation "net.bytebuddy:byte-buddy:1.12.13" //Used by Mockito, try removing in future
+	testImplementation "net.bytebuddy:byte-buddy:1.12.14" //Used by Mockito, try removing in future
 
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 
