@@ -1,26 +1,40 @@
 package games.lmdbg.rules.utils
 
 import games.lmdbg.rules.verifier.*
+import games.lmdbg.rules.verifier.TypedCardSet
+import games.lmdbg.rules.verifier.CardSetType
 
-import kotlin.test.assertEquals
+import kotlin.test.assertContentEquals
 import kotlin.test.Test
 
 internal class DisplayTest {
     @Test
     fun testEmpty() {
-        assertEquals("", errorsToString(listOf()))
+        assertContentEquals(listOf(), errorsToString(listOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf()))
     }
 
     @Test
     fun testSingleError() {
-        assertEquals("A setup needs to include a recruit granting support.",
-            errorsToString(listOf(MissingRecruitSupport)))
+        assertContentEquals(listOf("A setup needs to include a recruit granting support."),
+            errorsToString(listOf(MissingRecruitSupport), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf()))
     }
 
     @Test
     fun testMultipleErrors() {
-        assertEquals("A setup needs to include a recruit granting support.\n" +
-            "The scheme you selected is not playable with the selected player count.",
-            errorsToString(listOf(MissingRecruitSupport, PlayerSchemeMismatch)))
+        assertContentEquals(listOf("A setup needs to include a recruit granting support.",
+            "The scheme you selected is not playable with the selected player count."),
+            errorsToString(listOf(MissingRecruitSupport, PlayerSchemeMismatch), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf()))
+    }
+
+    @Test
+    fun testSingleCardSet() {
+        assertContentEquals(listOf("Missing required card set Hero Man"),
+            errorsToString(listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HERO, 1)))), mapOf(1 to "Hero Man", 2 to "Bob"), mapOf(1 to "Bad Man"), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf()))
+    }
+
+    @Test
+    fun testMultipleCardSet() {
+        assertContentEquals(listOf("Missing required card set Hero Man, Bad Man"),
+            errorsToString(listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HERO, 1), TypedCardSet(CardSetType.HENCHMAN, 1)))), mapOf(1 to "Hero Man", 2 to "Bob"), mapOf(1 to "Bad Man"), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf()))
     }
 }
