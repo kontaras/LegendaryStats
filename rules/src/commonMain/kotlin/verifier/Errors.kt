@@ -72,7 +72,7 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
  */
 class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     override fun getMessage(): String {
-        return "Missing required card set"
+        return "Missing required card sets ${cardsToString()}"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
@@ -89,7 +89,11 @@ class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     }
 
     override fun toString(): String {
-        return "MissingRequiredSet $cards"
+        return "MissingRequiredSet ${cardsToString()}"
+    }
+
+    private fun cardsToString(): String {
+        return cards.joinToString(", ", transform = TypedCardSet::repr)
     }
 }
 
@@ -136,4 +140,8 @@ object PlayerSchemeMismatch : PrintableError {
     override fun getMessage(): String {
         return "The scheme you selected is not playable with the selected player count."
     }
+}
+
+fun TypedCardSet.repr():String {
+    return "($setType $setId)"
 }
