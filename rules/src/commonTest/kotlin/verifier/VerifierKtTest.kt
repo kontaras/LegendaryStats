@@ -237,22 +237,30 @@ internal class VerifierKtTest {
 
     @Test
     fun updateSetCountsFromSchemeTest() {
+        var setCounts = SetCounts(0, 0, 0, 0)
+        runWithPlugins(setOf()) {
+            updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
+        }
+        assertEquals(SetCounts(0, 0, 0, 0), setCounts)
+
         val plugin = MockRules(schemesRange = 0..10)
 
         val plugins = setOf(plugin)
 
         plugin.setCountLogic = { _, setCount -> setCount.heroes++ }
 
-        val setCounts = SetCounts(0, 0, 0, 0)
+        setCounts = SetCounts(0, 0, 0, 0)
         runWithPlugins(plugins) {
             updateSetCountsFromScheme(playMaker(scheme = 3), setCounts)
         }
         assertEquals(SetCounts(1, 0, 0, 0), setCounts)
 
+        setCounts = SetCounts(0, 0, 0, 0)
         plugin.setCountLogic = { _, _ -> throw Exception("This code should not be reached") }
         runWithPlugins(plugins) {
             updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
         }
+        assertEquals(SetCounts(0, 0, 0, 0), setCounts)
     }
 
     @Test
@@ -262,6 +270,14 @@ internal class VerifierKtTest {
         assertEquals(
             listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.VILLAIN, 3)))),
             checkMandatorySets(playMaker(mastermind = 10), listOf(setOf(TypedCardSet(CardSetType.VILLAIN, 3))))
+        )
+
+        assertEquals(
+            listOf(),
+            checkMandatorySets(
+                playMaker(villain = 3),
+                listOf(setOf(TypedCardSet(CardSetType.VILLAIN, 3)))
+            )
         )
 
         assertEquals(
@@ -332,6 +348,20 @@ internal class VerifierKtTest {
             checkMandatorySets(
                 playMaker(mastermind = 10),
                 listOf(setOf(TypedCardSet(CardSetType.HENCHMAN, 3)), setOf(TypedCardSet(CardSetType.HENCHMAN, 5)))
+            )
+        )
+
+        // Check logic of unknown card set types. Will break if we ever have required board logic.
+        assertEquals(
+            listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.BOARD, 3)))),
+            checkMandatorySets(playMaker(board = 3), listOf(setOf(TypedCardSet(CardSetType.BOARD, 3))))
+        )
+
+        assertEquals(
+            listOf(),
+            checkMandatorySets(
+                playMaker(villain = 3),
+                listOf(setOf(TypedCardSet(CardSetType.BOARD, 4), TypedCardSet(CardSetType.VILLAIN, 3)))
             )
         )
     }

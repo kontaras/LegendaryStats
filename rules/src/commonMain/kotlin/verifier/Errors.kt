@@ -72,7 +72,7 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
  */
 class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     override fun getMessage(): String {
-        return "Missing required card set"
+        return "Missing required card sets ${cardsToString()}"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
@@ -89,7 +89,11 @@ class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     }
 
     override fun toString(): String {
-        return "MissingRequiredSet $cards"
+        return "MissingRequiredSet ${cardsToString()}"
+    }
+
+    private fun cardsToString(): String {
+        return cards.joinToString(", ", transform = TypedCardSet::repr)
     }
 }
 
@@ -101,7 +105,7 @@ class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
  */
 class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : PrintableError {
     override fun getMessage(): String {
-        return "Invalid quantity of ${setId.setType.toString().lowercase()}: $quantity"
+        return "Invalid quantity of ${setId.setType.toString().lowercase()} ${setId.setId}: $quantity"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
@@ -119,7 +123,7 @@ class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : Printabl
     }
 
     override fun toString(): String {
-        return "InvalidCardQuantity $setId $quantity"
+        return "InvalidCardQuantity ${setId.repr()} $quantity"
     }
 }
 
@@ -130,10 +134,22 @@ object MissingRecruitSupport : PrintableError {
     override fun getMessage(): String {
         return "A setup needs to include a recruit granting support."
     }
+
+    override fun toString(): String {
+        return "MissingRecruitSupport"
+    }
 }
 
 object PlayerSchemeMismatch : PrintableError {
     override fun getMessage(): String {
         return "The scheme you selected is not playable with the selected player count."
     }
+
+    override fun toString(): String {
+        return "PlayerSchemeMismatch"
+    }
+}
+
+fun TypedCardSet.repr():String {
+    return "($setType $setId)"
 }

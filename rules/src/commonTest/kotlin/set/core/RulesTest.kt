@@ -137,6 +137,7 @@ internal class RulesTest {
             Schemes.MIDTOWN_BANK_ROBBERY,
             Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE,
             Schemes.PORTALS_TO_THE_DARK_DIMENSION,
+            Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER,
             invalidScheme
         )) {
             original = SetCounts(0, 0, 0, 0)
@@ -217,6 +218,7 @@ internal class RulesTest {
             rules.schemeMandatorySets(Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS)
         )
 
+        val invalidScheme = -1
         for (scheme in listOf(
             Schemes.THE_LEGACY_VIRUS,
             Schemes.MIDTOWN_BANK_ROBBERY,
@@ -224,7 +226,8 @@ internal class RulesTest {
             Schemes.PORTALS_TO_THE_DARK_DIMENSION,
             Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
             Schemes.SUPER_HERO_CIVIL_WAR,
-            Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE
+            Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE,
+            invalidScheme
         )) {
             assertEquals(
                 setOf(),
@@ -273,6 +276,15 @@ internal class RulesTest {
                     rules.schemeCheckPlay(scheme, playMaker(players = players))
                 )
             }
+        }
+
+        for (scheme in listOf(
+            -1 //Invalid scheme
+        )) {
+            assertEquals(
+                listOf(),
+                rules.schemeCheckPlay(scheme, playMaker())
+            )
         }
     }
 }
