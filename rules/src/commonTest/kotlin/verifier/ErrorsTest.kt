@@ -139,7 +139,8 @@ internal class ErrorsTest {
             listOf(
                 TypedCardSet(CardSetType.BOARD, 2),
                 TypedCardSet(CardSetType.STARTER, 8)
-            ), underTest.getCardSets())
+            ), underTest.getCardSets()
+        )
     }
 
     @Test

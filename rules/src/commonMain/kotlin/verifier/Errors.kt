@@ -5,6 +5,7 @@ interface PrintableError {
     companion object {
         val CARDS_PLACEHOLDER = "%CARDS%"
     }
+
     /* A human-readable explanation of the error */
     fun getMessage(): String
 
@@ -153,6 +154,6 @@ object PlayerSchemeMismatch : PrintableError {
     }
 }
 
-fun TypedCardSet.repr():String {
+fun TypedCardSet.repr(): String {
     return "($setType $setId)"
 }
