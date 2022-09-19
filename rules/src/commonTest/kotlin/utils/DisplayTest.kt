@@ -116,7 +116,7 @@ internal class DisplayTest {
         )
 
         assertEquals(
-            "Mastermind Man, Scheme Man, Villain Man, Hench Man, Hero Man, Support Man, Board Man", cardSetsToString(
+            "Mastermind Man, Scheme Man, Villain Man, Hench Man, Hero Man, Support Man, Starter Man, Board Man", cardSetsToString(
                 listOf(
                     TypedCardSet(CardSetType.MASTERMIND, 1),
                     TypedCardSet(CardSetType.SCHEME, 1),
@@ -124,6 +124,7 @@ internal class DisplayTest {
                     TypedCardSet(CardSetType.HENCHMAN, 1),
                     TypedCardSet(CardSetType.HERO, 1),
                     TypedCardSet(CardSetType.SUPPORT, 1),
+                    TypedCardSet(CardSetType.STARTER, 1),
                     TypedCardSet(CardSetType.BOARD, 1)
                 ),
                 mapOf(1 to "Hero Man", 2 to "Bob"),
@@ -152,7 +153,7 @@ internal class DisplayTest {
         )
 
         assertEquals(
-            "MASTERMIND 1, SCHEME 1, VILLAIN 1, HENCHMAN 1, HERO 1, SUPPORT 1, BOARD 1", cardSetsToString(
+            "MASTERMIND 1, SCHEME 1, VILLAIN 1, HENCHMAN 1, HERO 1, SUPPORT 1, STARTER 1, BOARD 1", cardSetsToString(
                 listOf(
                     TypedCardSet(CardSetType.MASTERMIND, 1),
                     TypedCardSet(CardSetType.SCHEME, 1),
@@ -160,6 +161,7 @@ internal class DisplayTest {
                     TypedCardSet(CardSetType.HENCHMAN, 1),
                     TypedCardSet(CardSetType.HERO, 1),
                     TypedCardSet(CardSetType.SUPPORT, 1),
+                    TypedCardSet(CardSetType.STARTER, 1),
                     TypedCardSet(CardSetType.BOARD, 1)
                 ),
                 mapOf(),
