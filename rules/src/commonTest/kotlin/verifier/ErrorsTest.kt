@@ -25,7 +25,7 @@ internal class ErrorsTest {
         assertFalse(underTest.equals(WrongSetCount(CardSetType.BOARD, 1, 8)))
 
         //hashCode
-        assertEquals("Expected to provide 1 board sets, got 2".hashCode(), underTest.hashCode())
+        assertEquals("WrongSetCount BOARD: exp 1, act 2".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("WrongSetCount BOARD: exp 1, act 2", underTest.toString())
@@ -51,7 +51,7 @@ internal class ErrorsTest {
         assertFalse(underTest.equals(InvalidCardSet(CardSetType.BOARD, 4)))
 
         //hashCode
-        assertEquals("Invalid board: 1".hashCode(), underTest.hashCode())
+        assertEquals("InvalidCardSet BOARD 1".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("InvalidCardSet BOARD 1", underTest.toString())
@@ -70,7 +70,7 @@ internal class ErrorsTest {
         )
 
         //getMessage
-        assertEquals("Missing required card sets (BOARD 2), (STARTER 8)", underTest.getMessage())
+        assertEquals("Missing required card sets %CARDS%", underTest.getMessage())
 
         //equals
         assertTrue(underTest.equals(underTest))
@@ -129,7 +129,7 @@ internal class ErrorsTest {
         )
 
         //hashCode
-        assertEquals("Missing required card sets (BOARD 2), (STARTER 8)".hashCode(), underTest.hashCode())
+        assertEquals("MissingRequiredSet (BOARD 2), (STARTER 8)".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("MissingRequiredSet (BOARD 2), (STARTER 8)", underTest.toString())
@@ -147,7 +147,7 @@ internal class ErrorsTest {
         val underTest = InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 1), -4)
 
         //getMessage
-        val expectedMessage = "Invalid quantity of hero 1: -4"
+        val expectedMessage = "Invalid quantity of %CARDS%: -4"
         assertEquals(expectedMessage, underTest.getMessage())
 
         //equals
@@ -161,7 +161,7 @@ internal class ErrorsTest {
         assertFalse(underTest.equals(InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 1), -3)))
 
         //hashCode
-        assertEquals(expectedMessage.hashCode(), underTest.hashCode())
+        assertEquals("InvalidCardQuantity (HERO 1) -4".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("InvalidCardQuantity (HERO 1) -4", underTest.toString())

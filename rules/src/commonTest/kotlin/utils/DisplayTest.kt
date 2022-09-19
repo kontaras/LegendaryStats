@@ -28,13 +28,13 @@ internal class DisplayTest {
 
     @Test
     fun testSingleCardSet() {
-        assertContentEquals(listOf("Missing required card set Hero Man"),
+        assertContentEquals(listOf("Missing required card sets Hero Man"),
             errorsToString(listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HERO, 1)))), mapOf(1 to "Hero Man", 2 to "Bob"), mapOf(1 to "Bad Man"), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf()))
     }
 
     @Test
     fun testMultipleCardSet() {
-        assertContentEquals(listOf("Missing required card set Hero Man, Bad Man"),
+        assertContentEquals(listOf("Missing required card sets Hero Man, Bad Man"),
             errorsToString(listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HERO, 1), TypedCardSet(CardSetType.HENCHMAN, 1)))), mapOf(1 to "Hero Man", 2 to "Bob"), mapOf(1 to "Bad Man"), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf()))
     }
 }

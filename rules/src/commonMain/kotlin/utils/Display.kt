@@ -14,8 +14,8 @@ fun errorsToString(errors:List<PrintableError>,
     mastermindSets:Map<Int, String>,
     boardSets:Map<Int, String>) : List<String> {
     return errors.map{
-        it.getMessage() + cardSetsToString(it.getCardSets(), heroSets, henchmenSets, villainSets, starterSets,
-        supportSets, schemeSets, mastermindSets, boardSets)
+        it.getMessage().replace(PrintableError.CARDS_PLACEHOLDER, cardSetsToString(it.getCardSets(), heroSets, henchmenSets, villainSets, starterSets,
+        supportSets, schemeSets, mastermindSets, boardSets))
         }
 }
 
@@ -28,10 +28,7 @@ fun cardSetsToString(sets:List<TypedCardSet>,
     schemeSets:Map<Int, String>,
     mastermindSets:Map<Int, String>,
     boardSets:Map<Int, String>) : String {
-    if (sets.isEmpty()) {
-        return ""    
-    } else {
-        return " " + sets.map {
+    return sets.map {
             when(it.setType) {
                 CardSetType.HERO -> heroSets
                 CardSetType.HENCHMAN -> henchmenSets
@@ -42,5 +39,4 @@ fun cardSetsToString(sets:List<TypedCardSet>,
                 CardSetType.MASTERMIND -> mastermindSets
                 CardSetType.BOARD -> boardSets
             }.get(it.setId)}.joinToString(", ")
-    }
 }

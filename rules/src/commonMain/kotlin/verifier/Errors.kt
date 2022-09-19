@@ -2,6 +2,9 @@ package games.lmdbg.rules.verifier
 
 /** The common error class for all issues that can be found when validating plays */
 interface PrintableError {
+    companion object {
+        val CARDS_PLACEHOLDER = "%CARDS%"
+    }
     /* A human-readable explanation of the error */
     fun getMessage(): String
 
@@ -31,7 +34,7 @@ class WrongSetCount(val setType: CardSetType, val expected: Int, val actual: Int
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
@@ -57,7 +60,7 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
@@ -72,7 +75,7 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
  */
 class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     override fun getMessage(): String {
-        return "Missing required card sets ${cardsToString()}"
+        return "Missing required card sets ${PrintableError.CARDS_PLACEHOLDER}"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
@@ -85,7 +88,7 @@ class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
@@ -105,7 +108,7 @@ class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
  */
 class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : PrintableError {
     override fun getMessage(): String {
-        return "Invalid quantity of ${setId.setType.toString().lowercase()} ${setId.setId}: $quantity"
+        return "Invalid quantity of ${PrintableError.CARDS_PLACEHOLDER}: $quantity"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
@@ -119,7 +122,7 @@ class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : Printabl
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
