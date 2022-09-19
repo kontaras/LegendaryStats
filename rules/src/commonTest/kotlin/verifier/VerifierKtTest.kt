@@ -237,13 +237,19 @@ internal class VerifierKtTest {
 
     @Test
     fun updateSetCountsFromSchemeTest() {
+        var setCounts = SetCounts(0, 0, 0, 0)
+        runWithPlugins(setOf()) {
+            updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
+        }
+        assertEquals(SetCounts(0, 0, 0, 0), setCounts)
+
         val plugin = MockRules(schemesRange = 0..10)
 
         val plugins = setOf(plugin)
 
         plugin.setCountLogic = { _, setCount -> setCount.heroes++ }
 
-        var setCounts = SetCounts(0, 0, 0, 0)
+        setCounts = SetCounts(0, 0, 0, 0)
         runWithPlugins(plugins) {
             updateSetCountsFromScheme(playMaker(scheme = 3), setCounts)
         }
