@@ -36,7 +36,7 @@ internal fun cardSetsToString(
     mastermindSets: Map<Int, String>,
     boardSets: Map<Int, String>
 ): String {
-    return sets.map {
+    return sets.joinToString(", ") {
         when (it.setType) {
             CardSetType.HERO -> heroSets
             CardSetType.HENCHMAN -> henchmenSets
@@ -46,6 +46,6 @@ internal fun cardSetsToString(
             CardSetType.SCHEME -> schemeSets
             CardSetType.MASTERMIND -> mastermindSets
             CardSetType.BOARD -> boardSets
-        }.get(it.setId)
-    }.joinToString(", ")
+        }[it.setId] ?: "${it.setType} ${it.setId}" //As of Kotlin 1.7.10, Map::getOfDefault is broken in JS
+    }
 }
