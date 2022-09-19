@@ -141,4 +141,82 @@ internal class ErrorsTest {
                 TypedCardSet(CardSetType.STARTER, 8)
             ), underTest.getCardSets())
     }
+
+    @Test
+    fun invalidCardQuantityTest() {
+        val underTest = InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 1), -4)
+
+        //getMessage
+        val expectedMessage = "Invalid quantity of hero 1: -4"
+        assertEquals(expectedMessage, underTest.getMessage())
+
+        //equals
+        assertTrue(underTest.equals(underTest))
+        assertTrue(underTest.equals(InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 1), -4)))
+
+        assertFalse(underTest.equals(null))
+        assertFalse(underTest.equals(3))
+        assertFalse(underTest.equals(InvalidCardQuantity(TypedCardSet(CardSetType.HENCHMAN, 1), -4)))
+        assertFalse(underTest.equals(InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 2), -4)))
+        assertFalse(underTest.equals(InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 1), -3)))
+
+        //hashCode
+        assertEquals(expectedMessage.hashCode(), underTest.hashCode())
+
+        //toString
+        assertEquals("InvalidCardQuantity (HERO 1) -4", underTest.toString())
+
+        //getCardSets
+        assertEquals(listOf(TypedCardSet(CardSetType.HERO, 1)), underTest.getCardSets())
+    }
+
+    @Test
+    fun missingRecruitSupportTest() {
+        val underTest = MissingRecruitSupport
+
+        //getMessage
+        assertEquals("A setup needs to include a recruit granting support.", underTest.getMessage())
+
+        //equals
+        assertTrue(underTest.equals(underTest))
+        assertTrue(underTest.equals(MissingRecruitSupport))
+
+        assertFalse(underTest.equals(null))
+        assertFalse(underTest.equals(3))
+
+
+        //hashCode
+        assertEquals(MissingRecruitSupport.hashCode(), underTest.hashCode())
+
+        //toString
+        assertEquals("MissingRecruitSupport", underTest.toString())
+
+        //getCardSets
+        assertEquals(listOf(), underTest.getCardSets())
+    }
+
+    @Test
+    fun playerSchemeMismatchTest() {
+        val underTest = PlayerSchemeMismatch
+
+        //getMessage
+        assertEquals("The scheme you selected is not playable with the selected player count.", underTest.getMessage())
+
+        //equals
+        assertTrue(underTest.equals(underTest))
+        assertTrue(underTest.equals(PlayerSchemeMismatch))
+
+        assertFalse(underTest.equals(null))
+        assertFalse(underTest.equals(3))
+
+
+        //hashCode
+        assertEquals(PlayerSchemeMismatch.hashCode(), underTest.hashCode())
+
+        //toString
+        assertEquals("PlayerSchemeMismatch", underTest.toString())
+
+        //getCardSets
+        assertEquals(listOf(), underTest.getCardSets())
+    }
 }
