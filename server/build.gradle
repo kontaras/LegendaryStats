@@ -43,7 +43,7 @@ dependencies {
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 
 	//Needed for Eclipse JUnit runner, see if it is still needed in the future.
-	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.9.0"
+	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.9.1"
 }
 
 test {
