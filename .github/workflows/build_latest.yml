@@ -1,4 +1,4 @@
-# Try building the project with Java 18, the newest version of Java.
+# Try building the project with Java 19, the newest version of Java.
 
 name: Build on newest Java
 

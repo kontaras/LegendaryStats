@@ -33,7 +33,6 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build
-      #Change to default builder once we can build with Java 17
       run: ./gradlew build jacocoTestReport jibBuildTar --info
     - name: Sonar
       if: ${{ github.actor != 'dependabot[bot]' }}

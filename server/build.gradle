@@ -11,7 +11,7 @@ plugins {
 
 group = 'games.lmdbg'
 version = '0.0.2'
-sourceCompatibility = '16' //Project does not build with Java 17
+sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
@@ -92,7 +92,6 @@ task javascriptCopy(type: Copy) {
 }
 
 jib {
-	from.image = 'adoptopenjdk:16'
 	extraDirectories.paths = ['src/main/resources']
 }
 
