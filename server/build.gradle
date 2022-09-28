@@ -92,6 +92,7 @@ task javascriptCopy(type: Copy) {
 }
 
 jib {
+	from.image = 'eclipse-temurin:17.0.4.1_1-jre'
 	extraDirectories.paths = ['src/main/resources']
 }
 
