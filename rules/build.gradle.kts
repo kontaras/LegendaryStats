@@ -5,7 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.10"
     id("org.sonarqube") version "3.4.0.2513"
     id("java-library")
-    id("org.jetbrains.kotlinx.kover") version "0.6.0"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
 
 group = "games.lmdbg.rules"
