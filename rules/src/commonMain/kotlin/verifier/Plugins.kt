@@ -2,6 +2,7 @@ package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.set.core.Rules
+import kotlinx.serialization.Serializable
 
 /** A list of all the release rules engine plugins */
 val plugins: MutableSet<ReleaseRulesPlugin> = mutableSetOf(Rules())
@@ -71,6 +72,7 @@ interface ReleaseRulesPlugin {
 }
 
 /** Card set types in the game that can be a [TypedCardSet] */
+@Serializable
 enum class CardSetType {
     HERO,
     HENCHMAN,
@@ -88,4 +90,5 @@ enum class CardSetType {
  * @property setType The type of card set
  * @property setId Set id of the cards
  */
+@Serializable
 data class TypedCardSet(val setType: CardSetType, val setId: Int)

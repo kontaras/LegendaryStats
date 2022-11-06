@@ -1,7 +1,10 @@
 package games.lmdbg.rules.verifier
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertContentEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -219,5 +222,26 @@ internal class ErrorsTest {
 
         //getCardSets
         assertEquals(listOf(), underTest.getCardSets())
+    }
+
+    @Test
+    fun serializabilityTest() {
+        val errors: List<PrintableError> = listOf(
+            WrongSetCount(CardSetType.HENCHMAN, 1, 2),
+            InvalidCardSet(CardSetType.SUPPORT, -5),
+            MissingRequiredSet(listOf(TypedCardSet(CardSetType.VILLAIN, 7), TypedCardSet(CardSetType.HERO, 4))),
+            InvalidCardQuantity(
+                TypedCardSet(CardSetType.HENCHMAN, 17), 123444
+            ),
+            MissingRecruitSupport,
+            PlayerSchemeMismatch
+        )
+        val encoded: String = errorFormatter.encodeToString(errors)
+
+        println(encoded)
+
+        val decoded: List<PrintableError> = errorFormatter.decodeFromString(encoded)
+
+        assertContentEquals(errors, decoded)
     }
 }

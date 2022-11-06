@@ -5,14 +5,13 @@ import games.lmdbg.rules.set.core.Boards
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-private class ModelsTest {
+internal class ModelsTest {
 
     /** Test if a play is not changed by being encoded and decoded. */
     @Test
     fun encodeDecodeTest() {
         val play = playMaker()
         val encoded = Play.playToString(play)
-        print(encoded)
         assertEquals(play, Play.playFromString(encoded))
     }
 
