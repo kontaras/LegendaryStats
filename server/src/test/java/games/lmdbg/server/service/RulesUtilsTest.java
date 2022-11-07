@@ -22,7 +22,7 @@ import games.lmdbg.rules.verifier.WrongSetCount;
 
 import org.junit.jupiter.api.Assertions;
 
-public class RulesUtilsTest {
+class RulesUtilsTest {
     @Test
     void testServerToRules() {
         final String outcome = Outcome.DRAW.toString();
@@ -103,23 +103,23 @@ public class RulesUtilsTest {
         Assertions.assertEquals(rulesPlay.getScheme(), schemeId);
         Assertions.assertEquals(rulesPlay.getMastermind(), mastermindId);
 
-        Assertions.assertEquals(rulesPlay.getHeroes().size(), 2);
+        Assertions.assertEquals(2, rulesPlay.getHeroes().size());
         Assertions.assertTrue(rulesPlay.getHeroes().contains(heroId1));
         Assertions.assertTrue(rulesPlay.getHeroes().contains(heroId2));
 
-        Assertions.assertEquals(rulesPlay.getVillains().size(), 2);
+        Assertions.assertEquals(2, rulesPlay.getVillains().size());
         Assertions.assertTrue(rulesPlay.getVillains().contains(villainId1));
         Assertions.assertTrue(rulesPlay.getVillains().contains(villainId2));
 
-        Assertions.assertEquals(rulesPlay.getHenchmen().size(), 2);
+        Assertions.assertEquals(2, rulesPlay.getHenchmen().size());
         Assertions.assertTrue(rulesPlay.getHenchmen().contains(henchmanId1));
         Assertions.assertTrue(rulesPlay.getHenchmen().contains(henchmanId2));
 
-        Assertions.assertEquals(rulesPlay.getSupports().size(), 2);
+        Assertions.assertEquals(2, rulesPlay.getSupports().size());
         Assertions.assertTrue(rulesPlay.getSupports().contains(supportId1));
         Assertions.assertTrue(rulesPlay.getSupports().contains(supportId2));
 
-        Assertions.assertEquals(rulesPlay.getStarters().size(), 2);
+        Assertions.assertEquals(2, rulesPlay.getStarters().size());
         Assertions.assertEquals(rulesPlay.getStarters().get(starterId1), starterQuantity1);
         Assertions.assertEquals(rulesPlay.getStarters().get(starterId2), starterQuantity2);
 
