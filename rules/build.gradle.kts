@@ -1,7 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    kotlin("multiplatform") version "1.7.20"
+    kotlin("multiplatform") version "1.7.21"
     kotlin("plugin.serialization") version "1.7.21"
     id("org.sonarqube") version "3.5.0.2730"
     id("java-library")
