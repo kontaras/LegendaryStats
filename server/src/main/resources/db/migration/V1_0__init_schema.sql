@@ -119,9 +119,10 @@ CREATE TABLE board
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
 );
+CREATE SEQUENCE play_ids AS BIGINT;
 CREATE TABLE play
 (
-   id BIGINT NOT NULL,
+   id BIGINT DEFAULT nextval('play_ids'),
    player_id BIGINT NOT NULL,
    play_date DATE,
    outcome game_outcome NOT NULL,

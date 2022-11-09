@@ -7,6 +7,7 @@ plugins {
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
 	id 'com.google.cloud.tools.jib' version '3.3.0'
+	id 'com.adarshr.test-logger' version '3.2.0'
 }
 
 group = 'games.lmdbg'
@@ -23,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	implementation 'com.google.guava:guava:31.1-jre'
 
@@ -48,6 +50,12 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	testlogger {
+            showPassedStandardStreams false
+    showSkippedStandardStreams false
+    showFailedStandardStreams true
+    showFullStackTraces true
+    }
 }
 
 frontend {

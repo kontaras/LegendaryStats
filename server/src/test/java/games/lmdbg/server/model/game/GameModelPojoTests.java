@@ -91,12 +91,12 @@ class GameModelPojoTests extends PojoTestUtil {
 	}
 	
 	/**
-	 * Test {@link StarterPlay}
+	 * Test {@link PlayStarter}
 	 */
 	@Test
 	void testStarterPlay() {
-		validateSetOnlyPojo(StarterPlay.class);
-		validateSetOnlyPojo(StarterPlay.Key.class);
+		validateSetOnlyPojo(PlayStarter.class);
+		validateSetOnlyPojo(PlayStarter.Key.class);
 	}
 	
 	/**

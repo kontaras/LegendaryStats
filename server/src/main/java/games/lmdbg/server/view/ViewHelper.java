@@ -1,5 +1,8 @@
 package games.lmdbg.server.view;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.springframework.context.annotation.Configuration;
 
 import com.google.common.base.Strings;
@@ -79,6 +82,17 @@ public class ViewHelper {
 		}
 
 		return builder.toString();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Collection asCollection(Object o) {
+		if (o == null) {
+			return Collections.emptySet();
+		} else if (o instanceof Collection col) {
+			return col;
+		}
+		
+		return Collections.singleton(o);
 	}
 
 }

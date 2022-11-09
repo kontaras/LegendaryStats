@@ -10,14 +10,14 @@ import org.mockito.Mockito;
 import games.lmdbg.server.model.Play;
 
 /**
- * Tests for {@link StarterPlay.Key} logic beyond {@link GameModelPojoTests#testStarterPlay()}
+ * Tests for {@link PlayStarter.Key} logic beyond {@link GameModelPojoTests#testStarterPlay()}
  */
 @SuppressWarnings("static-method")
 class StarterPlayKeyTests
 {
 	
 	/**
-	 * Test {@link StarterPlay.Key#hashCode()}
+	 * Test {@link PlayStarter.Key#hashCode()}
 	 * 
 	 * @throws NoSuchFieldException	Logic error
 	 * @throws IllegalAccessException	If there are problems changing private values
@@ -25,7 +25,7 @@ class StarterPlayKeyTests
 	@Test
 	final void testHashCode() throws NoSuchFieldException, IllegalAccessException
 	{
-		StarterPlay.Key instance = new StarterPlay.Key();
+		PlayStarter.Key instance = new PlayStarter.Key();
 		
 		Starter starter = Mockito.mock(Starter.class);
 		Mockito.when(starter.getId()).thenReturn(Integer.valueOf(7));
@@ -40,7 +40,7 @@ class StarterPlayKeyTests
 	}
 	
 	/**
-	 * Test {@link StarterPlay.Key#equals(Object)}
+	 * Test {@link PlayStarter.Key#equals(Object)}
 	 * 
 	 * @throws NoSuchFieldException	Logic error
 	 * @throws IllegalAccessException	If there are problems changing private values
@@ -48,7 +48,7 @@ class StarterPlayKeyTests
 	@Test
 	final void testEquals() throws NoSuchFieldException, IllegalAccessException
 	{
-		StarterPlay.Key instance1 = new StarterPlay.Key();
+		PlayStarter.Key instance1 = new PlayStarter.Key();
 		
 		Assertions.assertFalse(instance1.equals(null));
 		
@@ -65,7 +65,7 @@ class StarterPlayKeyTests
 		
 		Assertions.assertTrue(instance1.equals(instance1));
 		
-		StarterPlay.Key instance2 = new StarterPlay.Key();
+		PlayStarter.Key instance2 = new PlayStarter.Key();
 		Starter starter2 = Mockito.mock(Starter.class);
 		Mockito.when(starter2.getId()).thenReturn(Integer.valueOf(7));
 		setPrivateFieldValue(instance2, "starter", starter2);
@@ -95,8 +95,8 @@ class StarterPlayKeyTests
 	 * @throws NoSuchFieldException If it is an invalid field
 	 * @throws IllegalAccessException If there is an error setting the value
 	 */
-	public static void setPrivateFieldValue(StarterPlay.Key object, String fieldName, Object valueTobeSet) throws NoSuchFieldException, IllegalAccessException {
-		Field field = StarterPlay.Key.class.getDeclaredField(fieldName);
+	public static void setPrivateFieldValue(PlayStarter.Key object, String fieldName, Object valueTobeSet) throws NoSuchFieldException, IllegalAccessException {
+		Field field = PlayStarter.Key.class.getDeclaredField(fieldName);
 		field.setAccessible(true);
 		field.set(object, valueTobeSet);
 	}
