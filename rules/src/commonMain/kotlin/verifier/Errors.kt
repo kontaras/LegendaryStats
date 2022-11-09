@@ -1,7 +1,24 @@
 package games.lmdbg.rules.verifier
 
-/** The common error class for all issues that can be found when validating plays */
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
+import kotlin.js.JsExport
+
+/**
+ * The common error class for all issues that can be found when validating plays.
+ *
+ * Note: When implementing an error that needs to be sent between the server and client, add it to [errorSerializer]
+ */
+@Polymorphic
 interface PrintableError {
+    companion object {
+        const val CARDS_PLACEHOLDER = "%CARDS%"
+    }
+
     /* A human-readable explanation of the error */
     fun getMessage(): String
 
@@ -12,12 +29,30 @@ interface PrintableError {
 }
 
 /**
+ * Serializer for all [PrintableError] types
+ */
+@JsExport
+val errorSerializer = Json {
+    serializersModule = SerializersModule {
+        polymorphic(PrintableError::class) {
+            subclass(WrongSetCount::class)
+            subclass(InvalidCardSet::class)
+            subclass(MissingRequiredSet::class)
+            subclass(InvalidCardQuantity::class)
+            subclass(MissingRecruitSupport::class)
+            subclass(PlayerSchemeMismatch::class)
+        }
+    }
+}
+
+/**
  * A card set has the wrong number of cards
  *
  * @property setType The card set type
  * @property expected How many card sets of the type are expected
  * @property actual How many card sets are in the play
  */
+@Serializable
 class WrongSetCount(val setType: CardSetType, val expected: Int, val actual: Int) : PrintableError {
     override fun getMessage(): String {
         return "Expected to provide $expected ${setType.toString().lowercase()} sets, got $actual"
@@ -31,7 +66,7 @@ class WrongSetCount(val setType: CardSetType, val expected: Int, val actual: Int
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
@@ -45,6 +80,7 @@ class WrongSetCount(val setType: CardSetType, val expected: Int, val actual: Int
  * @property setType The type of set it is
  * @property id The invalid ID
  */
+@Serializable
 class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
     override fun getMessage(): String {
         return "Invalid ${setType.toString().lowercase()}: $id"
@@ -57,7 +93,7 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
@@ -70,9 +106,10 @@ class InvalidCardSet(val setType: CardSetType, val id: Int) : PrintableError {
  *
  * @property cards The ID of the set that is expected
  */
+@Serializable
 class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     override fun getMessage(): String {
-        return "Missing required card set"
+        return "Missing required card sets ${PrintableError.CARDS_PLACEHOLDER}"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
@@ -85,11 +122,15 @@ class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
-        return "MissingRequiredSet $cards"
+        return "MissingRequiredSet ${cardsToString()}"
+    }
+
+    private fun cardsToString(): String {
+        return cards.joinToString(", ", transform = TypedCardSet::repr)
     }
 }
 
@@ -99,9 +140,10 @@ class MissingRequiredSet(val cards: List<TypedCardSet>) : PrintableError {
  * @property setId  The card set
  * @property quantity The invalid quantity
  */
+@Serializable
 class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : PrintableError {
     override fun getMessage(): String {
-        return "Invalid quantity of ${setId.setType.toString().lowercase()}: $quantity"
+        return "Invalid quantity of ${PrintableError.CARDS_PLACEHOLDER}: $quantity"
     }
 
     override fun getCardSets(): List<TypedCardSet> {
@@ -115,25 +157,42 @@ class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : Printabl
     }
 
     override fun hashCode(): Int {
-        return getMessage().hashCode()
+        return toString().hashCode()
     }
 
     override fun toString(): String {
-        return "InvalidCardQuantity $setId $quantity"
+        return "InvalidCardQuantity ${setId.repr()} $quantity"
     }
 }
 
 /**
  * A play does not include a recruit support (such as SHIELD Agent or Madame HYDRA)
  */
+@Serializable
 object MissingRecruitSupport : PrintableError {
     override fun getMessage(): String {
         return "A setup needs to include a recruit granting support."
     }
+
+    override fun toString(): String {
+        return "MissingRecruitSupport"
+    }
 }
 
+/**
+ * The scheme does not work for that player count.
+ */
+@Serializable
 object PlayerSchemeMismatch : PrintableError {
     override fun getMessage(): String {
         return "The scheme you selected is not playable with the selected player count."
     }
+
+    override fun toString(): String {
+        return "PlayerSchemeMismatch"
+    }
+}
+
+internal fun TypedCardSet.repr(): String {
+    return "($setType $setId)"
 }

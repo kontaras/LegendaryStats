@@ -11,6 +11,8 @@ import games.lmdbg.rules.verifier.PlayerSchemeMismatch
 import org.lighthousegames.logging.logging
 
 class Rules : ReleaseRulesPlugin {
+    val log = logging()
+    
     override val heroesRange: IntRange = Heroes.BLACK_WIDOW..Heroes.WOLVERINE
     override val villainsRange: IntRange = Villains.BROTHERHOOD..Villains.IRON_FOES
     override val henchmenRange: IntRange = Henchmen.DOOMBOT_LEGION..Henchmen.SENTINEL
@@ -87,9 +89,5 @@ class Rules : ReleaseRulesPlugin {
                 return listOf()
             }
         }
-    }
-
-    companion object {
-        val log = logging()
     }
 }
