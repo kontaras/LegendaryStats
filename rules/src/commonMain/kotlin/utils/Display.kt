@@ -3,7 +3,15 @@ package games.lmdbg.rules.utils
 import games.lmdbg.rules.verifier.PrintableError
 import games.lmdbg.rules.verifier.TypedCardSet
 import games.lmdbg.rules.verifier.CardSetType
+import kotlin.js.JsExport
 
+/**
+ * Converts a list of [PrintableError] to their String representations
+ *
+ * @param errors to convert
+ * @return The String representations of errors, in the same order as they were passed in.
+ */
+@JsExport
 fun errorsToString(
     errors: List<PrintableError>,
     heroSets: Map<Int, String>,
@@ -25,6 +33,10 @@ fun errorsToString(
     }
 }
 
+/**
+ * Converts [TypedCardSet] to human-readable strings by looking them up.
+ * TODO: Add args
+ */
 internal fun cardSetsToString(
     sets: List<TypedCardSet>,
     heroSets: Map<Int, String>,

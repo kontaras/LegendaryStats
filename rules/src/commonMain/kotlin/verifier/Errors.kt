@@ -6,8 +6,13 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
+import kotlin.js.JsExport
 
-/** The common error class for all issues that can be found when validating plays */
+/**
+ * The common error class for all issues that can be found when validating plays.
+ *
+ * Note: When implementing an error that needs to be sent between the server and client, add it to [errorSerializer]
+ */
 @Polymorphic
 interface PrintableError {
     companion object {
@@ -23,18 +28,22 @@ interface PrintableError {
     }
 }
 
-internal val module = SerializersModule {
-    polymorphic(PrintableError::class) {
-        subclass(WrongSetCount::class)
-        subclass(InvalidCardSet::class)
-        subclass(MissingRequiredSet::class)
-        subclass(InvalidCardQuantity::class)
-        subclass(MissingRecruitSupport::class)
-        subclass(PlayerSchemeMismatch::class)
+/**
+ * Serializer for all [PrintableError] types
+ */
+@JsExport
+val errorSerializer = Json {
+    serializersModule = SerializersModule {
+        polymorphic(PrintableError::class) {
+            subclass(WrongSetCount::class)
+            subclass(InvalidCardSet::class)
+            subclass(MissingRequiredSet::class)
+            subclass(InvalidCardQuantity::class)
+            subclass(MissingRecruitSupport::class)
+            subclass(PlayerSchemeMismatch::class)
+        }
     }
 }
-
-val errorFormatter = Json { serializersModule = module }
 
 /**
  * A card set has the wrong number of cards

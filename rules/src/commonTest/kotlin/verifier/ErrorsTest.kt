@@ -224,6 +224,9 @@ internal class ErrorsTest {
         assertEquals(listOf(), underTest.getCardSets())
     }
 
+    /**
+     * Test that all of the [PrintableError] types can be serialized and read again
+     */
     @Test
     fun serializabilityTest() {
         val errors: List<PrintableError> = listOf(
@@ -236,11 +239,11 @@ internal class ErrorsTest {
             MissingRecruitSupport,
             PlayerSchemeMismatch
         )
-        val encoded: String = errorFormatter.encodeToString(errors)
+        val encoded: String = errorSerializer.encodeToString(errors)
 
         println(encoded)
 
-        val decoded: List<PrintableError> = errorFormatter.decodeFromString(encoded)
+        val decoded: List<PrintableError> = errorSerializer.decodeFromString(encoded)
 
         assertContentEquals(errors, decoded)
     }

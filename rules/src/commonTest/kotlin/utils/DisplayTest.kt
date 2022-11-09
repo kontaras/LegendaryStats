@@ -9,6 +9,10 @@ import kotlin.test.assertEquals
 import kotlin.test.Test
 
 internal class DisplayTest {
+
+    /**
+     * Test displaying an empty list of errors
+     */
     @Test
     fun emptyTest() {
         assertContentEquals(
