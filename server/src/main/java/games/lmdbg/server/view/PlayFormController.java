@@ -1,3 +1,4 @@
+
 package games.lmdbg.server.view;
 
 import java.util.Arrays;
@@ -48,41 +49,43 @@ public class PlayFormController {
 	/** All of the schemes */
 	@Autowired
 	private CardCache<Scheme> schemes;
-
+	
 	/** All of the masterminds */
 	@Autowired
 	private CardCache<Mastermind> masterminds;
-
+	
 	/** All of the heroes */
 	@Autowired
 	private CardCache<Hero> heroes;
-
+	
 	/** All of the villains */
 	@Autowired
 	private CardCache<Villain> villains;
-
+	
 	/** All of the henchmen */
 	@Autowired
 	private CardCache<Henchman> henchmen;
-
+	
 	/** All of the starting decks */
 	@Autowired
 	private CardCache<Starter> starters;
-
+	
 	/** All of the support piles */
 	@Autowired
 	private CardCache<Support> supports;
-
+	
 	/** All of the game boards */
 	@Autowired
 	private CardCache<Board> boards;
-
+	
+	/** All of the plays */
 	@Autowired
 	private PlaysRepository plays;
-
+	
+	/** All of the accounts */
 	@Autowired
 	private AccountRepository accounts;
-
+	
 	/**
 	 * Generate data for rendering a game entry form
 	 * 
@@ -92,23 +95,32 @@ public class PlayFormController {
 	@GetMapping("/play")
 	public String createForm(Model model) {
 		Play emptyPlay = new Play();
-		emptyPlay.setSupports(Collections.singleton(supports.getCardsInOrder().get(0)));
-		emptyPlay.setBoard(boards.getCardsInOrder().get(0));
+		emptyPlay.setSupports(Collections.singleton(this.supports.getCardsInOrder().get(0)));
+		emptyPlay.setBoard(this.boards.getCardsInOrder().get(0));
 		emptyPlay.setStarters(Collections.emptySet());
-
+		
 		fillModel(model, emptyPlay);
-
+		
 		return "play";
 	}
-
+	
+	/**
+	 * Validate and persist a play
+	 * 
+	 * @param request http POST request
+	 * @param model Model to initialize
+	 * @param playInfo play to persist
+	 * @param bindingResult Automated validation
+	 * @return Next page template to display
+	 */
 	@PostMapping("/play")
-	public String newPlay(ServletRequest request, Model model, @Valid @ModelAttribute("playInfo") Play playInfo,
-			final BindingResult bindingResult) {
+	public String newPlay(ServletRequest request, Model model,
+			@Valid @ModelAttribute("playInfo") Play playInfo, final BindingResult bindingResult) {
 		Map<String, String[]> params = request.getParameterMap();
 		for (Entry<String, String[]> param : params.entrySet()) {
 			Logger.debug(param.getKey() + Arrays.toString(param.getValue()));
 		}
-
+		
 		Set<PlayStarter> playStarters = new HashSet<>();
 		String starterPrefix = "starters_";
 		params.entrySet().stream().filter(t -> t.getKey().startsWith(starterPrefix)).forEach(t -> {
@@ -116,63 +128,74 @@ public class PlayFormController {
 			Integer starterId;
 			try {
 				starterId = Integer.valueOf(starterIdStr);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				Logger.debug("Malformed starter id param {}", starterIdStr);
 				// TODO: Communicate to user?
 				return;
 			}
-
-			Starter starter = starters.getById(starterId);
+			
+			Starter starter = this.starters.getById(starterId);
 			if (starter == null) {
 				// TODO: Communicate to user?
 				Logger.warn("Unknown starter id {}", starterId);
 			}
-
+			
 			Integer starterQuantity;
 			try {
 				starterQuantity = Integer.valueOf(t.getValue()[0]);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				Logger.debug("Malformed starter id param {}", t.getValue()[0]);
 				// TODO: Communicate to user?
 				return;
 			}
-
+			
 			playStarters.add(new PlayStarter(starter, playInfo, starterQuantity));
 		});
-
+		
 		playInfo.setStarters(playStarters);
-
+		
 		Logger.debug(playInfo);
 		Logger.debug(playInfo.getHeroes());
-
-		Logger.debug(
-				String.join(", ", bindingResult.getAllErrors().parallelStream().map(ObjectError::toString).toList()));
-
+		
+		Logger.debug(String.join(", ",
+				bindingResult.getAllErrors().parallelStream().map(ObjectError::toString).toList()));
+		
 		if (bindingResult.hasErrors()) {
 			// errors
-		} else {
+		}
+		else {
 			List<PrintableError> verificationResult = RulesUtils.verify(playInfo);
-			if (!verificationResult.isEmpty()) {
+			if ( !verificationResult.isEmpty()) {
 				// TODO: Card Set
 				verificationResult.stream()
 						.forEach(t -> bindingResult.addError(new ObjectError("globalError", t.getMessage())));
-			} else {
-				playInfo.setPlayer(accounts.findById(Long.valueOf(1)).get());
-				plays.save(playInfo);
+			}
+			else {
+				playInfo.setPlayer(this.accounts.findById(Long.valueOf(1)).get());
+				this.plays.save(playInfo);
 				return "redirect:/plays/" + playInfo.getId(); // TODO: view play page
 			}
 		}
-
+		
 		fillModel(model, playInfo);
 		return "play";
 	}
-
+	
+	/**
+	 * Initialize the model
+	 * 
+	 * @param model model to initialize
+	 * @param play Current play info
+	 */
 	private void fillModel(Model model, Play play) {
-		List<String> outcomes = Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
+		List<String> outcomes =
+				Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
 		Collections.sort(outcomes);
-
+		
 		List<String> players = Arrays.stream(PlayerCount.values()).map(PlayerCount::toString).toList();
-
+		
 		model.addAttribute("outcomes", outcomes);
 		model.addAttribute("players", players);
 		model.addAttribute("schemes", this.schemes.getCardsInOrder());
@@ -183,7 +206,7 @@ public class PlayFormController {
 		model.addAttribute("starters", this.starters.getCardsInOrder());
 		model.addAttribute("supports", this.supports.getCardsInOrder());
 		model.addAttribute("boards", this.boards.getCardsInOrder());
-
+		
 		model.addAttribute("playInfo", play);
 	}
 }
