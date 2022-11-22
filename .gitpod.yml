@@ -1,0 +1,22 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: |
+      . /home/gitpod/.sdkman/bin/sdkman-init.sh
+      sdk env install
+  - command: |
+      sdk env install
+      java --version
+      ./gradlew clean assemble --info | tee build.log
+
+ports:
+  - port: 9876
+    onOpen: ignore
+    visibility: public
+  - port: 6080
+    onOpen: ignore
+    visibility: public
+  - port: 5900
+    onOpen: ignore
+    visibility: public

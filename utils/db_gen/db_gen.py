@@ -74,7 +74,7 @@ def generate_plays(starting_id, num_plays, out_file):
     plays = {}
 
     # print start of query
-    out_file.write("INSERT INTO play (id, player_id, outcome, mastermind_id, scheme_id, players) VALUES \n")
+    out_file.write("INSERT INTO play (id, player_id, outcome, mastermind_id, scheme_id, players, board_id) VALUES \n")
 
     for id in range(starting_id, starting_id + num_plays):
         if id > starting_id:
@@ -84,9 +84,10 @@ def generate_plays(starting_id, num_plays, out_file):
         mastermind = random.randint(MIN_MASTERMIND, MAX_MASTERMIND)
         scheme = random.randint(MIN_SCHEME, MAX_SCHEME)
         players = random.choice(Players.as_list()).db_value
+        board = 101
 
-        value_format = "\t(%d, %d, '%s', %d, %d, '%s')"
-        out_file.write(value_format % (id, USER_ID, outcome, mastermind, scheme, players))
+        value_format = "\t(%d, %d, '%s', %d, %d, '%s', %d)"
+        out_file.write(value_format % (id, USER_ID, outcome, mastermind, scheme, players, board))
         plays[id] = {"scheme": scheme, "players": players}
 
     out_file.write(";\n\n")
@@ -97,6 +98,7 @@ def generate_plays(starting_id, num_plays, out_file):
 def generate_heroes(plays, out_file):
     out_file.write("INSERT INTO play_hero (play_id, hero_id) VALUES\n")
     first = True
+    heroes = list(range(MIN_HER0, MAX_HERO + 1))
     for play_id, play in plays.items():
         players = play["players"]
         if players in [Players.SOLO.db_value, Players.ADVANCED.db_value]:
@@ -106,7 +108,6 @@ def generate_heroes(plays, out_file):
         elif players is Players.FIVE.db_value:
             num_heroes = 6
 
-        heroes = list(range(MIN_HER0, MAX_HERO + 1))
         random.shuffle(heroes)
         for hero_id in heroes[:num_heroes]:
             if not first:
@@ -121,6 +122,7 @@ def generate_heroes(plays, out_file):
 def generate_villains(plays, out_file):
     out_file.write("INSERT INTO play_villain (play_id, villain_id) VALUES\n")
     first = True
+    villains = list(range(MIN_VILLAIN, MAX_VILLAIN + 1))
     for play_id, play in plays.items():
         players = play["players"]
         if players in [Players.SOLO.db_value, Players.ADVANCED.db_value]:
@@ -132,7 +134,6 @@ def generate_villains(plays, out_file):
         elif players is Players.FIVE.db_value:
             num_villains = 4
 
-        villains = list(range(MIN_VILLAIN, MAX_VILLAIN + 1))
         random.shuffle(villains)
         for villain_id in villains[:num_villains]:
             if not first:
@@ -147,6 +148,7 @@ def generate_villains(plays, out_file):
 def generate_henchmen(plays, out_file):
     out_file.write("INSERT INTO play_henchman (play_id, henchman_id) VALUES\n")
     first = True
+    henchmen = list(range(MIN_HENCHMEN, MAX_HENCHMEN + 1))
     for play_id, play in plays.items():
         players = play["players"]
         if players in [Players.SOLO.db_value, Players.ADVANCED.db_value, Players.TWO.db_value, Players.THREE.db_value]:
@@ -154,7 +156,6 @@ def generate_henchmen(plays, out_file):
         elif players in [Players.FOUR.db_value, Players.FIVE.db_value]:
             num_henchmen = 2
 
-        henchmen = list(range(MIN_HENCHMEN, MAX_HENCHMEN + 1))
         random.shuffle(henchmen)
         for henchman_id in henchmen[:num_henchmen]:
             if not first:

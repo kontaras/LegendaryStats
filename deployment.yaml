@@ -15,6 +15,7 @@ spec:
       containers:
       - name: server
         image: ghcr.io/kontaras/legendary-stats:$VERSION_TO_DEPLOY
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
