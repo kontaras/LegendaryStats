@@ -43,8 +43,8 @@
 					<fieldset>
 						<legend>Board</legend>
 						<th:block th:each="row:${boards}">
-							<input type="radio" th:id="'supports_' + ${row.id}" name="boards" th:value="${row.id}" disabled="disabled" checked="checked" />
-							<label th:for="'boards_' + ${row.id}" th:utext="${@viewHelper.getDisplayName(row)}" />
+							<input type="radio" th:id="'board_' + ${row.id}" name="board" th:value="${row.id}" checked="checked" />
+							<label th:for="'board_' + ${row.id}" th:utext="${@viewHelper.getDisplayName(row)}" />
 							<br />
 						</th:block>
 					</fieldset>

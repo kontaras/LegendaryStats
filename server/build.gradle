@@ -1,12 +1,12 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.2'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.1.0'
 	id 'java'
-	id "org.sonarqube" version "3.3"
+	id "org.sonarqube" version "3.5.0.2730"
 	id 'jacoco'
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
-	id 'com.google.cloud.tools.jib' version '3.1.4'
+	id 'com.google.cloud.tools.jib' version '3.3.1'
 }
 
 group = 'games.lmdbg'
@@ -25,25 +25,25 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	implementation 'com.google.guava:guava:31.0.1-jre'
+	implementation 'com.google.guava:guava:31.1-jre'
 
-	implementation 'org.tinylog:tinylog-api:2.4.1'
-	runtimeOnly 'org.tinylog:tinylog-impl:2.4.1'
+	implementation 'org.tinylog:tinylog-api:2.5.0'
+	runtimeOnly 'org.tinylog:tinylog-impl:2.5.0'
 
-	runtimeOnly 'org.flywaydb:flyway-core:8.4.1'
+	runtimeOnly 'org.flywaydb:flyway-core:9.8.2'
 
-	runtimeOnly 'com.h2database:h2:2.0.206' //Dev DB
+	runtimeOnly 'com.h2database:h2:2.1.214' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testImplementation "org.mockito:mockito-core:4.2.0"
+	testImplementation "org.mockito:mockito-core:4.9.0"
 
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 
 	//Needed for Eclipse JUnit runner, see if it is still needed in the future.
-	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.8.2"
+	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.9.1"
 }
 
 test {
@@ -52,7 +52,7 @@ test {
 
 frontend {
 	nodeDistributionProvided = false
-	nodeVersion = '14.16.1'
+	nodeVersion = '18.12.1'
 }
 
 sonarqube {
