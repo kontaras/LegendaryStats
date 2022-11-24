@@ -51,7 +51,7 @@ test {
 
 frontend {
 	nodeDistributionProvided = false
-	nodeVersion = '14.16.1'
+	nodeVersion = '18.12.1'
 }
 
 sonarqube {
