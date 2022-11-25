@@ -84,4 +84,15 @@ public class PlayFormController {
 		model.addAttribute("boards", this.boards.getCardsInOrder());
 		return "playForm";
 	}
+
+	/**
+	 * Generate data for rendering a game entry form
+	 * 
+	 * @param model Model to put data into
+	 * @return The template to create the game entry form page
+	 */
+	@GetMapping("/play/id")
+	public String show(Model model) {
+		return "showPlay";
+	}
 }
