@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"dependencies": {
-		"jquery": "3.6.1",
+		"jquery": "3.6.2",
 		"normalize.css": "8.0.1"
 	}
 }
