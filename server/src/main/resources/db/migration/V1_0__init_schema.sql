@@ -1,3 +1,13 @@
+CREATE SEQUENCE account_ids AS BIGINT;
+CREATE TABLE account
+(
+   id INT DEFAULT nextval('account_ids'),
+   user_name VARCHAR UNIQUE NOT NULL,
+   password VARCHAR NOT NULL,
+   email VARCHAR,
+   PRIMARY KEY (id)
+);
+
 CREATE TABLE release
 (
    id INT NOT NULL,
@@ -65,13 +75,6 @@ CREATE TABLE scheme
    release_id INT NOT NULL,
    PRIMARY KEY (id),
    FOREIGN KEY (release_id) REFERENCES release (id)
-);
-CREATE TABLE account
-(
-   id BIGINT NOT NULL,
-   user_name VARCHAR NOT NULL,
-   --password
-   PRIMARY KEY (id)
 );
 CREATE TYPE game_outcome AS ENUM
 (
