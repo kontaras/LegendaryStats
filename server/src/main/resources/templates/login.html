@@ -10,10 +10,13 @@
 		<div th:fragment=="contents">
 
 			<div th:if="${param.error}">
-				Invalid username and password.
+				Invalid user name or password.
 			</div>
 			<div th:if="${param.logout}">
 				You have been logged out.
+			</div>
+			<div th:if="${param.register}">
+				Registration successful, please log in.
 			</div>
 			<form th:action="@{/login}" method="post">
 				<div><label> User Name : <input type="text" name="username"/> </label></div>

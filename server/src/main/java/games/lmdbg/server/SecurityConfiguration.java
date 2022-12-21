@@ -2,35 +2,38 @@
 package games.lmdbg.server;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Spring Security Configuration
  */
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	@Override
-	protected void configure(final HttpSecurity http) throws Exception {
+@EnableWebSecurity
+public class SecurityConfiguration {
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-		.authorizeRequests()
-			.antMatchers("/play/**", "/user/**").authenticated()
-			.antMatchers("/login*").permitAll()
-			.and()
-		.formLogin()
-			.loginPage("/login")
-			.permitAll()
-			.defaultSuccessUrl("/", true)
-			.and()
-		.logout()
-			.permitAll();
+			.authorizeHttpRequests((requests) -> requests
+				.antMatchers("/play/**", "/user/**").authenticated()
+				.antMatchers("/login*").permitAll()
+			)
+			.formLogin((form) -> form
+				.loginPage("/login")
+				.permitAll()
+			)
+			.logout((logout) -> logout.permitAll());
+
+		return http.build();
 	}
 	
-	@Override
+	@Bean
 	public UserDetailsService userDetailsService() {
 		@SuppressWarnings("deprecation")
 		UserDetails user =
