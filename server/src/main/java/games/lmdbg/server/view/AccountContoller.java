@@ -17,9 +17,14 @@ import games.lmdbg.server.model.AccountsRepository;
  * Methods to handle user accounts.
  */
 @Controller
-public class AccountContoller {
+class AccountContoller {
 	/** Accounts table */
 	@Autowired private AccountsRepository accounts;
+	
+	/** There should never be an instance. */
+	private AccountContoller() {
+		// Nothing to do here
+	}
 
 	/**
 	 * Serve up the Login page
