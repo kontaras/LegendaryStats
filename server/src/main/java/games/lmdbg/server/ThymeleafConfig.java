@@ -15,6 +15,10 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
  */
 @Configuration
 public class ThymeleafConfig {
+	/** Needed by Spring */
+	public ThymeleafConfig() {
+		// Nothing here
+	}
 	
 	/**
 	 * Create a Template Engine that can handle HTNL and JavaScript files
