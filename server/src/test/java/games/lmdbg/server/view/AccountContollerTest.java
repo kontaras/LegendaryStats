@@ -23,7 +23,7 @@ import games.lmdbg.server.model.AccountsRepository;
  */
 @SuppressWarnings("static-method")
 @SpringBootTest
-public class AccountContollerTest {
+class AccountContollerTest {
 	@MockBean
 	private AccountsRepository accounts;
 	
