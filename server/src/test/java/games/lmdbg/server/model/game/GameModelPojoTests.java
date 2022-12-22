@@ -15,7 +15,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testNamable() {
-		validateSetOnlyPojo(Namable.class);
+		validateGetOnlyPojo(Namable.class);
 	}
 	
 	/**
@@ -23,7 +23,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testCardSet() {
-		validateSetOnlyPojo(CardSet.class);
+		validateGetOnlyPojo(CardSet.class);
 	}
 	
 	/**
@@ -31,7 +31,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testGameRelease() {
-		validateSetOnlyPojo(GameRelease.class);
+		validateGetOnlyPojo(GameRelease.class);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testHenchman() {
-		validateSetOnlyPojo(Henchman.class);
+		validateGetOnlyPojo(Henchman.class);
 	}
 
 	/**
@@ -47,7 +47,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testHero() {
-		validateSetOnlyPojo(Hero.class);
+		validateGetOnlyPojo(Hero.class);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testMastermind() {
-		validateSetOnlyPojo(Mastermind.class);
+		validateGetOnlyPojo(Mastermind.class);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testScheme() {
-		validateSetOnlyPojo(Scheme.class);
+		validateGetOnlyPojo(Scheme.class);
 	}
 
 	/**
@@ -71,7 +71,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testVillain() {
-		validateSetOnlyPojo(Villain.class);
+		validateGetOnlyPojo(Villain.class);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testSupport() {
-		validateSetOnlyPojo(Support.class);
+		validateGetOnlyPojo(Support.class);
 	}
 	
 	/**
@@ -87,7 +87,7 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testStarter() {
-		validateSetOnlyPojo(Starter.class);
+		validateGetOnlyPojo(Starter.class);
 	}
 	
 	/**
@@ -95,8 +95,8 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testStarterPlay() {
-		validateSetOnlyPojo(StarterPlay.class);
-		validateSetOnlyPojo(StarterPlay.Key.class);
+		validateGetOnlyPojo(StarterPlay.class);
+		validateGetOnlyPojo(StarterPlay.Key.class);
 	}
 	
 	/**
@@ -104,6 +104,6 @@ class GameModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testBoard() {
-		validateSetOnlyPojo(Board.class);
+		validateGetOnlyPojo(Board.class);
 	}
 }
