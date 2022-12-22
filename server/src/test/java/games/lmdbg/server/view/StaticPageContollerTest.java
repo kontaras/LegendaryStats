@@ -8,20 +8,11 @@ import org.junit.jupiter.api.Test;
  */
 @SuppressWarnings("static-method")
 class StaticPageContollerTest {
-
 	/**
 	 * Test {@link StaticPageContoller#faqPage()}
 	 */
 	@Test
 	void testFaqPage() {
 		Assertions.assertEquals("faq", StaticPageContoller.faqPage());
-	}
-	
-	/**
-	 * Test {@link StaticPageContoller#loginPage()}
-	 */
-	@Test
-	void testLoginPage() {
-		Assertions.assertEquals("login", StaticPageContoller.loginPage());
 	}
 }

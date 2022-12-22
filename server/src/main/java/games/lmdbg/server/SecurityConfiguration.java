@@ -17,6 +17,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
+	/**
+	 * Setup security rules
+	 * 
+	 * @param http Security builder to use
+	 * @return Filter chain to use to authorize pages
+	 * @throws Exception If there are issues configuring security
+	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -33,6 +40,10 @@ public class SecurityConfiguration {
 		return http.build();
 	}
 	
+	/**
+	 * Get the users for the system
+	 * @return	The controller to find and authenticate users
+	 */
 	@Bean
 	public UserDetailsService userDetailsService() {
 		@SuppressWarnings("deprecation")
