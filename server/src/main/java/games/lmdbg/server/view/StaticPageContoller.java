@@ -23,13 +23,4 @@ public class StaticPageContoller {
 	public static String faqPage() {
 		return "faq";
 	}
-	
-	/**
-	 * Serve up the Login page
-	 * @return The template for the page
-	 */
-	@GetMapping("login")
-	public static String loginPage() {
-		return "login";
-	}
 }
