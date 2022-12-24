@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ import games.lmdbg.server.model.AccountsRepository;
 class AccountContoller {
 	/** Accounts table */
 	@Autowired private AccountsRepository accounts;
+	
+	@Autowired private PasswordEncoder passwordEncoder;
 	
 	/** There should never be an instance. */
 	private AccountContoller() {
@@ -79,8 +82,7 @@ class AccountContoller {
 		if (pass == null || pass.length < 1 || pass[0].strip().length() < 1) {
 			errors.add("Missing password");
 		} else {
-			//TODO: We should only store a hash
-			user.setPassword(pass[0]);
+			user.setPassword(passwordEncoder.encode(pass[0]));
 		}
 		if (errors.isEmpty()) {
 			accounts.save(user);
