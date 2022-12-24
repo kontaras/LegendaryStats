@@ -6,10 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -30,7 +28,7 @@ public class SecurityConfiguration {
 		http
 			.authorizeHttpRequests(requests -> requests
 				.antMatchers("/play/**", "/user/**").authenticated()
-				.antMatchers("/login*").permitAll()
+				.antMatchers("/login*", "/registration*").permitAll()
 			)
 			.formLogin(form -> form
 				.loginPage("/login")
@@ -42,19 +40,11 @@ public class SecurityConfiguration {
 	}
 	
 	/**
-	 * Get the users for the system
-	 * @return	The controller to find and authenticate users
+	 * The password encoding algorithm for the application
+	 * @return A known secure password encoder.
 	 */
 	@Bean
-	public UserDetailsService userDetailsService() {
-		@SuppressWarnings("deprecation")
-		UserDetails user =
-			 User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("password")
-				.roles("USER")
-				.build();
-
-		return new InMemoryUserDetailsManager(user);
+	public PasswordEncoder encoder() {
+	    return new BCryptPasswordEncoder();
 	}
 }
