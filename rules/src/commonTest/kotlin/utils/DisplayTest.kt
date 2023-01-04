@@ -17,7 +17,7 @@ internal class DisplayTest {
     fun emptyTest() {
         assertContentEquals(
             listOf(),
-            errorsToString(listOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf())
+            errorsToString(listOf(), mapOf())
         )
     }
 
@@ -27,13 +27,6 @@ internal class DisplayTest {
             listOf("A setup needs to include a recruit granting support."),
             errorsToString(
                 listOf(MissingRecruitSupport),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
                 mapOf()
             )
         )
@@ -48,13 +41,6 @@ internal class DisplayTest {
             ),
             errorsToString(
                 listOf(MissingRecruitSupport, PlayerSchemeMismatch),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
                 mapOf()
             )
         )
@@ -66,14 +52,8 @@ internal class DisplayTest {
             listOf("Missing required card sets Hero Man"),
             errorsToString(
                 listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HERO, 1)))),
-                mapOf(1 to "Hero Man", 2 to "Bob"),
-                mapOf(1 to "Bad Man"),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf()
+                mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
+                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Bad Man"))
             )
         )
     }
@@ -91,14 +71,8 @@ internal class DisplayTest {
                         )
                     )
                 ),
-                mapOf(1 to "Hero Man", 2 to "Bob"),
-                mapOf(1 to "Bad Man"),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf()
+                mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
+                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Bad Man"))
             )
         )
     }
@@ -108,14 +82,14 @@ internal class DisplayTest {
         assertEquals(
             "", cardSetsToString(
                 listOf(),
-                mapOf(1 to "Hero Man", 2 to "Bob"),
-                mapOf(1 to "Hench Man"),
-                mapOf(1 to "Villain Man"),
-                mapOf(1 to "Starter Man"),
-                mapOf(1 to "Support Man"),
-                mapOf(1 to "Scheme Man"),
-                mapOf(1 to "Mastermind Man"),
-                mapOf(1 to "Board Man")
+                mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
+                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Hench Man"),
+                    CardSetType.VILLAIN.toString() to mapOf(1 to "Villain Man"),
+                    CardSetType.STARTER.toString() to mapOf(1 to "Starter Man"),
+                    CardSetType.SUPPORT.toString() to mapOf(1 to "Support Man"),
+                    CardSetType.SCHEME.toString() to mapOf(1 to "Scheme Man"),
+                    CardSetType.MASTERMIND.toString() to mapOf(1 to "Mastermind Man"),
+                    CardSetType.BOARD.toString() to mapOf(1 to "Board Man"))
             )
         )
 
@@ -130,28 +104,20 @@ internal class DisplayTest {
                     TypedCardSet(CardSetType.SUPPORT, 1),
                     TypedCardSet(CardSetType.STARTER, 1),
                     TypedCardSet(CardSetType.BOARD, 1)
-                ),
-                mapOf(1 to "Hero Man", 2 to "Bob"),
-                mapOf(1 to "Hench Man"),
-                mapOf(1 to "Villain Man"),
-                mapOf(1 to "Starter Man"),
-                mapOf(1 to "Support Man"),
-                mapOf(1 to "Scheme Man"),
-                mapOf(1 to "Mastermind Man"),
-                mapOf(1 to "Board Man")
+                ), mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
+                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Hench Man"),
+                    CardSetType.VILLAIN.toString() to mapOf(1 to "Villain Man"),
+                    CardSetType.STARTER.toString() to mapOf(1 to "Starter Man"),
+                    CardSetType.SUPPORT.toString() to mapOf(1 to "Support Man"),
+                    CardSetType.SCHEME.toString() to mapOf(1 to "Scheme Man"),
+                    CardSetType.MASTERMIND.toString() to mapOf(1 to "Mastermind Man"),
+                    CardSetType.BOARD.toString() to mapOf(1 to "Board Man"))
             )
         )
 
         assertEquals(
             "", cardSetsToString(
                 listOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
                 mapOf()
             )
         )
@@ -168,13 +134,6 @@ internal class DisplayTest {
                     TypedCardSet(CardSetType.STARTER, 1),
                     TypedCardSet(CardSetType.BOARD, 1)
                 ),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
-                mapOf(),
                 mapOf()
             )
         )

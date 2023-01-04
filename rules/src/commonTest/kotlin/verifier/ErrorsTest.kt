@@ -38,6 +38,32 @@ internal class ErrorsTest {
     }
 
     @Test
+    fun invalidValueTest() {
+        val underTest = InvalidValue("board", "null")
+
+        //getMessage
+        assertEquals("Invalid value provided for board: null", underTest.getMessage())
+
+        //equals
+        assertTrue(underTest.equals(underTest))
+        assertTrue(underTest.equals(InvalidValue("board", "null")))
+
+        assertFalse(underTest.equals(null))
+        assertFalse(underTest.equals(3))
+        assertFalse(underTest.equals(InvalidValue("villian", "null")))
+        assertFalse(underTest.equals(InvalidValue("board", "nil")))
+
+        //hashCode
+        assertEquals("InvalidValue board: null".hashCode(), underTest.hashCode())
+
+        //toString
+        assertEquals("InvalidValue board: null", underTest.toString())
+
+        //getCardSets
+        assertEquals(listOf(), underTest.getCardSets())
+    }
+
+    @Test
     fun invalidCardSetTest() {
         val underTest = InvalidCardSet(CardSetType.BOARD, 1)
 
@@ -231,6 +257,7 @@ internal class ErrorsTest {
     fun serializabilityTest() {
         val errors: List<PrintableError> = listOf(
             WrongSetCount(CardSetType.HENCHMAN, 1, 2),
+            InvalidValue("starter", "Chinchilla"),
             InvalidCardSet(CardSetType.SUPPORT, -5),
             MissingRequiredSet(listOf(TypedCardSet(CardSetType.VILLAIN, 7), TypedCardSet(CardSetType.HERO, 4))),
             InvalidCardQuantity(

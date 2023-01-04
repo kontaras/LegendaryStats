@@ -41,6 +41,7 @@ val errorSerializer = Json {
             subclass(InvalidCardQuantity::class)
             subclass(MissingRecruitSupport::class)
             subclass(PlayerSchemeMismatch::class)
+            subclass(InvalidValue::class)
         }
     }
 }
@@ -71,6 +72,27 @@ class WrongSetCount(val setType: CardSetType, val expected: Int, val actual: Int
 
     override fun toString(): String {
         return "WrongSetCount $setType: exp $expected, act $actual"
+    }
+}
+
+@Serializable
+class InvalidValue(val setType: String, val value: String) : PrintableError {
+    override fun getMessage(): String {
+        return "Invalid value provided for $setType: $value"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other is InvalidValue)
+                && this.setType == other.setType
+                && this.value == other.value
+    }
+
+    override fun hashCode(): Int {
+        return toString().hashCode()
+    }
+
+    override fun toString(): String {
+        return "InvalidValue $setType: $value"
     }
 }
 

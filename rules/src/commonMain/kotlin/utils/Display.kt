@@ -9,55 +9,34 @@ import kotlin.js.JsExport
  * Converts a list of [PrintableError] to their String representations
  *
  * @param errors to convert
+ * @param cardMap Two layer map to lookup card names. It is a mapping of [CardSetType.toString] values to lookup tables that map id to card name.
  * @return The String representations of errors, in the same order as they were passed in.
  */
 @JsExport
 fun errorsToString(
     errors: List<PrintableError>,
-    heroSets: Map<Int, String>,
-    henchmenSets: Map<Int, String>,
-    villainSets: Map<Int, String>,
-    starterSets: Map<Int, String>,
-    supportSets: Map<Int, String>,
-    schemeSets: Map<Int, String>,
-    mastermindSets: Map<Int, String>,
-    boardSets: Map<Int, String>
+    cardMap: Map<String, Map<Int, String>>
 ): List<String> {
     return errors.map {
         it.getMessage().replace(
             PrintableError.CARDS_PLACEHOLDER, cardSetsToString(
-                it.getCardSets(), heroSets, henchmenSets, villainSets, starterSets,
-                supportSets, schemeSets, mastermindSets, boardSets
-            )
+                it.getCardSets(), cardMap )
         )
     }
 }
 
 /**
  * Converts [TypedCardSet] to human-readable strings by looking them up.
- * TODO: Add args
+ *
+ * @param sets Card sets to look up
+ * @param cardMap Two layer map to lookup card names. It is a mapping of [CardSetType.toString] values to lookup tables that map id to card name.
+ * @return The card sets looked up and concatenated as comma separated values
  */
 internal fun cardSetsToString(
     sets: List<TypedCardSet>,
-    heroSets: Map<Int, String>,
-    henchmenSets: Map<Int, String>,
-    villainSets: Map<Int, String>,
-    starterSets: Map<Int, String>,
-    supportSets: Map<Int, String>,
-    schemeSets: Map<Int, String>,
-    mastermindSets: Map<Int, String>,
-    boardSets: Map<Int, String>
+    cardMap: Map<String, Map<Int, String>>
 ): String {
     return sets.joinToString(", ") {
-        when (it.setType) {
-            CardSetType.HERO -> heroSets
-            CardSetType.HENCHMAN -> henchmenSets
-            CardSetType.VILLAIN -> villainSets
-            CardSetType.STARTER -> starterSets
-            CardSetType.SUPPORT -> supportSets
-            CardSetType.SCHEME -> schemeSets
-            CardSetType.MASTERMIND -> mastermindSets
-            CardSetType.BOARD -> boardSets
-        }[it.setId] ?: "${it.setType} ${it.setId}" //As of Kotlin 1.7.10, Map::getOfDefault is broken in JS
+        cardMap[it.setType.toString()]?.get(it.setId) ?: "${it.setType} ${it.setId}"
     }
 }
