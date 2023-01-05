@@ -1,11 +1,11 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    kotlin("multiplatform") version "1.7.10"
-    kotlin("plugin.serialization") version "1.7.10"
-    id("org.sonarqube") version "3.4.0.2513"
+    kotlin("multiplatform") version "1.7.22"
+    kotlin("plugin.serialization") version "1.7.22"
+    id("org.sonarqube") version "3.5.0.2730"
     id("java-library")
-    id("org.jetbrains.kotlinx.kover") version "0.5.0"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
 
 group = "games.lmdbg.rules"
@@ -41,7 +41,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("org.lighthousegames:logging:1.1.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
             }
         }
         val commonTest by getting {

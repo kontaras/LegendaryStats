@@ -4,11 +4,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -17,11 +16,9 @@ import org.springframework.http.ResponseEntity;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class SmokeIntegrationTest {
+	/** Port chosen by Spring to use for the test server. */
 	@LocalServerPort
 	private int port;
-
-	@Autowired
-	private TestRestTemplate restTemplate;
 
 	/**
 	 * Checks that the service will return something that looks like an HTML response.
@@ -29,8 +26,9 @@ class SmokeIntegrationTest {
 	@Test
 	void testHtmlResponse() {
 		List<String> urls = List.of("/", "/faq", "/play");
+		TestRestTemplate restTemplate2 = new TestRestTemplate("user", "password");
 		for(String url : urls) {
-			ResponseEntity<String> resp = restTemplate.getForEntity("http://localhost:" + port + url, String.class);
+			ResponseEntity<String> resp = restTemplate2.getForEntity("http://localhost:" + this.port + url, String.class);
 			Assertions.assertEquals(200, resp.getStatusCodeValue());
 			Assertions.assertTrue(resp.hasBody());
 			Assertions.assertTrue(MediaType.TEXT_HTML.equalsTypeAndSubtype(resp.getHeaders().getContentType()));
