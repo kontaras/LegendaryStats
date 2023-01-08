@@ -14,90 +14,90 @@ internal class VerifierKtTest {
     @Test
     fun checkCardSetSizesTest() {
         val heroes: MutableSet<Int> =
-            mutableSetOf(Heroes.BLACK_WIDOW, Heroes.CAPTAIN_AMERICA, Heroes.CYCLOPS, Heroes.IRON_MAN, Heroes.GAMBIT)
-        val villains: MutableSet<Int> = mutableSetOf(Villains.ENEMIES_OF_ASGARD, Villains.BROTHERHOOD, Villains.HYDRA)
-        val henchmen: MutableSet<Int> = mutableSetOf(Henchmen.SENTINEL, Henchmen.DOOMBOT_LEGION)
-        val starters: MutableMap<Int, Int> = mutableMapOf(Starters.SHIELD to 4)
+            mutableSetOf(Heroes.BLACK_WIDOW.id, Heroes.CAPTAIN_AMERICA.id, Heroes.CYCLOPS.id, Heroes.IRON_MAN.id, Heroes.GAMBIT.id)
+        val villains: MutableSet<Int> = mutableSetOf(Villains.ENEMIES_OF_ASGARD.id, Villains.BROTHERHOOD.id, Villains.HYDRA.id)
+        val henchmen: MutableSet<Int> = mutableSetOf(Henchmen.SENTINEL.id, Henchmen.DOOMBOT_LEGION.id)
+        val starters: MutableMap<Int, Int> = mutableMapOf(Starters.SHIELD.id to 4)
         val testPlay = Play(
-            Outcome.DRAW,
+            Outcome.DRAW_DECK,
             PlayerCount.FOUR,
-            Schemes.THE_LEGACY_VIRUS,
-            Masterminds.LOKI,
+            Schemes.THE_LEGACY_VIRUS.id,
+            Masterminds.LOKI.id,
             heroes,
             villains,
             henchmen,
             setOf(),
             starters,
-            Boards.HQ
+            Boards.HQ.id
         )
 
         val counts = getPlayerCountRules(PlayerCount.FOUR)
 
         assertContentEquals(listOf(), checkCardSetSizes(testPlay, counts))
 
-        heroes.remove(Heroes.GAMBIT)
+        heroes.remove(Heroes.GAMBIT.id)
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.HERO, 5, 4)),
             checkCardSetSizes(testPlay, counts)
         )
-        heroes.add(Heroes.GAMBIT)
+        heroes.add(Heroes.GAMBIT.id)
 
-        heroes.add(Heroes.DEADPOOL)
+        heroes.add(Heroes.DEADPOOL.id)
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.HERO, 5, 6)),
             checkCardSetSizes(testPlay, counts)
         )
-        heroes.remove(Heroes.GAMBIT)
+        heroes.remove(Heroes.GAMBIT.id)
 
-        villains.remove(Villains.ENEMIES_OF_ASGARD)
+        villains.remove(Villains.ENEMIES_OF_ASGARD.id)
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.VILLAIN, 3, 2)),
             checkCardSetSizes(testPlay, counts)
         )
-        villains.add(Villains.ENEMIES_OF_ASGARD)
+        villains.add(Villains.ENEMIES_OF_ASGARD.id)
 
-        villains.add(Villains.MASTERS_OF_EVIL)
+        villains.add(Villains.MASTERS_OF_EVIL.id)
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.VILLAIN, 3, 4)),
             checkCardSetSizes(testPlay, counts)
         )
-        villains.remove(Villains.ENEMIES_OF_ASGARD)
+        villains.remove(Villains.ENEMIES_OF_ASGARD.id)
 
-        henchmen.remove(Henchmen.DOOMBOT_LEGION)
+        henchmen.remove(Henchmen.DOOMBOT_LEGION.id)
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.HENCHMAN, 2, 1)),
             checkCardSetSizes(testPlay, counts)
         )
-        henchmen.add(Henchmen.DOOMBOT_LEGION)
+        henchmen.add(Henchmen.DOOMBOT_LEGION.id)
 
-        henchmen.add(Henchmen.HAND_NINJAS)
+        henchmen.add(Henchmen.HAND_NINJAS.id)
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.HENCHMAN, 2, 3)),
             checkCardSetSizes(testPlay, counts)
         )
-        henchmen.remove(Henchmen.DOOMBOT_LEGION)
+        henchmen.remove(Henchmen.DOOMBOT_LEGION.id)
 
-        starters[Starters.SHIELD] = 3
+        starters[Starters.SHIELD.id] = 3
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.STARTER, 4, 3)),
             checkCardSetSizes(testPlay, counts)
         )
 
-        starters[Starters.SHIELD] = 5
+        starters[Starters.SHIELD.id] = 5
         assertContentEquals(
             listOf(WrongSetCount(CardSetType.STARTER, 4, 5)),
             checkCardSetSizes(testPlay, counts)
         )
 
-        starters[Starters.SHIELD] = -1
+        starters[Starters.SHIELD.id] = -1
         assertContentEquals(
             listOf(
-                InvalidCardQuantity(TypedCardSet(CardSetType.STARTER, Starters.SHIELD), -1),
+                InvalidCardQuantity(TypedCardSet(CardSetType.STARTER, Starters.SHIELD.id), -1),
                 WrongSetCount(CardSetType.STARTER, 4, -1)
             ),
             checkCardSetSizes(testPlay, counts)
         )
-        starters[Starters.SHIELD] = 4
+        starters[Starters.SHIELD.id] = 4
     }
 
     @Test
