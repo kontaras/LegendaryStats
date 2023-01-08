@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /** The possible game outcomes */
@@ -33,6 +34,7 @@ enum class PlayerCount {
 
 /** All of the data about a play that can be validated */
 @Serializable
+@JsExport
 data class Play(
     /** How did the game end? */
     val outcome: Outcome,
@@ -58,12 +60,10 @@ data class Play(
     val misc_hero: Int? = null
 ) {
     companion object {
-        @JsName("playFromString") //Prevent mangling
         fun playFromString(encoded: String): Play {
             return Json.decodeFromString(encoded)
         }
 
-        @JsName("playToString") //Prevent mangling
         fun playToString(play: Play): String {
             return Json.encodeToString(play)
         }

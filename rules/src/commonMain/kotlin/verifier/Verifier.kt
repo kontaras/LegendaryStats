@@ -3,7 +3,7 @@ package games.lmdbg.rules.verifier
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
 import org.lighthousegames.logging.logging
-import kotlin.js.JsName
+import kotlin.js.JsExport
 
 val log = logging()
 
@@ -13,7 +13,7 @@ val log = logging()
  * @param play The play to verify
  * @return A list of issues with this play. Will be empty if there are no issues.
  */
-@JsName("verify") //Prevent mangling
+@JsExport
 fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     val setCounts = getPlayerCountRules(play.players)

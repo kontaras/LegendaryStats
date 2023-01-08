@@ -1,5 +1,7 @@
 package games.lmdbg.server.view;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +23,13 @@ public class ScriptsController {
 	/**
 	 * Generate the JavaScript card set lookup script
 	 */
-	@GetMapping(value = "/autoscripts/cardLookup", produces = "text/javascript")
-	public String cardDeref(Model model) {
+	@GetMapping(value = "/autoscripts/cardLookup",
+			produces = "text/javascript")
+	public String cardDeref(Model model, HttpServletResponse response) {
 		model.addAttribute("villainsMap",  villains.getAllById());
 		model.addAttribute("henchmenMap",  henchmen.getAllById());
+		
+		response.setContentType("text/javascript"); //TODO: This does not actually seem to work. Fix the content-type
 		return "scripts/cardSet";
 	}
 }

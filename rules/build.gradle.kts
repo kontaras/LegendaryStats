@@ -35,6 +35,7 @@ kotlin {
                 keep("legendary-stats-rules.games.lmdbg.rules")
             }
         }
+        binaries.executable()
     }
 
     sourceSets {

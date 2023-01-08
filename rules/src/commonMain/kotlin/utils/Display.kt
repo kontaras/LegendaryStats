@@ -25,6 +25,13 @@ fun errorsToString(
     }
 }
 
+@JsExport
+fun errorsToStringJsHack(errors: List<PrintableError>
+): String {
+    return errorsToString(errors, mapOf()).joinToString("\n")
+}
+
+
 /**
  * Converts [TypedCardSet] to human-readable strings by looking them up.
  *

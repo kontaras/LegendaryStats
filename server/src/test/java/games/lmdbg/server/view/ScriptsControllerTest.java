@@ -2,6 +2,8 @@ package games.lmdbg.server.view;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -40,7 +42,7 @@ class ScriptsControllerTest {
 		Mockito.when(mockHenchmen.getAllById()).thenReturn(henchmen);
 		
 		Model mod = Mockito.mock(Model.class);
-		Assertions.assertEquals("scripts/cardSet", controller.cardDeref(mod));
+		Assertions.assertEquals("scripts/cardSet", controller.cardDeref(mod, Mockito.mock(HttpServletResponse.class)));
 		
 		Mockito.verify(mod).addAttribute("villainsMap", villains);
 		Mockito.verify(mod).addAttribute("henchmenMap", henchmen);

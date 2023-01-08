@@ -12,10 +12,14 @@
 		<div th:fragment=="contents">
 			<form th:action="@{/play}" autocomplete="off" method="post" th:object="${playInfo}">
 				<ul>
-					<li th:each="e : ${#fields.detailedErrors()}">
-						<span th:unless="${e.global}" th:text="${e.fieldName}">The field name</span>
-						<span th:text="${e.message}">The error message</span>
-					</li>
+					<ul th:if="${#fields.hasErrors('global')}">
+						<li th:each="err : ${#fields.errors('global')}" th:text="${err}">Input is incorrect</li>
+					</ul>
+				</ul>
+				<ul>
+					<ul th:if="${verificationErrors != null && !verificationErrors.isEmpty()}">
+						<li th:each="err:${verificationErrors}" th:text="${err}">Input is incorrect</li>
+					</ul>
 				</ul>
 				<fieldset>
 					<legend>Game Information (all required)</legend>

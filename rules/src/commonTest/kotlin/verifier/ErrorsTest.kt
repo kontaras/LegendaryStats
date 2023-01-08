@@ -50,7 +50,7 @@ internal class ErrorsTest {
 
         assertFalse(underTest.equals(null))
         assertFalse(underTest.equals(3))
-        assertFalse(underTest.equals(InvalidValue("villian", "null")))
+        assertFalse(underTest.equals(InvalidValue("villain", "null")))
         assertFalse(underTest.equals(InvalidValue("board", "nil")))
 
         //hashCode

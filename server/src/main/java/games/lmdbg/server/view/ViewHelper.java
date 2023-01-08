@@ -15,6 +15,7 @@ import games.lmdbg.server.model.game.Team;
  * Helper functions for advanced/duplicated functionality in page rendering.
  */
 @Configuration
+@SuppressWarnings("static-method")
 public class ViewHelper {
 
 	/**
