@@ -1,9 +1,7 @@
 package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.MockRules
-import games.lmdbg.rules.model.Outcome
-import games.lmdbg.rules.model.Play
-import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.model.*
 import games.lmdbg.rules.playMaker
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -102,26 +100,36 @@ internal class VerifierKtTest {
     @Test
     fun checkValuesInRangeTest() {
         val plugins = setOf(
-            MockRules(schemesRange = 0..0, mastermindsRange = 0..0, boardRange = 0..0),
             MockRules(
-                heroesRange = 1..2,
-                villainsRange = 101..102,
-                henchmenRange = 201..202,
-                schemesRange = 301..302,
-                mastermindsRange = 401..402,
-                supportCardRange = 501..502,
-                starterDeckRange = 601..602,
-                boardRange = 701..702
+                release = Release(
+                    schemes = listOf(Scheme(0)),
+                    masterminds = listOf(Mastermind(0)),
+                    boards = listOf(Board(0))
+                )
             ),
             MockRules(
-                heroesRange = 5..7,
-                villainsRange = 105..107,
-                henchmenRange = 205..207,
-                schemesRange = 305..307,
-                mastermindsRange = 405..407,
-                supportCardRange = 505..507,
-                starterDeckRange = 605..607,
-                boardRange = 705..707
+                release = Release(
+                    heroes = listOf(Hero(1), Hero(2)),
+                    villains = listOf(Villain(101), Villain(102)),
+                    henchmen = listOf(Henchman(201), Henchman(202)),
+                    schemes = listOf(Scheme(301), Scheme(302)),
+                    masterminds = listOf(Mastermind(401), Mastermind(402)),
+                    supports = listOf(Support(502), Support(501)),
+                    starters = listOf(Starter(601), Starter(602)),
+                    boards = listOf(Board(701), Board(702))
+                )
+            ),
+            MockRules(
+                release = Release(
+                    heroes = listOf(Hero(5), Hero(7)),
+                    villains = listOf(Villain(105), Villain(107)),
+                    henchmen = listOf(Henchman(205), Henchman(207)),
+                    schemes = listOf(Scheme(305), Scheme(307)),
+                    masterminds = listOf(Mastermind(405), Mastermind(407)),
+                    supports = listOf(Support(505), Support(5017)),
+                    starters = listOf(Starter(605), Starter(607)),
+                    boards = listOf(Board(705), Board(707))
+                )
             )
         )
 
@@ -242,7 +250,7 @@ internal class VerifierKtTest {
         }
         assertEquals(SetCounts(0, 0, 0, 0), setCounts)
 
-        val plugin = MockRules(schemesRange = 0..10)
+        val plugin = MockRules(release = Release(schemes = listOf(Scheme(0), Scheme(10))))
 
         val plugins = setOf(plugin)
 
@@ -402,7 +410,7 @@ internal class VerifierKtTest {
 
     @Test
     fun checkRequiredCardSetsTest() {
-        val plugin = MockRules(mastermindsRange = 1..1, schemesRange = 1..1)
+        val plugin = MockRules(release = Release(masterminds = listOf(Mastermind(1)), schemes = listOf(Scheme(1))))
         plugin.alwaysLeadsLogic = { _ ->
             setOf(TypedCardSet(CardSetType.HENCHMAN, 123))
         }
@@ -427,7 +435,7 @@ internal class VerifierKtTest {
 
     @Test
     fun checkPlayValidForSchemeTest() {
-        val plugin = MockRules(schemesRange = 1..1)
+        val plugin = MockRules(release = Release(schemes = listOf(Scheme(1))))
         val plugins = setOf(plugin)
 
         runWithPlugins(plugins) {

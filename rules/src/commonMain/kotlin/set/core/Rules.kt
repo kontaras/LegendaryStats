@@ -10,18 +10,10 @@ import games.lmdbg.rules.verifier.PrintableError
 import games.lmdbg.rules.verifier.PlayerSchemeMismatch
 import org.lighthousegames.logging.logging
 
-class Rules : ReleaseRulesPlugin {
+class Rules : ReleaseRulesPlugin(coreSet) {
     val log = logging()
-    
-    override val heroesRange: IntRange = Heroes.BLACK_WIDOW.id..Heroes.WOLVERINE.id
-    override val villainsRange: IntRange = Villains.BROTHERHOOD.id..Villains.IRON_FOES.id
-    override val henchmenRange: IntRange = Henchmen.DOOMBOT_LEGION.id..Henchmen.SENTINEL.id
-    override val schemesRange: IntRange = Schemes.THE_LEGACY_VIRUS.id..Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER.id
-    override val mastermindsRange: IntRange = Masterminds.DR_DOOM.id..Masterminds.IRON_MONGER.id
-    override val supportCardRange: IntRange = Supports.SHIELD_OFFICER.id..Supports.SHIELD_OFFICER.id
+
     override val recruitSupports: Set<Int> = setOf(Supports.SHIELD_OFFICER.id)
-    override val starterRange: IntRange = Starters.SHIELD.id..Starters.SHIELD.id
-    override val boardRange: IntRange = Boards.HQ.id ..Boards.HQ.id
 
     override fun updateSetCountsFromScheme(play: Play, setCounts: SetCounts) {
         when (play.scheme) {
