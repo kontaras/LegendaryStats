@@ -3,6 +3,7 @@ package games.lmdbg.rules.verifier
 import games.lmdbg.rules.MockRules
 import games.lmdbg.rules.model.*
 import games.lmdbg.rules.playMaker
+import games.lmdbg.rules.set.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -99,137 +100,125 @@ internal class VerifierKtTest {
 
     @Test
     fun checkValuesInRangeTest() {
-        val plugins = setOf(
-            MockRules(
-                release = Release(
-                    schemes = listOf(Scheme(0)),
-                    masterminds = listOf(Mastermind(0)),
-                    boards = listOf(Board(0))
-                )
-            ),
-            MockRules(
-                release = Release(
-                    heroes = listOf(Hero(1), Hero(2)),
-                    villains = listOf(Villain(101), Villain(102)),
-                    henchmen = listOf(Henchman(201), Henchman(202)),
-                    schemes = listOf(Scheme(301), Scheme(302)),
-                    masterminds = listOf(Mastermind(401), Mastermind(402)),
-                    supports = listOf(Support(502), Support(501)),
-                    starters = listOf(Starter(601), Starter(602)),
-                    boards = listOf(Board(701), Board(702))
-                )
-            ),
-            MockRules(
-                release = Release(
-                    heroes = listOf(Hero(5), Hero(7)),
-                    villains = listOf(Villain(105), Villain(107)),
-                    henchmen = listOf(Henchman(205), Henchman(207)),
-                    schemes = listOf(Scheme(305), Scheme(307)),
-                    masterminds = listOf(Mastermind(405), Mastermind(407)),
-                    supports = listOf(Support(505), Support(5017)),
-                    starters = listOf(Starter(605), Starter(607)),
-                    boards = listOf(Board(705), Board(707))
-                )
-            )
-        )
+        runWithLookupTable(schemesById, listOf(Scheme(0))) {
+            runWithLookupTable(mastermindsById, listOf(Mastermind(0))) {
+                runWithLookupTable(boardsById, listOf(Board(0))) {
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker()) })
+                    assertContentEquals(listOf(), checkValuesInRange(playMaker()))
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(hero = 1)) })
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(hero = 7)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.HERO, -7)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(hero = -7)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(
+                            heroesById,
+                            listOf(Hero(1), Hero(2))
+                        ) { checkValuesInRange(playMaker(hero = 1)) })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.HERO, -7)),
+                        runWithLookupTable(
+                            heroesById,
+                            listOf(Hero(1), Hero(2))
+                        ) { checkValuesInRange(playMaker(hero = -7)) })
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(villain = 101)) })
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(villain = 107)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.VILLAIN, -6)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(villain = -6)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(villainsById, listOf(Villain(101), Villain(102))) {
+                            checkValuesInRange(playMaker(villain = 101))
+                        })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.VILLAIN, -6)),
+                        runWithLookupTable(villainsById, listOf(Villain(101), Villain(102))) {
+                            checkValuesInRange(
+                                playMaker(villain = -6)
+                            )
+                        })
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(henchman = 201)) })
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(henchman = 207)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.HENCHMAN, -34)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(henchman = -34)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(henchmanById, listOf(Henchman(201), Henchman(202))) {
+                            checkValuesInRange(playMaker(henchman = 201))
+                        })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.HENCHMAN, -34)),
+                        runWithLookupTable(henchmanById, listOf(Henchman(201), Henchman(202))) {
+                            checkValuesInRange(
+                                playMaker(henchman = -34)
+                            )
+                        })
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(scheme = 301)) })
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(scheme = 307)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.SCHEME, -123)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(scheme = -123)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(
+                            schemesById,
+                            listOf(Scheme(301), Scheme(302))
+                        ) { checkValuesInRange(playMaker(scheme = 301)) })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.SCHEME, -123)),
+                        runWithLookupTable(
+                            schemesById,
+                            listOf(Scheme(301), Scheme(302))
+                        ) { checkValuesInRange(playMaker(scheme = -123)) })
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(mastermind = 401)) })
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(mastermind = 407)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.MASTERMIND, -128)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(mastermind = -128)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(
+                            mastermindsById,
+                            listOf(Mastermind(401), Mastermind(402))
+                        ) { checkValuesInRange(playMaker(mastermind = 401)) })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.MASTERMIND, -128)),
+                        runWithLookupTable(
+                            mastermindsById,
+                            listOf(Mastermind(401), Mastermind(402))
+                        ) { checkValuesInRange(playMaker(mastermind = -128)) })
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(board = 701)) })
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(board = 707)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.BOARD, -867)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(board = -867)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(boardsById, listOf(Board(701), Board(702))) {
+                            checkValuesInRange(
+                                playMaker(board = 701)
+                            )
+                        })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.BOARD, -867)),
+                        runWithLookupTable(boardsById, listOf(Board(701), Board(702))) {
+                            checkValuesInRange(
+                                playMaker(
+                                    board = -867
+                                )
+                            )
+                        })
 
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 501)) })
-        assertContentEquals(listOf(), runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 507)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.SUPPORT, 192168001)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(support = 192168001)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(supportsById, listOf(Support(502), Support(501))) {
+                            checkValuesInRange(playMaker(support = 501))
+                        })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.SUPPORT, 192168001)),
+                        runWithLookupTable(supportsById, listOf(Support(502), Support(501))) {
+                            checkValuesInRange(
+                                playMaker(support = 192168001)
+                            )
+                        })
 
-        assertContentEquals(
-            listOf(),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(startingDeck = 601, startingDeckCount = 4)) })
-        assertContentEquals(
-            listOf(),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(startingDeck = 607, startingDeckCount = 5)) })
-        assertContentEquals(
-            listOf(InvalidCardSet(CardSetType.STARTER, 8675309)),
-            runWithPlugins(plugins) { checkValuesInRange(playMaker(startingDeck = 8675309, startingDeckCount = 9001)) })
+                    assertContentEquals(
+                        listOf(),
+                        runWithLookupTable(startersById, listOf(Starter(601), Starter(602))) {
+                            checkValuesInRange(
+                                playMaker(startingDeck = 601, startingDeckCount = 4)
+                            )
+                        })
+                    assertContentEquals(
+                        listOf(InvalidCardSet(CardSetType.STARTER, 8675309)),
+                        runWithLookupTable(startersById, listOf(Starter(601), Starter(602))) {
+                            checkValuesInRange(
+                                playMaker(startingDeck = 8675309, startingDeckCount = 9001)
+                            )
+                        })
 
-        assertContentEquals(
-            listOf(),
-            runWithPlugins(plugins) {
-                checkValuesInRange(
-                    playMaker(
-                        hero = 7,
-                        villain = 101,
-                        henchman = 207,
-                        scheme = 307,
-                        mastermind = 407,
-                        support = 507,
-                        startingDeck = 607,
-                        startingDeckCount = 5,
-                        board = 707
-                    )
-                )
-            })
-        assertContentEquals(
-            listOf(
-                InvalidCardSet(CardSetType.HERO, -7),
-                InvalidCardSet(CardSetType.VILLAIN, -6),
-                InvalidCardSet(CardSetType.HENCHMAN, -34),
-                InvalidCardSet(CardSetType.SUPPORT, 192168001),
-                InvalidCardSet(CardSetType.SCHEME, -123),
-                InvalidCardSet(CardSetType.MASTERMIND, -128),
-                InvalidCardSet(CardSetType.STARTER, 8675309),
-                InvalidCardSet(CardSetType.BOARD, -867)
-            ),
-            runWithPlugins(plugins) {
-                checkValuesInRange(
-                    playMaker(
-                        villain = -6,
-                        hero = -7,
-                        henchman = -34,
-                        scheme = -123,
-                        mastermind = -128,
-                        support = 192168001,
-                        startingDeck = 8675309,
-                        startingDeckCount = 9001,
-                        board = -867
-                    )
-                )
-            })
+                }
+            }
+        }
     }
 
     @Test
@@ -478,13 +467,25 @@ internal class VerifierKtTest {
 
     private fun <T> runWithPlugins(newPlugins: Set<ReleaseRulesPlugin>, func: () -> T): T {
         val realPlugins = plugins.toSet()
-        plugins.clear()
-        plugins.addAll(newPlugins)
         try {
+            plugins.clear()
+            plugins.addAll(newPlugins)
             return func()
         } finally {
             plugins.clear()
             plugins.addAll(realPlugins)
+        }
+    }
+
+    private fun <T, R: CardSet > runWithLookupTable(table: MutableMap<Int, R>, newValues: List<R>, func: () ->T): T {
+        val realEntries = table.toMap()
+        try {
+            table.clear()
+            table.putAll(newValues.associateBy { it.id })
+            return func()
+        } finally {
+            table.clear()
+            table.putAll(realEntries)
         }
     }
 }

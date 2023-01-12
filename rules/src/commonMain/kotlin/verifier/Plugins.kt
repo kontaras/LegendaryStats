@@ -10,29 +10,11 @@ val plugins: MutableSet<ReleaseRulesPlugin> = mutableSetOf(Rules())
 
 /** Data about each release that the rules engine needs to validate sets including that release */
 abstract class ReleaseRulesPlugin(release: Release) {
-    /** The range of valid ID numbers for hero sets */
-    val heroesRange: IntRange = cardSetsRange(release.heroes)
-
-    /** The range of valid ID numbers for villain sets */
-    val villainsRange: IntRange = cardSetsRange(release.villains)
-
-    /** The range of valid ID numbers for henchman villain sets */
-    val henchmenRange: IntRange  = cardSetsRange(release.henchmen)
-
     /** The range of valid ID numbers for schemes */
     val schemesRange: IntRange = cardSetsRange(release.schemes)
 
     /** The range of valid ID numbers for masterminds */
     val mastermindsRange: IntRange = cardSetsRange(release.masterminds)
-
-    /** The range of valid ID numbers for support cards, if any */
-    val supportCardRange: IntRange = cardSetsRange(release.supports)
-
-    /** The range of valid ID numbers for starter decks, if any */
-    val starterRange: IntRange = cardSetsRange(release.starters)
-
-    /** The range of valid ID numbers for game boards, if any */
-    val boardRange: IntRange = cardSetsRange(release.boards)
 
     /** The recruit granting supports for this set */
     abstract val recruitSupports: Set<Int>

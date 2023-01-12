@@ -24,7 +24,7 @@ kotlin {
             useJUnitPlatform()
         }
     }
-    js(LEGACY) {
+    js(IR) {
         browser {
             commonWebpackConfig {
                 cssSupport.enabled = true
@@ -35,12 +35,13 @@ kotlin {
                 keep("legendary-stats-rules.games.lmdbg.rules")
             }
         }
+        binaries.executable()
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("org.lighthousegames:logging:1.2.1")
+                api("org.lighthousegames:logging:1.1.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
             }
         }

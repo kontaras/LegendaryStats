@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /** The possible game outcomes */
@@ -30,6 +31,7 @@ enum class PlayerCount {
 
 /** All of the data about a play that can be validated */
 @Serializable
+@JsExport
 data class Play(
     /** How did the game end? */
     val outcome: Outcome,
