@@ -1,4 +1,4 @@
 # Enable auto-env through the sdkman_auto_env config
 # Add key=value pairs of SDKs to use below
-java=18.0.1-open
-gradle=7.4.2
+java=19.0.2-open
+gradle=7.6
