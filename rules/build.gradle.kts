@@ -27,7 +27,9 @@ kotlin {
     js(LEGACY) {
         browser {
             commonWebpackConfig {
-                cssSupport.enabled = true
+                cssSupport {
+                    enabled.set(true)
+                }
             }
 
             dceTask {
