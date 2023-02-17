@@ -3,7 +3,7 @@
 plugins {
     kotlin("multiplatform") version "1.8.10"
     kotlin("plugin.serialization") version "1.8.10"
-    id("org.sonarqube") version "3.5.0.2730"
+    id("org.sonarqube") version "4.0.0.2929"
     id("java-library")
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
