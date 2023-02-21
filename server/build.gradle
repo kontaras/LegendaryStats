@@ -147,3 +147,8 @@ bootRunMainClassName.configure {
 compileTestJava.configure {
 	dependsOn tasks.copyFromNpm
 }
+
+jibBuildTar.configure {
+	dependsOn tasks.cssCopy
+	dependsOn tasks.javascriptCopy
+}
