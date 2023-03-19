@@ -78,7 +78,6 @@ class AccountContoller {
 
 		if (email != null && email.length >= 1 && email[0].strip().length() > 0) {
 			user.setEmail(email[0].strip());
-			System.out.println("EMAIL" + user.getEmail());
 		}
 
 		if (pass == null || pass.length < 1 || pass[0].strip().length() < 1) {
