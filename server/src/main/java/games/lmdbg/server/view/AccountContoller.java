@@ -44,7 +44,8 @@ class AccountContoller {
 	 * @return Registration template
 	 */
 	@GetMapping("register")
-	public static String registerPage() {
+	public static String registerPage(Model model) {
+		model.addAttribute("errors", List.of());
 		return "registration";
 	}
 
@@ -69,26 +70,27 @@ class AccountContoller {
 		if (name == null || name.length < 1 || name[0].strip().length() < 1) {
 			errors.add("Missing user name");
 		} else {
-			if (accounts.existsByUserName(name[0])) {
+			if (accounts.existsByUserName(name[0].strip())) {
 				errors.add("Duplicate user name");
 			}
 			user.setUserName(name[0]);
 		}
 
-		if (email != null && email.length >= 1 && email[0].strip().length() < 1) {
-			user.setEmail(email[0]);
+		if (email != null && email.length >= 1 && email[0].strip().length() > 0) {
+			user.setEmail(email[0].strip());
 		}
 
 		if (pass == null || pass.length < 1 || pass[0].strip().length() < 1) {
 			errors.add("Missing password");
 		} else {
-			user.setPassword(passwordEncoder.encode(pass[0]));
+			user.setPassword(passwordEncoder.encode(pass[0].strip()));
 		}
 		if (errors.isEmpty()) {
 			accounts.save(user);
 			return "redirect:login?register";
 		} else {
 			model.addAttribute("user", user.getUserName());
+			model.addAttribute("email", user.getEmail());
 			model.addAttribute("errors", errors);
 			return "registration";
 		}

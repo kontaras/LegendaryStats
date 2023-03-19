@@ -43,7 +43,8 @@ class AccountContollerTest {
 	 */
 	@Test
 	void testRegisterPage() {
-		Assertions.assertEquals("registration", AccountContoller.registerPage());
+		Model model = Mockito.mock(Model.class);
+		Assertions.assertEquals("registration", AccountContoller.registerPage(model));
 	}
 	
 	/**
@@ -95,6 +96,7 @@ class AccountContollerTest {
 		Assertions.assertEquals("registration", underTest.register(request, model));
 		Mockito.verify(model).addAttribute("errors", expectedErrors);
 		Mockito.verify(model).addAttribute("user", "bob");
+		Mockito.verify(model).addAttribute("email", "e@mail");
 		Mockito.verify(accounts, Mockito.never()).save(ArgumentMatchers.any());
 		
 		Mockito.when(accounts.existsByUserName("bob")).thenReturn(false);
