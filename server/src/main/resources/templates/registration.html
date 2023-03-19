@@ -8,11 +8,14 @@
 	</head>
 	<body>
 		<div th:fragment=="contents">
+			<ul th:if="${!errors.isEmpty()}" class="errors">
+				<li th:each="error:${errors}" th:text="${error}">Error</li>
+			</ul>
 			<form th:action="@{/register}" method="post">
-				<div><label for="username">User Name : </label><input type="text" name="username"/></div>
+				<div><label for="username">User Name : </label><input type="text" name="username" th:value="${user}" /></div>
 				<div><label for="password">Password: </label><input type="password" name="password"/></div>
 				<div><label for="email">Email (Optional, only used for account recovery): </label>
-					<input type="text" name="email"/></div>
+					<input type="text" name="email" th:value="${email}" /></div>
 				<div><input type="submit" value="Register"/></div>
 			</form>
 		
