@@ -27,9 +27,7 @@ class StarterPlayKeyTests
 	{
 		StarterPlay.Key instance = new StarterPlay.Key();
 		
-		Starter starter = Mockito.mock(Starter.class);
-		Mockito.when(starter.getId()).thenReturn(Integer.valueOf(7));
-		setPrivateFieldValue(instance, "starter", starter);
+		setPrivateFieldValue(instance, "starter", Integer.valueOf(7));
 		
 		
 		Play play = Mockito.mock(Play.class);
@@ -54,9 +52,7 @@ class StarterPlayKeyTests
 		
 		Assertions.assertFalse(instance1.equals(new Object()));
 		
-		Starter starter1 = Mockito.mock(Starter.class);
-		Mockito.when(starter1.getId()).thenReturn(Integer.valueOf(7));
-		setPrivateFieldValue(instance1, "starter", starter1);
+		setPrivateFieldValue(instance1, "starter", Integer.valueOf(7));
 		
 		
 		Play play1 = Mockito.mock(Play.class);
@@ -66,9 +62,7 @@ class StarterPlayKeyTests
 		Assertions.assertTrue(instance1.equals(instance1));
 		
 		StarterPlay.Key instance2 = new StarterPlay.Key();
-		Starter starter2 = Mockito.mock(Starter.class);
-		Mockito.when(starter2.getId()).thenReturn(Integer.valueOf(7));
-		setPrivateFieldValue(instance2, "starter", starter2);
+		setPrivateFieldValue(instance2, "starter", Integer.valueOf(7));
 		
 		
 		Play play2 = Mockito.mock(Play.class);
@@ -77,9 +71,9 @@ class StarterPlayKeyTests
 		
 		Assertions.assertTrue(instance1.equals(instance2));
 		
-		Mockito.when(starter2.getId()).thenReturn(Integer.valueOf(8));
+		setPrivateFieldValue(instance2, "starter", Integer.valueOf(8));
 		Assertions.assertFalse(instance1.equals(instance2));
-		Mockito.when(starter2.getId()).thenReturn(Integer.valueOf(7));
+		setPrivateFieldValue(instance2, "starter", Integer.valueOf(7));
 		
 		Mockito.when(play2.getId()).thenReturn((Long.valueOf(9)));
 		Assertions.assertFalse(instance1.equals(instance2));

@@ -3,24 +3,16 @@ package games.lmdbg.server.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import games.lmdbg.server.model.game.Board;
-import games.lmdbg.server.model.game.Henchman;
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Mastermind;
-import games.lmdbg.server.model.game.Scheme;
 import games.lmdbg.server.model.game.StarterPlay;
-import games.lmdbg.server.model.game.Support;
-import games.lmdbg.server.model.game.Villain;
 
 /**
  * A single play of the game
@@ -35,7 +27,6 @@ public class Play {
 	 * Account who played the game
 	 */
 	@ManyToOne
-	@JsonIgnore
 	private Account player;
 	
 	/**
@@ -51,68 +42,53 @@ public class Play {
 	/**
 	 * Scheme played
 	 */
-	@ManyToOne
-	@JsonIgnore
-	private Scheme scheme;
+	@Column(name = "scheme_id")
+	private Integer scheme;
 
 	/**
 	 * Mastermind/commander fought
 	 */
-	@ManyToOne
-	@JsonIgnore
-	private Mastermind mastermind;
+	@Column(name = "mastermind_id")
+	private Integer mastermind;
 	
 	/**
 	 * Board the game was played on
 	 */
-	@ManyToOne
-	@JsonIgnore
-	private Board board;
+	@Column(name = "board_id")
+	private Integer board;
 
 	/**
 	 * Heroes used in the game
 	 */
-	@ManyToMany
-	@JsonIgnore
-	@JoinTable(name = "play_hero", inverseJoinColumns = { @JoinColumn(name = "hero_id") })
-	private Set<Hero> heroes;
-
-	/**
-	 * Extra hero used outside of the hero deck
-	 */
-	@ManyToOne
-	@JsonIgnore
-	private Hero miscHero;
+	@ElementCollection
+	@JoinTable(name = "play_hero", joinColumns = { @JoinColumn(name = "play_id") })
+	private Set<Integer> heroes;
 
 	/**
 	 * Non-henchmen villains fought
 	 */
-	@ManyToMany
-	@JsonIgnore
-	@JoinTable(name = "play_villain", inverseJoinColumns = { @JoinColumn(name = "villain_id") })
-	private Set<Villain> villains;
+	@ElementCollection
+	@JoinTable(name = "play_villain", joinColumns = { @JoinColumn(name = "play_id") })
+	private Set<Integer> villains;
 
 	/**
 	 * Henchmen villains fought
 	 */
-	@ManyToMany
-	@JsonIgnore
-	@JoinTable(name = "play_henchman", inverseJoinColumns = { @JoinColumn(name = "henchman_id") })
-	private Set<Henchman> henchmen;
+	@ElementCollection
+	@JoinTable(name = "play_henchman", joinColumns = { @JoinColumn(name = "play_id") })
+	private Set<Integer> henchmen;
 	
 	/**
 	 * Henchmen villains fought
 	 */
-	@ManyToMany
-	@JsonIgnore
-	@JoinTable(name = "play_support", inverseJoinColumns = { @JoinColumn(name = "support_id") })
-	private Set<Support> supports;
+	@ElementCollection
+	@JoinTable(name = "play_support", joinColumns = { @JoinColumn(name = "play_id") })
+	private Set<Integer> supports;
 	
 	/**
 	 * Starting decks used by players
 	 */
 	@OneToMany
-	@JsonIgnore
 	private Set<StarterPlay> starters;
 
 	/**
@@ -151,14 +127,14 @@ public class Play {
 	/**
 	 * @return the scheme
 	 */
-	public Scheme getScheme() {
+	public Integer getScheme() {
 		return this.scheme;
 	}
 
 	/**
 	 * @return the mastermind
 	 */
-	public Mastermind getMastermind() {
+	public Integer getMastermind() {
 		return this.mastermind;
 	}
 
@@ -167,7 +143,7 @@ public class Play {
 	 *
 	 * @return the board
 	 */
-	public Board getBoard()
+	public Integer getBoard()
 	{
 		return this.board;
 	}
@@ -175,28 +151,21 @@ public class Play {
 	/**
 	 * @return the heros
 	 */
-	public Set<Hero> getHeroes() {
+	public Set<Integer> getHeroes() {
 		return this.heroes;
-	}
-
-	/**
-	 * @return the miscHero
-	 */
-	public Hero getMiscHero() {
-		return this.miscHero;
 	}
 
 	/**
 	 * @return the villains
 	 */
-	public Set<Villain> getVillains() {
+	public Set<Integer> getVillains() {
 		return this.villains;
 	}
 
 	/**
 	 * @return the henchmen
 	 */
-	public Set<Henchman> getHenchmen() {
+	public Set<Integer> getHenchmen() {
 		return this.henchmen;
 	}
 
@@ -210,7 +179,7 @@ public class Play {
 	/**
 	 * @return the {@link #supports}
 	 */
-	public Set<Support> getSupports() {
+	public Set<Integer> getSupports() {
 		return this.supports;
 	}
 

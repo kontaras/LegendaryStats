@@ -5,68 +5,54 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 
-import games.lmdbg.server.model.game.Henchman;
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Mastermind;
-import games.lmdbg.server.model.game.Scheme;
-import games.lmdbg.server.model.game.Starter;
-import games.lmdbg.server.model.game.Support;
-import games.lmdbg.server.model.game.Villain;
-import games.lmdbg.server.service.CardCache;
-
+import games.lmdbg.rules.model.Henchman;
+import games.lmdbg.rules.model.Hero;
+import games.lmdbg.rules.model.Mastermind;
+import games.lmdbg.rules.model.Scheme;
+import games.lmdbg.rules.model.Starter;
+import games.lmdbg.rules.model.Support;
+import games.lmdbg.rules.model.Villain;
+import games.lmdbg.rules.set.CardLookupKt;
+import games.lmdbg.server.test.util.ReplacedLookupTable;
 /**
  * Test {@link PlayFormController}
  */
-@SpringBootTest
 class PlayFormControllerTest {
-	@MockBean
-	private CardCache<Scheme> mockSchemes;
-	
-	@MockBean
-	private CardCache<Mastermind> mockMasterminds;
-	
-	@MockBean
-	private CardCache<Hero> mockHeroes;
-	
-	@MockBean
-	private CardCache<Villain> mockVillains;
-	
-	@MockBean
-	private CardCache<Henchman> mockHenchmen;
-	
-	@MockBean
-	private CardCache<Starter> mockStarters;
-	
-	@MockBean
-	private CardCache<Support> mockSupports;
-	
-	@Autowired
-	private PlayFormController controller;
 
+	/**
+	 * Test {@link PlayFormController#createForm(Model)}
+	 */
 	@Test
 	void testCreateForm() {
-		List<Scheme> schemes = List.of();
-		Mockito.when(mockSchemes.getCardsInOrder()).thenReturn(schemes);
-		List<Mastermind> masterminds = List.of();
-		Mockito.when(mockMasterminds.getCardsInOrder()).thenReturn(masterminds);
-		List<Hero> heroes = List.of();
-		Mockito.when(mockHeroes.getCardsInOrder()).thenReturn(heroes);
-		List<Villain> villains = List.of();
-		Mockito.when(mockVillains.getCardsInOrder()).thenReturn(villains);
-		List<Henchman> henchmen = List.of();
-		Mockito.when(mockHenchmen.getCardsInOrder()).thenReturn(henchmen);
-		List<Starter> starters = List.of();
-		Mockito.when(mockStarters.getCardsInOrder()).thenReturn(starters);
-		List<Support> supports = List.of();
-		Mockito.when(mockSupports.getCardsInOrder()).thenReturn(supports);
+		List<Scheme> schemes = List.of(new Scheme(0, null, null, null), 
+				new Scheme(1, null, null, null));
+		List<Mastermind> masterminds = List.of(new Mastermind(0, null, null, null), 
+				new Mastermind(1, null, null, null));
+		List<Hero> heroes = List.of(new Hero(0, null, null, null, List.of()), 
+				new Hero(1, null, null, null, List.of()));
+		List<Villain> villains = List.of(new Villain(0, null, null, null), 
+				new Villain(1, null, null, null));
+		List<Henchman> henchmen = List.of(new Henchman(0, null, null, null), 
+				new Henchman(1, null, null, null));
+		List<Starter> starters = List.of(new Starter(0, null, null, null), 
+				new Starter(1, null, null, null));
+		List<Support> supports = List.of(new Support(0, null, null, null), 
+				new Support(1, null, null, null));
 		
 		Model mod = Mockito.mock(Model.class);
-		Assertions.assertEquals("playForm", controller.createForm(mod));
+		try (
+				ReplacedLookupTable<Scheme> _shemes = new ReplacedLookupTable<>(CardLookupKt.getSchemesById(), schemes);
+				ReplacedLookupTable<Mastermind> _masterminds = new ReplacedLookupTable<>(CardLookupKt.getMastermindsById(), masterminds);
+				ReplacedLookupTable<Hero> _heroes = new ReplacedLookupTable<>(CardLookupKt.getHeroesById(), heroes);
+				ReplacedLookupTable<Villain> _villains = new ReplacedLookupTable<>(CardLookupKt.getVillainsById(), villains);
+				ReplacedLookupTable<Henchman> _henchmen = new ReplacedLookupTable<>(CardLookupKt.getHenchmanById(), henchmen);
+				ReplacedLookupTable<Starter> _starters = new ReplacedLookupTable<>(CardLookupKt.getStartersById(), starters);
+				ReplacedLookupTable<Support> _supports = new ReplacedLookupTable<>(CardLookupKt.getSupportsById(), supports);
+				) {
+			Assertions.assertEquals("playForm", PlayFormController.createForm(mod));
+		}
 		
 		Mockito.verify(mod).addAttribute("schemes", schemes);
 		Mockito.verify(mod).addAttribute("masterminds", masterminds);

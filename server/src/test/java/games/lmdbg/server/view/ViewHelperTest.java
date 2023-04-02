@@ -1,12 +1,12 @@
 package games.lmdbg.server.view;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Namable;
-import games.lmdbg.server.model.game.Team;
+import games.lmdbg.rules.model.Hero;
+import games.lmdbg.rules.model.Nameable;
+import games.lmdbg.rules.model.Team;
 
 /**
  * Tests for {@link ViewHelper}
@@ -19,34 +19,28 @@ class ViewHelperTest {
 
 	/**
 	 * Test for
-	 * {@link ViewHelper#getDisplayName(games.lmdbg.server.model.game.Namable)}
+	 * {@link ViewHelper#getDisplayName(games.lmdbg.server.model.game.Nameable)}
 	 * 
-	 * Test the trivial case: A {@link Namable} that has no name or has only one
+	 * Test the trivial case: A {@link Nameable} that has no name or has only one
 	 * name set
 	 */
 	@Test
 	void testGetDisplayNameTrivial() {
 		// Test no names
-		Namable nameable = Mockito.mock(Namable.class);
+		Nameable nameable = new Nameable(null, null, null);
 		Assertions.assertEquals("", vh.getDisplayName(nameable));
 
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getMarvelName()).thenReturn("");
-		Mockito.when(nameable.getMcuName()).thenReturn("");
-		Mockito.when(nameable.getDxpName()).thenReturn("");
+		nameable = new Nameable("", "", "");
 		Assertions.assertEquals("", vh.getDisplayName(nameable));
 
 		// Test only one name
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
+		nameable = new Nameable("MARVEL NAME", null, null);
 		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span>", vh.getDisplayName(nameable));
 
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
+		nameable = new Nameable(null, null, "MCU NAME");
 		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span>", vh.getDisplayName(nameable));
 
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
+		nameable = new Nameable(null, "DXP NAME", null);
 		Assertions.assertEquals("<span class=\"dxp\">DXP NAME</span>", vh.getDisplayName(nameable));
 	}
 
@@ -55,32 +49,23 @@ class ViewHelperTest {
 	 */
 	@Test
 	void testGetDisplayNameMultiple() {
-		Namable nameable;
+		Nameable nameable;
 
 		// Test combinations of two names
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
-		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
+		nameable = new Nameable("MARVEL NAME", "", "MCU NAME");
 		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span><span class=\"mcu\">MCU NAME</span>",
 				vh.getDisplayName(nameable));
 
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
-		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
+		nameable = new Nameable("MARVEL NAME", "DXP NAME", "");
 		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span><span class=\"dxp\">DXP NAME</span>",
 				vh.getDisplayName(nameable));
 
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
-		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
+		nameable = new Nameable("", "DXP NAME", "MCU NAME");
 		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span><span class=\"dxp\">DXP NAME</span>",
 				vh.getDisplayName(nameable));
 
 		// Test all three names set
-		nameable = Mockito.mock(Namable.class);
-		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
-		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
-		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
+		nameable = new Nameable("MARVEL NAME", "DXP NAME", "MCU NAME");
 		Assertions.assertEquals(
 				"<span class=\"marvel\">MARVEL NAME</span><span class=\"mcu\">MCU NAME</span><span class=\"dxp\">DXP NAME</span>",
 				vh.getDisplayName(nameable));
@@ -95,71 +80,50 @@ class ViewHelperTest {
 	@Test
 	void testGetDisplayNameHeroTrivial() {
 		// Test no names
-		Hero nameable = Mockito.mock(Hero.class);
-		Team team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Assertions.assertEquals("", vh.getDisplayName(nameable));
+		Team team = new Team(null, null, null);
+		Hero nameable = new Hero(0, null, null, null, List.of(team));
+		Assertions.assertEquals("", vh.getHeroDisplayName(nameable));
 
-		nameable = Mockito.mock(Hero.class);
-		team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getMarvelName()).thenReturn("");
-		Mockito.when(nameable.getMcuName()).thenReturn("");
-		Mockito.when(nameable.getDxpName()).thenReturn("");
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Assertions.assertEquals("", vh.getDisplayName(nameable));
+		team = new Team("", "", "");
+		nameable = new Hero(0, "", "", "", List.of(team));
+		Assertions.assertEquals("", vh.getHeroDisplayName(nameable));
 
 		// Test only one name, with and without teams
-		nameable = Mockito.mock(Hero.class);
-		team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
-		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span>", vh.getDisplayName(nameable));
+		team = new Team("", "", "");
+		nameable = new Hero(0, "MARVEL NAME", "", "", List.of(team));
+		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span>", vh.getHeroDisplayName(nameable));
 
-		nameable = Mockito.mock(Hero.class);
-		team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Mockito.when(nameable.getMarvelName()).thenReturn("MARVEL NAME");
-		Mockito.when(team.getMarvelName()).thenReturn("MARVEL TEAM");
-		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME (MARVEL TEAM)</span>", vh.getDisplayName(nameable));
+		team = new Team("MARVEL TEAM", "", "");
+		nameable = new Hero(0, "MARVEL NAME", "", "", List.of(team));
+		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME (MARVEL TEAM)</span>", vh.getHeroDisplayName(nameable));
 
-		nameable = Mockito.mock(Hero.class);
-		team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
-		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span>", vh.getDisplayName(nameable));
+		team = new Team("", "", "");
+		nameable = new Hero(0, "", "", "MCU NAME", List.of(team));
+		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span>", vh.getHeroDisplayName(nameable));
 
-		nameable = Mockito.mock(Hero.class);
-		team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
-		Mockito.when(team.getMcuName()).thenReturn("MCU TEAM");
-		Assertions.assertEquals("<span class=\"mcu\">MCU NAME (MCU TEAM)</span>", vh.getDisplayName(nameable));
+		team = new Team("", "", "MCU TEAM");
+		nameable = new Hero(0, "", "", "MCU NAME", List.of(team));
+		Assertions.assertEquals("<span class=\"mcu\">MCU NAME (MCU TEAM)</span>", vh.getHeroDisplayName(nameable));
 
-		nameable = Mockito.mock(Hero.class);
-		team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
-		Assertions.assertEquals("<span class=\"dxp\">DXP NAME</span>", vh.getDisplayName(nameable));
+		team = new Team("", "", "");
+		nameable = new Hero(0, "", "DXP NAME", "", List.of(team));
+		Assertions.assertEquals("<span class=\"dxp\">DXP NAME</span>", vh.getHeroDisplayName(nameable));
 
-		nameable = Mockito.mock(Hero.class);
-		team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Mockito.when(nameable.getDxpName()).thenReturn("DXP NAME");
-		Mockito.when(team.getDxpName()).thenReturn("DXP TEAM");
-		Assertions.assertEquals("<span class=\"dxp\">DXP NAME (DXP TEAM)</span>", vh.getDisplayName(nameable));
+		team = new Team("", "DXP TEAM", "");
+		nameable = new Hero(0, "", "DXP NAME", "", List.of(team));
+		Assertions.assertEquals("<span class=\"dxp\">DXP NAME (DXP TEAM)</span>", vh.getHeroDisplayName(nameable));
 	}
 
 	/**
-	 * Check that {@link ViewHelper#getDisplayName(Namable)} will delegate to
+	 * Check that {@link ViewHelper#getDisplayName(Nameable)} will delegate to
 	 * {@link ViewHelper#getDisplayName(Hero)}
 	 */
 	@Test
 	void testDelegation() {
-		Hero nameable = Mockito.mock(Hero.class);
-		Team team = Mockito.mock(Team.class);
-		Mockito.when(nameable.getTeam()).thenReturn(team);
-		Mockito.when(nameable.getMcuName()).thenReturn("MCU NAME");
-		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span>", vh.getDisplayName((Namable) nameable));
+		Team team = new Team(null, null, "MCU TEAM");
+		Nameable nameable = new Hero(0, null, null, "MCU NAME", List.of(team));
+
+		Assertions.assertEquals("<span class=\"mcu\">MCU NAME (MCU TEAM)</span>", vh.getDisplayName(nameable));
 	}
 
 }

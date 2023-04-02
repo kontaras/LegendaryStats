@@ -43,7 +43,20 @@ open class CardSet (
     dxpName: String?,
     /** Name of the thing in movie still releases */
     mcuName: String?
-) : Nameable(artName, dxpName, mcuName)
+) : Nameable(artName, dxpName, mcuName) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as CardSet
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id
+    }
+}
 
 class Scheme (
     /** ID of the card set */

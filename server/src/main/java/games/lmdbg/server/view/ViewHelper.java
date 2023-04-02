@@ -4,9 +4,11 @@ import org.springframework.context.annotation.Configuration;
 
 import com.google.common.base.Strings;
 
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Namable;
-import games.lmdbg.server.model.game.Team;
+import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.rules.model.Hero;
+import games.lmdbg.rules.model.Nameable;
+import games.lmdbg.rules.model.Team;
+
 
 /**
  * Helper functions for advanced/duplicated functionality in page rendering.
@@ -15,20 +17,23 @@ import games.lmdbg.server.model.game.Team;
 public class ViewHelper {
 
 	/**
-	 * Give the proper HTML formatted representation of an {@link Namable}
+	 * Give the proper HTML formatted representation of an {@link CardSet}
 	 * 
 	 * @param item Item to name
 	 * @return All the item names (if any), with the proper HTML classes applied
 	 */
-	public String getDisplayName(Namable item) {
+	public String getDisplayName(Nameable item) {
 		if (item instanceof Hero) {
-			return getDisplayName((Hero) item);
+			Hero hero = (Hero) item;
+			if (!hero.getTeam().isEmpty()) {
+				return getHeroDisplayName(hero);
+			}
 		}
 		
 		StringBuilder builder = new StringBuilder();
 
-		if (!Strings.isNullOrEmpty(item.getMarvelName())) {
-			builder.append(String.format("<span class=\"marvel\">%s</span>", item.getMarvelName()));
+		if (!Strings.isNullOrEmpty(item.getArtName())) {
+			builder.append(String.format("<span class=\"marvel\">%s</span>", item.getArtName()));
 		}
 
 		if (!Strings.isNullOrEmpty(item.getMcuName())) {
@@ -43,22 +48,23 @@ public class ViewHelper {
 	}
 	
 	/**
-	 * Special case of {@link #getDisplayName(Namable)} for {@link Hero} to include the {@link Team}
+	 * Special case of {@link #getDisplayName(CardSet)} for {@link Hero} to include the {@link Team}
 	 * 
-	 * @see #getDisplayName(Namable)
+	 * @see #getDisplayName(CardSet)
 	 * 
 	 * @param hero Hero to name
 	 * @return All the item names (if any), with the proper HTML classes applied
 	 */
-	public String getDisplayName(Hero hero) {
+	@SuppressWarnings("static-method")
+	public String getHeroDisplayName(Hero hero) {
 		StringBuilder builder = new StringBuilder();
-		Team team = hero.getTeam();
+		Team team = hero.getTeam().get(0);
 		
-		if (!Strings.isNullOrEmpty(hero.getMarvelName())) {
-			if (Strings.isNullOrEmpty(team.getMarvelName())) {
-				builder.append(String.format("<span class=\"marvel\">%s</span>", hero.getMarvelName()));
+		if (!Strings.isNullOrEmpty(hero.getArtName())) {
+			if (Strings.isNullOrEmpty(team.getArtName())) {
+				builder.append(String.format("<span class=\"marvel\">%s</span>", hero.getArtName()));
 			} else {
-				builder.append(String.format("<span class=\"marvel\">%s (%s)</span>", hero.getMarvelName(), team.getMarvelName()));
+				builder.append(String.format("<span class=\"marvel\">%s (%s)</span>", hero.getArtName(), team.getArtName()));
 			}
 		}
 

@@ -20,9 +20,7 @@ import games.lmdbg.server.model.Play;
 public class StarterPlay {
 	/** Starting deck used */
 	@Id
-	@ManyToOne
-	@JoinColumn(name="starter_id")
-	private Starter starter;
+	private Integer starter;
 	
 	/** The play that the deck was used in */
 	@Id
@@ -36,7 +34,7 @@ public class StarterPlay {
 	/**
 	 * @return the {@link #starter}
 	 */
-	public Starter getStarter() {
+	public Integer getStarter() {
 		return this.starter;
 	}
 
@@ -66,8 +64,7 @@ public class StarterPlay {
 
 		/** id in the starter table */
 		@JoinColumn(name="starter_id")
-		@ManyToOne
-		private Starter starter;
+		private Integer starter;
 		
 		/** id in the play table */
 		@JoinColumn(name="play_id")
@@ -77,7 +74,7 @@ public class StarterPlay {
 		/**
 		 * @return the {@link #starter}
 		 */
-		public Starter getStarter() {
+		public Integer getStarter() {
 			return this.starter;
 		}
 
@@ -94,13 +91,13 @@ public class StarterPlay {
 				return false;
 			}
 			Key other = (Key) obj;
-			return this.play.getId() == other.play.getId() && this.starter.getId() == other.starter.getId();
+			return this.play.getId() == other.play.getId() && this.starter == other.starter;
 		}
 		
 		@Override
 		public int hashCode() {
 			final short PRIME = 47;
-			return this.starter.getId().intValue() + this.play.getId().intValue() * PRIME;
+			return this.starter.intValue() + this.play.getId().intValue() * PRIME;
 		}	
 	}
 }

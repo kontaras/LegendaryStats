@@ -1,6 +1,7 @@
 package games.lmdbg.server.model.game;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +14,8 @@ import games.lmdbg.server.model.Play;
 @Entity
 public class Scheme extends CardSet {
 	/** Plays including this card set */
-	@OneToMany(mappedBy = "scheme")
+	@OneToMany
+	@JoinColumn(name = "scheme_id")
 	@JsonIgnore 
 	private java.util.Set<Play> plays;
 

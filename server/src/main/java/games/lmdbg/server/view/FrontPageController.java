@@ -5,11 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import games.lmdbg.server.model.game.Henchman;
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Mastermind;
-import games.lmdbg.server.model.game.Scheme;
-import games.lmdbg.server.model.game.Villain;
+import games.lmdbg.rules.model.Henchman;
+import games.lmdbg.rules.model.Hero;
+import games.lmdbg.rules.model.Mastermind;
+import games.lmdbg.rules.model.Scheme;
+import games.lmdbg.rules.model.Villain;
 import games.lmdbg.server.service.WinRate;
 
 /**
