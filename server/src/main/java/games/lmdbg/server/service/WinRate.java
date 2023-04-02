@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import org.tinylog.Logger;
 
 import games.lmdbg.rules.model.CardSet;
-import games.lmdbg.server.model.game.repositories.IWinRate;
+import games.lmdbg.server.model.IWinRate;
 
 /**
  * Calculate the win rate for a card type

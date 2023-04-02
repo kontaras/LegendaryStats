@@ -1,4 +1,4 @@
-package games.lmdbg.server.model.game;
+package games.lmdbg.server.model;
 
 import java.lang.reflect.Field;
 
@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import games.lmdbg.server.model.Play;
 
 /**
  * Tests for {@link StarterPlay.Key} logic beyond {@link GameModelPojoTests#testStarterPlay()}

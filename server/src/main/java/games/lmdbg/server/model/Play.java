@@ -12,8 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import games.lmdbg.server.model.game.StarterPlay;
-
 /**
  * A single play of the game
  */

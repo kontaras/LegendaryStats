@@ -25,4 +25,13 @@ class ModelPojoTests extends PojoTestUtil {
 	void testAccounts() {
 		validateGetSetPojo(Account.class);
 	}
+	
+	/**
+	 * Test {@link StarterPlay}
+	 */
+	@Test
+	void testStarterPlay() {
+		validateGetOnlyPojo(StarterPlay.class);
+		validateGetOnlyPojo(StarterPlay.Key.class);
+	}
 }

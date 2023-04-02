@@ -16,7 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import games.lmdbg.rules.model.CardSet;
-import games.lmdbg.server.model.game.repositories.IWinRate;
+import games.lmdbg.server.model.IWinRate;
 
 @ExtendWith(MockitoExtension.class)
 class WinRateTest {

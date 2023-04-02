@@ -17,8 +17,8 @@ import games.lmdbg.rules.model.Hero;
 import games.lmdbg.rules.model.Mastermind;
 import games.lmdbg.rules.model.Scheme;
 import games.lmdbg.rules.model.Villain;
+import games.lmdbg.server.model.IWinRate;
 import games.lmdbg.server.service.WinRate;
-import games.lmdbg.server.model.game.repositories.IWinRate;
 
 /**
  * Test {@link FrontPageController}

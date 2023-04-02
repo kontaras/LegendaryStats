@@ -1,4 +1,4 @@
-package games.lmdbg.server.model.game;
+package games.lmdbg.server.model;
 
 import java.io.Serializable;
 
@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.google.common.annotations.VisibleForTesting;
-
-import games.lmdbg.server.model.Play;
 
 /**
  * The usage of a {@link Starter} in a {@link Play}
