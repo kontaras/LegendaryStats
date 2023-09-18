@@ -27,6 +27,6 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build jacocoTestReport --info
-    - uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v3
       with:
         verbose: true
