@@ -32,7 +32,7 @@ dependencies {
 
 	runtimeOnly 'org.flywaydb:flyway-core:9.19.4'
 
-	runtimeOnly 'com.h2database:h2:2.2.222' //Dev DB
+	runtimeOnly 'com.h2database:h2:2.2.224' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
