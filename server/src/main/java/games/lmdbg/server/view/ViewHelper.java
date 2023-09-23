@@ -90,6 +90,15 @@ public class ViewHelper {
 		return builder.toString();
 	}
 	
+	/**
+	 * Create a {@link Collection} out of a given object. If the object is already
+	 * a Collection, it is simply returned as is. If the object is null, then an
+	 * empty Collection is returned. Otherwise, a new Collection is returned 
+	 * containing only the object.
+	 * 
+	 * @param o The object to collect
+	 * @return The object, as a collection
+	 */
 	@SuppressWarnings("rawtypes")
 	public Collection asCollection(Object o) {
 		if (o == null) {

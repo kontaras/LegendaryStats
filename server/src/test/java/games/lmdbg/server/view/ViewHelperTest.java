@@ -1,5 +1,7 @@
 package games.lmdbg.server.view;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -19,7 +21,7 @@ class ViewHelperTest {
 
 	/**
 	 * Test for
-	 * {@link ViewHelper#getDisplayName(games.lmdbg.server.model.game.Nameable)}
+	 * {@link ViewHelper#getDisplayName(Nameable)}
 	 * 
 	 * Test the trivial case: A {@link Nameable} that has no name or has only one
 	 * name set
@@ -72,7 +74,7 @@ class ViewHelperTest {
 	}
 
 	/**
-	 * Test for {@link ViewHelper#getDisplayName(Hero)}
+	 * Test for {@link ViewHelper#getHeroDisplayName(Hero)}
 	 * 
 	 * Test the trivial case: A {@link Hero} that has no name or has only one name
 	 * set
@@ -116,7 +118,7 @@ class ViewHelperTest {
 
 	/**
 	 * Check that {@link ViewHelper#getDisplayName(Nameable)} will delegate to
-	 * {@link ViewHelper#getDisplayName(Hero)}
+	 * {@link ViewHelper#getHeroDisplayName(Hero)}
 	 */
 	@Test
 	void testDelegation() {
@@ -124,6 +126,22 @@ class ViewHelperTest {
 		Nameable nameable = new Hero(0, null, null, "MCU NAME", List.of(team));
 
 		Assertions.assertEquals("<span class=\"mcu\">MCU NAME (MCU TEAM)</span>", vh.getDisplayName(nameable));
+	}
+	
+	/**
+	 * Test {@link ViewHelper#asCollection(Object)}
+	 */
+	@Test
+	void testAsCollection() {
+		Assertions.assertTrue(vh.asCollection(null).isEmpty());
+		
+		Collection<Object> someCollection = new ArrayList<>(); 
+		Assertions.assertEquals(someCollection, vh.asCollection(someCollection));
+		
+		Object something = new Object();
+		Collection<?> somethingAsCollection = vh.asCollection(something);
+		Assertions.assertEquals(1, somethingAsCollection.size());
+		Assertions.assertTrue(somethingAsCollection.contains(something));
 	}
 
 }

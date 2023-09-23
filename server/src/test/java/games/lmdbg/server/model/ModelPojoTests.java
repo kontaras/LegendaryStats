@@ -15,7 +15,7 @@ class ModelPojoTests extends PojoTestUtil {
 	 */
 	@Test
 	void testPlay() {
-		validateGetOnlyPojo(Play.class);
+		validateGetSetPojo(Play.class);
 	}
 
 	/**
