@@ -1,75 +1,148 @@
 package games.lmdbg.rules.set.core
 
+import games.lmdbg.rules.model.*
+import games.lmdbg.rules.set.common.Teams
+
+val coreSet = Release(
+    "Core Set", "Core Set", "Phase 1",
+    heroes = listOf(
+        Heroes.BLACK_WIDOW,
+        Heroes.CAPTAIN_AMERICA,
+        Heroes.CYCLOPS,
+        Heroes.DEADPOOL,
+        Heroes.EMMA_FROST,
+        Heroes.GAMBIT,
+        Heroes.HAWKEYE,
+        Heroes.HULK,
+        Heroes.IRON_MAN,
+        Heroes.NICK_FURY,
+        Heroes.ROGUE,
+        Heroes.SPIDER_MAN,
+        Heroes.STORM,
+        Heroes.THOR,
+        Heroes.WOLVERINE
+    ),
+    schemes = listOf(
+        Schemes.THE_LEGACY_VIRUS,
+        Schemes.MIDTOWN_BANK_ROBBERY,
+        Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT,
+        Schemes.PORTALS_TO_THE_DARK_DIMENSION,
+        Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
+        Schemes.SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS,
+        Schemes.SUPER_HERO_CIVIL_WAR,
+        Schemes.UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE,
+        Schemes.ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER
+    ),
+    masterminds = listOf(
+        Masterminds.DR_DOOM,
+        Masterminds.EPIC_DURISSA_THE_DISPOSSESSED,
+        Masterminds.LOKI,
+        Masterminds.EPIC_TERRISKAI_TERROR_OF_THE_SKIES,
+        Masterminds.MAGNETO,
+        Masterminds.EPIC_NAX_LORD_OF_CRIMSON_BOG,
+        Masterminds.RED_SKULL,
+        Masterminds.EPIC_KELILA_BENDER_OF_WILLS,
+        Masterminds.IRON_MONGER
+    ),
+    villains = listOf(
+        Villains.BROTHERHOOD,
+        Villains.ENEMIES_OF_ASGARD,
+        Villains.HYDRA,
+        Villains.MASTERS_OF_EVIL,
+        Villains.RADIATION,
+        Villains.SKRULLS,
+        Villains.SPIDER_FOES,
+        Villains.CHITAURI,
+        Villains.GAMMA_HUNTERS,
+        Villains.IRON_FOES
+    ),
+    henchmen = listOf(Henchmen.DOOMBOT_LEGION, Henchmen.HAND_NINJAS, Henchmen.SAVAGE_LAND_MUTATES, Henchmen.SENTINEL),
+    supports = listOf(Supports.SHIELD_OFFICER),
+    starters = listOf(Starters.SHIELD),
+    boards = listOf(Boards.HQ)
+)
+
 object Heroes {
-    const val BLACK_WIDOW = 101
-    const val CAPTAIN_AMERICA = 102
-    const val CYCLOPS = 103
-    const val DEADPOOL = 104
-    const val EMMA_FROST = 105
-    const val GAMBIT = 106
-    const val HAWKEYE = 107
-    const val HULK =108
-    const val IRON_MAN = 109
-    const val NICK_FURY = 110
-    const val ROGUE = 111
-    const val SPIDER_MAN = 112
-    const val STORM = 113
-    const val THOR = 114
-    const val WOLVERINE = 115
+    val BLACK_WIDOW = Hero(101, "Black Widow", "Steelvara the Light", "Black Widow", listOf(Teams.AVENGERS))
+    val CAPTAIN_AMERICA =
+        Hero(102, "Captain America", "Lord Cedric of the Citadel", "Captain America", listOf(Teams.AVENGERS))
+    val CYCLOPS = Hero(103, "Cyclops", "Disaray the Sufferer", null, listOf(Teams.X_MEN))
+    val DEADPOOL = Hero(104, "Deadpool", "Nunchi", null, listOf())
+    val EMMA_FROST = Hero(105, "Emma Frost", "Doneya Petalfall", null, listOf(Teams.X_MEN))
+    val GAMBIT = Hero(106, "Gambit", "Makea the All-Knowing", null, listOf(Teams.X_MEN))
+    val HAWKEYE = Hero(107, "Hawkeye", "Arcillo the Noble Hearted", "Hawkeye", listOf(Teams.AVENGERS))
+    val HULK = Hero(108, "Hulk", "Cawr", "Hulk", listOf(Teams.AVENGERS))
+    val IRON_MAN = Hero(109, "Iron Man", "Lollycooler", "Iron Man", listOf(Teams.AVENGERS))
+    val NICK_FURY = Hero(110, "Nick Fury", "Mal Gravemore", "Nick Fury", listOf(Teams.SHIELD))
+    val ROGUE = Hero(111, "Rogue", "Ceridwen", null, listOf(Teams.X_MEN))
+    val SPIDER_MAN = Hero(112, "Spider-Man", "Ryuhi", null, listOf(Teams.SPIDER_FRIENDS))
+    val STORM = Hero(113, "Storm", "Ordmantil the Shadow", null, listOf(Teams.X_MEN))
+    val THOR = Hero(114, "Thor", "\"Hog\" Dryll", "Thor", listOf(Teams.AVENGERS))
+    val WOLVERINE = Hero(115, "Wolverine", "Kamina the Curious", null, listOf(Teams.X_MEN))
 }
 
 object Schemes {
-    const val THE_LEGACY_VIRUS = 101
-    const val MIDTOWN_BANK_ROBBERY = 102
-    const val NEGATIVE_ZONE_PRISON_BREAKOUT = 103
-    const val PORTALS_TO_THE_DARK_DIMENSION = 104
-    const val REPLACE_EARTHS_LEADERS_WITH_KILLBOTS = 105
-    const val SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS = 106
-    const val SUPER_HERO_CIVIL_WAR = 107
-    const val UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE = 108
-    const val ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER = 109
+    val THE_LEGACY_VIRUS = Scheme(101, "The Legacy Virus", "Bleed 'em White", "Radioactive Palladium Poisoning")
+    val MIDTOWN_BANK_ROBBERY =
+        Scheme(102, "Midtown Bank Robbery", "Pillage The Countryside", "Destroy the Cities of Earth!")
+    val NEGATIVE_ZONE_PRISON_BREAKOUT =
+        Scheme(103, "Negative Zone Prison Breakout", "Overwhelming Hordes", "Asgard Under Siege")
+    val PORTALS_TO_THE_DARK_DIMENSION =
+        Scheme(104, "Portals to the Dark Dimension", "The Growing Darkness", "Invade Asgard")
+    val REPLACE_EARTHS_LEADERS_WITH_KILLBOTS = Scheme(
+        105,
+        "Replace Earth's Leaders with Killbots",
+        "The Dead Shall Rise!",
+        "Replace Earth's Leaders with HYDRA"
+    )
+    val SECRET_INVASION_OF_THE_SKRULL_SHAPESHIFTERS =
+        Scheme(106, "Secret Invasion of the Skrull Shapeshifters", "The Lure of Voodoo", null)
+    val SUPER_HERO_CIVIL_WAR = Scheme(107, "Super Hero Civil War", "No More Heroes", "Super Hero Civil War")
+    val UNLEASH_THE_POWER_OF_THE_COSMIC_CUBE =
+        Scheme(108, "Unleash the Power of the Cosmic Cube", "Apex of Power", "Unleash the Power of the Cosmic Cube")
+    val ENSLAVE_MINDS_WITH_THE_CHITAURI_SCEPTER = Scheme(109, null, null, "Enslave Minds with the Chitauri Scepter")
 }
 
 object Masterminds {
-    const val DR_DOOM = 101
-    const val EPIC_DURISSA_THE_DISPOSSESSED = 102
-    const val LOKI = 103
-    const val EPIC_TERRISKAI_TERROR_OF_THE_SKIES = 104
-    const val MAGNETO = 105
-    const val EPIC_NAX_LORD_OF_CRIMSON_BOG = 106
-    const val RED_SKULL = 107
-    const val EPIC_KELILA_BENDER_OF_WILLS = 108
-    const val IRON_MONGER = 109
+    val DR_DOOM = Mastermind(101, "Dr. Doom", "Durissa the Dispossessed", null)
+    val EPIC_DURISSA_THE_DISPOSSESSED = Mastermind(102, null, "Epic Durissa the Dispossessed", null)
+    val LOKI = Mastermind(103, "Loki", "Terriskai, Terror of the Skies", "Loki")
+    val EPIC_TERRISKAI_TERROR_OF_THE_SKIES = Mastermind(104, null, "Epic Terriskai, Terror of the Skies", null)
+    val MAGNETO = Mastermind(105, "Magneto", "Nax, Lord of Crimson Bog", null)
+    val EPIC_NAX_LORD_OF_CRIMSON_BOG = Mastermind(106, null, "Epic Nax, Lord of Crimson Bog", null)
+    val RED_SKULL = Mastermind(107, "Red Skull", "Kelila, Bender of Wills", "Red Skull")
+    val EPIC_KELILA_BENDER_OF_WILLS = Mastermind(108, null, "Epic Kelila, Bender of Wills", null)
+    val IRON_MONGER = Mastermind(109, null, null, "Iron Monger")
 }
 
 object Villains {
-    const val BROTHERHOOD = 101
-    const val ENEMIES_OF_ASGARD = 102
-    const val HYDRA = 103
-    const val MASTERS_OF_EVIL = 104
-    const val RADIATION = 105
-    const val SKRULLS = 106
-    const val SPIDER_FOES = 107
-    const val CHITAURI = 108
-    const val GAMMA_HUNTERS = 109
-    const val IRON_FOES = 110
+    val BROTHERHOOD = Villain(101, "Brotherhood", "Sarco", null)
+    val ENEMIES_OF_ASGARD = Villain(102, "Enemies of Asgard", "Nortagem", "Enemies of Asgard")
+    val HYDRA = Villain(103, "HYDRA", "Ernak the Lethal", "HYDRA")
+    val MASTERS_OF_EVIL = Villain(104, "Masters of Evil", "Void Rider", null)
+    val RADIATION = Villain(105, "Radiation", "Force of Gehenna", null)
+    val SKRULLS = Villain(106, "Skrulls", "Brigitte Blackbird", null)
+    val SPIDER_FOES = Villain(107, "Spider-Foes", "Teuthos", null)
+    val CHITAURI = Villain(108, null, null, "Chitauri")
+    val GAMMA_HUNTERS = Villain(109, null, null, "Gamma Hunters")
+    val IRON_FOES = Villain(110, null, null, "Iron Foes")
 }
 
 object Henchmen {
-    const val DOOMBOT_LEGION = 101
-    const val HAND_NINJAS = 102
-    const val SAVAGE_LAND_MUTATES = 103
-    const val SENTINEL = 104
+    val DOOMBOT_LEGION = Henchman(101, "Doombot Legion", "Goblin Horde", "Hammer Drone Army")
+    val HAND_NINJAS = Henchman(102, "Hand Ninjas", "Leprechauns", "HYDRA Pilots")
+    val SAVAGE_LAND_MUTATES = Henchman(103, "Savage Land Mutates", "Books of the Dead", "HYDRA Spies")
+    val SENTINEL = Henchman(104, "Sentinel", "Phyllo Assassins", "Ten Rings Fanatics")
 }
 
 object Supports {
-    const val SHIELD_OFFICER = 101
+    val SHIELD_OFFICER = Support(101, "S.H.I.E.L.D. Officer", "Mayor Shufflebottom", "S.H.I.E.L.D. Officer")
 }
 
 object Starters {
-    const val SHIELD = 101
+    val SHIELD = Starter(101, "S.H.I.E.L.D.", "Fixers", "S.H.I.E.L.D.")
 }
 
 object Boards {
-    const val HQ = 101
+    val HQ = Board(101, "HQ", "Guild Hall", "HQ")
 }

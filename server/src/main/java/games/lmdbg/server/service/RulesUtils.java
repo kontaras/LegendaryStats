@@ -7,11 +7,7 @@ import games.lmdbg.rules.model.Outcome;
 import games.lmdbg.rules.model.PlayerCount;
 import games.lmdbg.rules.verifier.PrintableError;
 import games.lmdbg.rules.verifier.VerifierKt;
-import games.lmdbg.server.model.game.Henchman;
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.PlayStarter;
-import games.lmdbg.server.model.game.Support;
-import games.lmdbg.server.model.game.Villain;
+import games.lmdbg.server.model.StarterPlay;
 
 public class RulesUtils {
 	
@@ -23,16 +19,15 @@ public class RulesUtils {
 		return new games.lmdbg.rules.model.Play(
 				Outcome.valueOf(serverPlay.getOutcome()), 
 				PlayerCount.valueOf(serverPlay.getPlayers()),
-				serverPlay.getScheme().getId(),
-				serverPlay.getMastermind().getId(),
-				serverPlay.getHeroes().parallelStream().map(Hero::getId).collect(Collectors.toSet()),
-				serverPlay.getVillains().parallelStream().map(Villain::getId).collect(Collectors.toSet()),
-				serverPlay.getHenchmen().parallelStream().map(Henchman::getId).collect(Collectors.toSet()),
-				serverPlay.getSupports().parallelStream().map(Support::getId).collect(Collectors.toSet()),
+				serverPlay.getScheme(),
+				serverPlay.getMastermind(),
+				serverPlay.getHeroes(),
+				serverPlay.getVillains(),
+				serverPlay.getHenchmen(),
+				serverPlay.getSupports(),
 				serverPlay.getStarters().parallelStream()
-						.collect(Collectors.toMap(t -> t.getStarter().getId(), PlayStarter::getQuantity)),
-				serverPlay.getBoard().getId(),
-				null);
+						.collect(Collectors.toMap(t -> t.getStarter(), StarterPlay::getQuantity)),
+				serverPlay.getBoard());
 	}
 	
 	public static List<PrintableError> verify(games.lmdbg.server.model.Play serverPlay) {

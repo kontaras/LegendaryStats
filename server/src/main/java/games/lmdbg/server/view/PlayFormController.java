@@ -3,8 +3,10 @@ package games.lmdbg.server.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import games.lmdbg.rules.model.CardSet;
 import games.lmdbg.rules.model.Outcome;
 import games.lmdbg.rules.model.PlayerCount;
 import games.lmdbg.rules.utils.DisplayKt;
@@ -36,55 +39,15 @@ import games.lmdbg.server.model.Account;
 import games.lmdbg.server.model.AccountsRepository;
 import games.lmdbg.server.model.Play;
 import games.lmdbg.server.model.PlaysRepository;
-import games.lmdbg.server.model.game.Board;
-import games.lmdbg.server.model.game.Henchman;
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Mastermind;
-import games.lmdbg.server.model.game.Scheme;
-import games.lmdbg.server.model.game.Starter;
-import games.lmdbg.server.model.game.PlayStarter;
-import games.lmdbg.server.model.game.Support;
-import games.lmdbg.server.model.game.Villain;
-import games.lmdbg.server.service.CardCache;
+import games.lmdbg.server.model.StarterPlay;
 import games.lmdbg.server.service.RulesUtils;
+import games.lmdbg.rules.set.CardLookupKt;
 
 /**
  * Controller for creating the game entry form.
  */
 @Controller
 public class PlayFormController {
-	/** All of the schemes */
-	@Autowired
-	private CardCache<Scheme> schemes;
-	
-	/** All of the masterminds */
-	@Autowired
-	private CardCache<Mastermind> masterminds;
-	
-	/** All of the heroes */
-	@Autowired
-	private CardCache<Hero> heroes;
-	
-	/** All of the villains */
-	@Autowired
-	private CardCache<Villain> villains;
-	
-	/** All of the henchmen */
-	@Autowired
-	private CardCache<Henchman> henchmen;
-	
-	/** All of the starting decks */
-	@Autowired
-	private CardCache<Starter> starters;
-	
-	/** All of the support piles */
-	@Autowired
-	private CardCache<Support> supports;
-	
-	/** All of the game boards */
-	@Autowired
-	private CardCache<Board> boards;
-	
 	/** All of the plays */
 	@Autowired
 	private PlaysRepository plays;
@@ -92,7 +55,6 @@ public class PlayFormController {
 	/** All of the accounts */
 	@Autowired
 	private AccountsRepository accounts;
-	
 	/**
 	 * Generate data for rendering a game entry form
 	 * 
@@ -100,11 +62,11 @@ public class PlayFormController {
 	 * @return The template to create the game entry form page
 	 */
 	@GetMapping("/play")
-	public String createForm(Model model) {
+	public static String createForm(Model model) {
 		Play emptyPlay = new Play();
-		emptyPlay.setSupports(Collections.singleton(this.supports.getCardsInOrder().get(0)));
-		emptyPlay.setBoard(this.boards.getCardsInOrder().get(0));
-		emptyPlay.setStarters(Collections.emptySet());
+//		emptyPlay.setSupports(Collections.singleton(this.supports.getCardsInOrder().get(0)));
+//		emptyPlay.setBoard(this.boards.getCardsInOrder().get(0));
+//		emptyPlay.setStarters(Collections.emptySet());
 		
 		fillModel(model, emptyPlay);
 		
@@ -134,7 +96,7 @@ public class PlayFormController {
 			}
 		}
 		else {
-			Set<PlayStarter> playStarters = extractStaters(params, playInfo, verificationResult);
+			Set<StarterPlay> playStarters = extractStaters(params, playInfo, verificationResult);
 			
 			playInfo.setStarters(playStarters);
 			
@@ -176,9 +138,9 @@ public class PlayFormController {
 	 * @return The starters for this play object
 	 */
 	@VisibleForTesting
-	Set<PlayStarter> extractStaters(Map<String, String[]> params, Play playInfo,
+	static Set<StarterPlay> extractStaters(Map<String, String[]> params, Play playInfo,
 			final List<PrintableError> verificationResult) {
-		Set<PlayStarter> playStarters = new HashSet<>();
+		Set<StarterPlay> playStarters = new HashSet<>();
 		String starterPrefix = "starters_";
 		params.entrySet().stream().filter(t -> t.getKey().startsWith(starterPrefix)).forEach(t -> {
 			String starterIdStr = t.getKey().substring(starterPrefix.length());
@@ -191,9 +153,9 @@ public class PlayFormController {
 				return;
 			}
 			
-			Starter starter = this.starters.getById(starterId);
-			if (starter == null) {
+			if (!CardLookupKt.getStartersById().containsKey(starterId) ) {
 				verificationResult.add(new InvalidCardSet(CardSetType.STARTER, starterId.intValue()));
+				return;
 			}
 			
 			Integer starterQuantity;
@@ -205,7 +167,7 @@ public class PlayFormController {
 				return;
 			}
 			
-			playStarters.add(new PlayStarter(starter, playInfo, starterQuantity));
+			playStarters.add(new StarterPlay(starterId, playInfo, starterQuantity));
 		});
 		return playStarters;
 	}
@@ -216,7 +178,7 @@ public class PlayFormController {
 	 * @param model model to initialize
 	 * @param play Current play info
 	 */
-	private void fillModel(Model model, Play play) {
+	private static void fillModel(Model model, Play play) {
 		List<String> outcomes =
 				Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
 		Collections.sort(outcomes);
@@ -225,15 +187,20 @@ public class PlayFormController {
 		
 		model.addAttribute("outcomes", outcomes);
 		model.addAttribute("players", players);
-		model.addAttribute("schemes", this.schemes.getCardsInOrder());
-		model.addAttribute("masterminds", this.masterminds.getCardsInOrder());
-		model.addAttribute("heroes", this.heroes.getCardsInOrder());
-		model.addAttribute("villains", this.villains.getCardsInOrder());
-		model.addAttribute("henchmen", this.henchmen.getCardsInOrder());
-		model.addAttribute("starters", this.starters.getCardsInOrder());
-		model.addAttribute("supports", this.supports.getCardsInOrder());
-		model.addAttribute("boards", this.boards.getCardsInOrder());
-		
+		model.addAttribute("schemes", sortCards(CardLookupKt.getSchemesById().values()));
+		model.addAttribute("masterminds", sortCards(CardLookupKt.getMastermindsById().values()));
+		model.addAttribute("heroes", sortCards(CardLookupKt.getHeroesById().values()));
+		model.addAttribute("villains", sortCards(CardLookupKt.getVillainsById().values()));
+		model.addAttribute("henchmen", sortCards(CardLookupKt.getHenchmanById().values()));
+		model.addAttribute("starters", sortCards(CardLookupKt.getStartersById().values()));
+		model.addAttribute("supports", sortCards(CardLookupKt.getSupportsById().values()));
+		model.addAttribute("boards", sortCards(CardLookupKt.getBoardsById().values()));
 		model.addAttribute("playInfo", play);
+	}
+	
+	private static <T extends CardSet> List<T> sortCards(Collection<T> cardSet) {
+		List<T> cards = new ArrayList<>(cardSet);
+		cards.sort(Comparator.comparing(CardSet::getId));
+		return cards;
 	}
 }

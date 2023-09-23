@@ -1,4 +1,4 @@
-package games.lmdbg.server.model.game;
+package games.lmdbg.server.model;
 
 import java.lang.reflect.Field;
 
@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import games.lmdbg.server.model.Play;
 
 /**
  * Tests for {@link PlayStarter.Key} logic beyond {@link GameModelPojoTests#testStarterPlay()}
@@ -25,11 +23,9 @@ class StarterPlayKeyTests
 	@Test
 	final void testHashCode() throws NoSuchFieldException, IllegalAccessException
 	{
-		PlayStarter.Key instance = new PlayStarter.Key();
+		StarterPlay.Key instance = new StarterPlay.Key();
 		
-		Starter starter = Mockito.mock(Starter.class);
-		Mockito.when(starter.getId()).thenReturn(Integer.valueOf(7));
-		setPrivateFieldValue(instance, "starter", starter);
+		setPrivateFieldValue(instance, "starter", Integer.valueOf(7));
 		
 		
 		Play play = Mockito.mock(Play.class);
@@ -48,15 +44,13 @@ class StarterPlayKeyTests
 	@Test
 	final void testEquals() throws NoSuchFieldException, IllegalAccessException
 	{
-		PlayStarter.Key instance1 = new PlayStarter.Key();
+		StarterPlay.Key instance1 = new StarterPlay.Key();
 		
 		Assertions.assertFalse(instance1.equals(null));
 		
 		Assertions.assertFalse(instance1.equals(new Object()));
 		
-		Starter starter1 = Mockito.mock(Starter.class);
-		Mockito.when(starter1.getId()).thenReturn(Integer.valueOf(7));
-		setPrivateFieldValue(instance1, "starter", starter1);
+		setPrivateFieldValue(instance1, "starter", Integer.valueOf(7));
 		
 		
 		Play play1 = Mockito.mock(Play.class);
@@ -65,10 +59,8 @@ class StarterPlayKeyTests
 		
 		Assertions.assertTrue(instance1.equals(instance1));
 		
-		PlayStarter.Key instance2 = new PlayStarter.Key();
-		Starter starter2 = Mockito.mock(Starter.class);
-		Mockito.when(starter2.getId()).thenReturn(Integer.valueOf(7));
-		setPrivateFieldValue(instance2, "starter", starter2);
+		StarterPlay.Key instance2 = new StarterPlay.Key();
+		setPrivateFieldValue(instance2, "starter", Integer.valueOf(7));
 		
 		
 		Play play2 = Mockito.mock(Play.class);
@@ -77,9 +69,9 @@ class StarterPlayKeyTests
 		
 		Assertions.assertTrue(instance1.equals(instance2));
 		
-		Mockito.when(starter2.getId()).thenReturn(Integer.valueOf(8));
+		setPrivateFieldValue(instance2, "starter", Integer.valueOf(8));
 		Assertions.assertFalse(instance1.equals(instance2));
-		Mockito.when(starter2.getId()).thenReturn(Integer.valueOf(7));
+		setPrivateFieldValue(instance2, "starter", Integer.valueOf(7));
 		
 		Mockito.when(play2.getId()).thenReturn((Long.valueOf(9)));
 		Assertions.assertFalse(instance1.equals(instance2));
@@ -95,8 +87,8 @@ class StarterPlayKeyTests
 	 * @throws NoSuchFieldException If it is an invalid field
 	 * @throws IllegalAccessException If there is an error setting the value
 	 */
-	public static void setPrivateFieldValue(PlayStarter.Key object, String fieldName, Object valueTobeSet) throws NoSuchFieldException, IllegalAccessException {
-		Field field = PlayStarter.Key.class.getDeclaredField(fieldName);
+	public static void setPrivateFieldValue(StarterPlay.Key object, String fieldName, Object valueTobeSet) throws NoSuchFieldException, IllegalAccessException {
+		Field field = StarterPlay.Key.class.getDeclaredField(fieldName);
 		field.setAccessible(true);
 		field.set(object, valueTobeSet);
 	}

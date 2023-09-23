@@ -12,12 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 
-import games.lmdbg.server.model.game.Henchman;
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Mastermind;
-import games.lmdbg.server.model.game.Scheme;
-import games.lmdbg.server.model.game.Villain;
-import games.lmdbg.server.model.game.repositories.IWinRate;
+import games.lmdbg.rules.model.Henchman;
+import games.lmdbg.rules.model.Hero;
+import games.lmdbg.rules.model.Mastermind;
+import games.lmdbg.rules.model.Scheme;
+import games.lmdbg.rules.model.Villain;
+import games.lmdbg.server.model.IWinRate;
 import games.lmdbg.server.service.WinRate;
 
 /**

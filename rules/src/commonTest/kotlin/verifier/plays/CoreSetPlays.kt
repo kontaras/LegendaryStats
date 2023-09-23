@@ -18,14 +18,14 @@ internal class CoreSetPlays {
                 Play(
                     Outcome.LOSS_SCHEME,
                     PlayerCount.FOUR,
-                    Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS,
-                    Masterminds.LOKI,
-                    setOf(Heroes.HULK, Heroes.BLACK_WIDOW, Heroes.HAWKEYE, Heroes.DEADPOOL, Heroes.SPIDER_MAN),
-                    setOf(Villains.ENEMIES_OF_ASGARD, Villains.BROTHERHOOD, Villains.MASTERS_OF_EVIL),
-                    setOf(Henchmen.DOOMBOT_LEGION, Henchmen.HAND_NINJAS),
-                    setOf(Supports.SHIELD_OFFICER),
-                    mapOf(Starters.SHIELD to 4),
-                    Boards.HQ
+                    Schemes.REPLACE_EARTHS_LEADERS_WITH_KILLBOTS.id,
+                    Masterminds.LOKI.id,
+                    setOf(Heroes.HULK.id, Heroes.BLACK_WIDOW.id, Heroes.HAWKEYE.id, Heroes.DEADPOOL.id, Heroes.SPIDER_MAN.id),
+                    setOf(Villains.ENEMIES_OF_ASGARD.id, Villains.BROTHERHOOD.id, Villains.MASTERS_OF_EVIL.id),
+                    setOf(Henchmen.DOOMBOT_LEGION.id, Henchmen.HAND_NINJAS.id),
+                    setOf(Supports.SHIELD_OFFICER.id),
+                    mapOf(Starters.SHIELD.id to 4),
+                    Boards.HQ.id
                 )
             )
         )
@@ -39,14 +39,14 @@ internal class CoreSetPlays {
                 Play(
                     Outcome.LOSS_SCHEME,
                     PlayerCount.ADVANCED_SOLO,
-                    Schemes.SUPER_HERO_CIVIL_WAR,
-                    Masterminds.MAGNETO,
-                    setOf(Heroes.CAPTAIN_AMERICA, Heroes.SPIDER_MAN),
-                    setOf(Villains.SKRULLS),
-                    setOf(Henchmen.SENTINEL),
-                    setOf(Supports.SHIELD_OFFICER),
-                    mapOf(Starters.SHIELD to 1),
-                    Boards.HQ
+                    Schemes.SUPER_HERO_CIVIL_WAR.id,
+                    Masterminds.MAGNETO.id,
+                    setOf(Heroes.CAPTAIN_AMERICA.id, Heroes.SPIDER_MAN.id),
+                    setOf(Villains.SKRULLS.id),
+                    setOf(Henchmen.SENTINEL.id),
+                    setOf(Supports.SHIELD_OFFICER.id),
+                    mapOf(Starters.SHIELD.id to 1),
+                    Boards.HQ.id
                 )
             )
         )

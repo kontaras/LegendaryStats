@@ -16,10 +16,7 @@ enum class Outcome {
     LOSS_SCHEME,
 
     /** Game was a draw (hero or villain deck ran out) */
-    DRAW,
-
-    /** Players did not finish playing */
-    INCOMPLETE
+    DRAW_DECK
 }
 
 /** Possible player counts */
@@ -55,9 +52,7 @@ data class Play(
     /** How many of each starting decks was used in the play? */
     val starters: Map<Int, Int>,
     /** What game board was used? */
-    val board: Int,
-    /** Which hero was used for a special purpose (i.e. not in the hero deck)? */
-    val misc_hero: Int? = null
+    val board: Int
 ) {
     companion object {
         fun playFromString(encoded: String): Play {

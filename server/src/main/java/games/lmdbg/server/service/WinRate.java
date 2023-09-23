@@ -1,14 +1,15 @@
 package games.lmdbg.server.service;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.tinylog.Logger;
 
-import games.lmdbg.server.model.game.CardSet;
-import games.lmdbg.server.model.game.repositories.CardSetRepository;
-import games.lmdbg.server.model.game.repositories.IWinRate;
+import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.server.model.IWinRate;
 
 /**
  * Calculate the win rate for a card type
@@ -16,18 +17,18 @@ import games.lmdbg.server.model.game.repositories.IWinRate;
  * @param <C> The {@link CardSet} for which to calculate the win rate
  */
 public class WinRate<C extends CardSet> {
-	/** The repository to pull win data from */
-	CardSetRepository<C, Integer> repo;
-
-	/** The cache to use to look up cards */
-	CardCache<C> cache;
+	/**  A factory to pull win data from */
+	private Supplier<List<IWinRate>> repo;
+	
+	/**The cache to use to look up cards */
+	private Map<Integer, C> cache;
 
 	/**
-	 * @param repo  The repository to pull win data from
+	 * @param winSource  A factory to pull win data from
 	 * @param cache The cache to use to look up cards
 	 */
-	public WinRate(CardSetRepository<C, Integer> repo, CardCache<C> cache) {
-		this.repo = repo;
+	public WinRate(Supplier<List<IWinRate>> winSource, Map<Integer, C> cache) {
+		this.repo = winSource;
 		this.cache = cache;
 	}
 
@@ -42,11 +43,17 @@ public class WinRate<C extends CardSet> {
 
 		Logger.info("Starting to get win rates");
 		long start = System.currentTimeMillis();
-		List<IWinRate> winRates = this.repo.findWinRates();
+		List<IWinRate> winRates = this.repo.get();
+		
+		winRates.sort(Comparator
+				.comparingDouble(
+						(IWinRate rate) -> rate.getWon().doubleValue() / rate.getPlayed().intValue())
+				.reversed());
+		
 		Logger.info("Finished getting win rates, took {}ms", () -> (Long.valueOf(System.currentTimeMillis() - start)));
 
 		for (IWinRate winRate : winRates) {
-			C hero = this.cache.getById(winRate.getId());
+			C hero = this.cache.get(winRate.getId());
 			retVal.put(hero, winRate);
 		}
 

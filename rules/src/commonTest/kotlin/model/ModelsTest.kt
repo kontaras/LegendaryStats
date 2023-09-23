@@ -54,7 +54,7 @@ internal class ModelsTest {
                 setOf(101),
                 setOf(101),
                 mapOf(101 to 3),
-                Boards.HQ
+                Boards.HQ.id
             ), Play.playFromString(play)
         )
     }

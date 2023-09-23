@@ -1,4 +1,4 @@
-package games.lmdbg.server.model.game;
+package games.lmdbg.server.model;
 
 import java.io.Serializable;
 
@@ -10,19 +10,15 @@ import javax.persistence.ManyToOne;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import games.lmdbg.server.model.Play;
-
 /**
  * The usage of a {@link Starter} in a {@link Play}
  */
 @Entity
-@IdClass(PlayStarter.Key.class)
-public class PlayStarter {
+@IdClass(StarterPlay.Key.class)
+public class StarterPlay {
 	/** Starting deck used */
 	@Id
-	@ManyToOne
-	@JoinColumn(name="starter_id")
-	private Starter starter;
+	private Integer starter;
 	
 	/** The play that the deck was used in */
 	@Id
@@ -38,7 +34,7 @@ public class PlayStarter {
 	 * @param play
 	 * @param quantity
 	 */
-	public PlayStarter(Starter starter, Play play, Integer quantity) {
+	public StarterPlay(Integer starter, Play play, Integer quantity) {
 		this.starter = starter;
 		this.play = play;
 		this.quantity = quantity;
@@ -47,7 +43,7 @@ public class PlayStarter {
 	/**
 	 * @return the {@link #starter}
 	 */
-	public Starter getStarter() {
+	public Integer getStarter() {
 		return this.starter;
 	}
 
@@ -77,8 +73,7 @@ public class PlayStarter {
 
 		/** id in the starter table */
 		@JoinColumn(name="starter_id")
-		@ManyToOne
-		private Starter starter;
+		private Integer starter;
 		
 		/** id in the play table */
 		@JoinColumn(name="play_id")
@@ -88,7 +83,7 @@ public class PlayStarter {
 		/**
 		 * @return the {@link #starter}
 		 */
-		public Starter getStarter() {
+		public Integer getStarter() {
 			return this.starter;
 		}
 
@@ -105,13 +100,13 @@ public class PlayStarter {
 				return false;
 			}
 			Key other = (Key) obj;
-			return this.play.getId() == other.play.getId() && this.starter.getId() == other.starter.getId();
+			return this.play.getId() == other.play.getId() && this.starter == other.starter;
 		}
 		
 		@Override
 		public int hashCode() {
 			final short PRIME = 47;
-			return this.starter.getId().intValue() + this.play.getId().intValue() * PRIME;
+			return this.starter.intValue() + this.play.getId().intValue() * PRIME;
 		}	
 	}
 }

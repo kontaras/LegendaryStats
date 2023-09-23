@@ -1,9 +1,11 @@
 package games.lmdbg.server.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -13,17 +15,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import games.lmdbg.server.model.game.CardSet;
-import games.lmdbg.server.model.game.repositories.CardSetRepository;
-import games.lmdbg.server.model.game.repositories.IWinRate;
+import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.server.model.IWinRate;
 
 @ExtendWith(MockitoExtension.class)
 class WinRateTest {
 	@Mock
-	CardSetRepository<CardSet, Integer> repo;
-
+	Supplier<List<IWinRate>> repo;
+	
 	@Mock
-	CardCache<CardSet> cache;
+	Map<Integer, CardSet> cache;
 	
 	@Test
 	void testWinRate() {
@@ -38,16 +39,16 @@ class WinRateTest {
 		IWinRate mockRate2 = Mockito.mock(IWinRate.class);
 		Mockito.when(mockRate2.getId()).thenReturn(2);
 		
-		Mockito.when(repo.findWinRates()).thenReturn(List.of(mockRate0, mockRate2, mockRate1));
+		Mockito.when(repo.get()).thenReturn(new ArrayList<>(List.of(mockRate0, mockRate2, mockRate1)));
 		
 		CardSet set0 = Mockito.mock(CardSet.class);
-		Mockito.when(cache.getById(0)).thenReturn(set0);
+		Mockito.when(cache.get(0)).thenReturn(set0);
 		
 		CardSet set1 = Mockito.mock(CardSet.class);
-		Mockito.when(cache.getById(1)).thenReturn(set1);
+		Mockito.when(cache.get(1)).thenReturn(set1);
 		
 		CardSet set2 = Mockito.mock(CardSet.class);
-		Mockito.when(cache.getById(2)).thenReturn(set2);
+		Mockito.when(cache.get(2)).thenReturn(set2);
 		
 		Map<CardSet, IWinRate> winRates = testMe.getWinRates();
 		Assertions.assertNotNull(winRates);
