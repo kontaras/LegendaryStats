@@ -1,11 +1,11 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    kotlin("multiplatform") version "1.7.22"
-    kotlin("plugin.serialization") version "1.7.22"
-    id("org.sonarqube") version "3.5.0.2730"
+    kotlin("multiplatform") version "1.8.22"
+    kotlin("plugin.serialization") version "1.8.22"
+    id("org.sonarqube") version "4.3.1.3277"
     id("java-library")
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("org.jetbrains.kotlinx.kover") version "0.7.3"
 }
 
 group = "games.lmdbg.rules"
@@ -27,7 +27,9 @@ kotlin {
     js(IR) {
         browser {
             commonWebpackConfig {
-                cssSupport.enabled = true
+                cssSupport {
+                    enabled.set(true)
+                }
             }
 
             dceTask {
@@ -41,8 +43,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("org.lighthousegames:logging:1.1.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+                api("org.lighthousegames:logging:1.3.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
         val commonTest by getting {
