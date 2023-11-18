@@ -65,3 +65,7 @@ sonarqube {
         property("sonar.host.url", "https://sonarcloud.io")
     }
 }
+
+dependencyLocking {
+    lockAllConfigurations()
+}

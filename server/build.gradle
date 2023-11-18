@@ -152,3 +152,7 @@ jibBuildTar.configure {
 	dependsOn tasks.cssCopy
 	dependsOn tasks.javascriptCopy
 }
+
+dependencyLocking {
+    lockAllConfigurations()
+}
