@@ -1,7 +1,7 @@
 package games.lmdbg.server.model.game;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

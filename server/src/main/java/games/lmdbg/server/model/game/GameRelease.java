@@ -2,8 +2,8 @@ package games.lmdbg.server.model.game;
 
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 /**
  * A release of the game, uniting several item sets together.

@@ -1,7 +1,7 @@
 package games.lmdbg.server.model.game;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 import com.google.common.base.Strings;
 
