@@ -9,15 +9,6 @@ import games.lmdbg.server.test.util.PojoTestUtil;
  */
 @SuppressWarnings("static-method")
 class ModelPojoTests extends PojoTestUtil {
-
-	/**
-	 * Test {@link Play}
-	 */
-	@Test
-	void testPlay() {
-		validateGetSetPojo(Play.class);
-	}
-
 	/**
 	 * Test {@link Account}
 	 */
@@ -25,13 +16,4 @@ class ModelPojoTests extends PojoTestUtil {
 	void testAccounts() {
 		validateGetSetPojo(Account.class);
 	}
-	
-	/**
-	 * Test {@link StarterPlay}
-	 */
-	@Test
-	void testStarterPlay() {
-		validateGetOnlyPojo(StarterPlay.class);
-		validateGetOnlyPojo(StarterPlay.Key.class);
 	}
-}

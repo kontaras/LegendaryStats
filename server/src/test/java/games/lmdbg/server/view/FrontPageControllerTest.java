@@ -12,13 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 
-import games.lmdbg.rules.model.Henchman;
-import games.lmdbg.rules.model.Hero;
-import games.lmdbg.rules.model.Mastermind;
-import games.lmdbg.rules.model.Scheme;
-import games.lmdbg.rules.model.Villain;
+import games.lmdbg.rules.model.CardSet;
 import games.lmdbg.server.model.IWinRate;
-import games.lmdbg.server.service.WinRate;
+import games.lmdbg.server.service.PlaySerializer;
+import games.lmdbg.server.service.SqlWinRate;
 
 /**
  * Test {@link FrontPageController}
@@ -26,35 +23,23 @@ import games.lmdbg.server.service.WinRate;
 @SpringBootTest
 class FrontPageControllerTest {
 	@MockBean
-	private WinRate<Hero> heroWinRates;
-	
-	@MockBean
-	private WinRate<Villain> villainWinRates;
-
-	@MockBean
-	private WinRate<Mastermind> mastermindWinRates;
-	
-	@MockBean
-	private WinRate<Henchman> henchmanWinRates;
-	
-	@MockBean
-	private WinRate<Scheme> schemeWinRates;
+	private SqlWinRate winRates;
 	
 	@Autowired
 	private FrontPageController controller;
 
 	@Test
 	void testMainPage() {
-		Map<Hero, IWinRate> testHeroWinRateMap = new HashMap<>(0);
-		Mockito.when(heroWinRates.getWinRates()).thenReturn(testHeroWinRateMap);
-		Map<Villain, IWinRate> testVillainWinRateMap = new HashMap<>(0);
-		Mockito.when(villainWinRates.getWinRates()).thenReturn(testVillainWinRateMap);
-		Map<Mastermind, IWinRate> testMastermindWinRateMap = new HashMap<>(0);
-		Mockito.when(mastermindWinRates.getWinRates()).thenReturn(testMastermindWinRateMap);
-		Map<Henchman, IWinRate> testHenchmanWinRateMap = new HashMap<>(0);
-		Mockito.when(henchmanWinRates.getWinRates()).thenReturn(testHenchmanWinRateMap);
-		Map<Scheme, IWinRate> testSchemeWinRateMap = new HashMap<>(0);
-		Mockito.when(schemeWinRates.getWinRates()).thenReturn(testSchemeWinRateMap);
+		Map<CardSet, IWinRate> testHeroWinRateMap = new HashMap<>(0);
+		Mockito.when(this.winRates.getSetWinRates(PlaySerializer.ComponentType.HERO)).thenReturn(testHeroWinRateMap);
+		Map<CardSet, IWinRate> testVillainWinRateMap = new HashMap<>(0);
+		Mockito.when(this.winRates.getSetWinRates(PlaySerializer.ComponentType.HERO)).thenReturn(testVillainWinRateMap);
+		Map<CardSet, IWinRate> testMastermindWinRateMap = new HashMap<>(0);
+		Mockito.when(this.winRates.getSetWinRates(PlaySerializer.ComponentType.HERO)).thenReturn(testMastermindWinRateMap);
+		Map<CardSet, IWinRate> testHenchmanWinRateMap = new HashMap<>(0);
+		Mockito.when(this.winRates.getSetWinRates(PlaySerializer.ComponentType.HERO)).thenReturn(testHenchmanWinRateMap);
+		Map<CardSet, IWinRate> testSchemeWinRateMap = new HashMap<>(0);
+		Mockito.when(this.winRates.getSetWinRates(PlaySerializer.ComponentType.HERO)).thenReturn(testSchemeWinRateMap);
 		
 		Model mod = Mockito.mock(Model.class);
 		Assertions.assertEquals("index", controller.mainPage(mod));

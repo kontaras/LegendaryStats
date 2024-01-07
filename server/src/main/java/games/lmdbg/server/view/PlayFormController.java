@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,16 +30,13 @@ import games.lmdbg.rules.model.CardSet;
 import games.lmdbg.rules.model.Outcome;
 import games.lmdbg.rules.model.PlayerCount;
 import games.lmdbg.rules.utils.DisplayKt;
-import games.lmdbg.rules.verifier.CardSetType;
-import games.lmdbg.rules.verifier.InvalidCardSet;
 import games.lmdbg.rules.verifier.InvalidValue;
 import games.lmdbg.rules.verifier.PrintableError;
+import games.lmdbg.rules.verifier.VerifierKt;
 import games.lmdbg.server.model.Account;
 import games.lmdbg.server.model.AccountsRepository;
-import games.lmdbg.server.model.Play;
-import games.lmdbg.server.model.PlaysRepository;
-import games.lmdbg.server.model.StarterPlay;
-import games.lmdbg.server.service.RulesUtils;
+import games.lmdbg.server.model.ServerPlay;
+import games.lmdbg.server.service.PlaySerializer;
 import games.lmdbg.rules.set.CardLookupKt;
 
 /**
@@ -48,13 +44,12 @@ import games.lmdbg.rules.set.CardLookupKt;
  */
 @Controller
 public class PlayFormController {
-	/** All of the plays */
-	@Autowired
-	private PlaysRepository plays;
-	
 	/** All of the accounts */
 	@Autowired
 	private AccountsRepository accounts;
+	
+	@Autowired
+	private PlaySerializer serializer;
 	/**
 	 * Generate data for rendering a game entry form
 	 * 
@@ -63,10 +58,7 @@ public class PlayFormController {
 	 */
 	@GetMapping("/play")
 	public static String createForm(Model model) {
-		Play emptyPlay = new Play();
-//		emptyPlay.setSupports(Collections.singleton(this.supports.getCardsInOrder().get(0)));
-//		emptyPlay.setBoard(this.boards.getCardsInOrder().get(0));
-//		emptyPlay.setStarters(Collections.emptySet());
+		ServerPlay emptyPlay = new ServerPlay();
 		
 		fillModel(model, emptyPlay);
 		
@@ -84,7 +76,9 @@ public class PlayFormController {
 	 */
 	@PostMapping("/play")
 	public String newPlay(HttpServletRequest request, Model model,
-			@Valid @ModelAttribute("playInfo") Play playInfo, final BindingResult bindingResult) {
+			@Valid @ModelAttribute("playInfo") ServerPlay playInfo, final BindingResult bindingResult) {
+		System.out.println(playInfo);
+		
 		Map<String, String[]> params = request.getParameterMap();
 		
 		final List<PrintableError> verificationResult = new ArrayList<>();
@@ -96,29 +90,29 @@ public class PlayFormController {
 			}
 		}
 		else {
-			Set<StarterPlay> playStarters = extractStaters(params, playInfo, verificationResult);
+			Map<Integer, Integer> playStarters = extractStaters(params, verificationResult);
 			
 			playInfo.setStarters(playStarters);
 			
 			if (verificationResult.isEmpty()) {
-				verificationResult.addAll(RulesUtils.verify(playInfo));
+				verificationResult.addAll(VerifierKt.verify(playInfo));
 			}
 		}
 
 
 		if (!bindingResult.hasGlobalErrors() && verificationResult.isEmpty()){
-			String logingError = "Error with login. Please log out and log back in.";
+			String loginError = "Error with login. Please log out and log back in.";
 			String name = request.getRemoteUser();
 			if (name == null) {
-				bindingResult.addError(new ObjectError("globalError", logingError));
+				bindingResult.addError(new ObjectError("globalError", loginError));
 			} else {
 				Account user = this.accounts.findByUserName(name);
 				if (user == null) {
-					bindingResult.addError(new ObjectError("globalError", logingError));
+					bindingResult.addError(new ObjectError("globalError", loginError));
 				} else {
-					playInfo.setPlayer(user);
-					this.plays.save(playInfo);
-					return "redirect:/plays/" + playInfo.getId(); // TODO: view play page
+					this.serializer.createPlay(playInfo, user);
+//					return "redirect:/plays/" + playInfo.getId(); // TODO: view play page
+					return "redirect:/";
 				}
 			}
 		}
@@ -132,15 +126,14 @@ public class PlayFormController {
 	 * Go through the form parameters and extract the starters used.
 	 * 
 	 * @param params parameters to extract plays from
-	 * @param playInfo play to associate the starters with
 	 * @param verificationResult <i>output variable</i> List of errors to report
 	 *          back to the user
 	 * @return The starters for this play object
 	 */
 	@VisibleForTesting
-	static Set<StarterPlay> extractStaters(Map<String, String[]> params, Play playInfo,
+	static Map<Integer, Integer> extractStaters(Map<String, String[]> params,
 			final List<PrintableError> verificationResult) {
-		Set<StarterPlay> playStarters = new HashSet<>();
+		Map<Integer, Integer> playStarters = new HashMap<>();
 		String starterPrefix = "starters_";
 		params.entrySet().stream().filter(t -> t.getKey().startsWith(starterPrefix)).forEach(t -> {
 			String starterIdStr = t.getKey().substring(starterPrefix.length());
@@ -153,11 +146,6 @@ public class PlayFormController {
 				return;
 			}
 			
-			if (!CardLookupKt.getStartersById().containsKey(starterId) ) {
-				verificationResult.add(new InvalidCardSet(CardSetType.STARTER, starterId.intValue()));
-				return;
-			}
-			
 			Integer starterQuantity;
 			try {
 				starterQuantity = Integer.valueOf(t.getValue()[0]);
@@ -167,7 +155,7 @@ public class PlayFormController {
 				return;
 			}
 			
-			playStarters.add(new StarterPlay(starterId, playInfo, starterQuantity));
+			playStarters.put(starterId, starterQuantity);
 		});
 		return playStarters;
 	}
@@ -178,7 +166,7 @@ public class PlayFormController {
 	 * @param model model to initialize
 	 * @param play Current play info
 	 */
-	private static void fillModel(Model model, Play play) {
+	private static void fillModel(Model model, ServerPlay play) {
 		List<String> outcomes =
 				Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
 		Collections.sort(outcomes);

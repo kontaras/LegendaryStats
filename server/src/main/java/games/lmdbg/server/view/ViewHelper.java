@@ -52,9 +52,9 @@ public class ViewHelper {
 	}
 	
 	/**
-	 * Special case of {@link #getDisplayName(CardSet)} for {@link Hero} to include the {@link Team}
+	 * Special case of {@link #getDisplayName(Nameable)} for {@link Hero} to include the {@link Team}
 	 * 
-	 * @see #getDisplayName(CardSet)
+	 * @see #getDisplayName(Nameable)
 	 * 
 	 * @param hero Hero to name
 	 * @return All the item names (if any), with the proper HTML classes applied
