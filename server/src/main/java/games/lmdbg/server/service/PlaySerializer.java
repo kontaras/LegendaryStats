@@ -8,9 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-//import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import games.lmdbg.server.model.Account;
 import games.lmdbg.server.model.ServerPlay;
@@ -29,10 +28,8 @@ public class PlaySerializer {
 				new SimpleJdbcInsert(this.jdbcTemplate).withTableName(PLAY_TABLE).usingGeneratedKeyColumns("id");
 	}
 	
-	//@Transactional
+	@Transactional
 	public Number createPlay(ServerPlay play, Account user) {
-		System.out.println(play);
-		
 		Map<String, Object> playValues = new HashMap<>();
 		playValues.put("player_id", user.getId());
 		playValues.put("notes", play.getNotes());
@@ -57,10 +54,10 @@ public class PlaySerializer {
 		
 		components.add(new Object[] {playId, ComponentType.BOARD.getSqlValue(), play.getBoard()});
 		
-		String components_query = "INSERT INTO " + COMPONENT_TABLE
+		String componentsQuery = "INSERT INTO " + COMPONENT_TABLE
 				+ " (play_id, c_type, component_id) "
 				+ " VALUES (?, ?, ?)";
-		int[] result = jdbcTemplate.batchUpdate(components_query, components);
+		int[] result = jdbcTemplate.batchUpdate(componentsQuery, components);
 		
 		if (result.length != components.size()) {
 			throw new RuntimeException(String.format("Wrong batch size. Expected %d but was %d.", components.size(), result.length));
@@ -74,10 +71,6 @@ public class PlaySerializer {
 		
 		//TODO: Store starters
 		
-		
-		logPlays();
-		logComponents();
-		
 		return playId;
 	}
 
@@ -87,34 +80,9 @@ public class PlaySerializer {
 		}
 	}
 	
-	protected void logComponents() {
-		SqlRowSet playComponents = this.jdbcTemplate
-				.queryForRowSet("SELECT play_id, c_type, component_id FROM play_component;");
-		playComponents.beforeFirst();
-		while (playComponents.next()) {
-			System.out.println(String.format("play_id: %d, c_type: %s, component_id: %d",
-					playComponents.getInt("play_id"), playComponents.getString("c_type"),
-					playComponents.getInt("component_id")));
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	protected void logPlays() {
-		SqlRowSet plays =
-				this.jdbcTemplate.queryForRowSet("SELECT id, player_id, outcome, players FROM new_play;");
-		plays.beforeFirst();
-		while (plays.next()) {
-			System.out
-					.println(String.format("id: %d, player: %d, outcome: %s, plyars: %s", plays.getInt("id"),
-							plays.getInt("player_id"), plays.getString("outcome"), plays.getString("players")));
-		}
-	}
 	
 	
-	
-	static public enum ComponentType {
+	public enum ComponentType {
 		HERO("hero"),
 		SCHEME("scheme"),
 		MASTERMIND("mastermind"),

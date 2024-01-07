@@ -77,8 +77,6 @@ public class PlayFormController {
 	@PostMapping("/play")
 	public String newPlay(HttpServletRequest request, Model model,
 			@Valid @ModelAttribute("playInfo") ServerPlay playInfo, final BindingResult bindingResult) {
-		System.out.println(playInfo);
-		
 		Map<String, String[]> params = request.getParameterMap();
 		
 		final List<PrintableError> verificationResult = new ArrayList<>();

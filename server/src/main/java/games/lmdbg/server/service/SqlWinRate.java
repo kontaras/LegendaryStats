@@ -39,20 +39,18 @@ public class SqlWinRate {
 	
 	public List<IWinRate> queryWinRates(PlaySerializer.ComponentType type) {
 		String query = "SELECT component.component_id AS id, "
-				+ "	COUNT(*) AS total, "
-				+ "	COUNT(CASE WHEN play.outcome LIKE 'WIN%' THEN 1 ELSE null END) AS wins, "
-				+ "	COUNT(CASE WHEN play.outcome LIKE 'LOSS%' THEN 1 ELSE null END) AS losses, "
+				+ " COUNT(*) AS total, "
+				+ " COUNT(CASE WHEN play.outcome LIKE 'WIN%' THEN 1 ELSE null END) AS wins, "
+				+ " COUNT(CASE WHEN play.outcome LIKE 'LOSS%' THEN 1 ELSE null END) AS losses, "
 				+ "FROM play_component AS component " 
-				+ "	JOIN new_play AS play "
-				+ "	ON component.play_id = play.id "
+				+ " JOIN new_play AS play "
+				+ " ON component.play_id = play.id "
 				+ "WHERE component.c_type = ? "
 				+ "GROUP BY component.component_id "
 				+ "ORDER BY wins DESC, total DESC";
 		
-		return this.jdbcTemplate.query(query, (rs, rowNum) -> {
-			return new WinRateImpl(rs.getInt("id"), rs.getInt("total"), rs.getInt("wins"),
-					rs.getInt("losses"));
-		}, type.getSqlValue());
+		return this.jdbcTemplate.query(query, (rs, rowNum) -> new WinRateImpl(rs.getInt("id"),
+				rs.getInt("total"), rs.getInt("wins"), rs.getInt("losses")), type.getSqlValue());
 	}
 	
 	private class WinRateImpl implements IWinRate {
@@ -93,7 +91,7 @@ public class SqlWinRate {
 		}
 	}
 	
-	static public Map<Integer, ? extends CardSet> lookupTable(PlaySerializer.ComponentType type) {
+	public static Map<Integer, ? extends CardSet> lookupTable(PlaySerializer.ComponentType type) {
 		switch (type) {
 			case HERO:
 				return CardLookupKt.getHeroesById();

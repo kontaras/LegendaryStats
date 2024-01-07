@@ -1,6 +1,7 @@
 package games.lmdbg.server.model;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import games.lmdbg.rules.model.Outcome;
@@ -56,5 +57,23 @@ public class ServerPlay extends Play {
 	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(id, notes);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ( !super.equals(obj))
+			return false;
+		ServerPlay other = (ServerPlay) obj;
+		return id == other.id && Objects.equals(notes, other.notes);
 	}
 }
