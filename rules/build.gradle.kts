@@ -5,7 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.8.22"
     id("org.sonarqube") version "4.4.1.3373"
     id("java-library")
-    id("org.jetbrains.kotlinx.kover") version "0.7.3"
+    id("org.jetbrains.kotlinx.kover") version "0.7.5"
 }
 
 group = "games.lmdbg.rules"
@@ -24,7 +24,7 @@ kotlin {
             useJUnitPlatform()
         }
     }
-    js(LEGACY) {
+    js(IR) {
         browser {
             commonWebpackConfig {
                 cssSupport {
@@ -37,6 +37,7 @@ kotlin {
                 keep("legendary-stats-rules.games.lmdbg.rules")
             }
         }
+        binaries.executable()
     }
 
     sourceSets {

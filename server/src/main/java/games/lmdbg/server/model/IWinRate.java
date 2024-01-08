@@ -1,4 +1,4 @@
-package games.lmdbg.server.model.game.repositories;
+package games.lmdbg.server.model;
 
 /**
  * A data structure to hold the total win/lose results containing some card set.

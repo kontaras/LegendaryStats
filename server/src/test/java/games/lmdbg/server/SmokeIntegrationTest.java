@@ -32,7 +32,7 @@ class SmokeIntegrationTest {
 			Assertions.assertEquals(200, resp.getStatusCodeValue());
 			Assertions.assertTrue(resp.hasBody());
 			Assertions.assertTrue(MediaType.TEXT_HTML.equalsTypeAndSubtype(resp.getHeaders().getContentType()));
-			Assertions.assertTrue(resp.getBody().contains("<html lang=\"en\">"));
+			Assertions.assertTrue(resp.getBody().contains("<html lang=\"en\""));
 		}
 	}
 }

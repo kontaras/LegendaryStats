@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@SuppressWarnings("static-method")
 public class SecurityConfiguration {
 	/**
 	 * Setup security rules

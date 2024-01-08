@@ -6,17 +6,7 @@ function verify() {
 		if(errors.size === 0) {
 			alert("Valid play");
 		} else {
-			const iter = errors.iterator();
-			var message = "";
-			while(iter.hasNext()) {
-				const error = iter.next();
-				message += error.getMessage() + "\n";
-				const cards = error.getCardSets().iterator();
-				while(cards.hasNext()) {
-					const set = cards.next();
-					message += "\t" + prettyCardSet(set) + "\n";
-				}
-			}
+			const message = rules.games.lmdbg.rules.utils.errorsToStringJsHack(errors) 
 			alert (message);
 		}
 	}

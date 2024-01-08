@@ -88,11 +88,10 @@ class AccountContoller {
 		if (errors.isEmpty()) {
 			accounts.save(user);
 			return "redirect:login?register";
-		} else {
-			model.addAttribute("user", user.getUserName());
-			model.addAttribute("email", user.getEmail());
-			model.addAttribute("errors", errors);
-			return "registration";
 		}
+		model.addAttribute("user", user.getUserName());
+		model.addAttribute("email", user.getEmail());
+		model.addAttribute("errors", errors);
+		return "registration";
 	}
 }

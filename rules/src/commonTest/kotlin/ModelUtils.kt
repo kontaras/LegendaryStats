@@ -3,6 +3,7 @@ package games.lmdbg.rules
 import games.lmdbg.rules.model.Outcome
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.model.Release
 import games.lmdbg.rules.verifier.PrintableError
 import games.lmdbg.rules.verifier.TypedCardSet
 import games.lmdbg.rules.verifier.ReleaseRulesPlugin
@@ -35,25 +36,11 @@ fun playMaker(
 }
 
 class MockRules(
-    heroesRange: IntRange? = null,
-    villainsRange: IntRange? = null,
-    henchmenRange: IntRange? = null,
-    schemesRange: IntRange? = null,
-    mastermindsRange: IntRange? = null,
-    supportCardRange: IntRange? = null,
-    starterDeckRange: IntRange? = null,
-    recruitSupports: Int? = null,
-    boardRange: IntRange? = null
-) : ReleaseRulesPlugin {
-    override val heroesRange: IntRange = heroesRange ?: IntRange.EMPTY
-    override val villainsRange: IntRange = villainsRange ?: IntRange.EMPTY
-    override val henchmenRange: IntRange = henchmenRange ?: IntRange.EMPTY
-    override val schemesRange: IntRange = schemesRange ?: IntRange.EMPTY
-    override val mastermindsRange: IntRange = mastermindsRange ?: IntRange.EMPTY
-    override val supportCardRange: IntRange = supportCardRange ?: IntRange.EMPTY
+    release: Release = Release(),
+    recruitSupports: Int? = null
+) : ReleaseRulesPlugin(release) {
+
     override val recruitSupports: Set<Int> = if (recruitSupports != null) setOf(recruitSupports) else setOf()
-    override val starterRange: IntRange = starterDeckRange ?: IntRange.EMPTY
-    override val boardRange: IntRange = boardRange ?: IntRange.EMPTY
 
     override fun getAlwaysLead(mastermind: Int): Set<TypedCardSet> {
         return alwaysLeadsLogic(mastermind)

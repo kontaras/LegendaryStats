@@ -2,8 +2,9 @@ package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.set.*
 import org.lighthousegames.logging.logging
-import kotlin.js.JsName
+import kotlin.js.JsExport
 
 val log = logging()
 
@@ -13,7 +14,7 @@ val log = logging()
  * @param play The play to verify
  * @return A list of issues with this play. Will be empty if there are no issues.
  */
-@JsName("verify") //Prevent mangling
+@JsExport
 fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     val setCounts = getPlayerCountRules(play.players)
@@ -72,59 +73,48 @@ fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
 internal fun checkValuesInRange(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     for (hero in play.heroes) {
-        if (!checkValidValue(hero, ReleaseRulesPlugin::heroesRange)) {
+        if (!heroesById.containsKey(hero)) {
             errors.add(InvalidCardSet(CardSetType.HERO, hero))
         }
     }
 
     for (villain in play.villains) {
-        if (!checkValidValue(villain, ReleaseRulesPlugin::villainsRange)) {
+        if (!villainsById.containsKey(villain)) {
             errors.add(InvalidCardSet(CardSetType.VILLAIN, villain))
         }
     }
 
     for (henchman in play.henchmen) {
-        if (!checkValidValue(henchman, ReleaseRulesPlugin::henchmenRange)) {
+        if (!henchmanById.containsKey(henchman)) {
             errors.add(InvalidCardSet(CardSetType.HENCHMAN, henchman))
         }
     }
 
     for (support in play.supports) {
-        if (!checkValidValue(support, ReleaseRulesPlugin::supportCardRange)) {
+        if (!supportsById.containsKey(support)) {
             errors.add(InvalidCardSet(CardSetType.SUPPORT, support))
         }
     }
 
-    if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
+    if (!schemesById.containsKey(play.scheme)) {
         errors.add(InvalidCardSet(CardSetType.SCHEME, play.scheme))
     }
 
-    if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindsRange)) {
+    if (!mastermindsById.containsKey(play.mastermind)) {
         errors.add(InvalidCardSet(CardSetType.MASTERMIND, play.mastermind))
     }
 
     for (starter in play.starters.keys) {
-        if (!checkValidValue(starter, ReleaseRulesPlugin::starterRange)) {
+        if (!startersById.containsKey(starter)) {
             errors.add(InvalidCardSet(CardSetType.STARTER, starter))
         }
     }
 
-    if (!checkValidValue(play.board, ReleaseRulesPlugin::boardRange)) {
+    if (!boardsById.containsKey(play.board)) {
         errors.add(InvalidCardSet(CardSetType.BOARD, play.board))
     }
 
     return errors
-}
-
-/**
- * Check if a given card set id is a valid one
- *
- * @param setId Card Set ID to check
- * @param field The plugin field accessor to get the valid values for the set id
- * @return true if there is a set that contains that id, false otherwise
- */
-private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange): Boolean {
-    return plugins.any { plugin -> setId in field(plugin) }
 }
 
 /**

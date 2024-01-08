@@ -26,7 +26,7 @@ internal class GeneralPlays {
             ),
             verify(
                 Play(
-                    Outcome.INCOMPLETE,
+                    Outcome.DRAW_DECK,
                     PlayerCount.FOUR,
                     -1,
                     -1,

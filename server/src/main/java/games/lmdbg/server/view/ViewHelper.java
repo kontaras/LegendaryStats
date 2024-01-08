@@ -1,34 +1,43 @@
 package games.lmdbg.server.view;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.springframework.context.annotation.Configuration;
 
 import com.google.common.base.Strings;
 
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Namable;
-import games.lmdbg.server.model.game.Team;
+import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.rules.model.Hero;
+import games.lmdbg.rules.model.Nameable;
+import games.lmdbg.rules.model.Team;
+
 
 /**
  * Helper functions for advanced/duplicated functionality in page rendering.
  */
 @Configuration
+@SuppressWarnings("static-method")
 public class ViewHelper {
 
 	/**
-	 * Give the proper HTML formatted representation of an {@link Namable}
+	 * Give the proper HTML formatted representation of an {@link CardSet}
 	 * 
 	 * @param item Item to name
 	 * @return All the item names (if any), with the proper HTML classes applied
 	 */
-	public String getDisplayName(Namable item) {
+	public String getDisplayName(Nameable item) {
 		if (item instanceof Hero) {
-			return getDisplayName((Hero) item);
+			Hero hero = (Hero) item;
+			if (!hero.getTeam().isEmpty()) {
+				return getHeroDisplayName(hero);
+			}
 		}
 		
 		StringBuilder builder = new StringBuilder();
 
-		if (!Strings.isNullOrEmpty(item.getMarvelName())) {
-			builder.append(String.format("<span class=\"marvel\">%s</span>", item.getMarvelName()));
+		if (!Strings.isNullOrEmpty(item.getArtName())) {
+			builder.append(String.format("<span class=\"marvel\">%s</span>", item.getArtName()));
 		}
 
 		if (!Strings.isNullOrEmpty(item.getMcuName())) {
@@ -43,22 +52,22 @@ public class ViewHelper {
 	}
 	
 	/**
-	 * Special case of {@link #getDisplayName(Namable)} for {@link Hero} to include the {@link Team}
+	 * Special case of {@link #getDisplayName(Nameable)} for {@link Hero} to include the {@link Team}
 	 * 
-	 * @see #getDisplayName(Namable)
+	 * @see #getDisplayName(Nameable)
 	 * 
 	 * @param hero Hero to name
 	 * @return All the item names (if any), with the proper HTML classes applied
 	 */
-	public String getDisplayName(Hero hero) {
+	public String getHeroDisplayName(Hero hero) {
 		StringBuilder builder = new StringBuilder();
-		Team team = hero.getTeam();
+		Team team = hero.getTeam().get(0);
 		
-		if (!Strings.isNullOrEmpty(hero.getMarvelName())) {
-			if (Strings.isNullOrEmpty(team.getMarvelName())) {
-				builder.append(String.format("<span class=\"marvel\">%s</span>", hero.getMarvelName()));
+		if (!Strings.isNullOrEmpty(hero.getArtName())) {
+			if (Strings.isNullOrEmpty(team.getArtName())) {
+				builder.append(String.format("<span class=\"marvel\">%s</span>", hero.getArtName()));
 			} else {
-				builder.append(String.format("<span class=\"marvel\">%s (%s)</span>", hero.getMarvelName(), team.getMarvelName()));
+				builder.append(String.format("<span class=\"marvel\">%s (%s)</span>", hero.getArtName(), team.getArtName()));
 			}
 		}
 
@@ -79,6 +88,26 @@ public class ViewHelper {
 		}
 
 		return builder.toString();
+	}
+	
+	/**
+	 * Create a {@link Collection} out of a given object. If the object is already
+	 * a Collection, it is simply returned as is. If the object is null, then an
+	 * empty Collection is returned. Otherwise, a new Collection is returned 
+	 * containing only the object.
+	 * 
+	 * @param o The object to collect
+	 * @return The object, as a collection
+	 */
+	@SuppressWarnings("rawtypes")
+	public Collection asCollection(Object o) {
+		if (o == null) {
+			return Collections.emptySet();
+		} else if (o instanceof Collection col) {
+			return col;
+		}
+		
+		return Collections.singleton(o);
 	}
 
 }
