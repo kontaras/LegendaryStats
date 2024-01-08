@@ -28,7 +28,7 @@ import games.lmdbg.rules.set.core.Heroes;
  */
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
-public class SqlWinRateTest {
+class SqlWinRateTest {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
