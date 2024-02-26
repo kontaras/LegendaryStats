@@ -6,7 +6,7 @@ plugins {
 	id 'jacoco'
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
-	id 'com.google.cloud.tools.jib' version '3.4.0'
+	id 'com.google.cloud.tools.jib' version '3.4.1'
 }
 
 group = 'games.lmdbg'
