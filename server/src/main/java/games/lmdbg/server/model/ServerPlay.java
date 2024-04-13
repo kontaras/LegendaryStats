@@ -1,28 +1,30 @@
+
 package games.lmdbg.server.model;
 
-import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-
 import games.lmdbg.rules.model.Outcome;
 import games.lmdbg.rules.model.Play;
 import games.lmdbg.rules.model.PlayerCount;
 
 public class ServerPlay extends Play {
 	/** Database ID of the play */
-	long id;
+	private long id;
+	
+	private int user;
 	
 	/** User notes for the play */
-	String notes;
-
+	private String notes;
+	
 	/**
 	 * Blank play
 	 */
 	public ServerPlay() {
-		super(Outcome.DRAW_DECK, PlayerCount.SOLO, -1, -1, Set.of(), Set.of(), Set.of(), Set.of(),
-				Map.of(), -1);
+		super(Outcome.DRAW_DECK, PlayerCount.SOLO, -1, -1, new HashSet<>(), new HashSet<>(),
+				new HashSet<>(), new HashSet<>(), new HashMap<>(), -1);
 	}
-
+	
 	/**
 	 * Getter for id
 	 *
@@ -31,7 +33,7 @@ public class ServerPlay extends Play {
 	public long getId() {
 		return this.id;
 	}
-
+	
 	/**
 	 * Getter for notes
 	 *
@@ -40,7 +42,7 @@ public class ServerPlay extends Play {
 	public String getNotes() {
 		return this.notes;
 	}
-
+	
 	/**
 	 * Set the value of id
 	 *
@@ -49,7 +51,7 @@ public class ServerPlay extends Play {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	
 	/**
 	 * Set the value of notes
 	 *
@@ -58,15 +60,23 @@ public class ServerPlay extends Play {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-
+	
+	public int getUser() {
+		return user;
+	}
+	
+	public void setUser(int user) {
+		this.user = user;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(id, notes);
+		result = prime * result + Objects.hash(this.id, this.notes, this.user);
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,6 +84,7 @@ public class ServerPlay extends Play {
 		if ( !super.equals(obj))
 			return false;
 		ServerPlay other = (ServerPlay) obj;
-		return id == other.id && Objects.equals(notes, other.notes);
+		return this.id == other.id && Objects.equals(this.notes, other.notes)
+				&& this.user == other.user;
 	}
 }

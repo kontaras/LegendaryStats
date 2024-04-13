@@ -36,7 +36,7 @@ import games.lmdbg.rules.verifier.VerifierKt;
 import games.lmdbg.server.model.Account;
 import games.lmdbg.server.model.AccountsRepository;
 import games.lmdbg.server.model.ServerPlay;
-import games.lmdbg.server.service.PlaySerializer;
+import games.lmdbg.server.service.PlayStore;
 import games.lmdbg.rules.set.CardLookupKt;
 
 /**
@@ -49,7 +49,7 @@ public class PlayFormController {
 	private AccountsRepository accounts;
 	
 	@Autowired
-	private PlaySerializer serializer;
+	private PlayStore serializer;
 	/**
 	 * Generate data for rendering a game entry form
 	 * 
@@ -108,7 +108,8 @@ public class PlayFormController {
 				if (user == null) {
 					bindingResult.addError(new ObjectError("globalError", loginError));
 				} else {
-					this.serializer.createPlay(playInfo, user);
+					playInfo.setUser(user.getId());
+					this.serializer.createPlay(playInfo);
 //					return "redirect:/plays/" + playInfo.getId(); // TODO: view play page
 					return "redirect:/";
 				}

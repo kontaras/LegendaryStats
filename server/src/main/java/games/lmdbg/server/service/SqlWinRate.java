@@ -21,7 +21,7 @@ public class SqlWinRate {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	public Map<CardSet, IWinRate> getSetWinRates(PlaySerializer.ComponentType type) {
+	public Map<CardSet, IWinRate> getSetWinRates(Schema.ComponentType type) {
 		Map<Integer, ? extends CardSet> lookupTable = lookupTable(type);
 		List<IWinRate> winRates = queryWinRates(type);
 		
@@ -37,13 +37,13 @@ public class SqlWinRate {
 		return winRateTable;
 	}
 	
-	public List<IWinRate> queryWinRates(PlaySerializer.ComponentType type) {
+	public List<IWinRate> queryWinRates(Schema.ComponentType type) {
 		String query = "SELECT component.component_id AS id, "
 				+ " COUNT(*) AS total, "
 				+ " COUNT(CASE WHEN play.outcome LIKE 'WIN%' THEN 1 ELSE null END) AS wins, "
 				+ " COUNT(CASE WHEN play.outcome LIKE 'LOSS%' THEN 1 ELSE null END) AS losses, "
-				+ "FROM play_component AS component " 
-				+ " JOIN new_play AS play "
+				+ "FROM " + Schema.COMPONENT_TABLE + " AS component " 
+				+ " JOIN " + Schema.PLAY_TABLE +" AS play "
 				+ " ON component.play_id = play.id "
 				+ "WHERE component.c_type = ? "
 				+ "GROUP BY component.component_id "
@@ -91,7 +91,7 @@ public class SqlWinRate {
 		}
 	}
 	
-	public static Map<Integer, ? extends CardSet> lookupTable(PlaySerializer.ComponentType type) {
+	public static Map<Integer, ? extends CardSet> lookupTable(Schema.ComponentType type) {
 		switch (type) {
 			case HERO:
 				return CardLookupKt.getHeroesById();
