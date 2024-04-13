@@ -250,6 +250,28 @@ internal class ErrorsTest {
         assertEquals(listOf(), underTest.getCardSets())
     }
 
+    fun missingFieldTest() {
+        val underTest = MissingField("mastermind")
+
+        //getMessage
+        val expectedMessage = "No value provided for mastermind."
+        assertEquals(expectedMessage, underTest.getMessage())
+
+        //equals
+        assertTrue(underTest.equals(underTest))
+        assertTrue(underTest.equals(MissingField("mastermind")))
+
+        assertFalse(underTest.equals(null))
+        assertFalse(underTest.equals(3))
+        assertTrue(underTest.equals(MissingField("board")))
+
+        //hashCode
+        assertEquals("mastermind".hashCode(), underTest.hashCode())
+
+        //toString
+        assertEquals("MissingField: mastermind", underTest.toString())
+    }
+
     /**
      * Test that all of the [PrintableError] types can be serialized and read again
      */
@@ -263,6 +285,7 @@ internal class ErrorsTest {
             InvalidCardQuantity(
                 TypedCardSet(CardSetType.HENCHMAN, 17), 123444
             ),
+            MissingField("grass"),
             MissingRecruitSupport,
             PlayerSchemeMismatch
         )

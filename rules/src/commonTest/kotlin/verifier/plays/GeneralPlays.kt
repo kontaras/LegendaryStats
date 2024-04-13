@@ -30,11 +30,11 @@ internal class GeneralPlays {
                     PlayerCount.FOUR,
                     -1,
                     -1,
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    mapOf(),
+                    mutableSetOf(),
+                    mutableSetOf(),
+                    mutableSetOf(),
+                    mutableSetOf(),
+                    mutableMapOf(),
                     -1
                 )
             )

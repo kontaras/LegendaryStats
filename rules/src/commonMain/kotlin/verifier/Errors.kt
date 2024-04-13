@@ -42,8 +42,13 @@ val errorSerializer = Json {
             subclass(MissingRecruitSupport::class)
             subclass(PlayerSchemeMismatch::class)
             subclass(InvalidValue::class)
+            subclass(MissingField::class)
         }
     }
+}
+
+internal fun TypedCardSet.repr(): String {
+    return "($setType $setId)"
 }
 
 /**
@@ -187,6 +192,26 @@ class InvalidCardQuantity(val setId: TypedCardSet, val quantity: Int) : Printabl
     }
 }
 
+@Serializable
+class MissingField(val fieldName: String): PrintableError {
+    override fun getMessage(): String {
+        return "No value provided for ${fieldName}."
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other is MissingField)
+                && this.fieldName == other.fieldName
+    }
+
+    override fun hashCode(): Int {
+        return fieldName.hashCode()
+    }
+
+    override fun toString(): String {
+        return "MissingField: $fieldName"
+    }
+}
+
 /**
  * A play does not include a recruit support (such as SHIELD Agent or Madame HYDRA)
  */
@@ -213,8 +238,4 @@ object PlayerSchemeMismatch : PrintableError {
     override fun toString(): String {
         return "PlayerSchemeMismatch"
     }
-}
-
-internal fun TypedCardSet.repr(): String {
-    return "($setType $setId)"
 }

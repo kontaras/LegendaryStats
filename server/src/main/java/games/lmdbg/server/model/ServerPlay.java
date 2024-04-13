@@ -1,12 +1,8 @@
 
 package games.lmdbg.server.model;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
-import games.lmdbg.rules.model.Outcome;
 import games.lmdbg.rules.model.Play;
-import games.lmdbg.rules.model.PlayerCount;
 
 public class ServerPlay extends Play {
 	/** Database ID of the play */
@@ -21,8 +17,7 @@ public class ServerPlay extends Play {
 	 * Blank play
 	 */
 	public ServerPlay() {
-		super(Outcome.DRAW_DECK, PlayerCount.SOLO, -1, -1, new HashSet<>(), new HashSet<>(),
-				new HashSet<>(), new HashSet<>(), new HashMap<>(), -1);
+		super();
 	}
 	
 	/**

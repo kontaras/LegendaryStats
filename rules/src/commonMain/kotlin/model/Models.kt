@@ -34,28 +34,26 @@ enum class PlayerCount {
 @JsExport
 open class Play(
     /** How did the game end? */
-    var outcome: Outcome,
+    var outcome: Outcome? = null,
     /** How many players where there? */
-    var players: PlayerCount,
+    var players: PlayerCount?= null,
     /** Which scheme was used? */
-    var scheme: Int,
+    var scheme: Int?= null,
     /** What was the mastermind faced? */
-    var mastermind: Int,
+    var mastermind: Int?= null,
     /** What heroes made up the hero deck? */
-    var heroes: Set<Int>,
+    var heroes: MutableSet<Int> = mutableSetOf(),
     /** What villain groups where in the villain deck? */
-    var villains: Set<Int>,
+    var villains: MutableSet<Int> = mutableSetOf(),
     /** What henchmen villain groups where in the villain deck? */
-    var henchmen: Set<Int>,
+    var henchmen: MutableSet<Int> = mutableSetOf(),
     /** What support cards where included? */
-    var supports: Set<Int>,
+    var supports: MutableSet<Int> = mutableSetOf(),
     /** How many of each starting decks was used in the play? */
-    var starters: Map<Int, Int>,
+    var starters: MutableMap<Int, Int> = mutableMapOf(),
     /** What game board was used? */
-    var board: Int
+    var board: Int?= null
 ) {
-
-
     override fun toString(): String {
         return "Play(outcome=$outcome, players=$players, scheme=$scheme, mastermind=$mastermind, heroes=$heroes, villains=$villains, henchmen=$henchmen, supports=$supports, starters=$starters, board=$board)"
     }
@@ -81,16 +79,16 @@ open class Play(
     }
 
     override fun hashCode(): Int {
-        var result = outcome.hashCode()
-        result = 31 * result + players.hashCode()
-        result = 31 * result + scheme
-        result = 31 * result + mastermind
+        var result = outcome?.hashCode() ?: 0
+        result = 31 * result + (players?.hashCode() ?: 0)
+        result = 31 * result + (scheme ?: 0)
+        result = 31 * result + (mastermind ?: 0)
         result = 31 * result + heroes.hashCode()
         result = 31 * result + villains.hashCode()
         result = 31 * result + henchmen.hashCode()
         result = 31 * result + supports.hashCode()
         result = 31 * result + starters.hashCode()
-        result = 31 * result + board
+        result = 31 * result + (board ?: 0)
         return result
     }
 
@@ -101,10 +99,6 @@ open class Play(
 
         fun playToString(play: Play): String {
             return Json.encodeToString(play)
-        }
-
-        fun newPlay(): Play {
-            return Play(Outcome.DRAW_DECK, PlayerCount.SOLO, -1, -1, setOf(), setOf(),setOf(),setOf(), mapOf(), -1)
         }
     }
 }

@@ -17,14 +17,44 @@ val log = logging()
 @JsExport
 fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
-    val setCounts = getPlayerCountRules(play.players)
+
+    if (play.outcome == null) {
+        errors.add(MissingField("game outcome"))
+    }
+
+    if (play.players == null) {
+        errors.add(MissingField("player count"))
+    }
+
+    if (play.scheme == null) {
+        errors.add(MissingField("scheme"))
+    }
+
+    if (play.mastermind == null) {
+        errors.add(MissingField("mastermind"))
+    }
+
+    if (play.board == null) {
+        errors.add(MissingField("game board"))
+    }
+
+    if (errors.isNotEmpty()) {
+        return errors;
+    }
+
+    val players = play.players!!
+    val scheme = play.scheme!!
+    val mastermind = play.mastermind!!
+    val board = play.board!!
+
+    val setCounts = getPlayerCountRules(players)
 
     updateSetCountsFromScheme(play, setCounts)
 
     errors.addAll(checkCardSetSizes(play, setCounts))
-    errors.addAll(checkValuesInRange(play))
-    errors.addAll(checkRequiredCardSets(play))
-    errors.addAll(checkPlayValidForScheme(play))
+    errors.addAll(checkValuesInRange(play, scheme, mastermind, board))
+    errors.addAll(checkRequiredCardSets(play, scheme, mastermind))
+    errors.addAll(checkPlayValidForScheme(play, scheme))
 
     return errors
 }
@@ -70,7 +100,7 @@ fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
  * @param play The play to check
  * @return [InvalidCardSet] for each invalid card set id
  */
-internal fun checkValuesInRange(play: Play): List<PrintableError> {
+internal fun checkValuesInRange(play: Play, scheme: Int, mastermind: Int, board: Int): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     for (hero in play.heroes) {
         if (!heroesById.containsKey(hero)) {
@@ -96,12 +126,12 @@ internal fun checkValuesInRange(play: Play): List<PrintableError> {
         }
     }
 
-    if (!schemesById.containsKey(play.scheme)) {
-        errors.add(InvalidCardSet(CardSetType.SCHEME, play.scheme))
+    if (!schemesById.containsKey(scheme)) {
+        errors.add(InvalidCardSet(CardSetType.SCHEME, scheme))
     }
 
-    if (!mastermindsById.containsKey(play.mastermind)) {
-        errors.add(InvalidCardSet(CardSetType.MASTERMIND, play.mastermind))
+    if (!mastermindsById.containsKey(mastermind)) {
+        errors.add(InvalidCardSet(CardSetType.MASTERMIND, mastermind))
     }
 
     for (starter in play.starters.keys) {
@@ -110,8 +140,8 @@ internal fun checkValuesInRange(play: Play): List<PrintableError> {
         }
     }
 
-    if (!boardsById.containsKey(play.board)) {
-        errors.add(InvalidCardSet(CardSetType.BOARD, play.board))
+    if (!boardsById.containsKey(board)) {
+        errors.add(InvalidCardSet(CardSetType.BOARD, board))
     }
 
     return errors
@@ -165,15 +195,15 @@ data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int, var 
  * @param play The play to check
  * @return A list of [MissingRequiredSet] or [MissingRecruitSupport] containing which card set is missing
  */
-internal fun checkRequiredCardSets(play: Play): List<PrintableError> {
+internal fun checkRequiredCardSets(play: Play, scheme: Int, mastermind: Int): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
 
     val requiredSets = mutableListOf<Set<TypedCardSet>>()
     if (play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED_SOLO)) {
-        requiredSets.add(getMastermindAlwaysLeads(play.mastermind))
+        requiredSets.add(getMastermindAlwaysLeads(mastermind))
     }
 
-    requiredSets.add(getSchemeRequiredSets(play.scheme))
+    requiredSets.add(getSchemeRequiredSets(scheme))
 
     errors.addAll(checkMandatorySets(play, requiredSets))
 
@@ -261,8 +291,7 @@ internal fun getSchemeRequiredSets(scheme: Int): Set<TypedCardSet> {
     return setOf()
 }
 
-internal fun checkPlayValidForScheme(play: Play): List<PrintableError> {
-    val scheme = play.scheme
+internal fun checkPlayValidForScheme(play: Play, scheme: Int): List<PrintableError> {
     for (plugin in plugins) {
         if (scheme in plugin.schemesRange) {
              return plugin.schemeCheckPlay(scheme, play)

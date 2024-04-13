@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,8 @@ import games.lmdbg.server.model.AccountsRepository;
 import games.lmdbg.server.model.ServerPlay;
 import games.lmdbg.server.service.PlayStore;
 import games.lmdbg.rules.set.CardLookupKt;
+import games.lmdbg.rules.set.core.Boards;
+import games.lmdbg.rules.set.core.Supports;
 
 /**
  * Controller for creating the game entry form.
@@ -59,6 +62,10 @@ public class PlayFormController {
 	@GetMapping("/play")
 	public static String createForm(Model model) {
 		ServerPlay emptyPlay = new ServerPlay();
+		
+		emptyPlay.setBoard(Boards.INSTANCE.getHQ().getId());
+		emptyPlay.setSupports(Set.of(Supports.INSTANCE.getSHIELD_OFFICER().getId()));
+		
 		
 		fillModel(model, emptyPlay);
 		

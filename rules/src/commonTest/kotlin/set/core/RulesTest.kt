@@ -2,7 +2,7 @@ package games.lmdbg.rules.set.core
 
 import games.lmdbg.rules.model.PlayerCount
 import games.lmdbg.rules.model.Scheme
-import games.lmdbg.rules.playMaker
+import games.lmdbg.rules.PlayBuilder
 import games.lmdbg.rules.verifier.CardSetType
 import games.lmdbg.rules.verifier.SetCounts
 import games.lmdbg.rules.verifier.TypedCardSet
@@ -26,14 +26,14 @@ internal class RulesTest {
     fun updateSetCountsFromSchemeTest() {
         var original = SetCounts(0, 0, 0, 0)
         rules.updateSetCountsFromScheme(
-            playMaker(scheme = Schemes.SUPER_HERO_CIVIL_WAR.id, players = PlayerCount.TWO),
+            PlayBuilder().setScheme(Schemes.SUPER_HERO_CIVIL_WAR.id).setPlayers(PlayerCount.TWO).build(),
             original
         )
         assertEquals(SetCounts(4, 0, 0, 0), original)
 
         original = SetCounts(0, 0, 0, 0)
         rules.updateSetCountsFromScheme(
-            playMaker(scheme = Schemes.SUPER_HERO_CIVIL_WAR.id, players = PlayerCount.FOUR),
+            PlayBuilder().setScheme(Schemes.SUPER_HERO_CIVIL_WAR.id).setPlayers(PlayerCount.FOUR).build(),
             original
         )
         assertEquals(SetCounts(0, 0, 0, 0), original)
@@ -50,13 +50,13 @@ internal class RulesTest {
             invalidScheme
         )) {
             original = SetCounts(0, 0, 0, 0)
-            rules.updateSetCountsFromScheme(playMaker(scheme = scheme.id), original)
+            rules.updateSetCountsFromScheme(PlayBuilder().setScheme(scheme.id).build(), original)
             assertEquals(SetCounts(0, 0, 0, 0), original)
         }
 
         original = SetCounts(0, 0, 0, 0)
         rules.updateSetCountsFromScheme(
-            playMaker(scheme = Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT.id),
+            PlayBuilder().setScheme(Schemes.NEGATIVE_ZONE_PRISON_BREAKOUT.id).build(),
             original
         )
         assertEquals(SetCounts(0, 0, 1, 0), original)
@@ -159,7 +159,7 @@ internal class RulesTest {
         )) {
             assertEquals(
                 listOf(),
-                rules.schemeCheckPlay(scheme.id, playMaker())
+                rules.schemeCheckPlay(scheme.id, PlayBuilder().build())
             )
         }
 
@@ -170,7 +170,7 @@ internal class RulesTest {
             for (players in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED_SOLO)) {
                 assertEquals(
                     listOf(PlayerSchemeMismatch),
-                    rules.schemeCheckPlay(scheme.id, playMaker(players = players))
+                    rules.schemeCheckPlay(scheme.id, PlayBuilder().setPlayers(players).build())
                 )
             }
         }
@@ -182,7 +182,7 @@ internal class RulesTest {
             for (players in listOf(PlayerCount.TWO, PlayerCount.THREE, PlayerCount.FOUR, PlayerCount.FIVE)) {
                 assertEquals(
                     listOf(),
-                    rules.schemeCheckPlay(scheme.id, playMaker(players = players))
+                    rules.schemeCheckPlay(scheme.id, PlayBuilder().setPlayers(players).build())
                 )
             }
         }
@@ -192,7 +192,7 @@ internal class RulesTest {
         )) {
             assertEquals(
                 listOf(),
-                rules.schemeCheckPlay(scheme, playMaker())
+                rules.schemeCheckPlay(scheme, PlayBuilder().build())
             )
         }
     }

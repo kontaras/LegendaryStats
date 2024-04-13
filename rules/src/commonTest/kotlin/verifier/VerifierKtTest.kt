@@ -2,7 +2,7 @@ package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.MockRules
 import games.lmdbg.rules.model.*
-import games.lmdbg.rules.playMaker
+import games.lmdbg.rules.PlayBuilder
 import games.lmdbg.rules.set.*
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -24,7 +24,7 @@ internal class VerifierKtTest {
             heroes,
             villains,
             henchmen,
-            setOf(),
+            mutableSetOf(),
             starters,
             14
         )
@@ -104,44 +104,50 @@ internal class VerifierKtTest {
             runWithLookupTable(mastermindsById, listOf(Mastermind(0))) {
                 runWithLookupTable(boardsById, listOf(Board(0))) {
 
-                    assertContentEquals(listOf(), checkValuesInRange(playMaker()))
+                    assertContentEquals(listOf(), checkValuesInRange(PlayBuilder().build(), 0, 0, 0))
 
                     assertContentEquals(
                         listOf(),
                         runWithLookupTable(
                             heroesById,
                             listOf(Hero(1), Hero(2))
-                        ) { checkValuesInRange(playMaker(hero = 1)) })
+                        ) { checkValuesInRange(PlayBuilder().addHero(1).build(), 0, 0, 0) })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.HERO, -7)),
                         runWithLookupTable(
                             heroesById,
                             listOf(Hero(1), Hero(2))
-                        ) { checkValuesInRange(playMaker(hero = -7)) })
+                        ) { checkValuesInRange(PlayBuilder().addHero(-7).build(), 0, 0, 0) })
 
                     assertContentEquals(
                         listOf(),
                         runWithLookupTable(villainsById, listOf(Villain(101), Villain(102))) {
-                            checkValuesInRange(playMaker(villain = 101))
+                            checkValuesInRange(PlayBuilder().addVillain(101).build(), 0, 0, 0)
                         })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.VILLAIN, -6)),
                         runWithLookupTable(villainsById, listOf(Villain(101), Villain(102))) {
                             checkValuesInRange(
-                                playMaker(villain = -6)
+                                PlayBuilder().addVillain(-6).build(),
+                                0,
+                                0,
+                                0
                             )
                         })
 
                     assertContentEquals(
                         listOf(),
                         runWithLookupTable(henchmanById, listOf(Henchman(201), Henchman(202))) {
-                            checkValuesInRange(playMaker(henchman = 201))
+                            checkValuesInRange(PlayBuilder().addHenchman(201).build(), 0, 0, 0)
                         })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.HENCHMAN, -34)),
                         runWithLookupTable(henchmanById, listOf(Henchman(201), Henchman(202))) {
                             checkValuesInRange(
-                                playMaker(henchman = -34)
+                                PlayBuilder().addHenchman(-34).build(),
+                                0,
+                                0,
+                                0
                             )
                         })
 
@@ -150,54 +156,61 @@ internal class VerifierKtTest {
                         runWithLookupTable(
                             schemesById,
                             listOf(Scheme(301), Scheme(302))
-                        ) { checkValuesInRange(playMaker(scheme = 301)) })
+                        ) { checkValuesInRange(PlayBuilder().setScheme(301).build(), 301, 0, 0) })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.SCHEME, -123)),
                         runWithLookupTable(
                             schemesById,
                             listOf(Scheme(301), Scheme(302))
-                        ) { checkValuesInRange(playMaker(scheme = -123)) })
+                        ) { checkValuesInRange(PlayBuilder().setScheme(-123).build(), -123, 0, 0) })
 
                     assertContentEquals(
                         listOf(),
                         runWithLookupTable(
                             mastermindsById,
                             listOf(Mastermind(401), Mastermind(402))
-                        ) { checkValuesInRange(playMaker(mastermind = 401)) })
+                        ) { checkValuesInRange(PlayBuilder().setMastermind(401).build(), 0, 401, 0) })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.MASTERMIND, -128)),
                         runWithLookupTable(
                             mastermindsById,
                             listOf(Mastermind(401), Mastermind(402))
-                        ) { checkValuesInRange(playMaker(mastermind = -128)) })
+                        ) { checkValuesInRange(PlayBuilder().setMastermind(-128).build(), 0, -128, 0) })
 
                     assertContentEquals(
                         listOf(),
                         runWithLookupTable(boardsById, listOf(Board(701), Board(702))) {
                             checkValuesInRange(
-                                playMaker(board = 701)
+                                PlayBuilder().setBoard(701).build(),
+                                0,
+                                0,
+                                701
                             )
                         })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.BOARD, -867)),
                         runWithLookupTable(boardsById, listOf(Board(701), Board(702))) {
                             checkValuesInRange(
-                                playMaker(
-                                    board = -867
-                                )
+                                PlayBuilder().setBoard(-867).build(),
+                                0,
+                                0,
+                                -867
                             )
                         })
 
                     assertContentEquals(
                         listOf(),
                         runWithLookupTable(supportsById, listOf(Support(502), Support(501))) {
-                            checkValuesInRange(playMaker(support = 501))
+                            checkValuesInRange(PlayBuilder().addSupport(501).build(), 0, 0, 0)
                         })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.SUPPORT, 192168001)),
                         runWithLookupTable(supportsById, listOf(Support(502), Support(501))) {
                             checkValuesInRange(
-                                playMaker(support = 192168001)
+                                PlayBuilder().addSupport(192168001).build(),
+                                0,
+                                0,
+                                0
                             )
                         })
 
@@ -205,14 +218,20 @@ internal class VerifierKtTest {
                         listOf(),
                         runWithLookupTable(startersById, listOf(Starter(601), Starter(602))) {
                             checkValuesInRange(
-                                playMaker(startingDeck = 601, startingDeckCount = 4)
+                                PlayBuilder().addStarter(601, 4).build(),
+                                0,
+                                0,
+                                0
                             )
                         })
                     assertContentEquals(
                         listOf(InvalidCardSet(CardSetType.STARTER, 8675309)),
                         runWithLookupTable(startersById, listOf(Starter(601), Starter(602))) {
                             checkValuesInRange(
-                                playMaker(startingDeck = 8675309, startingDeckCount = 9001)
+                                PlayBuilder().addStarter(8675309, 9001).build(),
+                                0,
+                                0,
+                                0
                             )
                         })
 
@@ -235,7 +254,7 @@ internal class VerifierKtTest {
     fun updateSetCountsFromSchemeTest() {
         var setCounts = SetCounts(0, 0, 0, 0)
         runWithPlugins(setOf()) {
-            updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
+            updateSetCountsFromScheme(PlayBuilder().setScheme(-1).build(), setCounts)
         }
         assertEquals(SetCounts(0, 0, 0, 0), setCounts)
 
@@ -247,31 +266,31 @@ internal class VerifierKtTest {
 
         setCounts = SetCounts(0, 0, 0, 0)
         runWithPlugins(plugins) {
-            updateSetCountsFromScheme(playMaker(scheme = 3), setCounts)
+            updateSetCountsFromScheme(PlayBuilder().setScheme(3).build(), setCounts)
         }
         assertEquals(SetCounts(1, 0, 0, 0), setCounts)
 
         setCounts = SetCounts(0, 0, 0, 0)
         plugin.setCountLogic = { _, _ -> throw Exception("This code should not be reached") }
         runWithPlugins(plugins) {
-            updateSetCountsFromScheme(playMaker(scheme = -1), setCounts)
+            updateSetCountsFromScheme(PlayBuilder().setScheme(-1).build(), setCounts)
         }
         assertEquals(SetCounts(0, 0, 0, 0), setCounts)
     }
 
     @Test
     fun checkMandatorySetsTest() {
-        assertEquals(listOf(), checkMandatorySets(playMaker(mastermind = 10), listOf()))
+        assertEquals(listOf(), checkMandatorySets(PlayBuilder().setMastermind(10).build(), listOf()))
 
         assertEquals(
             listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.VILLAIN, 3)))),
-            checkMandatorySets(playMaker(mastermind = 10), listOf(setOf(TypedCardSet(CardSetType.VILLAIN, 3))))
+            checkMandatorySets(PlayBuilder().setMastermind(10).build(), listOf(setOf(TypedCardSet(CardSetType.VILLAIN, 3))))
         )
 
         assertEquals(
             listOf(),
             checkMandatorySets(
-                playMaker(villain = 3),
+                PlayBuilder().addVillain(3).build(),
                 listOf(setOf(TypedCardSet(CardSetType.VILLAIN, 3)))
             )
         )
@@ -279,26 +298,26 @@ internal class VerifierKtTest {
         assertEquals(
             listOf(),
             checkMandatorySets(
-                playMaker(mastermind = 10, villain = 3),
+                PlayBuilder().addVillain(3).setMastermind(10).build(),
                 listOf(setOf(TypedCardSet(CardSetType.VILLAIN, 3)))
             )
         )
 
         assertEquals(
             listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HENCHMAN, 3)))),
-            checkMandatorySets(playMaker(mastermind = 10), listOf(setOf(TypedCardSet(CardSetType.HENCHMAN, 3))))
+            checkMandatorySets(PlayBuilder().setMastermind(10).build(), listOf(setOf(TypedCardSet(CardSetType.HENCHMAN, 3))))
         )
 
         assertEquals(
             listOf(), checkMandatorySets(
-                playMaker(mastermind = 10, henchman = 3),
+                PlayBuilder().addHenchman(3).setMastermind(10).build(),
                 listOf(setOf(TypedCardSet(CardSetType.HENCHMAN, 3)))
             )
         )
 
         assertEquals(
             listOf(), checkMandatorySets(
-                playMaker(mastermind = 10, henchman = 3), listOf(
+                PlayBuilder().addHenchman(3).setMastermind(10).build(), listOf(
                     setOf(
                         TypedCardSet(CardSetType.VILLAIN, 3),
                         TypedCardSet(CardSetType.HENCHMAN, 3)
@@ -309,7 +328,7 @@ internal class VerifierKtTest {
 
         assertEquals(
             listOf(), checkMandatorySets(
-                playMaker(mastermind = 10, villain = 3), listOf(
+                PlayBuilder().addVillain(3).setMastermind(10).build(), listOf(
                     setOf(
                         TypedCardSet(CardSetType.VILLAIN, 3),
                         TypedCardSet(CardSetType.HENCHMAN, 3)
@@ -327,7 +346,7 @@ internal class VerifierKtTest {
                     ).sortedBy { it.toString() })
             ),
             checkMandatorySets(
-                playMaker(mastermind = 10), listOf(
+                PlayBuilder().setMastermind(10).build(), listOf(
                     setOf(
                         TypedCardSet(CardSetType.VILLAIN, 3),
                         TypedCardSet(CardSetType.HENCHMAN, 3)
@@ -342,7 +361,7 @@ internal class VerifierKtTest {
                 MissingRequiredSet(listOf(TypedCardSet(CardSetType.HENCHMAN, 5)))
             ),
             checkMandatorySets(
-                playMaker(mastermind = 10),
+                PlayBuilder().setMastermind(10).build(),
                 listOf(setOf(TypedCardSet(CardSetType.HENCHMAN, 3)), setOf(TypedCardSet(CardSetType.HENCHMAN, 5)))
             )
         )
@@ -350,13 +369,13 @@ internal class VerifierKtTest {
         // Check logic of unknown card set types. Will break if we ever have required board logic.
         assertEquals(
             listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.BOARD, 3)))),
-            checkMandatorySets(playMaker(board = 3), listOf(setOf(TypedCardSet(CardSetType.BOARD, 3))))
+            checkMandatorySets(PlayBuilder().setBoard(3).build(), listOf(setOf(TypedCardSet(CardSetType.BOARD, 3))))
         )
 
         assertEquals(
             listOf(),
             checkMandatorySets(
-                playMaker(villain = 3),
+                PlayBuilder().addVillain(3).build(),
                 listOf(setOf(TypedCardSet(CardSetType.BOARD, 4), TypedCardSet(CardSetType.VILLAIN, 3)))
             )
         )
@@ -371,28 +390,28 @@ internal class VerifierKtTest {
         runWithPlugins(setOf()) {
             assertEquals(
                 listOf(MissingRecruitSupport),
-                checkRequiredCardSets(playMaker())
+                checkRequiredCardSets(PlayBuilder().build(), 0, 0)
             )
         }
 
         runWithPlugins(setOf()) {
             assertEquals(
                 listOf(MissingRecruitSupport),
-                checkRequiredCardSets(playMaker(support = 101))
+                checkRequiredCardSets(PlayBuilder().addSupport(101).build(), 0, 0)
             )
         }
 
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(MissingRecruitSupport),
-                checkRequiredCardSets(playMaker())
+                checkRequiredCardSets(PlayBuilder().build(), 0, 0)
             )
         }
 
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(),
-                checkRequiredCardSets(playMaker(support = 101))
+                checkRequiredCardSets(PlayBuilder().addSupport(101).build(), 0, 0)
             )
         }
     }
@@ -417,7 +436,7 @@ internal class VerifierKtTest {
                     MissingRequiredSet(listOf(TypedCardSet(CardSetType.VILLAIN, 456))),
                     MissingRecruitSupport
                 ),
-                checkRequiredCardSets(playMaker(mastermind = 1, scheme = 1))
+                checkRequiredCardSets(PlayBuilder().setMastermind(1).setScheme(1).build(), 1, 1)
             )
         }
     }
@@ -430,11 +449,11 @@ internal class VerifierKtTest {
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(),
-                checkPlayValidForScheme(playMaker(scheme = 2))
+                checkPlayValidForScheme(PlayBuilder().setScheme(2).build(), 2)
             )
         }
 
-        val testPlay = playMaker(scheme = 1)
+        val testPlay = PlayBuilder().setScheme(1).build()
         plugin.schemeCheckPlayLogic = { scheme, play ->
             assertEquals(1, scheme)
             assertEquals(testPlay, play)
@@ -443,7 +462,7 @@ internal class VerifierKtTest {
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(),
-                checkPlayValidForScheme(testPlay)
+                checkPlayValidForScheme(testPlay, 1)
             )
         }
 
@@ -460,7 +479,7 @@ internal class VerifierKtTest {
         runWithPlugins(plugins) {
             assertEquals(
                 listOf(testError),
-                checkPlayValidForScheme(testPlay)
+                checkPlayValidForScheme(testPlay, 1)
             )
         }
     }
