@@ -1,5 +1,6 @@
 package games.lmdbg.rules.utils
 
+import games.lmdbg.rules.set.core.*
 import games.lmdbg.rules.verifier.*
 import games.lmdbg.rules.verifier.TypedCardSet
 import games.lmdbg.rules.verifier.CardSetType
@@ -17,7 +18,7 @@ internal class DisplayTest {
     fun emptyTest() {
         assertContentEquals(
             listOf(),
-            errorsToString(listOf(), mapOf())
+            errorsToString(listOf())
         )
     }
 
@@ -26,8 +27,7 @@ internal class DisplayTest {
         assertContentEquals(
             listOf("A setup needs to include a recruit granting support."),
             errorsToString(
-                listOf(MissingRecruitSupport),
-                mapOf()
+                listOf(MissingRecruitSupport)
             )
         )
     }
@@ -40,8 +40,7 @@ internal class DisplayTest {
                 "The scheme you selected is not playable with the selected player count."
             ),
             errorsToString(
-                listOf(MissingRecruitSupport, PlayerSchemeMismatch),
-                mapOf()
+                listOf(MissingRecruitSupport, PlayerSchemeMismatch)
             )
         )
     }
@@ -49,11 +48,9 @@ internal class DisplayTest {
     @Test
     fun singleCardSetTest() {
         assertContentEquals(
-            listOf("Missing required card sets Hero Man"),
+            listOf("Missing required card sets Iron Man"),
             errorsToString(
-                listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HERO, 1)))),
-                mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
-                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Bad Man"))
+                listOf(MissingRequiredSet(listOf(TypedCardSet(CardSetType.HERO, Heroes.IRON_MAN.id))))
             )
         )
     }
@@ -61,18 +58,16 @@ internal class DisplayTest {
     @Test
     fun multipleCardSetTest() {
         assertContentEquals(
-            listOf("Missing required card sets Hero Man, Bad Man"),
+            listOf("Missing required card sets Gambit, Skrulls"),
             errorsToString(
                 listOf(
                     MissingRequiredSet(
                         listOf(
-                            TypedCardSet(CardSetType.HERO, 1),
-                            TypedCardSet(CardSetType.HENCHMAN, 1)
+                            TypedCardSet(CardSetType.HERO, Heroes.GAMBIT.id),
+                            TypedCardSet(CardSetType.VILLAIN, Villains.SKRULLS.id)
                         )
                     )
-                ),
-                mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
-                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Bad Man"))
+                )
             )
         )
     }
@@ -81,20 +76,26 @@ internal class DisplayTest {
     fun cardSetsToStringTest() {
         assertEquals(
             "", cardSetsToString(
-                listOf(),
-                mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
-                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Hench Man"),
-                    CardSetType.VILLAIN.toString() to mapOf(1 to "Villain Man"),
-                    CardSetType.STARTER.toString() to mapOf(1 to "Starter Man"),
-                    CardSetType.SUPPORT.toString() to mapOf(1 to "Support Man"),
-                    CardSetType.SCHEME.toString() to mapOf(1 to "Scheme Man"),
-                    CardSetType.MASTERMIND.toString() to mapOf(1 to "Mastermind Man"),
-                    CardSetType.BOARD.toString() to mapOf(1 to "Board Man"))
+                listOf())
+        )
+
+        assertEquals(
+            "Loki, Super Hero Civil War, HYDRA, Sentinel, Hulk, S.H.I.E.L.D. Officer, S.H.I.E.L.D., HQ", cardSetsToString(
+                listOf(
+                    TypedCardSet(CardSetType.MASTERMIND, Masterminds.LOKI.id),
+                    TypedCardSet(CardSetType.SCHEME, Schemes.SUPER_HERO_CIVIL_WAR.id),
+                    TypedCardSet(CardSetType.VILLAIN, Villains.HYDRA.id),
+                    TypedCardSet(CardSetType.HENCHMAN, Henchmen.SENTINEL.id),
+                    TypedCardSet(CardSetType.HERO, Heroes.HULK.id),
+                    TypedCardSet(CardSetType.SUPPORT, Supports.SHIELD_OFFICER.id),
+                    TypedCardSet(CardSetType.STARTER, Starters.SHIELD.id),
+                    TypedCardSet(CardSetType.BOARD, Boards.HQ.id)
+                )
             )
         )
 
         assertEquals(
-            "Mastermind Man, Scheme Man, Villain Man, Hench Man, Hero Man, Support Man, Starter Man, Board Man", cardSetsToString(
+            "mastermind 1, scheme 1, villain 1, henchman 1, hero 1, support 1, starter 1, board 1", cardSetsToString(
                 listOf(
                     TypedCardSet(CardSetType.MASTERMIND, 1),
                     TypedCardSet(CardSetType.SCHEME, 1),
@@ -104,37 +105,7 @@ internal class DisplayTest {
                     TypedCardSet(CardSetType.SUPPORT, 1),
                     TypedCardSet(CardSetType.STARTER, 1),
                     TypedCardSet(CardSetType.BOARD, 1)
-                ), mapOf(CardSetType.HERO.toString() to mapOf(1 to "Hero Man", 2 to "Bob"),
-                    CardSetType.HENCHMAN.toString() to mapOf(1 to "Hench Man"),
-                    CardSetType.VILLAIN.toString() to mapOf(1 to "Villain Man"),
-                    CardSetType.STARTER.toString() to mapOf(1 to "Starter Man"),
-                    CardSetType.SUPPORT.toString() to mapOf(1 to "Support Man"),
-                    CardSetType.SCHEME.toString() to mapOf(1 to "Scheme Man"),
-                    CardSetType.MASTERMIND.toString() to mapOf(1 to "Mastermind Man"),
-                    CardSetType.BOARD.toString() to mapOf(1 to "Board Man"))
-            )
-        )
-
-        assertEquals(
-            "", cardSetsToString(
-                listOf(),
-                mapOf()
-            )
-        )
-
-        assertEquals(
-            "MASTERMIND 1, SCHEME 1, VILLAIN 1, HENCHMAN 1, HERO 1, SUPPORT 1, STARTER 1, BOARD 1", cardSetsToString(
-                listOf(
-                    TypedCardSet(CardSetType.MASTERMIND, 1),
-                    TypedCardSet(CardSetType.SCHEME, 1),
-                    TypedCardSet(CardSetType.VILLAIN, 1),
-                    TypedCardSet(CardSetType.HENCHMAN, 1),
-                    TypedCardSet(CardSetType.HERO, 1),
-                    TypedCardSet(CardSetType.SUPPORT, 1),
-                    TypedCardSet(CardSetType.STARTER, 1),
-                    TypedCardSet(CardSetType.BOARD, 1)
-                ),
-                mapOf()
+                )
             )
         )
     }

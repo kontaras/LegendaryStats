@@ -124,7 +124,7 @@ public class PlayFormController {
 		}
 		
 		fillModel(model, playInfo);
-		model.addAttribute("verificationErrors", DisplayKt.errorsToString(verificationResult, Map.of())); //TODO: Deref map
+		model.addAttribute("verificationErrors", DisplayKt.errorsToString(verificationResult));
 		return "play";
 	}
 

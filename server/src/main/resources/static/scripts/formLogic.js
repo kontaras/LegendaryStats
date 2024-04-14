@@ -6,8 +6,8 @@ function verify() {
 		if(errors.size === 0) {
 			alert("Valid play");
 		} else {
-			const message = rules.games.lmdbg.rules.utils.errorsToStringJsHack(errors) 
-			alert (message);
+			const message = rules.games.lmdbg.rules.utils.errorsToString(errors)
+			alert (message.toArray().join("\n"));
 		}
 	}
 }
