@@ -20,6 +20,7 @@ enum class Outcome {
 }
 
 /** Possible player counts */
+@JsExport
 enum class PlayerCount {
     SOLO,
     ADVANCED_SOLO,
@@ -100,6 +101,11 @@ open class Play(
         fun playToString(play: Play): String {
             return Json.encodeToString(play)
         }
+
+        /**
+         * Utility function to create a Kotlin [Set] from JavaScript.
+         */
+        fun <TValue> createSetFromJsArray(array: Array<TValue>) = array.toSet()
     }
 }
 

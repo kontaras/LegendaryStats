@@ -4,13 +4,12 @@
 		<title>Legendary Game Stats</title>
 		<th:block th:fragment="headers">
 			<script th:src="@{/scripts/rules.js}" type="text/javascript"></script>
-			<script th:src="@{/autoscripts/cardLookup}" type="text/javascript"></script>
 			<script th:src="@{/scripts/formLogic.js}" type="text/javascript"></script>
 		</th:block>
 	</head>
 	<body>
 		<div th:fragment=="contents">
-			<form th:action="@{/play}" autocomplete="off" method="post" th:object="${playInfo}">
+			<form th:action="@{/play}" autocomplete="off" method="post" onsubmit="return verify();" th:object="${playInfo}">
 				<ul>
 					<ul th:if="${#fields.hasErrors('global')}">
 						<li th:each="err : ${#fields.errors('global')}" th:text="${err}">Input is incorrect</li>
@@ -120,7 +119,6 @@
 						<textarea name="notes" id="notes" rows="10" cols="80" th:text="*{notes}"></textarea>
 					</div>
 				</fieldset>
-				<button type="button" onclick="verify()">Verify</button> 
 				<input type="submit" />
 			</form>
 		</div>
