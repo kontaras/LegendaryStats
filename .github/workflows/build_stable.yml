@@ -19,13 +19,13 @@ jobs:
         java-version: '20'
         distribution: 'adopt'
     - name: Cache SonarCloud packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
     - name: Cache Gradle packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -45,7 +45,7 @@ jobs:
         ./gradlew --stop
         ./gradlew sonarqube --info
     - name: CodeCov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         verbose: true
   publish:
@@ -66,7 +66,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build jibDockerBuild -Djib.to.image="$REGISTRY/kontaras/legendary-stats:$GITHUB_SHA" --info
       - name: Log in to the Container registry
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v3.3.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -85,7 +85,7 @@ jobs:
       REGISTRY: ghcr.io
     steps:
       - name: Log in to the Container registry
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v3.3.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
