@@ -117,7 +117,6 @@ public class PlayFormController {
 				} else {
 					playInfo.setUser(user.getId());
 					this.serializer.createPlay(playInfo);
-//					return "redirect:/plays/" + playInfo.getId(); // TODO: view play page
 					return "redirect:/";
 				}
 			}
