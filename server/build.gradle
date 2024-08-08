@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '3.0.3'
+	id 'org.springframework.boot' version '3.3.0'
 	id 'io.spring.dependency-management' version '1.1.5'
 	id 'java'
 	id "org.sonarqube" version "5.0.0.4638"
@@ -9,6 +9,8 @@ plugins {
 	id 'com.adarshr.test-logger' version '3.2.0'
 	id 'com.google.cloud.tools.jib' version '3.4.3'
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 group = 'games.lmdbg'
 version = '0.0.2'
@@ -26,13 +28,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
 
 	implementation 'com.google.guava:guava:33.2.1-jre'
 
 	implementation 'org.tinylog:tinylog-api:2.7.0'
 	runtimeOnly 'org.tinylog:tinylog-impl:2.7.0'
 
-	runtimeOnly 'org.flywaydb:flyway-core:9.19.4'
+	runtimeOnly 'org.flywaydb:flyway-core:10.13.0'
 
 	runtimeOnly 'com.h2database:h2:2.2.224' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
@@ -41,7 +44,7 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation "org.mockito:mockito-core:5.12.0"
-	testImplementation "net.bytebuddy:byte-buddy:1.14.8"
+	testImplementation "net.bytebuddy:byte-buddy:1.14.11"
 
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 
@@ -53,10 +56,10 @@ dependencies {
 test {
 	useJUnitPlatform()
 	testlogger {
-            showPassedStandardStreams false
-    showSkippedStandardStreams false
-    showFailedStandardStreams true
-    showFullStackTraces true
+		showPassedStandardStreams false
+    	showSkippedStandardStreams false
+		showFailedStandardStreams true
+		showFullStackTraces true
     }
 }
 

@@ -29,7 +29,7 @@ public class SecurityConfiguration {
 		http
 			.authorizeHttpRequests(requests -> requests
 				.requestMatchers("/play/**", "/user/**").authenticated()
-				.requestMatchers("/login*", "/registration*").permitAll()
+				.requestMatchers("/login", "/register", "/", "/styles/**", "/scripts/**").permitAll()
 			)
 			.formLogin(form -> form
 				.loginPage("/login")
