@@ -11,7 +11,7 @@ function verify() {
 }
 
 function formToPlay() {
-	const play = rules.games.lmdbg.rules.model.Play.Play_init_$Create$();
+	const play = {} //rules.games.lmdbg.rules.model.Play.constructor();
 	const scheme = jQuery('input:radio[name=scheme]:checked').val();
 	if (scheme != undefined) {
 		play.scheme = parseInt(scheme);
@@ -67,6 +67,7 @@ function formToPlay() {
 	
 	// Cannot encode starters. Try again in Kotlin 2.0.
 	const json = JSON.stringify(play)
+	
 	return rules.games.lmdbg.rules.model.Play.Companion.playFromString(json);
 }
 

@@ -138,7 +138,7 @@ tasks.processResources {
     dependsOn(":rules:assemble")
     // package the frontend app within the jar as static
     def frontendBuildDir = project(":rules").buildDir
-    def frontendDist = frontendBuildDir.toPath().resolve("distributions")
+    def frontendDist = frontendBuildDir.toPath().resolve("dist/js/productionExecutable/")
     from(frontendDist) {
         include("**/*")
         into("static/scripts")
