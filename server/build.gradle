@@ -14,7 +14,7 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'games.lmdbg'
 version = '0.0.2'
-sourceCompatibility = '20'
+sourceCompatibility = '21'
 
 repositories {
 	mavenCentral()
