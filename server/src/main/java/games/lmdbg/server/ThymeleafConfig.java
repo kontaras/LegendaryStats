@@ -5,7 +5,8 @@ import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -31,6 +32,8 @@ public class ThymeleafConfig {
 		
 		templateEngine.addTemplateResolver(htmlTemplateResolver());
 		templateEngine.addTemplateResolver(jsTemplateResolver());
+		
+		templateEngine.addDialect(new SpringSecurityDialect());
 		
 		return templateEngine;
 	}
@@ -64,5 +67,10 @@ public class ThymeleafConfig {
 		templateResolver.setTemplateMode(TemplateMode.JAVASCRIPT);
 		templateResolver.setCharacterEncoding("UTF-8");
 		return templateResolver;
+	}
+	
+	@Bean
+	public SpringSecurityDialect springSecurityDialect() {
+	    return new SpringSecurityDialect();
 	}
 }

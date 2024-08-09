@@ -3,7 +3,7 @@ package games.lmdbg.server.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.ServletRequest;
+import jakarta.servlet.ServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

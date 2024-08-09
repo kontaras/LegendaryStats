@@ -28,8 +28,8 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests(requests -> requests
-				.antMatchers("/play/**", "/user/**").authenticated()
-				.antMatchers("/login*", "/registration*").permitAll()
+				.requestMatchers("/play/**", "/user/**").authenticated()
+				.requestMatchers("/login", "/register", "/", "/styles/**", "/scripts/**").permitAll()
 			)
 			.formLogin(form -> form
 				.loginPage("/login")

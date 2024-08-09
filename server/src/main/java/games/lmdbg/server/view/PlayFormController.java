@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,31 +50,30 @@ public class PlayFormController {
 	/** All of the accounts */
 	@Autowired
 	private AccountsRepository accounts;
-	
+
 	@Autowired
 	private PlayStore serializer;
 	/**
 	 * Generate data for rendering a game entry form
-	 * 
+	 *
 	 * @param model Model to put data into
 	 * @return The template to create the game entry form page
 	 */
 	@GetMapping("/play")
 	public static String createForm(Model model) {
 		ServerPlay emptyPlay = new ServerPlay();
-		
+
 		emptyPlay.setBoard(Boards.INSTANCE.getHQ().getId());
 		emptyPlay.setSupports(Set.of(Supports.INSTANCE.getSHIELD_OFFICER().getId()));
-		
-		
+
 		fillModel(model, emptyPlay);
-		
+
 		return "play";
 	}
-	
+
 	/**
 	 * Validate and persist a play
-	 * 
+	 *
 	 * @param request http POST request
 	 * @param model Model to initialize
 	 * @param playInfo play to persist
@@ -85,9 +84,9 @@ public class PlayFormController {
 	public String newPlay(HttpServletRequest request, Model model,
 			@Valid @ModelAttribute("playInfo") ServerPlay playInfo, final BindingResult bindingResult) {
 		Map<String, String[]> params = request.getParameterMap();
-		
+
 		final List<PrintableError> verificationResult = new ArrayList<>();
-		
+
 		if (bindingResult.hasErrors()) {
 			for (FieldError error : bindingResult.getFieldErrors()) {
 				verificationResult
@@ -96,9 +95,9 @@ public class PlayFormController {
 		}
 		else {
 			Map<Integer, Integer> playStarters = extractStaters(params, verificationResult);
-			
+
 			playInfo.setStarters(playStarters);
-			
+
 			if (verificationResult.isEmpty()) {
 				verificationResult.addAll(VerifierKt.verify(playInfo));
 			}
@@ -121,7 +120,7 @@ public class PlayFormController {
 				}
 			}
 		}
-		
+
 		fillModel(model, playInfo);
 		model.addAttribute("verificationErrors", DisplayKt.errorsToString(verificationResult));
 		return "play";
@@ -129,7 +128,7 @@ public class PlayFormController {
 
 	/**
 	 * Go through the form parameters and extract the starters used.
-	 * 
+	 *
 	 * @param params parameters to extract plays from
 	 * @param verificationResult <i>output variable</i> List of errors to report
 	 *          back to the user
@@ -150,7 +149,7 @@ public class PlayFormController {
 				verificationResult.add(new InvalidValue("starter", starterIdStr));
 				return;
 			}
-			
+
 			Integer starterQuantity;
 			try {
 				starterQuantity = Integer.valueOf(t.getValue()[0]);
@@ -159,15 +158,15 @@ public class PlayFormController {
 				verificationResult.add(new InvalidValue("starter count", t.getValue()[0]));
 				return;
 			}
-			
+
 			playStarters.put(starterId, starterQuantity);
 		});
 		return playStarters;
 	}
-	
+
 	/**
 	 * Initialize the model
-	 * 
+	 *
 	 * @param model model to initialize
 	 * @param play Current play info
 	 */
@@ -175,9 +174,9 @@ public class PlayFormController {
 		List<String> outcomes =
 				Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
 		Collections.sort(outcomes);
-		
+
 		List<String> players = Arrays.stream(PlayerCount.values()).map(PlayerCount::toString).toList();
-		
+
 		model.addAttribute("outcomes", outcomes);
 		model.addAttribute("players", players);
 		model.addAttribute("schemes", sortCards(CardLookupKt.getSchemesById().values()));
@@ -190,7 +189,7 @@ public class PlayFormController {
 		model.addAttribute("boards", sortCards(CardLookupKt.getBoardsById().values()));
 		model.addAttribute("playInfo", play);
 	}
-	
+
 	private static <T extends CardSet> List<T> sortCards(Collection<T> cardSet) {
 		List<T> cards = new ArrayList<>(cardSet);
 		cards.sort(Comparator.comparing(CardSet::getId));
