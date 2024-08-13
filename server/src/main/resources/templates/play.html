@@ -50,7 +50,7 @@
 					<fieldset>
 						<legend>Supports</legend>
 						<th:block th:each="item : ${supports}">
-						<input type="checkbox" th:field="*{supports}" th:value="${item.id}" readonly="readonly" />
+						<input type="checkbox" th:field="*{supports}" th:value="${item.id}" disabled="true" />
 						<label th:for="${#ids.prev('supports')}" th:utext="${@viewHelper.getDisplayName(item)}">SUPPORT NAME</label>
 						<br />
 						</th:block>
