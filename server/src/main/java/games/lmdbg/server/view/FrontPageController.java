@@ -13,6 +13,7 @@ import games.lmdbg.server.service.SqlWinRate;
  */
 @Controller
 public class FrontPageController {
+	public static final String FRONT_PAGE_PATH = "/";
 	@Autowired
 	SqlWinRate winRates;
 
@@ -22,7 +23,7 @@ public class FrontPageController {
 	 * @param model Model to put data into
 	 * @return The template to create the index page
 	 */
-	@GetMapping("/")
+	@GetMapping(FRONT_PAGE_PATH)
 	public String mainPage(Model model) {
 		model.addAttribute("heroes", this.winRates.getSetWinRates(Schema.ComponentType.HERO));
 		model.addAttribute("villains", this.winRates.getSetWinRates(Schema.ComponentType.VILLAIN));

@@ -29,7 +29,7 @@ class SmokeIntegrationTest {
 		TestRestTemplate restTemplate2 = new TestRestTemplate("user", "password");
 		for(String url : urls) {
 			ResponseEntity<String> resp = restTemplate2.getForEntity("http://localhost:" + this.port + url, String.class);
-			Assertions.assertEquals(200, resp.getStatusCodeValue());
+			Assertions.assertEquals(200, resp.getStatusCode().value());
 			Assertions.assertTrue(resp.hasBody());
 			Assertions.assertTrue(MediaType.TEXT_HTML.equalsTypeAndSubtype(resp.getHeaders().getContentType()));
 			Assertions.assertTrue(resp.getBody().contains("<html lang=\"en\""));

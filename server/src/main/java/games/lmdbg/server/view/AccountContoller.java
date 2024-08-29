@@ -18,7 +18,11 @@ import games.lmdbg.server.model.AccountsRepository;
  * Methods to handle user accounts.
  */
 @Controller
-class AccountContoller {
+public class AccountContoller {
+	public static final String LOGIN_PATH = "/login";
+
+	public static final String REGISTRATION_PATH = "/register";
+	
 	/** Accounts table */
 	@Autowired private AccountsRepository accounts;
 	
@@ -33,7 +37,7 @@ class AccountContoller {
 	 * Serve up the Login page
 	 * @return The template for the page
 	 */
-	@GetMapping("login")
+	@GetMapping(LOGIN_PATH)
 	public static String loginPage() {
 		return "login";
 	}
@@ -43,7 +47,7 @@ class AccountContoller {
 	 * 
 	 * @return Registration template
 	 */
-	@GetMapping("register")
+	@GetMapping(REGISTRATION_PATH)
 	public static String registerPage(Model model) {
 		model.addAttribute("errors", List.of());
 		return "registration";
@@ -56,7 +60,7 @@ class AccountContoller {
 	 * @param model Data model to fill for template
 	 * @return Next template to access
 	 */
-	@PostMapping("register")
+	@PostMapping(REGISTRATION_PATH)
 	public String register(ServletRequest request, Model model) {
 		Account user = new Account();
 
@@ -64,7 +68,6 @@ class AccountContoller {
 
 		String[] name = params.get("username");
 		String[] pass = params.get("password");
-		String[] email = params.get("email");
 
 		List<String> errors = new ArrayList<>();
 		if (name == null || name.length < 1 || name[0].strip().length() < 1) {
@@ -74,10 +77,6 @@ class AccountContoller {
 				errors.add("Duplicate user name");
 			}
 			user.setUserName(name[0]);
-		}
-
-		if (email != null && email.length >= 1 && email[0].strip().length() > 0) {
-			user.setEmail(email[0].strip());
 		}
 
 		if (pass == null || pass.length < 1 || pass[0].strip().length() < 1) {
@@ -90,7 +89,6 @@ class AccountContoller {
 			return "redirect:login?register";
 		}
 		model.addAttribute("user", user.getUserName());
-		model.addAttribute("email", user.getEmail());
 		model.addAttribute("errors", errors);
 		return "registration";
 	}

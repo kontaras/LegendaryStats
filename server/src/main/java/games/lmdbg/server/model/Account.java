@@ -28,11 +28,6 @@ public class Account {
 	 * Password hash
 	 */
 	private String password;
-	
-	/**
-	 * User email, if supplied
-	 */
-	private String email;
 
 	/**
 	 * @return the id
@@ -56,13 +51,6 @@ public class Account {
 	}
 
 	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
 	 * @param id the id to set
 	 */
 	public void setId(Integer id) {
@@ -81,12 +69,5 @@ public class Account {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
 	}
 }

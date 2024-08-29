@@ -4,7 +4,6 @@ CREATE TABLE account
    id INT DEFAULT nextval('account_ids'),
    user_name VARCHAR UNIQUE NOT NULL,
    password VARCHAR NOT NULL,
-   email VARCHAR,
    PRIMARY KEY (id)
 );
 

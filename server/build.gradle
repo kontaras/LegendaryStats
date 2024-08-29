@@ -40,11 +40,11 @@ dependencies {
 	runtimeOnly 'com.h2database:h2:2.2.224' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
 
+	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation "org.mockito:mockito-core:5.12.0"
-	testImplementation "net.bytebuddy:byte-buddy:1.14.11"
 
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 

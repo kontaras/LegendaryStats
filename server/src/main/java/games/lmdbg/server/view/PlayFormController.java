@@ -47,6 +47,8 @@ import games.lmdbg.rules.set.core.Supports;
  */
 @Controller
 public class PlayFormController {
+	public static final String PLAY_PATH = "/play";
+
 	/** All of the accounts */
 	@Autowired
 	private AccountsRepository accounts;
@@ -59,7 +61,7 @@ public class PlayFormController {
 	 * @param model Model to put data into
 	 * @return The template to create the game entry form page
 	 */
-	@GetMapping("/play")
+	@GetMapping(PLAY_PATH)
 	public static String createForm(Model model) {
 		ServerPlay emptyPlay = new ServerPlay();
 
@@ -80,7 +82,7 @@ public class PlayFormController {
 	 * @param bindingResult Automated validation
 	 * @return Next page template to display
 	 */
-	@PostMapping("/play")
+	@PostMapping(PLAY_PATH)
 	public String newPlay(HttpServletRequest request, Model model,
 			@Valid @ModelAttribute("playInfo") ServerPlay playInfo, final BindingResult bindingResult) {
 		

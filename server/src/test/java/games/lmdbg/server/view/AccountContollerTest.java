@@ -65,7 +65,6 @@ class AccountContollerTest {
 		String[] empty = {};
 		params.put("username", empty);
 		params.put("password", empty);
-		params.put("email", empty);
 		Mockito.when(request.getParameterMap()).thenReturn(params);
 		
 		model = Mockito.mock(Model.class);
@@ -77,7 +76,6 @@ class AccountContollerTest {
 		String[] whiteSpace = {" "};
 		params.put("username", whiteSpace);
 		params.put("password", whiteSpace);
-		params.put("email", whiteSpace);
 		
 		model = Mockito.mock(Model.class);
 		
@@ -88,7 +86,6 @@ class AccountContollerTest {
 		Mockito.when(accounts.existsByUserName("bob")).thenReturn(true);
 		params.put("username", List.of("bob").toArray(new String[1]));
 		params.put("password", List.of("p@$$w0rd").toArray(new String[1]));
-		params.put("email", List.of("e@mail").toArray(new String[1]));
 		
 		expectedErrors.clear();
 		expectedErrors.add("Duplicate user name");
@@ -96,7 +93,6 @@ class AccountContollerTest {
 		Assertions.assertEquals("registration", underTest.register(request, model));
 		Mockito.verify(model).addAttribute("errors", expectedErrors);
 		Mockito.verify(model).addAttribute("user", "bob");
-		Mockito.verify(model).addAttribute("email", "e@mail");
 		Mockito.verify(accounts, Mockito.never()).save(ArgumentMatchers.any());
 		
 		Mockito.when(accounts.existsByUserName("bob")).thenReturn(false);

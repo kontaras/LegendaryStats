@@ -10,6 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import games.lmdbg.server.view.AccountContoller;
+import games.lmdbg.server.view.FrontPageController;
+import games.lmdbg.server.view.PlayFormController;
+import games.lmdbg.server.view.StaticPageContoller;
+
 /**
  * Spring Security Configuration
  */
@@ -28,8 +33,9 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests(requests -> requests
-				.requestMatchers("/play/**", "/user/**").authenticated()
-				.requestMatchers("/login", "/register", "/", "/styles/**", "/scripts/**").permitAll()
+				.requestMatchers(PlayFormController.PLAY_PATH, "/user/**").authenticated()
+				.requestMatchers(AccountContoller.LOGIN_PATH, AccountContoller.REGISTRATION_PATH,
+						StaticPageContoller.FAQ_PATH, FrontPageController.FRONT_PAGE_PATH, "/styles/**", "/scripts/**").permitAll()
 			)
 			.formLogin(form -> form
 				.loginPage("/login")
