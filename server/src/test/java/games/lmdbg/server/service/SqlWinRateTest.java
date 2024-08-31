@@ -12,8 +12,11 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.yaml.snakeyaml.comments.CommentType;
+
 import games.lmdbg.server.model.IWinRate;
 import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.rules.set.CardLookupKt;
 import games.lmdbg.rules.set.core.Heroes;
 
 /**
@@ -113,5 +116,26 @@ class SqlWinRateTest extends SqlTest {
 		Assertions.assertEquals(2, rate.getPlayed());
 		Assertions.assertEquals(0, rate.getWon());
 		Assertions.assertEquals(1, rate.getLost());
+	}
+	
+	/**
+	 * Test {@link SqlWinRate#lookupTable(games.lmdbg.server.service.Schema.ComponentType)}
+	 */
+	@Test
+	void testLookupTable() {
+		Assertions.assertSame(CardLookupKt.getHeroesById(), 
+				SqlWinRate.lookupTable(Schema.ComponentType.HERO));
+		Assertions.assertSame(CardLookupKt.getSchemesById(), 
+				SqlWinRate.lookupTable(Schema.ComponentType.SCHEME));
+		Assertions.assertSame(CardLookupKt.getMastermindsById(), 
+				SqlWinRate.lookupTable(Schema.ComponentType.MASTERMIND));
+		Assertions.assertSame(CardLookupKt.getVillainsById(), 
+				SqlWinRate.lookupTable(Schema.ComponentType.VILLAIN));
+		Assertions.assertSame(CardLookupKt.getHenchmanById(), 
+				SqlWinRate.lookupTable(Schema.ComponentType.HENCHMAN));
+		Assertions.assertSame(CardLookupKt.getSupportsById(),
+				SqlWinRate.lookupTable(Schema.ComponentType.SUPPORT));
+		Assertions.assertSame(CardLookupKt.getBoardsById(), 
+				SqlWinRate.lookupTable(Schema.ComponentType.BOARD));
 	}
 }
