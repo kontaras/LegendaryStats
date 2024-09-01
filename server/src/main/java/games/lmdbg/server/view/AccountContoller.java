@@ -21,12 +21,14 @@ public class AccountContoller {
 	public static final String LOGIN_PATH = "/login";
 
 	public static final String REGISTRATION_PATH = "/register";
-	
+
 	/** Accounts table */
-	@Autowired private AccountsRepository accounts;
-	
-	@Autowired private PasswordEncoder passwordEncoder;
-	
+	@Autowired
+	private AccountsRepository accounts;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	/** There should never be an instance. */
 	private AccountContoller() {
 		// Nothing to do here
@@ -34,13 +36,14 @@ public class AccountContoller {
 
 	/**
 	 * Serve up the Login page
+	 * 
 	 * @return The template for the page
 	 */
 	@GetMapping(LOGIN_PATH)
 	public static String loginPage() {
 		return "login";
 	}
-	
+
 	/**
 	 * Access the registration page
 	 * 
@@ -56,7 +59,7 @@ public class AccountContoller {
 	 * Accept the registration form, validate it, and create a new account
 	 * 
 	 * @param request Request parameters to get account info from
-	 * @param model Data model to fill for template
+	 * @param model   Data model to fill for template
 	 * @return Next template to access
 	 */
 	@PostMapping(REGISTRATION_PATH)

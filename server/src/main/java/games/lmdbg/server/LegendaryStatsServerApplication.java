@@ -1,4 +1,3 @@
-
 package games.lmdbg.server;
 
 import org.springframework.boot.SpringApplication;
@@ -9,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class LegendaryStatsServerApplication {
-	
+
 	/**
 	 * Start the web serve
 	 * 
@@ -18,5 +17,5 @@ public class LegendaryStatsServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LegendaryStatsServerApplication.class, args);
 	}
-	
+
 }

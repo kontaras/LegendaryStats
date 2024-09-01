@@ -21,7 +21,7 @@ import org.springframework.ui.Model;
 class FrontPageControllerTest {
 	@MockBean
 	private SqlWinRate winRates;
-	
+
 	@Autowired
 	private FrontPageController controller;
 
@@ -37,10 +37,10 @@ class FrontPageControllerTest {
 		Mockito.when(this.winRates.getSetWinRates(Schema.ComponentType.HERO)).thenReturn(testHenchmanWinRateMap);
 		Map<CardSet, IWinRate> testSchemeWinRateMap = new HashMap<>(0);
 		Mockito.when(this.winRates.getSetWinRates(Schema.ComponentType.HERO)).thenReturn(testSchemeWinRateMap);
-		
+
 		Model mod = Mockito.mock(Model.class);
 		Assertions.assertEquals("index", controller.mainPage(mod));
-		
+
 		Mockito.verify(mod).addAttribute("heroes", testHeroWinRateMap);
 		Mockito.verify(mod).addAttribute("villains", testVillainWinRateMap);
 		Mockito.verify(mod).addAttribute("masterminds", testMastermindWinRateMap);

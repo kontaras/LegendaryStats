@@ -1,4 +1,3 @@
-
 package games.lmdbg.server.service;
 
 import games.lmdbg.rules.model.Outcome;
@@ -17,24 +16,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class PlayStoreIntegrationTest extends SqlTest {
 	@Autowired
 	PlayStore underTest;
-	
+
 	/**
 	 * @param jdbcTemplate
 	 */
 	public PlayStoreIntegrationTest(@Autowired JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
 	}
-	
+
 	/**
 	 * Test
-	 * {@link PlayStore#createPlay(games.lmdbg.server.model.ServerPlay,
-	 *  games.lmdbg.server.model.Account)}
+	 * {@link PlayStore#createPlay(games.lmdbg.server.model.ServerPlay, games.lmdbg.server.model.Account)}
 	 */
 	@Test
 	void testCreatePlay() {
 		Number player = createUser();
 		ServerPlay play = new ServerPlay();
-		
+
 		play.setUser(player.intValue());
 		play.setNotes("note");
 		play.setOutcome(Outcome.WIN_DEFEAT_MASTERMIND);
@@ -53,11 +51,11 @@ public class PlayStoreIntegrationTest extends SqlTest {
 		play.getSupports().add(654);
 		play.getStarters().put(321, 1);
 		play.getStarters().put(98, 2);
-		
+
 		Number playId = this.underTest.createPlay(play);
-		
+
 		playToClean(playId);
-		
+
 		Assertions.assertEquals(play, this.underTest.readPlay(playId.longValue(), player));
 	}
 }

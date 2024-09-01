@@ -15,12 +15,14 @@ public interface IWinRate {
 	Integer getPlayed();
 
 	/**
-	 * @return The total number of games that resulted in a win and include this entity.
+	 * @return The total number of games that resulted in a win and include this
+	 *         entity.
 	 */
 	Integer getWon();
-	
+
 	/**
-	 * @return The total number of games that resulted in a loss and include this entity.
+	 * @return The total number of games that resulted in a loss and include this
+	 *         entity.
 	 */
 	Integer getLost();
 }

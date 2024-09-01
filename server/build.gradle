@@ -91,6 +91,8 @@ spotless {
   	removeUnusedImports()
   	importOrder()
   	cleanthat()
+  	
+  	eclipse().configFile('misc/eclipseformat.xml')
   }
 }
 

@@ -19,8 +19,7 @@ class ViewHelperTest {
 	ViewHelper vh = new ViewHelper();
 
 	/**
-	 * Test for
-	 * {@link ViewHelper#getDisplayName(Nameable)}
+	 * Test for {@link ViewHelper#getDisplayName(Nameable)}
 	 * 
 	 * Test the trivial case: A {@link Nameable} that has no name or has only one
 	 * name set
@@ -55,21 +54,21 @@ class ViewHelperTest {
 		// Test combinations of two names
 		nameable = new Nameable("MARVEL NAME", "", "MCU NAME");
 		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span><span class=\"mcu\">MCU NAME</span>",
-				vh.getDisplayName(nameable));
+		        vh.getDisplayName(nameable));
 
 		nameable = new Nameable("MARVEL NAME", "DXP NAME", "");
 		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME</span><span class=\"dxp\">DXP NAME</span>",
-				vh.getDisplayName(nameable));
+		        vh.getDisplayName(nameable));
 
 		nameable = new Nameable("", "DXP NAME", "MCU NAME");
 		Assertions.assertEquals("<span class=\"mcu\">MCU NAME</span><span class=\"dxp\">DXP NAME</span>",
-				vh.getDisplayName(nameable));
+		        vh.getDisplayName(nameable));
 
 		// Test all three names set
 		nameable = new Nameable("MARVEL NAME", "DXP NAME", "MCU NAME");
 		Assertions.assertEquals(
-				"<span class=\"marvel\">MARVEL NAME</span><span class=\"mcu\">MCU NAME</span><span class=\"dxp\">DXP NAME</span>",
-				vh.getDisplayName(nameable));
+		        "<span class=\"marvel\">MARVEL NAME</span><span class=\"mcu\">MCU NAME</span><span class=\"dxp\">DXP NAME</span>",
+		        vh.getDisplayName(nameable));
 	}
 
 	/**
@@ -96,7 +95,8 @@ class ViewHelperTest {
 
 		team = new Team("MARVEL TEAM", "", "");
 		nameable = new Hero(0, "MARVEL NAME", "", "", List.of(team));
-		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME (MARVEL TEAM)</span>", vh.getHeroDisplayName(nameable));
+		Assertions.assertEquals("<span class=\"marvel\">MARVEL NAME (MARVEL TEAM)</span>",
+		        vh.getHeroDisplayName(nameable));
 
 		team = new Team("", "", "");
 		nameable = new Hero(0, "", "", "MCU NAME", List.of(team));
@@ -126,17 +126,17 @@ class ViewHelperTest {
 
 		Assertions.assertEquals("<span class=\"mcu\">MCU NAME (MCU TEAM)</span>", vh.getDisplayName(nameable));
 	}
-	
+
 	/**
 	 * Test {@link ViewHelper#asCollection(Object)}
 	 */
 	@Test
 	void testAsCollection() {
 		Assertions.assertTrue(vh.asCollection(null).isEmpty());
-		
-		Collection<Object> someCollection = new ArrayList<>(); 
+
+		Collection<Object> someCollection = new ArrayList<>();
 		Assertions.assertEquals(someCollection, vh.asCollection(someCollection));
-		
+
 		Object something = new Object();
 		Collection<?> somethingAsCollection = vh.asCollection(something);
 		Assertions.assertEquals(1, somethingAsCollection.size());

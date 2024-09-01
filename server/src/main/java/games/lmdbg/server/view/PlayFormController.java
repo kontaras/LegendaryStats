@@ -1,4 +1,3 @@
-
 package games.lmdbg.server.view;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -51,6 +50,7 @@ public class PlayFormController {
 
 	@Autowired
 	private PlayStore serializer;
+
 	/**
 	 * Generate data for rendering a game entry form
 	 *
@@ -72,29 +72,27 @@ public class PlayFormController {
 	/**
 	 * Validate and persist a play
 	 *
-	 * @param request http POST request
-	 * @param model Model to initialize
-	 * @param playInfo play to persist
+	 * @param request       http POST request
+	 * @param model         Model to initialize
+	 * @param playInfo      play to persist
 	 * @param bindingResult Automated validation
 	 * @return Next page template to display
 	 */
 	@PostMapping(PLAY_PATH)
 	public String newPlay(HttpServletRequest request, Model model,
-			@Valid @ModelAttribute("playInfo") ServerPlay playInfo, final BindingResult bindingResult) {
-		
+	        @Valid @ModelAttribute("playInfo") ServerPlay playInfo, final BindingResult bindingResult) {
+
 		playInfo.setSupports(Set.of(Supports.INSTANCE.getSHIELD_OFFICER().getId()));
-		
+
 		Map<String, String[]> params = request.getParameterMap();
 
 		final List<PrintableError> verificationResult = new ArrayList<>();
 
 		if (bindingResult.hasErrors()) {
 			for (FieldError error : bindingResult.getFieldErrors()) {
-				verificationResult
-						.add(new InvalidValue(error.getField(), String.valueOf(error.getRejectedValue())));
+				verificationResult.add(new InvalidValue(error.getField(), String.valueOf(error.getRejectedValue())));
 			}
-		}
-		else {
+		} else {
 			Map<Integer, Integer> playStarters = extractStaters(params, verificationResult);
 
 			playInfo.setStarters(playStarters);
@@ -104,8 +102,7 @@ public class PlayFormController {
 			}
 		}
 
-
-		if (!bindingResult.hasGlobalErrors() && verificationResult.isEmpty()){
+		if (!bindingResult.hasGlobalErrors() && verificationResult.isEmpty()) {
 			String loginError = "Error with login. Please log out and log back in.";
 			String name = request.getRemoteUser();
 			if (name == null) {
@@ -130,14 +127,14 @@ public class PlayFormController {
 	/**
 	 * Go through the form parameters and extract the starters used.
 	 *
-	 * @param params parameters to extract plays from
+	 * @param params             parameters to extract plays from
 	 * @param verificationResult <i>output variable</i> List of errors to report
-	 *          back to the user
+	 *                           back to the user
 	 * @return The starters for this play object
 	 */
 	@VisibleForTesting
 	static Map<Integer, Integer> extractStaters(Map<String, String[]> params,
-			final List<PrintableError> verificationResult) {
+	        final List<PrintableError> verificationResult) {
 		Map<Integer, Integer> playStarters = new HashMap<>();
 		String starterPrefix = "starters_";
 		params.entrySet().stream().filter(t -> t.getKey().startsWith(starterPrefix)).forEach(t -> {
@@ -145,8 +142,7 @@ public class PlayFormController {
 			Integer starterId;
 			try {
 				starterId = Integer.valueOf(starterIdStr);
-			}
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				verificationResult.add(new InvalidValue("starter", starterIdStr));
 				return;
 			}
@@ -154,8 +150,7 @@ public class PlayFormController {
 			Integer starterQuantity;
 			try {
 				starterQuantity = Integer.valueOf(t.getValue()[0]);
-			}
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				verificationResult.add(new InvalidValue("starter count", t.getValue()[0]));
 				return;
 			}
@@ -169,11 +164,10 @@ public class PlayFormController {
 	 * Initialize the model
 	 *
 	 * @param model model to initialize
-	 * @param play Current play info
+	 * @param play  Current play info
 	 */
 	private static void fillModel(Model model, ServerPlay play) {
-		List<String> outcomes =
-				Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
+		List<String> outcomes = Arrays.stream(Outcome.values()).map(Outcome::toString).collect(Collectors.toList());
 		Collections.sort(outcomes);
 
 		List<String> players = Arrays.stream(PlayerCount.values()).map(PlayerCount::toString).toList();

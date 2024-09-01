@@ -28,17 +28,17 @@ class UserDetailsServiceImplTest {
 	void loadUserByUsernameTest() {
 		String testUser = "bob";
 		Assertions.assertThrows(UsernameNotFoundException.class, () -> underTest.loadUserByUsername(testUser));
-		
+
 		Account accnt = Mockito.mock(Account.class);
 		Mockito.when(accnt.getUserName()).thenReturn("NAME");
 		Mockito.when(accnt.getPassword()).thenReturn("PASS");
-		
+
 		Mockito.when(accounts.findByUserName(testUser)).thenReturn(accnt);
-		
+
 		UserDetails user = underTest.loadUserByUsername(testUser);
 		Assertions.assertEquals("NAME", user.getUsername());
 		Assertions.assertEquals("PASS", user.getPassword());
-		
+
 		List<? extends GrantedAuthority> authorities = List.copyOf(user.getAuthorities());
 		Assertions.assertEquals(1, authorities.size());
 		Assertions.assertEquals("USER", authorities.get(0).getAuthority());

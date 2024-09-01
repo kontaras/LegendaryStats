@@ -20,14 +20,16 @@ class SmokeIntegrationTest {
 	private int port;
 
 	/**
-	 * Checks that the service will return something that looks like an HTML response.
+	 * Checks that the service will return something that looks like an HTML
+	 * response.
 	 */
 	@Test
 	void testHtmlResponse() {
 		List<String> urls = List.of("/", "/faq", "/play");
 		TestRestTemplate restTemplate2 = new TestRestTemplate("user", "password");
-		for(String url : urls) {
-			ResponseEntity<String> resp = restTemplate2.getForEntity("http://localhost:" + this.port + url, String.class);
+		for (String url : urls) {
+			ResponseEntity<String> resp =
+			        restTemplate2.getForEntity("http://localhost:" + this.port + url, String.class);
 			Assertions.assertEquals(200, resp.getStatusCode().value());
 			Assertions.assertTrue(resp.hasBody());
 			Assertions.assertTrue(MediaType.TEXT_HTML.equalsTypeAndSubtype(resp.getHeaders().getContentType()));

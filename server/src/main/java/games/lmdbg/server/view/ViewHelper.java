@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.Collections;
 import org.springframework.context.annotation.Configuration;
 
-
 /**
  * Helper functions for advanced/duplicated functionality in page rendering.
  */
@@ -30,7 +29,7 @@ public class ViewHelper {
 				return getHeroDisplayName(hero);
 			}
 		}
-		
+
 		StringBuilder builder = new StringBuilder();
 
 		if (!Strings.isNullOrEmpty(item.getArtName())) {
@@ -47,9 +46,10 @@ public class ViewHelper {
 
 		return builder.toString();
 	}
-	
+
 	/**
-	 * Special case of {@link #getDisplayName(Nameable)} for {@link Hero} to include the {@link Team}
+	 * Special case of {@link #getDisplayName(Nameable)} for {@link Hero} to include
+	 * the {@link Team}
 	 * 
 	 * @see #getDisplayName(Nameable)
 	 * 
@@ -59,12 +59,13 @@ public class ViewHelper {
 	public String getHeroDisplayName(Hero hero) {
 		StringBuilder builder = new StringBuilder();
 		Team team = hero.getTeam().get(0);
-		
+
 		if (!Strings.isNullOrEmpty(hero.getArtName())) {
 			if (Strings.isNullOrEmpty(team.getArtName())) {
 				builder.append(String.format("<span class=\"marvel\">%s</span>", hero.getArtName()));
 			} else {
-				builder.append(String.format("<span class=\"marvel\">%s (%s)</span>", hero.getArtName(), team.getArtName()));
+				builder.append(
+				        String.format("<span class=\"marvel\">%s (%s)</span>", hero.getArtName(), team.getArtName()));
 			}
 		}
 
@@ -72,7 +73,8 @@ public class ViewHelper {
 			if (Strings.isNullOrEmpty(team.getMcuName())) {
 				builder.append(String.format("<span class=\"mcu\">%s</span>", hero.getMcuName()));
 			} else {
-				builder.append(String.format("<span class=\"mcu\">%s (%s)</span>", hero.getMcuName(), team.getMcuName()));
+				builder.append(
+				        String.format("<span class=\"mcu\">%s (%s)</span>", hero.getMcuName(), team.getMcuName()));
 			}
 		}
 
@@ -80,18 +82,19 @@ public class ViewHelper {
 			if (Strings.isNullOrEmpty(team.getDxpName())) {
 				builder.append(String.format("<span class=\"dxp\">%s</span>", hero.getDxpName()));
 			} else {
-				builder.append(String.format("<span class=\"dxp\">%s (%s)</span>", hero.getDxpName(), team.getDxpName()));
+				builder.append(
+				        String.format("<span class=\"dxp\">%s (%s)</span>", hero.getDxpName(), team.getDxpName()));
 			}
 		}
 
 		return builder.toString();
 	}
-	
+
 	/**
-	 * Create a {@link Collection} out of a given object. If the object is already
-	 * a Collection, it is simply returned as is. If the object is null, then an
-	 * empty Collection is returned. Otherwise, a new Collection is returned 
-	 * containing only the object.
+	 * Create a {@link Collection} out of a given object. If the object is already a
+	 * Collection, it is simply returned as is. If the object is null, then an empty
+	 * Collection is returned. Otherwise, a new Collection is returned containing
+	 * only the object.
 	 * 
 	 * @param o The object to collect
 	 * @return The object, as a collection
@@ -103,7 +106,7 @@ public class ViewHelper {
 		} else if (o instanceof Collection col) {
 			return col;
 		}
-		
+
 		return Collections.singleton(o);
 	}
 

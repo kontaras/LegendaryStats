@@ -40,7 +40,7 @@ public class SecurityIntegrationTest {
 	public void beforeAll() {
 		ServletRequest request = Mockito.mock(ServletRequest.class);
 		Mockito.when(request.getParameterMap())
-				.thenReturn(Map.of("username", new String[] { "user" }, "password", new String[] { "password" }));
+		        .thenReturn(Map.of("username", new String[] { "user" }, "password", new String[] { "password" }));
 		accounts.register(request, null);
 	}
 
@@ -66,16 +66,15 @@ public class SecurityIntegrationTest {
 
 	private Stream<String> unsecuredResources() {
 		return Stream.concat(NavigationHelper.commonPaths().values().stream(),
-				NavigationHelper.unauthenticatedPaths().values().stream());
+		        NavigationHelper.unauthenticatedPaths().values().stream());
 	}
 
 	@ParameterizedTest
 	@MethodSource("securedOnlyResources")
 	public void accessSecuredResourceUnauthenticatedThenRedirectsToLogin(String path) throws Exception {
-		mockMvc.perform(get(path)).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrlPattern("**/login"));
+		mockMvc.perform(get(path)).andExpect(status().is3xxRedirection()).andExpect(redirectedUrlPattern("**/login"));
 	}
-	
+
 	private Stream<String> securedOnlyResources() {
 		return NavigationHelper.authenticatedPaths().values().stream();
 	}
@@ -87,9 +86,9 @@ public class SecurityIntegrationTest {
 		mockMvc.perform(get(path)).andExpect(status().isOk()).andReturn();
 
 	}
-	
+
 	private Stream<String> securedResources() {
 		return Stream.concat(NavigationHelper.commonPaths().values().stream(),
-				NavigationHelper.authenticatedPaths().values().stream());
+		        NavigationHelper.authenticatedPaths().values().stream());
 	}
 }

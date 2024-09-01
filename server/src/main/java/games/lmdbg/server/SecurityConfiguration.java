@@ -1,4 +1,3 @@
-
 package games.lmdbg.server;
 
 import games.lmdbg.server.view.AccountContoller;
@@ -30,27 +29,23 @@ public class SecurityConfiguration {
 	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeHttpRequests(requests -> requests
-				.requestMatchers(PlayFormController.PLAY_PATH, "/user/**").authenticated()
-				.requestMatchers(AccountContoller.LOGIN_PATH, AccountContoller.REGISTRATION_PATH,
-						StaticPageContoller.FAQ_PATH, FrontPageController.FRONT_PAGE_PATH, "/styles/**", "/scripts/**").permitAll()
-			)
-			.formLogin(form -> form
-				.loginPage("/login")
-				.permitAll()
-			)
-			.logout(LogoutConfigurer::permitAll);
+		http.authorizeHttpRequests(requests -> requests.requestMatchers(PlayFormController.PLAY_PATH, "/user/**")
+		        .authenticated()
+		        .requestMatchers(AccountContoller.LOGIN_PATH, AccountContoller.REGISTRATION_PATH,
+		                StaticPageContoller.FAQ_PATH, FrontPageController.FRONT_PAGE_PATH, "/styles/**", "/scripts/**")
+		        .permitAll()).formLogin(form -> form.loginPage("/login").permitAll())
+		        .logout(LogoutConfigurer::permitAll);
 
 		return http.build();
 	}
-	
+
 	/**
 	 * The password encoding algorithm for the application
+	 * 
 	 * @return A known secure password encoder.
 	 */
 	@Bean
 	public PasswordEncoder encoder() {
-	    return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
 }

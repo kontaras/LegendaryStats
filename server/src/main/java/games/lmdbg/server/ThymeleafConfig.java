@@ -1,4 +1,3 @@
-
 package games.lmdbg.server;
 
 import java.util.Collections;
@@ -19,7 +18,7 @@ public class ThymeleafConfig {
 	public ThymeleafConfig() {
 		// Nothing here
 	}
-	
+
 	/**
 	 * Create a Template Engine that can handle HTNL and JavaScript files
 	 * 
@@ -28,15 +27,15 @@ public class ThymeleafConfig {
 	@Bean
 	public static SpringTemplateEngine getTemplateEngine() {
 		final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		
+
 		templateEngine.addTemplateResolver(htmlTemplateResolver());
 		templateEngine.addTemplateResolver(jsTemplateResolver());
-		
+
 		templateEngine.addDialect(new SpringSecurityDialect());
-		
+
 		return templateEngine;
 	}
-	
+
 	/**
 	 * Create a template resolver for HTML templates
 	 * 
@@ -51,7 +50,7 @@ public class ThymeleafConfig {
 		templateResolver.setCharacterEncoding("UTF-8");
 		return templateResolver;
 	}
-	
+
 	/**
 	 * Create a template resolver for JavaScript templates
 	 * 
@@ -67,9 +66,9 @@ public class ThymeleafConfig {
 		templateResolver.setCharacterEncoding("UTF-8");
 		return templateResolver;
 	}
-	
+
 	@Bean
 	public SpringSecurityDialect springSecurityDialect() {
-	    return new SpringSecurityDialect();
+		return new SpringSecurityDialect();
 	}
 }

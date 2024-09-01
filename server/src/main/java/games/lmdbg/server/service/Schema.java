@@ -15,18 +15,16 @@ public class Schema {
 	public static final String PLAY_TABLE = "play";
 	public static final String COMPONENT_TABLE = "play_component";
 	public static final String STARTER_TABLE = "play_starter";
-	
-	
+
 	private JdbcTemplate jdbcTemplate;
 	private SimpleJdbcInsert playInsert;
 	private SimpleJdbcInsert playComponentInsert;
 	private SimpleJdbcInsert playStarterInsert;
-	
-	
+
 	public Schema(@Autowired JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
-		this.playInsert = new SimpleJdbcInsert(this.jdbcTemplate).withTableName(PLAY_TABLE)
-				.usingGeneratedKeyColumns("id");
+		this.playInsert =
+		        new SimpleJdbcInsert(this.jdbcTemplate).withTableName(PLAY_TABLE).usingGeneratedKeyColumns("id");
 		this.playComponentInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName(COMPONENT_TABLE);
 		this.playStarterInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName(STARTER_TABLE);
 	}
@@ -34,7 +32,7 @@ public class Schema {
 	public SimpleJdbcInsert getPlayInsert() {
 		return playInsert;
 	}
-	
+
 	public SimpleJdbcInsert getPlayComponentInsert() {
 		return playComponentInsert;
 	}
@@ -51,25 +49,25 @@ public class Schema {
 		HENCHMAN("henchman"),
 		SUPPORT("support"),
 		BOARD("board");
-		
+
 		private static Map<String, ComponentType> bySqlValue = new HashMap<String, ComponentType>();
-		
+
 		private String sqlValue;
-		
+
 		private ComponentType(String sqlValue) {
 			this.sqlValue = sqlValue;
 		}
-		
+
 		static {
-			for( ComponentType type : values() ){
+			for (ComponentType type : values()) {
 				bySqlValue.put(type.sqlValue, type);
 			}
 		}
-		
+
 		public String getSqlValue() {
 			return this.sqlValue;
 		}
-		
+
 		public static ComponentType fromSqlValue(String value) {
 			return bySqlValue.get(value);
 		}
