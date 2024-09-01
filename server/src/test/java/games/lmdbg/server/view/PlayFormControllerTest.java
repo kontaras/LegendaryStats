@@ -3,13 +3,17 @@ package games.lmdbg.server.view;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -24,11 +28,14 @@ import games.lmdbg.rules.model.Villain;
 import games.lmdbg.rules.set.CardLookupKt;
 import games.lmdbg.rules.set.core.Boards;
 import games.lmdbg.rules.set.core.Supports;
+import games.lmdbg.rules.verifier.InvalidValue;
+import games.lmdbg.rules.verifier.PrintableError;
 import games.lmdbg.server.model.ServerPlay;
 import games.lmdbg.server.test.util.ReplacedLookupTable;
 /**
  * Test {@link PlayFormController}
  */
+@SuppressWarnings("static-method")
 class PlayFormControllerTest {
 
 	/**
@@ -82,6 +89,9 @@ class PlayFormControllerTest {
 		verify(mod).addAttribute("playInfo", expected);
 	}
 	
+	/**
+	 * Test {@link PlayFormController#newPlay(HttpServletRequest, Model, ServerPlay, BindingResult)}
+	 */
 	@Test
 	void testNewPlay() {
 		Model mod = mock(Model.class);
@@ -89,5 +99,44 @@ class PlayFormControllerTest {
 		BindingResult bindingResult = mock(BindingResult.class);
 		ServerPlay play = new ServerPlay();
 		Assertions.assertEquals("play", new PlayFormController().newPlay(request, mod, play, bindingResult));
+		// TODO Mockito.verify(mod).addAttribute("verificationErrors", List.of());
+	}
+	
+	/**
+	 * Test {@link PlayFormController#extractStaters(java.util.Map, List)}
+	 */
+	@Test
+	void testExtractStaters() {
+		Map<String, String[]> params = new HashMap<>();
+    List<PrintableError> errors = new ArrayList<>();
+    
+    // Assert that if there are no parameters then there are no starters extracted and no errors
+    Assertions.assertEquals(Map.of(), PlayFormController.extractStaters(params, errors));
+    Assertions.assertEquals(List.of(), errors);
+    
+    // Assert that if the params are unrelated then there are no starters extracted and no errors
+    params.put("unrealted_key", new String[]{"5"});
+    params.put("another_key", new String[]{});
+    params.put("a_third_key", new String[]{"cat", "42"});
+    Assertions.assertEquals(Map.of(), PlayFormController.extractStaters(params, errors));
+    Assertions.assertEquals(List.of(), errors);
+    
+    // Add a started and make sure it is extracted
+    params.put("starters_3", new String[]{"5"});
+    Assertions.assertEquals(Map.of(3, 5), PlayFormController.extractStaters(params, errors));
+    Assertions.assertEquals(List.of(), errors);
+    
+    // Add another and make sure all are extracted
+    params.put("starters_17", new String[]{"-1"});
+    Assertions.assertEquals(Map.of(3, 5, 17, -1), PlayFormController.extractStaters(params, errors));
+    Assertions.assertEquals(List.of(), errors);
+    
+    // Add some bad params and see that they are caught
+    params.put("starters_one", new String[]{"4"});
+    params.put("starters_8", new String[]{"two"});
+    Assertions.assertEquals(Map.of(3, 5, 17, -1), PlayFormController.extractStaters(params, errors));
+    Assertions.assertEquals(2, errors.size());
+    Assertions.assertTrue(errors.contains(new InvalidValue("starter", "one")));
+    Assertions.assertTrue(errors.contains(new InvalidValue("starter count", "two")));
 	}
 }
