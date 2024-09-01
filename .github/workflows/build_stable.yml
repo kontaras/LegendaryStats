@@ -34,7 +34,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build
       #Change to default builder once we can build with Java 17
-      run: ./gradlew build jacocoTestReport jibBuildTar --info
+      run: ./gradlew build jacocoTestReport koverXmlReport jibBuildTar --info
     - name: Sonar
       if: ${{ github.actor != 'dependabot[bot]' }}
       env:
@@ -48,6 +48,7 @@ jobs:
       uses: codecov/codecov-action@v4
       with:
         verbose: true
+        token: ${{ secrets.CODECOV_TOKEN }}
   publish:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}

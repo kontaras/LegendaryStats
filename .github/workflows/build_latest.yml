@@ -26,7 +26,8 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build jacocoTestReport --info
+      run: ./gradlew build jacocoTestReport koverXmlReport --info
     - uses: codecov/codecov-action@v4
       with:
         verbose: true
+        token: ${{ secrets.CODECOV_TOKEN }}
