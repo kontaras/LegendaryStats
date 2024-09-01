@@ -1,12 +1,11 @@
 package games.lmdbg.server.view;
 
+import games.lmdbg.server.service.Schema;
+import games.lmdbg.server.service.SqlWinRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import games.lmdbg.server.service.Schema;
-import games.lmdbg.server.service.SqlWinRate;
 
 /**
  * A controller for the index page.

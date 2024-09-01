@@ -1,6 +1,10 @@
 
 package games.lmdbg.server.service;
 
+import games.lmdbg.rules.model.Outcome;
+import games.lmdbg.rules.model.PlayerCount;
+import games.lmdbg.server.model.ServerPlay;
+import games.lmdbg.server.service.Schema.ComponentType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,17 +14,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.tinylog.Logger;
-
-import games.lmdbg.rules.model.Outcome;
-import games.lmdbg.rules.model.PlayerCount;
-import games.lmdbg.server.model.ServerPlay;
-import games.lmdbg.server.service.Schema.ComponentType;
 
 @Component
 public class PlayStore {
@@ -218,7 +216,7 @@ public class PlayStore {
 		return components.stream().map((Integer id) -> new TypedComponent(type, id)).toList();
 	}
 	
-	static private class TypedComponent {
+	private static class TypedComponent {
 		private Schema.ComponentType type;
 		
 		private Integer id;

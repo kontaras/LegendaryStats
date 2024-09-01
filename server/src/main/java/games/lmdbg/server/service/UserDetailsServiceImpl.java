@@ -1,14 +1,13 @@
 package games.lmdbg.server.service;
 
+import games.lmdbg.server.model.Account;
+import games.lmdbg.server.model.AccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import games.lmdbg.server.model.Account;
-import games.lmdbg.server.model.AccountsRepository;
 
 /**
  * An implementation of {@link UserDetailsService} using {@link AccountsRepository} as a source of truth.

@@ -1,12 +1,11 @@
 package games.lmdbg.server.view;
 
+import games.lmdbg.server.model.AccountsRepository;
+import jakarta.servlet.ServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import jakarta.servlet.ServletRequest;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
-
-import games.lmdbg.server.model.AccountsRepository;
 
 /**
  * Tests for {@link AccountContoller}

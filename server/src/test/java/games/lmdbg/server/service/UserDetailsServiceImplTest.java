@@ -1,7 +1,8 @@
 package games.lmdbg.server.service;
 
+import games.lmdbg.server.model.Account;
+import games.lmdbg.server.model.AccountsRepository;
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,9 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import games.lmdbg.server.model.Account;
-import games.lmdbg.server.model.AccountsRepository;
 
 @SpringBootTest
 class UserDetailsServiceImplTest {

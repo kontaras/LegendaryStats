@@ -8,6 +8,7 @@ plugins {
 	id 'eclipse'
 	id 'com.adarshr.test-logger' version '3.2.0'
 	id 'com.google.cloud.tools.jib' version '3.4.3'
+	id "com.diffplug.spotless" version "6.25.0"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -83,6 +84,14 @@ jacocoTestReport {
     	html.required = true
     	xml.required = true
 	}
+}
+
+spotless {
+  java {
+  	removeUnusedImports()
+  	importOrder()
+  	cleanthat()
+  }
 }
 
 task javascriptCopy(type: Copy) {

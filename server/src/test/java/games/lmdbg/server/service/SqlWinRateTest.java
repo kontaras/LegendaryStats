@@ -1,9 +1,12 @@
 
 package games.lmdbg.server.service;
 
+import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.rules.set.CardLookupKt;
+import games.lmdbg.rules.set.core.Heroes;
+import games.lmdbg.server.model.IWinRate;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,10 +15,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import games.lmdbg.server.model.IWinRate;
-import games.lmdbg.rules.model.CardSet;
-import games.lmdbg.rules.set.CardLookupKt;
-import games.lmdbg.rules.set.core.Heroes;
 
 /**
  * Tests for {@link SqlWinRate}

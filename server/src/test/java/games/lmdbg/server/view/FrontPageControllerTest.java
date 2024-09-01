@@ -1,21 +1,18 @@
 package games.lmdbg.server.view;
 
+import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.server.model.IWinRate;
+import games.lmdbg.server.service.Schema;
+import games.lmdbg.server.service.SqlWinRate;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
-
-import games.lmdbg.rules.model.CardSet;
-import games.lmdbg.server.model.IWinRate;
-import games.lmdbg.server.service.Schema;
-import games.lmdbg.server.service.SqlWinRate;
 
 /**
  * Test {@link FrontPageController}

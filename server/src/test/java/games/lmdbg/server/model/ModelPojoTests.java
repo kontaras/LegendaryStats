@@ -1,10 +1,9 @@
 package games.lmdbg.server.model;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import games.lmdbg.server.test.util.PojoTestUtil;
 import games.lmdbg.server.test.util.TestUtil;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test POJOs in the {@link games.lmdbg.server.model} package for coverage and to weed out stupid bugs.

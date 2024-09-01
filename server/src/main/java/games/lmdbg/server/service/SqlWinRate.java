@@ -1,17 +1,15 @@
 
 package games.lmdbg.server.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
 import games.lmdbg.rules.model.CardSet;
 import games.lmdbg.rules.set.CardLookupKt;
 import games.lmdbg.server.model.IWinRate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 /**
  *

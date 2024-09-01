@@ -1,15 +1,14 @@
 
 package games.lmdbg.server.service;
 
+import games.lmdbg.rules.model.Outcome;
+import games.lmdbg.rules.model.PlayerCount;
+import games.lmdbg.server.model.ServerPlay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import games.lmdbg.rules.model.Outcome;
-import games.lmdbg.rules.model.PlayerCount;
-import games.lmdbg.server.model.ServerPlay;
 
 /**
  * Tests for {@link PlayStore} that use a real database.

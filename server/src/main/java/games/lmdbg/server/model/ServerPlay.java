@@ -1,8 +1,8 @@
 
 package games.lmdbg.server.model;
 
-import java.util.Objects;
 import games.lmdbg.rules.model.Play;
+import java.util.Objects;
 
 public class ServerPlay extends Play {
 	/** Database ID of the play */

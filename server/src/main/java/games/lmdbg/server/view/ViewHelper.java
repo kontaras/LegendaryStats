@@ -1,16 +1,13 @@
 package games.lmdbg.server.view;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import org.springframework.context.annotation.Configuration;
-
 import com.google.common.base.Strings;
-
 import games.lmdbg.rules.model.CardSet;
 import games.lmdbg.rules.model.Hero;
 import games.lmdbg.rules.model.Nameable;
 import games.lmdbg.rules.model.Team;
+import java.util.Collection;
+import java.util.Collections;
+import org.springframework.context.annotation.Configuration;
 
 
 /**

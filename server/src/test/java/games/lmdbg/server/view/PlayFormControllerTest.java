@@ -3,20 +3,6 @@ package games.lmdbg.server.view;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
 import games.lmdbg.rules.model.Board;
 import games.lmdbg.rules.model.Henchman;
 import games.lmdbg.rules.model.Hero;
@@ -32,6 +18,16 @@ import games.lmdbg.rules.verifier.InvalidValue;
 import games.lmdbg.rules.verifier.PrintableError;
 import games.lmdbg.server.model.ServerPlay;
 import games.lmdbg.server.test.util.ReplacedLookupTable;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 /**
  * Test {@link PlayFormController}
  */

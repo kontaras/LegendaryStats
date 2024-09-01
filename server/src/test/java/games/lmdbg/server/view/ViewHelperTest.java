@@ -1,14 +1,13 @@
 package games.lmdbg.server.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import games.lmdbg.rules.model.Hero;
 import games.lmdbg.rules.model.Nameable;
 import games.lmdbg.rules.model.Team;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ViewHelper}

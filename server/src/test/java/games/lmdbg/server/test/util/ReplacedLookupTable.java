@@ -1,10 +1,9 @@
 package games.lmdbg.server.test.util;
 
+import games.lmdbg.rules.model.CardSet;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import games.lmdbg.rules.model.CardSet;
 
 public class ReplacedLookupTable<T extends CardSet> implements AutoCloseable {
 	Map<Integer, T> lookupTable;

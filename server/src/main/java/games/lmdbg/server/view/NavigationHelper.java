@@ -1,9 +1,7 @@
 package games.lmdbg.server.view;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -35,4 +33,3 @@ public class NavigationHelper {
 		return paths;
 	}
 }
-

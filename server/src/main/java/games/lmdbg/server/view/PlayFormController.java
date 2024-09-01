@@ -1,6 +1,23 @@
 
 package games.lmdbg.server.view;
 
+import com.google.common.annotations.VisibleForTesting;
+import games.lmdbg.rules.model.CardSet;
+import games.lmdbg.rules.model.Outcome;
+import games.lmdbg.rules.model.PlayerCount;
+import games.lmdbg.rules.set.CardLookupKt;
+import games.lmdbg.rules.set.core.Boards;
+import games.lmdbg.rules.set.core.Supports;
+import games.lmdbg.rules.utils.DisplayKt;
+import games.lmdbg.rules.verifier.InvalidValue;
+import games.lmdbg.rules.verifier.PrintableError;
+import games.lmdbg.rules.verifier.VerifierKt;
+import games.lmdbg.server.model.Account;
+import games.lmdbg.server.model.AccountsRepository;
+import games.lmdbg.server.model.ServerPlay;
+import games.lmdbg.server.service.PlayStore;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,10 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,23 +37,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.google.common.annotations.VisibleForTesting;
-
-import games.lmdbg.rules.model.CardSet;
-import games.lmdbg.rules.model.Outcome;
-import games.lmdbg.rules.model.PlayerCount;
-import games.lmdbg.rules.utils.DisplayKt;
-import games.lmdbg.rules.verifier.InvalidValue;
-import games.lmdbg.rules.verifier.PrintableError;
-import games.lmdbg.rules.verifier.VerifierKt;
-import games.lmdbg.server.model.Account;
-import games.lmdbg.server.model.AccountsRepository;
-import games.lmdbg.server.model.ServerPlay;
-import games.lmdbg.server.service.PlayStore;
-import games.lmdbg.rules.set.CardLookupKt;
-import games.lmdbg.rules.set.core.Boards;
-import games.lmdbg.rules.set.core.Supports;
 
 /**
  * Controller for creating the game entry form.

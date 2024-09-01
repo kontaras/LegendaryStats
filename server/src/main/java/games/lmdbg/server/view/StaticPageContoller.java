@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class StaticPageContoller {
-	public final static String FAQ_PATH = "/faq";
+	public static final String FAQ_PATH = "/faq";
 
 	/**
 	 * There should not be reason to instantiate an instance. 

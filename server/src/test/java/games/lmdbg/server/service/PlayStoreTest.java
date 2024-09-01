@@ -1,11 +1,16 @@
 
 package games.lmdbg.server.service;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import games.lmdbg.server.model.ServerPlay;
+import games.lmdbg.server.service.PlayStore.MissingPlayException;
+import games.lmdbg.server.service.PlayStore.UnauthorizedException;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -16,13 +21,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-
-import games.lmdbg.server.model.ServerPlay;
-import games.lmdbg.server.service.PlayStore.MissingPlayException;
-import games.lmdbg.server.service.PlayStore.UnauthorizedException;
 
 /**
  * Tests for {@link PlayStore} that use mocked dependencies
