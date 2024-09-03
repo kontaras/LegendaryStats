@@ -46,10 +46,12 @@ public class PlayFormController {
 
 	/** All of the accounts */
 	@Autowired
-	private AccountsRepository accounts;
+	@VisibleForTesting
+	AccountsRepository accounts;
 
 	@Autowired
-	private PlayStore serializer;
+	@VisibleForTesting
+	PlayStore serializer;
 
 	/**
 	 * Generate data for rendering a game entry form
@@ -92,7 +94,7 @@ public class PlayFormController {
 			for (FieldError error : bindingResult.getFieldErrors()) {
 				verificationResult.add(new InvalidValue(error.getField(), String.valueOf(error.getRejectedValue())));
 			}
-		} else {
+		} else if (!bindingResult.hasGlobalErrors()) {
 			Map<Integer, Integer> playStarters = extractStaters(params, verificationResult);
 
 			playInfo.setStarters(playStarters);
@@ -100,21 +102,21 @@ public class PlayFormController {
 			if (verificationResult.isEmpty()) {
 				verificationResult.addAll(VerifierKt.verify(playInfo));
 			}
-		}
 
-		if (!bindingResult.hasGlobalErrors() && verificationResult.isEmpty()) {
-			String loginError = "Error with login. Please log out and log back in.";
-			String name = request.getRemoteUser();
-			if (name == null) {
-				bindingResult.addError(new ObjectError("globalError", loginError));
-			} else {
-				Account user = this.accounts.findByUserName(name);
-				if (user == null) {
+			if (verificationResult.isEmpty()) {
+				String loginError = "Error with login. Please log out and log back in.";
+				String name = request.getRemoteUser();
+				if (name == null) {
 					bindingResult.addError(new ObjectError("globalError", loginError));
 				} else {
-					playInfo.setUser(user.getId());
-					this.serializer.createPlay(playInfo);
-					return "redirect:/";
+					Account user = this.accounts.findByUserName(name);
+					if (user == null) {
+						bindingResult.addError(new ObjectError("globalError", loginError));
+					} else {
+						playInfo.setUser(user.getId());
+						this.serializer.createPlay(playInfo);
+						return "redirect:/";
+					}
 				}
 			}
 		}

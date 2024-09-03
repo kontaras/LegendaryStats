@@ -67,6 +67,7 @@ class PlayStoreTest {
 		Assertions.assertThrows(RuntimeException.class, () -> this.underTest.readPlay(-1l, 1));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	void testWriteErrors() {
 		SimpleJdbcInsert mockInstert = mock(SimpleJdbcInsert.class);

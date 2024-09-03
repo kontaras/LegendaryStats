@@ -1,22 +1,37 @@
 package games.lmdbg.server.view;
 
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import games.lmdbg.rules.model.Board;
 import games.lmdbg.rules.model.Henchman;
 import games.lmdbg.rules.model.Hero;
 import games.lmdbg.rules.model.Mastermind;
+import games.lmdbg.rules.model.Outcome;
+import games.lmdbg.rules.model.PlayerCount;
 import games.lmdbg.rules.model.Scheme;
 import games.lmdbg.rules.model.Starter;
 import games.lmdbg.rules.model.Support;
 import games.lmdbg.rules.model.Villain;
 import games.lmdbg.rules.set.CardLookupKt;
 import games.lmdbg.rules.set.core.Boards;
+import games.lmdbg.rules.set.core.Henchmen;
+import games.lmdbg.rules.set.core.Heroes;
+import games.lmdbg.rules.set.core.Masterminds;
+import games.lmdbg.rules.set.core.Schemes;
+import games.lmdbg.rules.set.core.Starters;
 import games.lmdbg.rules.set.core.Supports;
+import games.lmdbg.rules.set.core.Villains;
 import games.lmdbg.rules.verifier.InvalidValue;
+import games.lmdbg.rules.verifier.MissingField;
 import games.lmdbg.rules.verifier.PrintableError;
+import games.lmdbg.server.model.Account;
+import games.lmdbg.server.model.AccountsRepository;
 import games.lmdbg.server.model.ServerPlay;
+import games.lmdbg.server.service.PlayStore;
 import games.lmdbg.server.test.util.ReplacedLookupTable;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -26,13 +41,17 @@ import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
 /**
  * Test {@link PlayFormController}
  */
-@SuppressWarnings("static-method")
+@SuppressWarnings({ "static-method", "unchecked" })
 class PlayFormControllerTest {
 
 	/**
@@ -83,17 +102,208 @@ class PlayFormControllerTest {
 	}
 
 	/**
-	 * Test
-	 * {@link PlayFormController#newPlay(HttpServletRequest, Model, ServerPlay, BindingResult)}
+	 * Test newPlay finding field binding errors
 	 */
 	@Test
-	void testNewPlay() {
+	void testNewPlayFieldErrors() {
 		Model mod = mock(Model.class);
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		BindingResult bindingResult = mock(BindingResult.class);
 		ServerPlay play = new ServerPlay();
+		ArgumentCaptor<List<String>> errors = ArgumentCaptor.forClass(List.class);
+
+		when(bindingResult.hasErrors()).thenReturn(true);
+		when(bindingResult.getFieldErrors())
+		        .thenReturn(List.of(new FieldError("obj", "field1", null, false, null, null, null),
+		                new FieldError("obj", "field2", "bad value", false, null, null, null)));
+
 		Assertions.assertEquals("play", new PlayFormController().newPlay(request, mod, play, bindingResult));
-		// TODO Mockito.verify(mod).addAttribute("verificationErrors", List.of());
+		verify(mod).addAttribute(ArgumentMatchers.eq("verificationErrors"), errors.capture());
+		List<String> errorList = errors.getValue();
+		Assertions.assertIterableEquals(List.of(new InvalidValue("field1", "null").getMessage(),
+		        new InvalidValue("field2", "bad value").getMessage()), errorList);
+		verify(bindingResult, never()).addError(any());
+	}
+
+	/**
+	 * Test newPlay finding global binding errors
+	 */
+	@Test
+	void testNewPlayGlobalErrors() {
+		Model mod = mock(Model.class);
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BindingResult bindingResult = mock(BindingResult.class);
+		ServerPlay play = new ServerPlay();
+		ArgumentCaptor<List<String>> errors = ArgumentCaptor.forClass(List.class);
+
+		when(bindingResult.hasGlobalErrors()).thenReturn(true);
+
+		Assertions.assertEquals("play", new PlayFormController().newPlay(request, mod, play, bindingResult));
+		verify(mod).addAttribute(ArgumentMatchers.eq("verificationErrors"), errors.capture());
+		List<String> errorList = errors.getValue();
+		Assertions.assertIterableEquals(List.of(), errorList);
+		verify(bindingResult, never()).addError(any());
+	}
+
+	/**
+	 * Test newPlay with bad starters
+	 */
+	@Test
+	void testNewPlayBadStarter() {
+		Model mod = mock(Model.class);
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BindingResult bindingResult = mock(BindingResult.class);
+		ServerPlay play = new ServerPlay();
+		ArgumentCaptor<List<String>> errors = ArgumentCaptor.forClass(List.class);
+
+		when(request.getParameterMap()).thenReturn(Map.of("starters_cat", new String[] { "dog" }));
+
+		Assertions.assertEquals("play", new PlayFormController().newPlay(request, mod, play, bindingResult));
+		verify(mod).addAttribute(ArgumentMatchers.eq("verificationErrors"), errors.capture());
+		List<String> errorList = errors.getValue();
+		Assertions.assertIterableEquals(List.of(new InvalidValue("starter", "cat").getMessage()), errorList);
+		verify(bindingResult, never()).addError(any());
+	}
+
+	/**
+	 * Test newPlay with verify errors
+	 */
+	@Test
+	void testNewPlayBadVerify() {
+		Model mod = mock(Model.class);
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BindingResult bindingResult = mock(BindingResult.class);
+		ServerPlay play = new ServerPlay();
+		play.setBoard(1);
+		play.setMastermind(2);
+		play.setScheme(3);
+		play.setPlayers(PlayerCount.ADVANCED_SOLO);
+		ArgumentCaptor<List<String>> errors = ArgumentCaptor.forClass(List.class);
+
+		Assertions.assertEquals("play", new PlayFormController().newPlay(request, mod, play, bindingResult));
+		verify(mod).addAttribute(ArgumentMatchers.eq("verificationErrors"), errors.capture());
+		List<String> errorList = errors.getValue();
+		Assertions.assertIterableEquals(List.of(new MissingField("game outcome").getMessage()), errorList);
+		verify(bindingResult, never()).addError(any());
+	}
+
+	/**
+	 * Test newPlay with a null user
+	 */
+	@Test
+	void testNewPlayNullUser() {
+		Model mod = mock(Model.class);
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BindingResult bindingResult = mock(BindingResult.class);
+		ServerPlay play = new ServerPlay();
+		play.setBoard(Boards.INSTANCE.getHQ().getId());
+		play.setMastermind(Masterminds.INSTANCE.getEPIC_NAX_LORD_OF_CRIMSON_BOG().getId());
+		play.setScheme(Schemes.INSTANCE.getPORTALS_TO_THE_DARK_DIMENSION().getId());
+		play.setPlayers(PlayerCount.ADVANCED_SOLO);
+		play.setOutcome(Outcome.LOSS_SCHEME);
+		play.setHeroes(Set.of(Heroes.INSTANCE.getBLACK_WIDOW().getId(), Heroes.INSTANCE.getCAPTAIN_AMERICA().getId(),
+		        Heroes.INSTANCE.getEMMA_FROST().getId()));
+		play.setVillains(Set.of(Villains.INSTANCE.getHYDRA().getId()));
+		play.setHenchmen(Set.of(Henchmen.INSTANCE.getSAVAGE_LAND_MUTATES().getId()));
+
+		when(request.getParameterMap())
+		        .thenReturn(Map.of("starters_" + Starters.INSTANCE.getSHIELD().getId(), new String[] { "1" }));
+
+		when(request.getRemoteUser()).thenReturn(null);
+
+		ArgumentCaptor<List<String>> errors = ArgumentCaptor.forClass(List.class);
+
+		Assertions.assertEquals("play", new PlayFormController().newPlay(request, mod, play, bindingResult));
+		verify(mod).addAttribute(ArgumentMatchers.eq("verificationErrors"), errors.capture());
+		List<String> errorList = errors.getValue();
+		Assertions.assertIterableEquals(List.of(), errorList);
+		verify(bindingResult)
+		        .addError(new ObjectError("globalError", "Error with login. Please log out and log back in."));
+	}
+
+	/**
+	 * Test newPlay with an invalid user
+	 */
+	@Test
+	void testNewPlayBadUser() {
+		Model mod = mock(Model.class);
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BindingResult bindingResult = mock(BindingResult.class);
+		ServerPlay play = new ServerPlay();
+		play.setBoard(Boards.INSTANCE.getHQ().getId());
+		play.setMastermind(Masterminds.INSTANCE.getEPIC_NAX_LORD_OF_CRIMSON_BOG().getId());
+		play.setScheme(Schemes.INSTANCE.getPORTALS_TO_THE_DARK_DIMENSION().getId());
+		play.setPlayers(PlayerCount.ADVANCED_SOLO);
+		play.setOutcome(Outcome.LOSS_SCHEME);
+		play.setHeroes(Set.of(Heroes.INSTANCE.getBLACK_WIDOW().getId(), Heroes.INSTANCE.getCAPTAIN_AMERICA().getId(),
+		        Heroes.INSTANCE.getEMMA_FROST().getId()));
+		play.setVillains(Set.of(Villains.INSTANCE.getHYDRA().getId()));
+		play.setHenchmen(Set.of(Henchmen.INSTANCE.getSAVAGE_LAND_MUTATES().getId()));
+
+		when(request.getParameterMap())
+		        .thenReturn(Map.of("starters_" + Starters.INSTANCE.getSHIELD().getId(), new String[] { "1" }));
+
+		PlayFormController underTest = new PlayFormController();
+
+		AccountsRepository accounts = mock(AccountsRepository.class);
+		when(accounts.findByUserName("invalid")).thenReturn(null);
+
+		underTest.accounts = accounts;
+
+		when(request.getRemoteUser()).thenReturn("invalid");
+
+		ArgumentCaptor<List<String>> errors = ArgumentCaptor.forClass(List.class);
+
+		Assertions.assertEquals("play", underTest.newPlay(request, mod, play, bindingResult));
+		verify(mod).addAttribute(ArgumentMatchers.eq("verificationErrors"), errors.capture());
+		List<String> errorList = errors.getValue();
+		Assertions.assertIterableEquals(List.of(), errorList);
+		verify(bindingResult)
+		        .addError(new ObjectError("globalError", "Error with login. Please log out and log back in."));
+	}
+
+	/**
+	 * Test newPlay saving a valid play
+	 */
+	@Test
+	void testNewPlayStorePlay() {
+		Model mod = mock(Model.class);
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		BindingResult bindingResult = mock(BindingResult.class);
+		ServerPlay play = new ServerPlay();
+		play.setBoard(Boards.INSTANCE.getHQ().getId());
+		play.setMastermind(Masterminds.INSTANCE.getEPIC_NAX_LORD_OF_CRIMSON_BOG().getId());
+		play.setScheme(Schemes.INSTANCE.getPORTALS_TO_THE_DARK_DIMENSION().getId());
+		play.setPlayers(PlayerCount.ADVANCED_SOLO);
+		play.setOutcome(Outcome.LOSS_SCHEME);
+		play.setHeroes(Set.of(Heroes.INSTANCE.getBLACK_WIDOW().getId(), Heroes.INSTANCE.getCAPTAIN_AMERICA().getId(),
+		        Heroes.INSTANCE.getEMMA_FROST().getId()));
+		play.setVillains(Set.of(Villains.INSTANCE.getHYDRA().getId()));
+		play.setHenchmen(Set.of(Henchmen.INSTANCE.getSAVAGE_LAND_MUTATES().getId()));
+
+		when(request.getParameterMap())
+		        .thenReturn(Map.of("starters_" + Starters.INSTANCE.getSHIELD().getId(), new String[] { "1" }));
+
+		PlayFormController underTest = new PlayFormController();
+
+		Account account = new Account();
+		account.setId(3);
+		AccountsRepository accounts = mock(AccountsRepository.class);
+		when(accounts.findByUserName("user")).thenReturn(account);
+		underTest.accounts = accounts;
+		when(request.getRemoteUser()).thenReturn("user");
+
+		PlayStore store = mock(PlayStore.class);
+		underTest.serializer = store;
+
+		Assertions.assertEquals("redirect:/", underTest.newPlay(request, mod, play, bindingResult));
+		verify(store).createPlay(play);
+		verify(mod, never()).addAttribute(ArgumentMatchers.eq("verificationErrors"), any());
+		verify(bindingResult, never()).addError(any());
+
+		// Verify that the play was filled in
+		Assertions.assertEquals(3, play.getUser());
+		Assertions.assertEquals(Set.of(Supports.INSTANCE.getSHIELD_OFFICER().getId()), play.getSupports());
 	}
 
 	/**
