@@ -225,8 +225,7 @@ public class PlayStore {
 
 		@Override
 		public int hashCode() {
-			int result = Objects.hash(this.id, this.type);
-			return result;
+			return Objects.hash(this.id, this.type);
 		}
 
 		@Override

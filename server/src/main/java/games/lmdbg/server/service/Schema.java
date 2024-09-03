@@ -41,7 +41,7 @@ public class Schema {
 		return playStarterInsert;
 	}
 
-	public static enum ComponentType {
+	public enum ComponentType {
 		HERO("hero"),
 		SCHEME("scheme"),
 		MASTERMIND("mastermind"),
@@ -50,7 +50,7 @@ public class Schema {
 		SUPPORT("support"),
 		BOARD("board");
 
-		private static Map<String, ComponentType> bySqlValue = new HashMap<String, ComponentType>();
+		private static Map<String, ComponentType> bySqlValue = new HashMap<>();
 
 		private String sqlValue;
 
