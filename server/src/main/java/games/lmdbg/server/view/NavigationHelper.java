@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class NavigationHelper {
 	/**
-	 * There is no reason for ever create an instance of the class.
+	 * There is no reason for ever create an instance of the class, but Thymeleaf
+	 * wants to.
 	 */
-	private NavigationHelper() {
+	public NavigationHelper() {
 		// Nothing to do
 	}
 
