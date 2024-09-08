@@ -133,18 +133,19 @@ public class PlayStore {
 	}
 
 	protected Set<TypedComponent> readComponents(Long id) {
-	// @formatter:off
+		// @formatter:off
 		String query = "SELECT c_type, component_id FROM " 
 				+ Schema.COMPONENT_TABLE 
 				+ " WHERE play_id = ?;";
-	// @formatter:on
+		// @formatter:on
 
 		Set<TypedComponent> components = new HashSet<>();
 		this.jdbcTemplate.query(query, row -> {
 			ComponentType type = ComponentType.fromSqlValue(row.getString("c_type"));
 			if (type == null) {
-				Logger.error("SQL component type cannot be mapped to enum: {}", row.getString("c_type"));
-				throw new RuntimeException();
+				Logger.error("SQL component type cannot be mapped to enum. PlayId: {}, Type: {}", id,
+				        row.getString("c_type"));
+				return;
 			}
 			int value = row.getInt("component_id");
 			components.add(new TypedComponent(type, value));
@@ -160,13 +161,14 @@ public class PlayStore {
 		int[] result = this.jdbcTemplate.batchUpdate(componentsQuery, tuples);
 
 		if (result.length != components.size()) {
-			throw new RuntimeException(
-			        String.format("Wrong batch size. Expected %d but was %d.", components.size(), result.length));
+			Logger.error("Wrong batch size. Expected {} but was {}.", components.size(), result.length);
+			throw new DatabaseWriteException();
 		}
 
 		for (int i = 0; i < result.length; i++) {
 			if (result[i] != 1) {
-				throw new RuntimeException("Could not insert component " + Arrays.toString(tuples.get(i)));
+				Logger.error("Could not insert component {}", Arrays.toString(tuples.get(i)));
+				throw new DatabaseWriteException();
 			}
 		}
 	}
@@ -198,13 +200,14 @@ public class PlayStore {
 		int[] result = this.jdbcTemplate.batchUpdate(query, tuples);
 
 		if (result.length != starters.size()) {
-			throw new RuntimeException(
-			        String.format("Wrong batch size. Expected %d but was %d.", starters.size(), result.length));
+			Logger.error("Wrong batch size. Expected {} but was {}.", starters.size(), result.length);
+			throw new DatabaseWriteException();
 		}
 
 		for (int i = 0; i < result.length; i++) {
 			if (result[i] != 1) {
-				throw new RuntimeException("Could not insert component " + Arrays.toString(tuples.get(i)));
+				Logger.error("Could not insert component {}", Arrays.toString(tuples.get(i)));
+				throw new DatabaseWriteException();
 			}
 		}
 	}
@@ -257,5 +260,9 @@ public class PlayStore {
 	public static class UnauthorizedException extends RuntimeException {
 		private static final long serialVersionUID = 5687512914947492515L;
 		// Nothing to add
+	}
+
+	public static class DatabaseWriteException extends RuntimeException {
+		private static final long serialVersionUID = -2853952241488714876L;
 	}
 }

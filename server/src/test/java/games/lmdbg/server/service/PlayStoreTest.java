@@ -64,7 +64,7 @@ class PlayStoreTest {
 			return null;
 		}).when(this.mockJdbc).query(ArgumentMatchers.anyString(), ArgumentMatchers.any(RowCallbackHandler.class),
 		        ArgumentMatchers.eq(-1l));
-		Assertions.assertThrows(RuntimeException.class, () -> this.underTest.readPlay(-1l, 1));
+		Assertions.assertNotNull(this.underTest.readPlay(-1l, 1));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -82,8 +82,8 @@ class PlayStoreTest {
 		ServerPlay testPlay = new ServerPlay();
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(componentString), ArgumentMatchers.anyList()))
 		        .thenReturn(new int[1]);
-		Exception thrown = Assertions.assertThrows(RuntimeException.class, () -> underTest.createPlay(testPlay));
-		Assertions.assertEquals("Wrong batch size. Expected 3 but was 1.", thrown.getMessage());
+		Exception thrown =
+		        Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(componentString), ArgumentMatchers.anyList()))
 		        .thenAnswer(invocation -> {
@@ -98,15 +98,13 @@ class PlayStoreTest {
 			        }
 			        return answer;
 		        });
-		thrown = Assertions.assertThrows(RuntimeException.class, () -> underTest.createPlay(testPlay));
-		Assertions.assertEquals("Could not insert component [2, board, null]", thrown.getMessage());
+		thrown = Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(componentString), ArgumentMatchers.anyList()))
 		        .thenReturn(new int[] { 1, 1, 1 });
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(starterString), ArgumentMatchers.anyList()))
 		        .thenReturn(new int[2]);
-		thrown = Assertions.assertThrows(RuntimeException.class, () -> underTest.createPlay(testPlay));
-		Assertions.assertEquals("Wrong batch size. Expected 0 but was 2.", thrown.getMessage());
+		thrown = Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 
 		testPlay.setStarters(Map.of(1, 2, 3, 4));
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(starterString), ArgumentMatchers.anyList()))
@@ -122,7 +120,6 @@ class PlayStoreTest {
 			        }
 			        return answer;
 		        });
-		thrown = Assertions.assertThrows(RuntimeException.class, () -> underTest.createPlay(testPlay));
-		Assertions.assertEquals("Could not insert component [2, 3, 4]", thrown.getMessage());
+		thrown = Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 	}
 }

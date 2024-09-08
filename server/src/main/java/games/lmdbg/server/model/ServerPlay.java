@@ -7,6 +7,7 @@ public class ServerPlay extends Play {
 	/** Database ID of the play */
 	private long id;
 
+	/** The user id of the play owner */
 	private int user;
 
 	/** User notes for the play */
@@ -55,10 +56,20 @@ public class ServerPlay extends Play {
 		this.notes = notes;
 	}
 
+	/**
+	 * Get the user id
+	 * 
+	 * @return the user id
+	 */
 	public int getUser() {
 		return user;
 	}
 
+	/**
+	 * Set the user id
+	 * 
+	 * @param user id of the user
+	 */
 	public void setUser(int user) {
 		this.user = user;
 	}
