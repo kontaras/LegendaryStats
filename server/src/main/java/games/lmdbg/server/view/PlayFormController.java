@@ -90,40 +90,99 @@ public class PlayFormController {
 
 		final List<PrintableError> verificationResult = new ArrayList<>();
 
-		if (bindingResult.hasErrors()) {
-			for (FieldError error : bindingResult.getFieldErrors()) {
-				verificationResult.add(new InvalidValue(error.getField(), String.valueOf(error.getRejectedValue())));
-			}
-		} else if (!bindingResult.hasGlobalErrors()) {
-			Map<Integer, Integer> playStarters = extractStaters(params, verificationResult);
+		checkFieldErrors(bindingResult, verificationResult);
 
-			playInfo.setStarters(playStarters);
+		setStarters(params, playInfo, verificationResult);
 
-			if (verificationResult.isEmpty()) {
-				verificationResult.addAll(VerifierKt.verify(playInfo));
-			}
+		if (verificationResult.isEmpty() && !bindingResult.hasGlobalErrors()) {
+			verifyPlay(playInfo, verificationResult);
 
-			if (verificationResult.isEmpty()) {
-				String loginError = "Error with login. Please log out and log back in.";
-				String name = request.getRemoteUser();
-				if (name == null) {
-					bindingResult.addError(new ObjectError("globalError", loginError));
-				} else {
-					Account user = this.accounts.findByUserName(name);
-					if (user == null) {
-						bindingResult.addError(new ObjectError("globalError", loginError));
-					} else {
-						playInfo.setUser(user.getId());
-						this.serializer.createPlay(playInfo);
-						return "redirect:/";
-					}
-				}
-			}
+			setUser(request, playInfo, bindingResult, verificationResult);
+		}
+
+		if (verificationResult.isEmpty() && !bindingResult.hasGlobalErrors()) {
+			this.serializer.createPlay(playInfo);
+			return "redirect:/";
 		}
 
 		fillModel(model, playInfo);
 		model.addAttribute("verificationErrors", DisplayKt.errorsToString(verificationResult));
 		return "play";
+	}
+
+	/**
+	 * Check for {@link FieldError} and convert them to {@link PrintableError}.
+	 * 
+	 * @param bindingResult      Binding to check for errors
+	 * @param verificationResult Output list to store errors into
+	 */
+	private void checkFieldErrors(final BindingResult bindingResult, final List<PrintableError> verificationResult) {
+		if (bindingResult.hasErrors()) {
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				verificationResult.add(new InvalidValue(error.getField(), String.valueOf(error.getRejectedValue())));
+			}
+		}
+	}
+
+	/**
+	 * Find starters in request parameters and write them into the play.
+	 * 
+	 * @param params             Request parameters to find starters in
+	 * @param playInfo           Output play to write the starters into
+	 * @param verificationResult Output list to store errors into
+	 */
+	private void setStarters(Map<String, String[]> params, ServerPlay playInfo,
+	        final List<PrintableError> verificationResult) {
+		Map<Integer, Integer> playStarters = extractStaters(params, verificationResult);
+		if (verificationResult.isEmpty()) {
+			playInfo.setStarters(playStarters);
+		}
+
+	}
+
+	/**
+	 * Run the play verifier on the play.
+	 * 
+	 * This method follows a railroad error pattern. If there are already errors in
+	 * the results, the method is a no-op.
+	 * 
+	 * @param playInfo           Play to check
+	 * @param verificationResult Output list to store errors into and error list to
+	 *                           check before doing any work.
+	 */
+	private void verifyPlay(ServerPlay playInfo, final List<PrintableError> verificationResult) {
+		if (verificationResult.isEmpty()) {
+			verificationResult.addAll(VerifierKt.verify(playInfo));
+		}
+	}
+
+	/**
+	 * Add user info into the play.
+	 * 
+	 * This method follows a railroad error pattern. If there are already errors in
+	 * the results, the method is a no-op.
+	 * 
+	 * @param request            Request from which to extract user info
+	 * @param playInfo           Output play to write the user info into
+	 * @param bindingResult      Output result to store errors into
+	 * @param verificationResult Error list to check before doing any work.
+	 */
+	private void setUser(HttpServletRequest request, ServerPlay playInfo, final BindingResult bindingResult,
+	        final List<PrintableError> verificationResult) {
+		if (verificationResult.isEmpty()) {
+			String loginError = "Error with login. Please log out and log back in.";
+			String name = request.getRemoteUser();
+			if (name == null) {
+				bindingResult.addError(new ObjectError("globalError", loginError));
+			} else {
+				Account user = this.accounts.findByUserName(name);
+				if (user == null) {
+					bindingResult.addError(new ObjectError("globalError", loginError));
+				} else {
+					playInfo.setUser(user.getId());
+				}
+			}
+		}
 	}
 
 	/**
@@ -187,6 +246,13 @@ public class PlayFormController {
 		model.addAttribute("playInfo", play);
 	}
 
+	/**
+	 * Rules to sort a card list
+	 * 
+	 * @param <T>     {@link CardSet} type
+	 * @param cardSet Cards to sort
+	 * @return The sorted list of cards.
+	 */
 	private static <T extends CardSet> List<T> sortCards(Collection<T> cardSet) {
 		List<T> cards = new ArrayList<>(cardSet);
 		cards.sort(Comparator.comparing(CardSet::getId));

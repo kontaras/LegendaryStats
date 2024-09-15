@@ -211,6 +211,8 @@ class PlayFormControllerTest {
 
 		when(request.getRemoteUser()).thenReturn(null);
 
+		when(bindingResult.hasGlobalErrors()).thenReturn(false, true);
+
 		ArgumentCaptor<List<String>> errors = ArgumentCaptor.forClass(List.class);
 
 		Assertions.assertEquals("play", new PlayFormController().newPlay(request, mod, play, bindingResult));
@@ -242,6 +244,8 @@ class PlayFormControllerTest {
 
 		when(request.getParameterMap())
 		        .thenReturn(Map.of("starters_" + Starters.INSTANCE.getSHIELD().getId(), new String[] { "1" }));
+
+		when(bindingResult.hasGlobalErrors()).thenReturn(false, true);
 
 		PlayFormController underTest = new PlayFormController();
 

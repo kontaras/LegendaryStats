@@ -82,8 +82,7 @@ class PlayStoreTest {
 		ServerPlay testPlay = new ServerPlay();
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(componentString), ArgumentMatchers.anyList()))
 		        .thenReturn(new int[1]);
-		Exception thrown =
-		        Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
+		Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(componentString), ArgumentMatchers.anyList()))
 		        .thenAnswer(invocation -> {
@@ -98,13 +97,13 @@ class PlayStoreTest {
 			        }
 			        return answer;
 		        });
-		thrown = Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
+		Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(componentString), ArgumentMatchers.anyList()))
 		        .thenReturn(new int[] { 1, 1, 1 });
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(starterString), ArgumentMatchers.anyList()))
 		        .thenReturn(new int[2]);
-		thrown = Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
+		Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 
 		testPlay.setStarters(Map.of(1, 2, 3, 4));
 		when(mockJdbc.batchUpdate(ArgumentMatchers.eq(starterString), ArgumentMatchers.anyList()))
@@ -120,6 +119,6 @@ class PlayStoreTest {
 			        }
 			        return answer;
 		        });
-		thrown = Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
+		Assertions.assertThrows(PlayStore.DatabaseWriteException.class, () -> underTest.createPlay(testPlay));
 	}
 }
