@@ -25,27 +25,32 @@
 					<fieldset>
 						<legend>Scheme</legend>
 						<th:block th:each="item : ${schemes}">
-						<input type="radio" th:field="*{scheme}" th:value="${item.id}" />
-						<label th:for="${#ids.prev('scheme')}" th:utext="${@viewHelper.getDisplayName(item)}">SCHEME NAME</label>
-						<br />
+							<label>
+								<input type="radio" th:field="*{scheme}" th:value="${item.id}" />
+								<span th:utext="${@viewHelper.getDisplayName(item)}">SCHEME NAME</span>
+							</label>
+							<br />
 						</th:block>
 					</fieldset>
 					
 					<fieldset>
 						<legend>Mastermind</legend>
 						<th:block th:each="item : ${masterminds}">
-						<input type="radio" th:field="*{mastermind}" th:value="${item.id}" />
-						<label th:for="${#ids.prev('mastermind')}" th:utext="${@viewHelper.getDisplayName(item)}">MASTERMIND NAME</label>
-						<br />
+							<label>
+								<input type="radio" th:field="*{mastermind}" th:value="${item.id}" />
+							 	<span th:utext="${@viewHelper.getDisplayName(item)}">MASTERMIND NAME</span>
+					 		</label>
+							<br />
 						</th:block>
 					</fieldset>
 					
-					<label for="players">Players</label>
+					<label>Players
 					<select th:field="*{players}" name="players">
 						<option th:each="item : ${players}" 
 							th:value="${item}" 
 							th:text="${#strings.capitalizeWords(#strings.toLowerCase(#strings.replace(item,'_',' ')))}">PLAYER COUNT</option>
 					</select>
+					</label>
 					
 					<fieldset>
 						<legend>Supports</legend>
