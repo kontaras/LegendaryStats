@@ -57,8 +57,8 @@
 						</label>
 					</fieldset>
 					<fieldset>
-						<legend>Starters</legend>
 						<label th:each="row:${starters}">
+							<legend>Starters</legend>
 							<span th:utext="${@viewHelper.getDisplayName(row)}" />
 							<input type="text" th:id="'starters_' + ${row.id}" th:name="'starters_' + ${row.id}"
 								   readonly="readonly" />
