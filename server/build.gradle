@@ -1,8 +1,8 @@
 plugins {
 	id 'org.springframework.boot' version '3.3.0'
-	id 'io.spring.dependency-management' version '1.1.5'
+	id 'io.spring.dependency-management' version '1.1.6'
 	id 'java'
-	id "org.sonarqube" version "5.0.0.4638"
+	id "org.sonarqube" version "5.1.0.4882"
 	id 'jacoco'
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
@@ -31,21 +31,21 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
 
-	implementation 'com.google.guava:guava:33.2.1-jre'
+	implementation 'com.google.guava:guava:33.3.0-jre'
 
 	implementation 'org.tinylog:tinylog-api:2.7.0'
 	runtimeOnly 'org.tinylog:tinylog-impl:2.7.0'
 
 	runtimeOnly 'org.flywaydb:flyway-core:10.13.0'
 
-	runtimeOnly 'com.h2database:h2:2.2.224' //Dev DB
+	runtimeOnly 'com.h2database:h2:2.3.232' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
 
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testImplementation "org.mockito:mockito-core:5.12.0"
+	testImplementation "org.mockito:mockito-core:5.13.0"
 
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 
