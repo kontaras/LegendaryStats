@@ -26,15 +26,15 @@ internal class GeneralPlays {
             ),
             verify(
                 Play(
-                    Outcome.INCOMPLETE,
+                    Outcome.DRAW_DECK,
                     PlayerCount.FOUR,
                     -1,
                     -1,
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    setOf(),
-                    mapOf(),
+                    mutableSetOf(),
+                    mutableSetOf(),
+                    mutableSetOf(),
+                    mutableSetOf(),
+                    mutableMapOf(),
                     -1
                 )
             )

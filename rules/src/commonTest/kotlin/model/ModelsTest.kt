@@ -1,18 +1,17 @@
 package games.lmdbg.rules.model
 
-import games.lmdbg.rules.playMaker
+import games.lmdbg.rules.PlayBuilder
 import games.lmdbg.rules.set.core.Boards
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-private class ModelsTest {
+internal class ModelsTest {
 
     /** Test if a play is not changed by being encoded and decoded. */
     @Test
     fun encodeDecodeTest() {
-        val play = playMaker()
+        val play = PlayBuilder().build()
         val encoded = Play.playToString(play)
-        print(encoded)
         assertEquals(play, Play.playFromString(encoded))
     }
 
@@ -50,12 +49,12 @@ private class ModelsTest {
                 PlayerCount.THREE,
                 108,
                 109,
-                setOf(101, 102, 105, 103, 108),
-                setOf(106, 107, 108),
-                setOf(101),
-                setOf(101),
-                mapOf(101 to 3),
-                Boards.HQ
+                mutableSetOf(101, 102, 105, 103, 108),
+                mutableSetOf(106, 107, 108),
+                mutableSetOf(101),
+                mutableSetOf(101),
+                mutableMapOf(101 to 3),
+                Boards.HQ.id
             ), Play.playFromString(play)
         )
     }

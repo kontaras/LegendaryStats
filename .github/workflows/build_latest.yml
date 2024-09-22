@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 18
+    - name: Set up JDK 22
       uses: actions/setup-java@v4
       with:
-        java-version: '18'
+        java-version: '22'
         distribution: 'zulu'
         check-latest: true
     - name: Cache Gradle packages
@@ -26,7 +26,8 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build jacocoTestReport --info
+      run: ./gradlew build jacocoTestReport koverXmlReport --info
     - uses: codecov/codecov-action@v4
       with:
         verbose: true
+        token: ${{ secrets.CODECOV_TOKEN }}

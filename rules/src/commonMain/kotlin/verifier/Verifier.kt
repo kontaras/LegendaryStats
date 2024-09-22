@@ -2,8 +2,9 @@ package games.lmdbg.rules.verifier
 
 import games.lmdbg.rules.model.Play
 import games.lmdbg.rules.model.PlayerCount
+import games.lmdbg.rules.set.*
 import org.lighthousegames.logging.logging
-import kotlin.js.JsName
+import kotlin.js.JsExport
 
 val log = logging()
 
@@ -13,17 +14,47 @@ val log = logging()
  * @param play The play to verify
  * @return A list of issues with this play. Will be empty if there are no issues.
  */
-@JsName("verify") //Prevent mangling
+@JsExport
 fun verify(play: Play): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
-    val setCounts = getPlayerCountRules(play.players)
+
+    if (play.outcome == null) {
+        errors.add(MissingField("game outcome"))
+    }
+
+    if (play.players == null) {
+        errors.add(MissingField("player count"))
+    }
+
+    if (play.scheme == null) {
+        errors.add(MissingField("scheme"))
+    }
+
+    if (play.mastermind == null) {
+        errors.add(MissingField("mastermind"))
+    }
+
+    if (play.board == null) {
+        errors.add(MissingField("game board"))
+    }
+
+    if (errors.isNotEmpty()) {
+        return errors;
+    }
+
+    val players = play.players!!
+    val scheme = play.scheme!!
+    val mastermind = play.mastermind!!
+    val board = play.board!!
+
+    val setCounts = getPlayerCountRules(players)
 
     updateSetCountsFromScheme(play, setCounts)
 
     errors.addAll(checkCardSetSizes(play, setCounts))
-    errors.addAll(checkValuesInRange(play))
-    errors.addAll(checkRequiredCardSets(play))
-    errors.addAll(checkPlayValidForScheme(play))
+    errors.addAll(checkValuesInRange(play, scheme, mastermind, board))
+    errors.addAll(checkRequiredCardSets(play, scheme, mastermind))
+    errors.addAll(checkPlayValidForScheme(play, scheme))
 
     return errors
 }
@@ -69,62 +100,51 @@ fun checkCardSetSizes(play: Play, setCounts: SetCounts): List<PrintableError> {
  * @param play The play to check
  * @return [InvalidCardSet] for each invalid card set id
  */
-internal fun checkValuesInRange(play: Play): List<PrintableError> {
+internal fun checkValuesInRange(play: Play, scheme: Int, mastermind: Int, board: Int): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
     for (hero in play.heroes) {
-        if (!checkValidValue(hero, ReleaseRulesPlugin::heroesRange)) {
+        if (!heroesById.containsKey(hero)) {
             errors.add(InvalidCardSet(CardSetType.HERO, hero))
         }
     }
 
     for (villain in play.villains) {
-        if (!checkValidValue(villain, ReleaseRulesPlugin::villainsRange)) {
+        if (!villainsById.containsKey(villain)) {
             errors.add(InvalidCardSet(CardSetType.VILLAIN, villain))
         }
     }
 
     for (henchman in play.henchmen) {
-        if (!checkValidValue(henchman, ReleaseRulesPlugin::henchmenRange)) {
+        if (!henchmanById.containsKey(henchman)) {
             errors.add(InvalidCardSet(CardSetType.HENCHMAN, henchman))
         }
     }
 
     for (support in play.supports) {
-        if (!checkValidValue(support, ReleaseRulesPlugin::supportCardRange)) {
+        if (!supportsById.containsKey(support)) {
             errors.add(InvalidCardSet(CardSetType.SUPPORT, support))
         }
     }
 
-    if (!checkValidValue(play.scheme, ReleaseRulesPlugin::schemesRange)) {
-        errors.add(InvalidCardSet(CardSetType.SCHEME, play.scheme))
+    if (!schemesById.containsKey(scheme)) {
+        errors.add(InvalidCardSet(CardSetType.SCHEME, scheme))
     }
 
-    if (!checkValidValue(play.mastermind, ReleaseRulesPlugin::mastermindsRange)) {
-        errors.add(InvalidCardSet(CardSetType.MASTERMIND, play.mastermind))
+    if (!mastermindsById.containsKey(mastermind)) {
+        errors.add(InvalidCardSet(CardSetType.MASTERMIND, mastermind))
     }
 
     for (starter in play.starters.keys) {
-        if (!checkValidValue(starter, ReleaseRulesPlugin::starterRange)) {
+        if (!startersById.containsKey(starter)) {
             errors.add(InvalidCardSet(CardSetType.STARTER, starter))
         }
     }
 
-    if (!checkValidValue(play.board, ReleaseRulesPlugin::boardRange)) {
-        errors.add(InvalidCardSet(CardSetType.BOARD, play.board))
+    if (!boardsById.containsKey(board)) {
+        errors.add(InvalidCardSet(CardSetType.BOARD, board))
     }
 
     return errors
-}
-
-/**
- * Check if a given card set id is a valid one
- *
- * @param setId Card Set ID to check
- * @param field The plugin field accessor to get the valid values for the set id
- * @return true if there is a set that contains that id, false otherwise
- */
-private fun checkValidValue(setId: Int, field: (ReleaseRulesPlugin) -> IntRange): Boolean {
-    return plugins.any { plugin -> setId in field(plugin) }
 }
 
 /**
@@ -175,15 +195,15 @@ data class SetCounts(var heroes: Int, var villains: Int, var henchmen: Int, var 
  * @param play The play to check
  * @return A list of [MissingRequiredSet] or [MissingRecruitSupport] containing which card set is missing
  */
-internal fun checkRequiredCardSets(play: Play): List<PrintableError> {
+internal fun checkRequiredCardSets(play: Play, scheme: Int, mastermind: Int): List<PrintableError> {
     val errors = mutableListOf<PrintableError>()
 
     val requiredSets = mutableListOf<Set<TypedCardSet>>()
     if (play.players !in listOf(PlayerCount.SOLO, PlayerCount.ADVANCED_SOLO)) {
-        requiredSets.add(getMastermindAlwaysLeads(play.mastermind))
+        requiredSets.add(getMastermindAlwaysLeads(mastermind))
     }
 
-    requiredSets.add(getSchemeRequiredSets(play.scheme))
+    requiredSets.add(getSchemeRequiredSets(scheme))
 
     errors.addAll(checkMandatorySets(play, requiredSets))
 
@@ -271,8 +291,7 @@ internal fun getSchemeRequiredSets(scheme: Int): Set<TypedCardSet> {
     return setOf()
 }
 
-internal fun checkPlayValidForScheme(play: Play): List<PrintableError> {
-    val scheme = play.scheme
+internal fun checkPlayValidForScheme(play: Play, scheme: Int): List<PrintableError> {
     for (plugin in plugins) {
         if (scheme in plugin.schemesRange) {
              return plugin.schemeCheckPlay(scheme, play)

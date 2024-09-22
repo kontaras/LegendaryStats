@@ -1,59 +1,69 @@
 package games.lmdbg.rules
 
-import games.lmdbg.rules.model.Outcome
-import games.lmdbg.rules.model.Play
-import games.lmdbg.rules.model.PlayerCount
-import games.lmdbg.rules.verifier.PrintableError
-import games.lmdbg.rules.verifier.TypedCardSet
-import games.lmdbg.rules.verifier.ReleaseRulesPlugin
-import games.lmdbg.rules.verifier.SetCounts
+import games.lmdbg.rules.model.*
+import games.lmdbg.rules.verifier.*
 
-fun playMaker(
-    hero: Int? = null,
-    villain: Int? = null,
-    henchman: Int? = null,
-    mastermind: Int? = null,
-    scheme: Int? = null,
-    players: PlayerCount? = null,
-    support: Int? = null,
-    startingDeck: Int? = null,
-    startingDeckCount: Int? = null,
-    board: Int? = null,
-): Play {
-    return Play(
-        Outcome.WIN_DEFEAT_MASTERMIND,
-        players ?: PlayerCount.THREE,
-        scheme ?: 0,
-        mastermind ?: 0,
-        if (hero != null) setOf(hero) else setOf(),
-        if (villain != null) setOf(villain) else setOf(),
-        if (henchman != null) setOf(henchman) else setOf(),
-        if (support != null) setOf(support) else setOf(),
-        if (startingDeck != null && startingDeckCount != null) mapOf(startingDeck to startingDeckCount) else mapOf(),
-        board ?: 0,
-    )
+class PlayBuilder(
+
+) {
+    private val play = Play()
+
+    fun addHero(id: Int): PlayBuilder {
+        play.heroes.add(id)
+        return this
+    }
+
+    fun addVillain(id: Int): PlayBuilder {
+        play.villains.add(id)
+        return this
+    }
+
+    fun addHenchman(id: Int): PlayBuilder {
+        play.henchmen.add(id)
+        return this
+    }
+
+    fun setScheme(id: Int): PlayBuilder {
+        play.scheme = id
+        return this
+    }
+
+    fun setMastermind(id: Int): PlayBuilder {
+        play.mastermind = id
+        return this
+    }
+
+    fun setBoard(id: Int): PlayBuilder {
+        play.board = id
+        return this
+    }
+
+    fun addSupport(id: Int): PlayBuilder {
+        play.supports.add(id)
+        return this
+    }
+
+    fun addStarter(id: Int, quantity: Int): PlayBuilder {
+        play.starters.put(id, quantity)
+        return this
+    }
+
+    fun setPlayers(players: PlayerCount): PlayBuilder {
+        play.players = players
+        return this
+    }
+
+    fun build(): Play {
+        return play
+    }
 }
 
 class MockRules(
-    heroesRange: IntRange? = null,
-    villainsRange: IntRange? = null,
-    henchmenRange: IntRange? = null,
-    schemesRange: IntRange? = null,
-    mastermindsRange: IntRange? = null,
-    supportCardRange: IntRange? = null,
-    starterDeckRange: IntRange? = null,
-    recruitSupports: Int? = null,
-    boardRange: IntRange? = null
-) : ReleaseRulesPlugin {
-    override val heroesRange: IntRange = heroesRange ?: IntRange.EMPTY
-    override val villainsRange: IntRange = villainsRange ?: IntRange.EMPTY
-    override val henchmenRange: IntRange = henchmenRange ?: IntRange.EMPTY
-    override val schemesRange: IntRange = schemesRange ?: IntRange.EMPTY
-    override val mastermindsRange: IntRange = mastermindsRange ?: IntRange.EMPTY
-    override val supportCardRange: IntRange = supportCardRange ?: IntRange.EMPTY
+    release: Release = Release(),
+    recruitSupports: Int? = null
+) : ReleaseRulesPlugin(release) {
+
     override val recruitSupports: Set<Int> = if (recruitSupports != null) setOf(recruitSupports) else setOf()
-    override val starterRange: IntRange = starterDeckRange ?: IntRange.EMPTY
-    override val boardRange: IntRange = boardRange ?: IntRange.EMPTY
 
     override fun getAlwaysLead(mastermind: Int): Set<TypedCardSet> {
         return alwaysLeadsLogic(mastermind)

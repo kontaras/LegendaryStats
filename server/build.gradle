@@ -1,17 +1,21 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.6'
+	id 'org.springframework.boot' version '3.3.0'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'java'
 	id "org.sonarqube" version "5.1.0.4882"
 	id 'jacoco'
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
+	id 'com.adarshr.test-logger' version '3.2.0'
 	id 'com.google.cloud.tools.jib' version '3.4.3'
+	id "com.diffplug.spotless" version "6.25.0"
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 group = 'games.lmdbg'
 version = '0.0.2'
-sourceCompatibility = '16' //Project does not build with Java 17
+sourceCompatibility = '21'
 
 repositories {
 	mavenCentral()
@@ -23,18 +27,21 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
 
 	implementation 'com.google.guava:guava:33.3.0-jre'
 
 	implementation 'org.tinylog:tinylog-api:2.7.0'
 	runtimeOnly 'org.tinylog:tinylog-impl:2.7.0'
 
-	runtimeOnly 'org.flywaydb:flyway-core:9.19.4'
+	runtimeOnly 'org.flywaydb:flyway-core:10.13.0'
 
-	runtimeOnly 'com.h2database:h2:2.3.232' //Dev DB
+	runtimeOnly 'com.h2database:h2:2.2.224' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
 
+	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -43,11 +50,18 @@ dependencies {
 	testImplementation 'com.openpojo:openpojo:0.9.1'
 
 	//Needed for Eclipse JUnit runner, see if it is still needed in the future.
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.10.3"
 }
 
 test {
 	useJUnitPlatform()
+	testlogger {
+		showPassedStandardStreams false
+    	showSkippedStandardStreams false
+		showFailedStandardStreams true
+		showFullStackTraces true
+    }
 }
 
 frontend {
@@ -70,6 +84,16 @@ jacocoTestReport {
     	html.required = true
     	xml.required = true
 	}
+}
+
+spotless {
+  java {
+  	removeUnusedImports()
+  	importOrder()
+  	cleanthat()
+  	
+  	eclipse().configFile('misc/eclipseformat.xml')
+  }
 }
 
 task javascriptCopy(type: Copy) {
@@ -125,7 +149,7 @@ tasks.processResources {
     dependsOn(":rules:assemble")
     // package the frontend app within the jar as static
     def frontendBuildDir = project(":rules").buildDir
-    def frontendDist = frontendBuildDir.toPath().resolve("distributions")
+    def frontendDist = frontendBuildDir.toPath().resolve("dist/js/productionExecutable/")
     from(frontendDist) {
         include("**/*")
         into("static/scripts")
@@ -136,16 +160,18 @@ jar.configure {
 	dependsOn tasks.copyFromNpm
 }
 
-bootJarMainClassName.configure {
-	dependsOn tasks.copyFromNpm
-}
-
-bootRunMainClassName.configure {
-	dependsOn tasks.copyFromNpm
-}
-
 compileTestJava.configure {
 	dependsOn tasks.copyFromNpm
+}
+
+bootJar.configure {
+	dependsOn tasks.cssCopy
+	dependsOn tasks.javascriptCopy
+}
+
+resolveMainClassName.configure {
+	dependsOn tasks.cssCopy
+	dependsOn tasks.javascriptCopy
 }
 
 jibBuildTar.configure {

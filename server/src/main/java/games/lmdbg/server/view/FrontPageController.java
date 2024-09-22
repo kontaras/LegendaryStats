@@ -1,41 +1,20 @@
 package games.lmdbg.server.view;
 
+import games.lmdbg.server.service.Schema;
+import games.lmdbg.server.service.SqlWinRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import games.lmdbg.server.model.game.Henchman;
-import games.lmdbg.server.model.game.Hero;
-import games.lmdbg.server.model.game.Mastermind;
-import games.lmdbg.server.model.game.Scheme;
-import games.lmdbg.server.model.game.Villain;
-import games.lmdbg.server.service.WinRate;
 
 /**
  * A controller for the index page.
  */
 @Controller
 public class FrontPageController {
-	/** Source of win rates for {@link Hero} */
+	public static final String FRONT_PAGE_PATH = "/";
 	@Autowired
-	private WinRate<Hero> heroWinRates;
-
-	/** Source of win rates for {@link Villain} */
-	@Autowired
-	private WinRate<Villain> villainWinRates;
-
-	/** Source of win rates for {@link Mastermind} */
-	@Autowired
-	private WinRate<Mastermind> mastermindWinRates;
-
-	/** Source of win rates for {@link Henchman} */
-	@Autowired
-	private WinRate<Henchman> henchmanWinRates;
-
-	/** Source of win rates for {@link Scheme} */
-	@Autowired
-	private WinRate<Scheme> schemeWinRates;
+	SqlWinRate winRates;
 
 	/**
 	 * Generate data for rendering the front page.
@@ -43,13 +22,13 @@ public class FrontPageController {
 	 * @param model Model to put data into
 	 * @return The template to create the index page
 	 */
-	@GetMapping("/")
+	@GetMapping(FRONT_PAGE_PATH)
 	public String mainPage(Model model) {
-		model.addAttribute("heroes", this.heroWinRates.getWinRates());
-		model.addAttribute("villains", this.villainWinRates.getWinRates());
-		model.addAttribute("masterminds", this.mastermindWinRates.getWinRates());
-		model.addAttribute("henchmen", this.henchmanWinRates.getWinRates());
-		model.addAttribute("schemes", this.schemeWinRates.getWinRates());
+		model.addAttribute("heroes", this.winRates.getSetWinRates(Schema.ComponentType.HERO));
+		model.addAttribute("villains", this.winRates.getSetWinRates(Schema.ComponentType.VILLAIN));
+		model.addAttribute("masterminds", this.winRates.getSetWinRates(Schema.ComponentType.MASTERMIND));
+		model.addAttribute("henchmen", this.winRates.getSetWinRates(Schema.ComponentType.HENCHMAN));
+		model.addAttribute("schemes", this.winRates.getSetWinRates(Schema.ComponentType.SCHEME));
 		return "index";
 	}
 }

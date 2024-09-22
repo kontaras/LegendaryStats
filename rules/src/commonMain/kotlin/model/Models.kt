@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /** The possible game outcomes */
@@ -15,13 +16,11 @@ enum class Outcome {
     LOSS_SCHEME,
 
     /** Game was a draw (hero or villain deck ran out) */
-    DRAW,
-
-    /** Players did not finish playing */
-    INCOMPLETE
+    DRAW_DECK
 }
 
 /** Possible player counts */
+@JsExport
 enum class PlayerCount {
     SOLO,
     ADVANCED_SOLO,
@@ -33,40 +32,80 @@ enum class PlayerCount {
 
 /** All of the data about a play that can be validated */
 @Serializable
-data class Play(
+@JsExport
+open class Play(
     /** How did the game end? */
-    val outcome: Outcome,
+    var outcome: Outcome? = null,
     /** How many players where there? */
-    val players: PlayerCount,
+    var players: PlayerCount?= null,
     /** Which scheme was used? */
-    val scheme: Int,
+    var scheme: Int?= null,
     /** What was the mastermind faced? */
-    val mastermind: Int,
+    var mastermind: Int?= null,
     /** What heroes made up the hero deck? */
-    val heroes: Set<Int>,
+    var heroes: MutableSet<Int> = mutableSetOf(),
     /** What villain groups where in the villain deck? */
-    val villains: Set<Int>,
+    var villains: MutableSet<Int> = mutableSetOf(),
     /** What henchmen villain groups where in the villain deck? */
-    val henchmen: Set<Int>,
+    var henchmen: MutableSet<Int> = mutableSetOf(),
     /** What support cards where included? */
-    val supports: Set<Int>,
+    var supports: MutableSet<Int> = mutableSetOf(),
     /** How many of each starting decks was used in the play? */
-    val starters: Map<Int, Int>,
+    var starters: MutableMap<Int, Int> = mutableMapOf(),
     /** What game board was used? */
-    val board: Int,
-    /** Which hero was used for a special purpose (i.e. not in the hero deck)? */
-    val misc_hero: Int? = null
+    var board: Int?= null
 ) {
+    override fun toString(): String {
+        return "Play(outcome=$outcome, players=$players, scheme=$scheme, mastermind=$mastermind, heroes=$heroes, villains=$villains, henchmen=$henchmen, supports=$supports, starters=$starters, board=$board)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Play
+
+        if (outcome != other.outcome) return false
+        if (players != other.players) return false
+        if (scheme != other.scheme) return false
+        if (mastermind != other.mastermind) return false
+        if (heroes != other.heroes) return false
+        if (villains != other.villains) return false
+        if (henchmen != other.henchmen) return false
+        if (supports != other.supports) return false
+        if (starters != other.starters) return false
+        if (board != other.board) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = outcome?.hashCode() ?: 0
+        result = 31 * result + (players?.hashCode() ?: 0)
+        result = 31 * result + (scheme ?: 0)
+        result = 31 * result + (mastermind ?: 0)
+        result = 31 * result + heroes.hashCode()
+        result = 31 * result + villains.hashCode()
+        result = 31 * result + henchmen.hashCode()
+        result = 31 * result + supports.hashCode()
+        result = 31 * result + starters.hashCode()
+        result = 31 * result + (board ?: 0)
+        return result
+    }
+
     companion object {
-        @JsName("playFromString") //Prevent mangling
         fun playFromString(encoded: String): Play {
             return Json.decodeFromString(encoded)
         }
 
-        @JsName("playToString") //Prevent mangling
         fun playToString(play: Play): String {
             return Json.encodeToString(play)
         }
+
+        /**
+         * Utility function to create a Kotlin [Set] from JavaScript.
+         */
+        fun <TValue> createSetFromJsArray(array: Array<TValue>) = array.toSet()
     }
 }
 

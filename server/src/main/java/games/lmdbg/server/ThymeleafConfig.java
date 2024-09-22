@@ -1,11 +1,10 @@
-
 package games.lmdbg.server;
 
 import java.util.Collections;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -19,7 +18,7 @@ public class ThymeleafConfig {
 	public ThymeleafConfig() {
 		// Nothing here
 	}
-	
+
 	/**
 	 * Create a Template Engine that can handle HTNL and JavaScript files
 	 * 
@@ -28,13 +27,15 @@ public class ThymeleafConfig {
 	@Bean
 	public static SpringTemplateEngine getTemplateEngine() {
 		final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		
+
 		templateEngine.addTemplateResolver(htmlTemplateResolver());
 		templateEngine.addTemplateResolver(jsTemplateResolver());
-		
+
+		templateEngine.addDialect(new SpringSecurityDialect());
+
 		return templateEngine;
 	}
-	
+
 	/**
 	 * Create a template resolver for HTML templates
 	 * 
@@ -49,7 +50,7 @@ public class ThymeleafConfig {
 		templateResolver.setCharacterEncoding("UTF-8");
 		return templateResolver;
 	}
-	
+
 	/**
 	 * Create a template resolver for JavaScript templates
 	 * 
@@ -64,5 +65,10 @@ public class ThymeleafConfig {
 		templateResolver.setTemplateMode(TemplateMode.JAVASCRIPT);
 		templateResolver.setCharacterEncoding("UTF-8");
 		return templateResolver;
+	}
+
+	@Bean
+	public SpringSecurityDialect springSecurityDialect() {
+		return new SpringSecurityDialect();
 	}
 }

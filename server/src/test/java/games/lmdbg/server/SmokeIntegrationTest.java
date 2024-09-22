@@ -1,7 +1,6 @@
 package games.lmdbg.server;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,18 +20,20 @@ class SmokeIntegrationTest {
 	private int port;
 
 	/**
-	 * Checks that the service will return something that looks like an HTML response.
+	 * Checks that the service will return something that looks like an HTML
+	 * response.
 	 */
 	@Test
 	void testHtmlResponse() {
 		List<String> urls = List.of("/", "/faq", "/play");
 		TestRestTemplate restTemplate2 = new TestRestTemplate("user", "password");
-		for(String url : urls) {
-			ResponseEntity<String> resp = restTemplate2.getForEntity("http://localhost:" + this.port + url, String.class);
-			Assertions.assertEquals(200, resp.getStatusCodeValue());
+		for (String url : urls) {
+			ResponseEntity<String> resp =
+			        restTemplate2.getForEntity("http://localhost:" + this.port + url, String.class);
+			Assertions.assertEquals(200, resp.getStatusCode().value());
 			Assertions.assertTrue(resp.hasBody());
 			Assertions.assertTrue(MediaType.TEXT_HTML.equalsTypeAndSubtype(resp.getHeaders().getContentType()));
-			Assertions.assertTrue(resp.getBody().contains("<html lang=\"en\">"));
+			Assertions.assertTrue(resp.getBody().contains("<html lang=\"en\""));
 		}
 	}
 }

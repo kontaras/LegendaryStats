@@ -1,8 +1,11 @@
-
 package games.lmdbg.server;
 
-import org.springframework.context.annotation.Configuration;
+import games.lmdbg.server.view.AccountContoller;
+import games.lmdbg.server.view.FrontPageController;
+import games.lmdbg.server.view.PlayFormController;
+import games.lmdbg.server.view.StaticPageContoller;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
@@ -15,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@SuppressWarnings("static-method")
 public class SecurityConfiguration {
 	/**
 	 * Setup security rules
@@ -25,26 +29,23 @@ public class SecurityConfiguration {
 	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeHttpRequests(requests -> requests
-				.antMatchers("/play/**", "/user/**").authenticated()
-				.antMatchers("/login*", "/registration*").permitAll()
-			)
-			.formLogin(form -> form
-				.loginPage("/login")
-				.permitAll()
-			)
-			.logout(LogoutConfigurer::permitAll);
+		http.authorizeHttpRequests(requests -> requests.requestMatchers(PlayFormController.PLAY_PATH, "/user/**")
+		        .authenticated()
+		        .requestMatchers(AccountContoller.LOGIN_PATH, AccountContoller.REGISTRATION_PATH,
+		                StaticPageContoller.FAQ_PATH, FrontPageController.FRONT_PAGE_PATH, "/styles/**", "/scripts/**")
+		        .permitAll()).formLogin(form -> form.loginPage("/login").permitAll())
+		        .logout(LogoutConfigurer::permitAll);
 
 		return http.build();
 	}
-	
+
 	/**
 	 * The password encoding algorithm for the application
+	 * 
 	 * @return A known secure password encoder.
 	 */
 	@Bean
 	public PasswordEncoder encoder() {
-	    return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
 }

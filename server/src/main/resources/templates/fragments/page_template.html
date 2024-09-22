@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout (extra_head, content)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:sec="http://www.thymeleaf.org/extras/spring-security6" 
+		th:fragment="layout (extra_head, content)">
 	<head>
 		<link rel="stylesheet" th:href="@{/styles/normalize.css}"
 			href="https://necolas.github.io/normalize.css/latest/normalize.css">
@@ -13,9 +15,9 @@
 				setNames("dxp");
 				setNames("mcu");
 				setNames("marvel");
-				
+
 				const contents = jQuery("#contents");
-				
+
 				contents.prepend(
 						`<div id="name_picker"><h3>Displayed set names</h3>
 							<form>
@@ -26,7 +28,7 @@
 							<input type="radio" name="dsplay_name" id="dxp" value="dxp" onchange="setNames('dxp');" />
 							<label for="dxp"><span class="dxp">DXP Apps</span></label></form>
 						</div>`);
-				
+
 				contents.css("padding-right", "200px");
 			});
 		</script>
@@ -36,25 +38,30 @@
 	<body>
 		<div id="header"><h1 style="display: inline">Legendary Stats</h1>
 		<p id="links">
-			<a th:href="@{/}">Home</a>
-			<a th:href="@{/faq}">FAQ</a>
+			
+			<th:block th:each="page:${@navigationHelper.commonPaths().entrySet()}">
+				<a th:href="@{${page.value}}" th:text="${page.key}">PAGE NAME</a>
+			</th:block>
 			-
-			<th:block th:if="${#httpServletRequest.remoteUser != null}">
-				<span th:text="${#httpServletRequest.remoteUser}">
+			<th:block sec:authorize="isAuthenticated()">
+				<th:block th:each="page:${@navigationHelper.authenticatedPaths().entrySet()}">
+					<a th:href="@{${page.value}}" th:text="${page.key}">PAGE NAME</a>
+				</th:block>
+				-
+				<span sec:authentication="name">
 					USER NAME
 				</span>
 				<a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
-				-
-				Plays: <a th:href="@{/play}">New</a>
 			</th:block>
-			<th:block th:if="${#httpServletRequest.remoteUser == null}">
-				<a th:href="@{/login}">Login</a>
-				<a th:href="@{/register}">Register</a>
+			<th:block sec:authorize="!isAuthenticated()">
+				<th:block th:each="page:${@navigationHelper.unauthenticatedPaths().entrySet()}">
+					<a th:href="@{${page.value}}" th:text="${page.key}">PAGE NAME</a>
+				</th:block>
 			</th:block>
 		</p>
 		<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
       <input hidden="true" type="submit" value="Sign Out"/>
-   </form> 
+   </form>
 		</div>
 		<div id="contents" th:insert="${content}">
 			<!-- Contents goes here -->

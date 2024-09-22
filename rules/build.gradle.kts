@@ -1,8 +1,8 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    kotlin("multiplatform") version "1.8.22"
-    kotlin("plugin.serialization") version "1.8.22"
+    kotlin("multiplatform") version "2.0.10"
+    kotlin("plugin.serialization") version "2.0.10"
     id("org.sonarqube") version "5.1.0.4882"
     id("java-library")
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
@@ -18,25 +18,21 @@ repositories {
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "16"
+            kotlinOptions.jvmTarget = "21"
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
     }
-    js(LEGACY) {
+    js(IR) {
         browser {
             commonWebpackConfig {
                 cssSupport {
                     enabled.set(true)
                 }
             }
-
-            dceTask {
-                //Just because my code is not calling a function does not make it safe to delete
-                keep("legendary-stats-rules.games.lmdbg.rules")
-            }
         }
+        binaries.executable()
     }
 
     sourceSets {

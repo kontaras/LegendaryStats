@@ -1,7 +1,10 @@
 package games.lmdbg.rules.verifier
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertContentEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -25,10 +28,36 @@ internal class ErrorsTest {
         assertFalse(underTest.equals(WrongSetCount(CardSetType.BOARD, 1, 8)))
 
         //hashCode
-        assertEquals("Expected to provide 1 board sets, got 2".hashCode(), underTest.hashCode())
+        assertEquals("WrongSetCount BOARD: exp 1, act 2".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("WrongSetCount BOARD: exp 1, act 2", underTest.toString())
+
+        //getCardSets
+        assertEquals(listOf(), underTest.getCardSets())
+    }
+
+    @Test
+    fun invalidValueTest() {
+        val underTest = InvalidValue("board", "null")
+
+        //getMessage
+        assertEquals("Invalid value provided for board: null", underTest.getMessage())
+
+        //equals
+        assertTrue(underTest.equals(underTest))
+        assertTrue(underTest.equals(InvalidValue("board", "null")))
+
+        assertFalse(underTest.equals(null))
+        assertFalse(underTest.equals(3))
+        assertFalse(underTest.equals(InvalidValue("villain", "null")))
+        assertFalse(underTest.equals(InvalidValue("board", "nil")))
+
+        //hashCode
+        assertEquals("InvalidValue board: null".hashCode(), underTest.hashCode())
+
+        //toString
+        assertEquals("InvalidValue board: null", underTest.toString())
 
         //getCardSets
         assertEquals(listOf(), underTest.getCardSets())
@@ -51,7 +80,7 @@ internal class ErrorsTest {
         assertFalse(underTest.equals(InvalidCardSet(CardSetType.BOARD, 4)))
 
         //hashCode
-        assertEquals("Invalid board: 1".hashCode(), underTest.hashCode())
+        assertEquals("InvalidCardSet BOARD 1".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("InvalidCardSet BOARD 1", underTest.toString())
@@ -70,7 +99,7 @@ internal class ErrorsTest {
         )
 
         //getMessage
-        assertEquals("Missing required card sets (BOARD 2), (STARTER 8)", underTest.getMessage())
+        assertEquals("Missing required card sets %CARDS%", underTest.getMessage())
 
         //equals
         assertTrue(underTest.equals(underTest))
@@ -129,7 +158,7 @@ internal class ErrorsTest {
         )
 
         //hashCode
-        assertEquals("Missing required card sets (BOARD 2), (STARTER 8)".hashCode(), underTest.hashCode())
+        assertEquals("MissingRequiredSet (BOARD 2), (STARTER 8)".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("MissingRequiredSet (BOARD 2), (STARTER 8)", underTest.toString())
@@ -139,7 +168,8 @@ internal class ErrorsTest {
             listOf(
                 TypedCardSet(CardSetType.BOARD, 2),
                 TypedCardSet(CardSetType.STARTER, 8)
-            ), underTest.getCardSets())
+            ), underTest.getCardSets()
+        )
     }
 
     @Test
@@ -147,7 +177,7 @@ internal class ErrorsTest {
         val underTest = InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 1), -4)
 
         //getMessage
-        val expectedMessage = "Invalid quantity of hero 1: -4"
+        val expectedMessage = "Invalid quantity of %CARDS%: -4"
         assertEquals(expectedMessage, underTest.getMessage())
 
         //equals
@@ -161,7 +191,7 @@ internal class ErrorsTest {
         assertFalse(underTest.equals(InvalidCardQuantity(TypedCardSet(CardSetType.HERO, 1), -3)))
 
         //hashCode
-        assertEquals(expectedMessage.hashCode(), underTest.hashCode())
+        assertEquals("InvalidCardQuantity (HERO 1) -4".hashCode(), underTest.hashCode())
 
         //toString
         assertEquals("InvalidCardQuantity (HERO 1) -4", underTest.toString())
@@ -218,5 +248,53 @@ internal class ErrorsTest {
 
         //getCardSets
         assertEquals(listOf(), underTest.getCardSets())
+    }
+
+    fun missingFieldTest() {
+        val underTest = MissingField("mastermind")
+
+        //getMessage
+        val expectedMessage = "No value provided for mastermind."
+        assertEquals(expectedMessage, underTest.getMessage())
+
+        //equals
+        assertTrue(underTest.equals(underTest))
+        assertTrue(underTest.equals(MissingField("mastermind")))
+
+        assertFalse(underTest.equals(null))
+        assertFalse(underTest.equals(3))
+        assertTrue(underTest.equals(MissingField("board")))
+
+        //hashCode
+        assertEquals("mastermind".hashCode(), underTest.hashCode())
+
+        //toString
+        assertEquals("MissingField: mastermind", underTest.toString())
+    }
+
+    /**
+     * Test that all of the [PrintableError] types can be serialized and read again
+     */
+    @Test
+    fun serializabilityTest() {
+        val errors: List<PrintableError> = listOf(
+            WrongSetCount(CardSetType.HENCHMAN, 1, 2),
+            InvalidValue("starter", "Chinchilla"),
+            InvalidCardSet(CardSetType.SUPPORT, -5),
+            MissingRequiredSet(listOf(TypedCardSet(CardSetType.VILLAIN, 7), TypedCardSet(CardSetType.HERO, 4))),
+            InvalidCardQuantity(
+                TypedCardSet(CardSetType.HENCHMAN, 17), 123444
+            ),
+            MissingField("grass"),
+            MissingRecruitSupport,
+            PlayerSchemeMismatch
+        )
+        val encoded: String = errorSerializer.encodeToString(errors)
+
+        println(encoded)
+
+        val decoded: List<PrintableError> = errorSerializer.decodeFromString(encoded)
+
+        assertContentEquals(errors, decoded)
     }
 }
