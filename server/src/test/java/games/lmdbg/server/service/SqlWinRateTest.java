@@ -20,11 +20,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
-class SqlWinRateTest extends SqlTest {
+class SqlWinRateTest extends SqlTestBase {
 	@Autowired
 	private SqlWinRate testInstance;
 
-	private Number account_id;
+	private Number accountId;
 
 	public SqlWinRateTest(@Autowired JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
@@ -32,9 +32,9 @@ class SqlWinRateTest extends SqlTest {
 
 	@Test
 	void testHeroLookup() {
-		Number winPlay = createPlay(account_id, "WIN", "SOLO");
-		Number drawPlay = createPlay(account_id, "DRAW", "SOLO");
-		Number lossPlay = createPlay(account_id, "LOSS", "SOLO");
+		Number winPlay = createPlay(accountId, "WIN", "SOLO");
+		Number drawPlay = createPlay(accountId, "DRAW", "SOLO");
+		Number lossPlay = createPlay(accountId, "LOSS", "SOLO");
 
 		createPlayComponent(winPlay, Schema.ComponentType.HERO.getSqlValue(), Heroes.INSTANCE.getDEADPOOL().getId());
 		createPlayComponent(winPlay, Schema.ComponentType.HERO.getSqlValue(),
@@ -70,14 +70,14 @@ class SqlWinRateTest extends SqlTest {
 
 	@BeforeAll
 	protected void beforeAll() {
-		account_id = createUser();
+		accountId = createUser();
 	}
 
 	@Test
 	void testGetSetWinRates() {
-		Number winPlay = createPlay(account_id, "WIN", "SOLO");
-		Number drawPlay = createPlay(account_id, "DRAW", "SOLO");
-		Number lossPlay = createPlay(account_id, "LOSS", "SOLO");
+		Number winPlay = createPlay(accountId, "WIN", "SOLO");
+		Number drawPlay = createPlay(accountId, "DRAW", "SOLO");
+		Number lossPlay = createPlay(accountId, "LOSS", "SOLO");
 
 		createPlayComponent(winPlay, Schema.ComponentType.HERO.getSqlValue(), Heroes.INSTANCE.getDEADPOOL().getId());
 		createPlayComponent(winPlay, Schema.ComponentType.HERO.getSqlValue(), -1);

@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * Tests for {@link PlayStore} that use a real database.
  */
 @SpringBootTest
-public class PlayStoreIntegrationTest extends SqlTest {
+class PlayStoreIntegrationTest extends SqlTestBase {
 	@Autowired
 	PlayStore underTest;
 

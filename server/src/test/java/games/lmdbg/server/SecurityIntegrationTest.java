@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
-public class SecurityIntegrationTest {
+class SecurityIntegrationTest {
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -37,7 +37,7 @@ public class SecurityIntegrationTest {
 	AccountContoller accounts;
 
 	@BeforeAll
-	public void beforeAll() {
+	void beforeAll() {
 		ServletRequest request = Mockito.mock(ServletRequest.class);
 		Mockito.when(request.getParameterMap())
 		        .thenReturn(Map.of("username", new String[] { "user" }, "password", new String[] { "password" }));
@@ -45,14 +45,14 @@ public class SecurityIntegrationTest {
 	}
 
 	@Test
-	public void loginWithValidUserThenAuthenticated() throws Exception {
+	void loginWithValidUserThenAuthenticated() throws Exception {
 		FormLoginRequestBuilder login = formLogin().user("user").password("password");
 
 		mockMvc.perform(login).andExpect(authenticated().withUsername("user"));
 	}
 
 	@Test
-	public void loginWithInvalidUserThenUnauthenticated() throws Exception {
+	void loginWithInvalidUserThenUnauthenticated() throws Exception {
 		FormLoginRequestBuilder login = formLogin().user("invalid").password("invalidpassword");
 
 		mockMvc.perform(login).andExpect(unauthenticated());
@@ -71,7 +71,7 @@ public class SecurityIntegrationTest {
 
 	@ParameterizedTest
 	@MethodSource("securedOnlyResources")
-	public void accessSecuredResourceUnauthenticatedThenRedirectsToLogin(String path) throws Exception {
+	void accessSecuredResourceUnauthenticatedThenRedirectsToLogin(String path) throws Exception {
 		mockMvc.perform(get(path)).andExpect(status().is3xxRedirection()).andExpect(redirectedUrlPattern("**/login"));
 	}
 
@@ -82,7 +82,7 @@ public class SecurityIntegrationTest {
 	@ParameterizedTest
 	@MethodSource("securedResources")
 	@WithMockUser
-	public void accessSecuredResourceAuthenticatedThenOk(String path) throws Exception {
+	void accessSecuredResourceAuthenticatedThenOk(String path) throws Exception {
 		mockMvc.perform(get(path)).andExpect(status().isOk()).andReturn();
 
 	}

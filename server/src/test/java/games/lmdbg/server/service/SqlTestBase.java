@@ -16,7 +16,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 /**
  *
  */
-public class SqlTest {
+public class SqlTestBase {
 
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
@@ -28,7 +28,7 @@ public class SqlTest {
 	/**
 	 * 
 	 */
-	public SqlTest(@Autowired JdbcTemplate jdbcTemplate) {
+	public SqlTestBase(@Autowired JdbcTemplate jdbcTemplate) {
 		this.accountInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("account").usingGeneratedKeyColumns("id");
 	}
 
