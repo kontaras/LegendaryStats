@@ -7,7 +7,7 @@ plugins {
 	id 'org.siouan.frontend-jdk11' version '6.0.0'
 	id 'eclipse'
 	id 'com.adarshr.test-logger' version '4.0.0'
-	id 'com.google.cloud.tools.jib' version '3.4.3'
+	id 'com.google.cloud.tools.jib' version '3.4.4'
 	id "com.diffplug.spotless" version "6.25.0"
 }
 
