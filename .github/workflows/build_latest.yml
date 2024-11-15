@@ -27,7 +27,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build jacocoTestReport koverXmlReport --info
-    - uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v5
       with:
         verbose: true
         token: ${{ secrets.CODECOV_TOKEN }}
