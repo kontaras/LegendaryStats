@@ -51,7 +51,7 @@ dependencies {
 
 	//Needed for Eclipse JUnit runner, see if it is still needed in the future.
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.10.3"
+	testRuntimeOnly "org.junit.platform:junit-platform-commons:1.11.4"
 }
 
 test {
