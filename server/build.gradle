@@ -36,7 +36,7 @@ dependencies {
 	implementation 'org.tinylog:tinylog-api:2.7.0'
 	runtimeOnly 'org.tinylog:tinylog-impl:2.7.0'
 
-	runtimeOnly 'org.flywaydb:flyway-core:11.3.1'
+	runtimeOnly 'org.flywaydb:flyway-core:11.3.2'
 
 	runtimeOnly 'com.h2database:h2:2.2.224' //Dev DB
 	runtimeOnly 'org.postgresql:postgresql' //Prod DB
