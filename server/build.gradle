@@ -8,7 +8,7 @@ plugins {
 	id 'eclipse'
 	id 'com.adarshr.test-logger' version '4.0.0'
 	id 'com.google.cloud.tools.jib' version '3.4.5'
-	id "com.diffplug.spotless" version "7.0.3"
+	id "com.diffplug.spotless" version "7.0.4"
 }
 
 apply plugin: 'io.spring.dependency-management'
